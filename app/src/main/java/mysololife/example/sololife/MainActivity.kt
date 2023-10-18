@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import mysololife.example.sololife.auth.introActivity
+import mysololife.example.sololife.setting.SettingActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,12 +32,10 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         binding.bottomNavigationView.setupWithNavController(navHostFragment.navController)
 
-//        findViewById<Button>(R.id.logoutBtn).setOnClickListener {
-//            auth.signOut()
-//
-//            intent = Intent(this, introActivity::class.java)
-//            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//            startActivity(intent)
-//        }
+        binding.settingBtn.setOnClickListener{
+            val intent = Intent(this, SettingActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 }

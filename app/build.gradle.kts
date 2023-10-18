@@ -89,5 +89,10 @@ dependencies {
 
     //auth
     implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-database-ktx")
+
+    //stroage
+    implementation("com.google.firebase:firebase-storage-ktx")
+    implementation("com.firebaseui:firebase-ui-storage:7.2.0")
 
 }

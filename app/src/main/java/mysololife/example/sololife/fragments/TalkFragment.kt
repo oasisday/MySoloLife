@@ -1,60 +1,106 @@
 package mysololife.example.sololife.fragments
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import com.example.mysololife.R
+import com.example.mysololife.databinding.FragmentTalkBinding
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import mysololife.example.sololife.board.BoardInsideActivity
+import mysololife.example.sololife.board.BoardListLVAdapter
+import mysololife.example.sololife.board.BoardModel
+import mysololife.example.sololife.board.BoardWriteActivity
+import mysololife.example.sololife.utils.FBRef
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [TalkFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TalkFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
+    private lateinit var binding : FragmentTalkBinding
+
+    private val boardDataList = mutableListOf<BoardModel>()
+    private val boardKeyList = mutableListOf<String>()
+
+    private val TAG = TalkFragment::class.java.simpleName
+
+    private lateinit var boardRVAdapter : BoardListLVAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_talk, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_talk, container, false)
+
+        boardRVAdapter = BoardListLVAdapter(boardDataList)
+        binding.boardListView.adapter = boardRVAdapter
+
+        binding.boardListView.setOnItemClickListener { parent, view, position, id ->
+
+            // 첫번째 방법으로는 listview에 있는 데이터 title content time 다 다른 액티비티로 전달해줘서 만들기
+//            val intent = Intent(context, BoardInsideActivity::class.java)
+//            intent.putExtra("title", boardDataList[position].title)
+//            intent.putExtra("content", boardDataList[position].content)
+//            intent.putExtra("time", boardDataList[position].time)
+//            startActivity(intent)
+
+            // 두번째 방법으로는 Firebase에 있는 board에 대한 데이터의 id를 기반으로 다시 데이터를 받아오는 방법
+            val intent = Intent(context, BoardInsideActivity::class.java)
+            intent.putExtra("key", boardKeyList[position])
+            startActivity(intent)
+
+        }
+
+        binding.writeBtn.setOnClickListener{
+            val intent = Intent(context, BoardWriteActivity::class.java)
+            startActivity(intent)
+        }
+
+        getFBBoardData()
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TalkFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TalkFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+
+    private fun getFBBoardData(){
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                boardDataList.clear()
+
+                for (dataModel in dataSnapshot.children) {
+
+                    Log.d(TAG, dataModel.toString())
+//                    dataModel.key
+
+                    val item = dataModel.getValue(BoardModel::class.java)
+                    boardDataList.add(item!!)
+                    boardKeyList.add(dataModel.key.toString())
+
                 }
+
+                boardKeyList.reverse()
+                boardDataList.reverse()
+                boardRVAdapter.notifyDataSetChanged()
+
+                Log.d(TAG, boardDataList.toString())
+
             }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        FBRef.boardRef.addValueEventListener(postListener)
+
     }
 }

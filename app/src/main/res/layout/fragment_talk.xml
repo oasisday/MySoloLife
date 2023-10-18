@@ -1,14 +1,30 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="mysololife.example.sololife.fragments.TalkFragment">
+<?xml version="1.0" encoding="utf-8" ?>
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:textSize="50dp"
-        android:layout_height="match_parent"
-        android:text="토크" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <ListView
+            android:id="@+id/boardListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="70dp"/>
+
+
+        <ImageView
+            android:id="@+id/writeBtn"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/btnwrite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+
