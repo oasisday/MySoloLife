@@ -187,7 +187,6 @@ class BoardInsideActivity : Activity() {
 
             }
 
-
             override fun onCancelled(databaseError: DatabaseError) {
                 // Getting Post failed, log a message
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException())

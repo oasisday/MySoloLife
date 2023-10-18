@@ -47,7 +47,7 @@ class introActivity : Activity() {
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                     } else {
-                        Toast.makeText(this,"로그인 실패", Toast.LENGTH_LONG)
+                        Toast.makeText(this,"로그인 실패", Toast.LENGTH_SHORT).show()
                     }
                 }
         }

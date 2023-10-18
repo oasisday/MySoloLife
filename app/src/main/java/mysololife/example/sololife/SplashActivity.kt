@@ -27,7 +27,7 @@ class SplashActivity : Activity() {
             Handler().postDelayed({
                 startActivity(Intent(this, introActivity::class.java))
                 finish()
-            }, 3000)
+            }, 1000)
 
         }
         //로그인 상태//
@@ -35,7 +35,7 @@ class SplashActivity : Activity() {
             Handler().postDelayed({
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
-            }, 3000)
+            }, 1000)
         }
     
     }

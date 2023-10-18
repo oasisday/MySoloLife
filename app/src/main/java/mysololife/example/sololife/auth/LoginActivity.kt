@@ -11,6 +11,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import mysololife.example.sololife.MainActivity
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.util.Patterns
+import java.util.regex.Pattern
 
 class LoginActivity : Activity() {
 
@@ -30,21 +36,64 @@ class LoginActivity : Activity() {
             val email = binding.emailArea.text.toString()
             val password = binding.passwordArea.text.toString()
 
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
+            val pattern: Pattern = Patterns.EMAIL_ADDRESS
 
-                        val intent = Intent(this, MainActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
+            var isGoToJoin = true
 
-                        Toast.makeText(this, "Success", Toast.LENGTH_LONG)
-                    } else {
-                        Toast.makeText(this, "Login Fail", Toast.LENGTH_LONG)
+            if(email.isEmpty()){
+                Toast.makeText(this,"이메일을 입력해주세요", Toast.LENGTH_SHORT).show()
+                isGoToJoin = false
+            }
+            if(password.isEmpty()){
+                Toast.makeText(this,"비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show()
+                isGoToJoin = false
+            }
+            if(!pattern.matcher(email.toString()).matches()){
+                Toast.makeText(this, "이메일 형식을 확인하세요.", Toast.LENGTH_SHORT).show()
+            }
+
+            if(isGoToJoin == true) {
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+
+                            val intent = Intent(this, MainActivity::class.java)
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(intent)
+
+                            Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+                        } else {
+                            if (!NetworkManager.checkNetworkState(this)) {
+                                Toast.makeText(this, "네트워크 연결상태가 좋지 않습니다.", Toast.LENGTH_SHORT)
+                                    .show()
+                            } else {
+                                Toast.makeText(this, "아이디 혹은 비밀번호를 확인하세요.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     }
-                }
-
+            }
         }
 
     }
+}
+
+public class NetworkManager {
+
+    companion object {
+        fun checkNetworkState(context: Context): Boolean {
+            val connectivityManager: ConnectivityManager =
+                context.getSystemService(ConnectivityManager::class.java)
+            val network: Network = connectivityManager.activeNetwork ?: return false
+            val actNetwork: NetworkCapabilities =
+                connectivityManager.getNetworkCapabilities(network) ?: return false
+
+            return when {
+                actNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                actNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                else -> false
+            }
+        }
+    }
+
 }
