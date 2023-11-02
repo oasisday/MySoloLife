@@ -3,12 +3,13 @@
 
     <style name="Theme.MySoloLife" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="windowNoTitle">true</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/black</item>
         <item name="colorPrimaryVariant">@color/mainColor</item>
     </style>
 
     <style name="AuthEditText" parent="android:Widget.EditText">
-
-        <item name="android:background">@android:color/white</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:textSize">20sp</item>
         <item name="android:layout_margin">10dp</item>
 

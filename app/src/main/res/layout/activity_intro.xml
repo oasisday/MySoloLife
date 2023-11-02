@@ -11,18 +11,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
+            <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
-                android:layout_height="550dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/loginbg"/>
+                android:layout_height="500dp"
+                android:background="#999999"
+                android:orientation="horizontal"
+                tools:ignore="UnknownId" />
 
-            <ImageView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="360dp"
+                android:layout_height="280dp"
                 android:layout_alignParentBottom="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/upperbg"/>
+                android:background="@color/white"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

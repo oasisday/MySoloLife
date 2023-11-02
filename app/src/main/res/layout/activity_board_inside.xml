@@ -84,6 +84,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="300dp"/>
 
+                <TextView
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="    Comment"
+                    android:gravity="center_vertical"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:background="#999999"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@+id/Topbar"
+                    tools:ignore="UnknownId" />
+
                 <ListView
                     android:id="@+id/commentLV"
                     android:layout_width="match_parent"

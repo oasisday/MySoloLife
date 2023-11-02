@@ -10,7 +10,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="55dp"
             android:background="@color/mainColor">
 
             <TextView
@@ -25,8 +25,16 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <EditText
                 android:id="@+id/emailArea"
                 android:layout_width="match_parent"

@@ -2,6 +2,8 @@ package mysololife.example.sololife.auth
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
@@ -13,6 +15,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import mysololife.example.sololife.MainActivity
 import java.util.regex.Pattern
+import androidx.core.app.ActivityCompat
 
 class  JoinActivity : Activity() {
 
@@ -28,6 +31,7 @@ class  JoinActivity : Activity() {
 
         binding = DataBindingUtil.setContentView(this,R.layout.activity_join)
 
+
         binding.joinBtn.setOnClickListener {
 
             var isGoToJoin = true
@@ -42,31 +46,27 @@ class  JoinActivity : Activity() {
                 Toast.makeText(this,"이메일을 입력해주세요", Toast.LENGTH_SHORT).show()
                 isGoToJoin = false
             }
-
             if(password1.isEmpty()){
                 Toast.makeText(this,"비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show()
                 isGoToJoin = false
             }
-
             if(!pattern.matcher(email.toString()).matches()){
                 Toast.makeText(this, "이메일 형식을 확인하세요.", Toast.LENGTH_SHORT).show()
             }
-
             if(password2.isEmpty()){
                 Toast.makeText(this,"비밀번호를 다시 입력해주세요", Toast.LENGTH_SHORT).show()
                 isGoToJoin = false
             }
-
             //비밀번호가 같은지 확인//
             if(!password1.equals(password2)){
                 Toast.makeText(this, "비밀번호를 똑같이 확인해주세요", Toast.LENGTH_SHORT).show()
                 isGoToJoin = false
             }
-
             if(password1.length < 6){
                 Toast.makeText(this, "비밀번호를 6자리 이상으로 입력해주세요", Toast.LENGTH_SHORT).show()
                 isGoToJoin = false
             }
+
 
             //비밀번호가 모두 정확하면 실행//
             if(isGoToJoin){
@@ -98,7 +98,7 @@ class  JoinActivity : Activity() {
                 }
         }
 
-
     }
+
 }
 

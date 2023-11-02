@@ -73,7 +73,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("com.google.firebase:firebase-database-ktx:20.2.2")
+    implementation("com.google.firebase:firebase-database-ktx:20.3.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.4")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.4")
     testImplementation("junit:junit:4.13.2")
@@ -93,6 +93,14 @@ dependencies {
 
     //stroage
     implementation("com.google.firebase:firebase-storage-ktx")
-    implementation("com.firebaseui:firebase-ui-storage:7.2.0")
 
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+
+//    implementation ("com.yuyakaido.android:card-stack-view:2.3.4")
+
+    //glide
+
+    //implementation ("com.firebase:firebase-ui-storage:7.2.0")
+//    implementation ("com.google.firebase:firebase-storage:20.2.0")
+//    kapt ("com.github.bumptech.glide:compiler:4.12.0")
 }

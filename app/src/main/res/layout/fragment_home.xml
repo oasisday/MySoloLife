@@ -6,54 +6,11 @@
         android:layout_height="match_parent"
         tools:context="mysololife.example.sololife.fragments.HomeFragment">
 
-<!--        &lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
-<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            >-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="60dp"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent">-->
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/homeTap"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:src="@drawable/bottom_hometap"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"/>-->
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/bookmarkTap"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:src="@drawable/bottom_bookmark"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"/>-->
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/tipTap"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:src="@drawable/bottom_goodtip"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"/>-->
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/storeTap"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:src="@drawable/bottom_store"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"/>-->
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/talkTap"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:src="@drawable/bottom_talk"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"/>-->
-
-<!--            </LinearLayout>-->
-<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="50dp"
+            android:text="2번 fragment" />
 
     </FrameLayout>
 
