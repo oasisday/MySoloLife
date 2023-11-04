@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="mysololife.example.sololife.setting.MyPageActivity"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_margin="20dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/myImage"/>
+
+        <TextView
+            android:id="@+id/myUid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:textColor="@color/black"
+            android:layout_margin="10dp"
+            android:text="myUid"/>
+
+
+        <TextView
+            android:id="@+id/myNickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:textColor="@color/black"
+            android:layout_margin="10dp"
+            android:text="nickname"/>
+
+        <TextView
+            android:id="@+id/myGender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:textColor="@color/black"
+            android:layout_margin="10dp"
+            android:text="gender"/>
+
+        <Button
+            android:id="@+id/profileeditBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="edit"
+            android:textColor="@color/mainColor"/>
+
+
+    </LinearLayout>
+</layout>

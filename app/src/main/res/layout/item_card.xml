@@ -5,7 +5,7 @@
     android:layout_margin="20dp"
     android:layout_height="match_parent">
     
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -17,7 +17,7 @@
             android:src="@drawable/no"
             android:layout_gravity="center"/>
 
-    </LinearLayout>
+    </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -44,6 +44,7 @@
             android:id="@+id/profileImageArea"/>
 
         <TextView
+            android:id="@+id/itemNickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="name"
@@ -53,18 +54,10 @@
             android:textSize="30sp"/>
 
         <TextView
+            android:id="@+id/itemGender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Age"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_margin="5dp"
-            android:textSize="30sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="City"
+            android:text="Gender"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:layout_margin="5dp"

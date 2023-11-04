@@ -17,6 +17,8 @@ import com.google.firebase.ktx.Firebase
 import mysololife.example.sololife.auth.introActivity
 import mysololife.example.sololife.setting.SettingActivity
 import mysololife.example.sololife.Matching
+import mysololife.example.sololife.setting.MyPageActivity
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
@@ -33,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setupWithNavController(navHostFragment.navController)
 
         binding.settingBtn.setOnClickListener{
-            val intent = Intent(this, SettingActivity::class.java)
+            val intent = Intent(this, MyPageActivity::class.java)
             startActivity(intent)
         }
 

@@ -58,6 +58,15 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    /*
+    //추가해준거
+    externalNativeBuild{
+        cmake{
+            path = file("CMakeLists.txt")
+        }
+    }
+     */
 }
 
 dependencies {
@@ -96,7 +105,11 @@ dependencies {
 
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
-//    implementation ("com.yuyakaido.android:card-stack-view:2.3.4")
+    implementation ("com.yuyakaido.android:card-stack-view:2.3.4")
+
+    implementation ("androidx.activity:activity-ktx:1.2.0-alpha04")
+    implementation ("androidx.fragment:fragment-ktx:1.3.0-alpha04")
+    //implementation ("androidx.appcompat:appcompat:1.3.0-beta01")
 
     //glide
 

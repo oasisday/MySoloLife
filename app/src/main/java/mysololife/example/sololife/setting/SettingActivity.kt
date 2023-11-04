@@ -1,5 +1,6 @@
 package mysololife.example.sololife.setting
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,7 +10,12 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -17,31 +23,64 @@ import com.bumptech.glide.Glide
 import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivitySettingBinding
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.auth.introActivity
+import mysololife.example.sololife.board.BoardModel
 import mysololife.example.sololife.utils.FBAuth
+import mysololife.example.sololife.utils.FBRef
+import mysololife.example.sololife.utils.FirebaseRef
 import java.io.ByteArrayOutputStream
 
-class SettingActivity : Activity() {
+class SettingActivity : AppCompatActivity() {
+
+    private val TAG = SettingActivity::class.java.simpleName
 
     private lateinit var auth : FirebaseAuth
     private lateinit var binding : ActivitySettingBinding
-    private var isImageUpload = false                           //프로필 사진 업로드 되어있는지
 
-    private val READ_EXTERNAL_STORAGE_PERMISSION_REQUEST = 1
+    private var nickname = ""
+    private var gender = ""
+    private var uid = ""
 
+    //이미 쓴 게 있으면//
+    private lateinit var writerUid : String
+    private lateinit var key:String
 
+    lateinit var profileImage : ImageView
+
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
 
         auth = Firebase.auth
         binding = DataBindingUtil.setContentView(this,R.layout.activity_setting)
-        //val logoutBtn = findViewById<Button>(R.id.LogoutBtn)
+
+        val user = auth.currentUser
+        key = user?.uid.toString()
+        getBoardData(key)
+        getImageData(key)
+
+        profileImage = findViewById(R.id.profileImage)
+        val getAction = registerForActivityResult(
+            ActivityResultContracts.GetContent(),
+            ActivityResultCallback { uri ->
+                profileImage.setImageURI(uri)
+            }
+        )
+
+        profileImage.setOnClickListener{
+            getAction.launch("image/*")
+        }
 
         binding.LogoutBtn.setOnClickListener{
             auth.signOut()
@@ -51,79 +90,50 @@ class SettingActivity : Activity() {
 
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
-        }
-
-        binding.profileArea.setOnClickListener{
-
-            val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-            startActivityForResult(gallery, IMAGE_PICK_CODE)
-            isImageUpload = true
+            finish()
 
         }
+
 
         binding.SettingBtn.setOnClickListener{
 
-            val ref = FirebaseStorage.getInstance().getReference()
+            gender = findViewById<TextInputEditText>(R.id.genderArea).text.toString()
+            nickname = findViewById<TextInputEditText>(R.id.nicknameArea).text.toString()
 
-            val bitmap = (binding.profileArea.drawable as BitmapDrawable).bitmap
-            val baos = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-            val data = baos.toByteArray()
+            val user = auth.currentUser
+            uid = user?.uid.toString()
 
-            val mountainRef = ref.child(FBAuth.getUid() + "_profile")
+            val userModel = UserDataModel(
+                uid,
+                nickname,
+                gender
+            )
 
-            val uploadTask = mountainRef.putBytes(data)
-            uploadTask.addOnFailureListener {
-                Toast.makeText(this,"실패",Toast.LENGTH_SHORT).show()
-            }.addOnSuccessListener {
-                Toast.makeText(this, "실패", Toast.LENGTH_SHORT).show()
-            }
+            FirebaseRef.userInfoRef.child(uid).setValue(userModel)
+
+            uploadImage(uid)
+
+            Toast.makeText(this,"User 정보 설정완료",Toast.LENGTH_SHORT).show()
+            finish()
         }
 
-        binding.SettingBtn.setOnClickListener{
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                // 외부 저장소에 쓰기 권한이 있는지 확인
-                if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    // 권한이 부여되지 않은 경우 권한 요청
-                    ActivityCompat.requestPermissions(this, arrayOf<String>(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), READ_EXTERNAL_STORAGE_PERMISSION_REQUEST)
-                } else {
-                    // 권한이 이미 부여된 경우 비트맵으로 저장
 
-                }
-            }
-            else{
-                pickImageFromGallery();
-            }
-        }
-
-        FirebaseStorage.getInstance().getReference().child(FBAuth.getUid()+"_profile").downloadUrl
-            .addOnCompleteListener(OnCompleteListener<Uri>{task->
-                if(task.isSuccessful){
-                    Glide.with(this)
-                        .load(task.result)
-                        .into(binding.profileArea)
-                }else{
-                    Toast.makeText(this, task.exception!!.message,Toast.LENGTH_SHORT).show()
-                }
-            })
     }
 
-    private fun imageUpload(key : String){
+    private fun uploadImage(uid : String){
+
+        val storage = Firebase.storage
+        val storageRef = storage.reference.child("$uid.png")
 
         // Get the data from an ImageView as bytes
-        val storage = Firebase.storage
-        val storageRef = storage.reference
-        val mountainsRef = storageRef.child(key + ".png")
-
-        val imageView = binding.profileArea
-        imageView.isDrawingCacheEnabled = true
-        imageView.buildDrawingCache()
-        val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+        profileImage.isDrawingCacheEnabled = true
+        profileImage.buildDrawingCache()
+        val bitmap = (profileImage.drawable as BitmapDrawable).bitmap
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data = baos.toByteArray()
 
-        var uploadTask = mountainsRef.putBytes(data)
+        var uploadTask = storageRef.putBytes(data)
         uploadTask.addOnFailureListener {
             // Handle unsuccessful uploads
         }.addOnSuccessListener { taskSnapshot ->
@@ -131,35 +141,54 @@ class SettingActivity : Activity() {
             // ...
         }
 
+
     }
 
-    private fun pickImageFromGallery(){
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, IMAGE_PICK_CODE);
+    private fun getImageData(uid : String){
+
+        // Reference to an image file in Cloud Storage
+        val storageReference = Firebase.storage.reference.child("$uid.png")
+
+        // ImageView in your Activity
+        val imageViewFromFB = binding.profileImage
+
+        storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
+            if(task.isSuccessful) {
+
+                Glide.with(this)
+                    .load(task.result)
+                    .into(imageViewFromFB)
+
+            } else {
+
+            }
+        })
+
+
     }
-    companion object{
-        private val IMAGE_PICK_CODE = 1000;
-        private val PERMISSION_CODE = 1001;
-    }
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray){
-        when(requestCode){
-            PERMISSION_CODE -> {
-                if(grantResults.size >0 && grantResults[0] ==
-                    PackageManager.PERMISSION_GRANTED){
-                    pickImageFromGallery()
-                }
-                else{
-                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
-                }
+
+
+    private fun getBoardData(uid : String){
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                val dataModel = dataSnapshot.getValue(UserDataModel::class.java)
+
+                binding.nicknameArea.setText(dataModel?.nickname)
+                binding.genderArea.setText((dataModel?.gender))
+                writerUid = dataModel!!.uid.toString()
+
+            }
+
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
             }
         }
+        FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE){
-            binding.profileArea.setImageURI(data?.data)
-        }
-    }
+
 
 }

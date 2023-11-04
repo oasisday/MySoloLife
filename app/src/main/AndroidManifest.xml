@@ -22,8 +22,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MySoloLife">
         <activity
-            android:name="mysololife.example.sololife.Matching"
+            android:name="mysololife.example.sololife.setting.MyPageActivity"
             android:exported="false" />
+        <activity
+            android:name="mysololife.example.sololife.Matching"
+            android:exported="false"></activity>
         <activity
             android:name="mysololife.example.sololife.setting.SettingActivity"
             android:exported="false" />
