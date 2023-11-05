@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
@@ -14,6 +15,9 @@
         android:maxSdkVersion="29" />
 
     <application
+        tools:replace="android:appComponentFactory"
+        android:appComponentFactory="whateverString"
+
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:icon="@mipmap/ic_launcher"
@@ -22,11 +26,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MySoloLife">
         <activity
+            android:name="mysololife.example.sololife.message.MyLikeListActivity"
+            android:exported="false" />
+        <activity
             android:name="mysololife.example.sololife.setting.MyPageActivity"
             android:exported="false" />
         <activity
             android:name="mysololife.example.sololife.Matching"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name="mysololife.example.sololife.setting.SettingActivity"
             android:exported="false" />

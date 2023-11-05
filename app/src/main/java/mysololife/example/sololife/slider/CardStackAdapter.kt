@@ -51,8 +51,8 @@ class CardStackAdapter(val context : Context, val items : List<UserDataModel>) :
 
             })
 
-            nickname.text = data.nickname
-            gender.text = data.gender
+            nickname.text = "Name: " + data.nickname
+            gender.text = "학년: " + data.gender
         }
 
     }

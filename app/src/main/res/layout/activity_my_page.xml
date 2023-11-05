@@ -46,12 +46,26 @@
             android:layout_margin="10dp"
             android:text="gender"/>
 
-        <Button
-            android:id="@+id/profileeditBtn"
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="edit"
-            android:textColor="@color/mainColor"/>
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/profileeditBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="edit"
+                android:textColor="@color/mainColor"/>
+            <Button
+                android:id="@+id/likelistBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="likes"
+                android:textColor="@color/mainColor"/>
+        </LinearLayout>
+
 
 
     </LinearLayout>

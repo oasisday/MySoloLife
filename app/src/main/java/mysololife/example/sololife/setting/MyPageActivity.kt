@@ -19,6 +19,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import mysololife.example.sololife.auth.UserDataModel
+import mysololife.example.sololife.message.MyLikeListActivity
 import mysololife.example.sololife.utils.FirebaseAuthUtils
 import mysololife.example.sololife.utils.FirebaseRef
 
@@ -37,6 +38,11 @@ class MyPageActivity : AppCompatActivity() {
 
         binding.profileeditBtn.setOnClickListener{
             val intent = Intent(this, SettingActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.likelistBtn.setOnClickListener{
+            val intent = Intent(this, MyLikeListActivity::class.java)
             startActivity(intent)
         }
 
