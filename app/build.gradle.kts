@@ -115,7 +115,7 @@ dependencies {
     implementation ("com.android.support:support-compat:28.0.0")
 
     //cloud messaging
-
+    implementation ("com.google.firebase:firebase-messaging-ktx")
 
     //implementation ("androidx.appcompat:appcompat:1.3.0-beta01")
 
