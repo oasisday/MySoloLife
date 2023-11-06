@@ -1,9 +1,15 @@
 package mysololife.example.sololife.auth
 
+import android.Manifest.permission.POST_NOTIFICATIONS
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivityIntroBinding
@@ -13,7 +19,7 @@ import com.google.firebase.ktx.Firebase
 import mysololife.example.sololife.MainActivity
 
 
-class introActivity : Activity() {
+class introActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityIntroBinding
 
@@ -25,6 +31,27 @@ class introActivity : Activity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
+
+        /////////////////////
+        val isTiramisuOrHigher = Build.VERSION.SDK_INT>= Build.VERSION_CODES.TIRAMISU
+        val notificationPermission = POST_NOTIFICATIONS
+
+        var hasNotificationPermission =
+            if (isTiramisuOrHigher)
+                ContextCompat.checkSelfPermission(this, notificationPermission) == PackageManager.PERMISSION_GRANTED
+            else true
+
+        val launcher = registerForActivityResult(ActivityResultContracts.RequestPermission()){
+            hasNotificationPermission = it
+
+        }
+
+        if (!hasNotificationPermission) {
+            launcher.launch(notificationPermission)
+        }
+
+
+        /////////////////////
 
         binding = DataBindingUtil.setContentView(this,R.layout.activity_intro)
 

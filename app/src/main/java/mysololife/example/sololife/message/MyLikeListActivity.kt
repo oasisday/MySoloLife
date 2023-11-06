@@ -9,9 +9,16 @@ import com.example.mysololife.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import mysololife.example.sololife.auth.UserDataModel
+import mysololife.example.sololife.message.fcm.NotiModel
+import mysololife.example.sololife.message.fcm.PushNotification
+import mysololife.example.sololife.message.fcm.RetrofitInstance
 import mysololife.example.sololife.utils.FirebaseAuthUtils
 import mysololife.example.sololife.utils.FirebaseRef
+import okhttp3.Dispatcher
 
 class MyLikeListActivity : AppCompatActivity() {
 
@@ -39,11 +46,16 @@ class MyLikeListActivity : AppCompatActivity() {
 
             checkMatching(likeUserList[position].uid.toString())
 
+            val notiModel = NotiModel("a", "b")
+
+            val pushModel = PushNotification(notiModel,likeUserList[position].token.toString())
+            testPush(pushModel)
         }
 
     }
 
     private fun checkMatching(otherUid : String){
+
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
@@ -114,6 +126,10 @@ class MyLikeListActivity : AppCompatActivity() {
             }
         }
         FirebaseRef.userInfoRef.addValueEventListener(postListener)
+    }
+
+    private  fun testPush(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+        RetrofitInstance.api.postNotification(notification)
     }
 
 }

@@ -117,9 +117,17 @@ dependencies {
     //cloud messaging
     implementation ("com.google.firebase:firebase-messaging-ktx")
 
+    //ver 3.0
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.2.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+
+
+
+    //notifications
+    // Normal
 
     //glide
-
     //implementation ("com.firebase:firebase-ui-storage:7.2.0")
 //    implementation ("com.google.firebase:firebase-storage:20.2.0")
 //    kapt ("com.github.bumptech.glide:compiler:4.12.0")
