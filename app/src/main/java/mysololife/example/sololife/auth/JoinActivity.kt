@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.widget.ImageView
 import android.widget.Toast
@@ -22,6 +23,8 @@ import com.google.firebase.ktx.Firebase
 import mysololife.example.sololife.MainActivity
 import java.util.regex.Pattern
 import androidx.core.app.ActivityCompat
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import mysololife.example.sololife.utils.FirebaseRef
 import java.io.ByteArrayOutputStream
@@ -104,21 +107,36 @@ class  JoinActivity : AppCompatActivity() {
                             val user = auth.currentUser
                             uid = user?.uid.toString()
 
-                            val userModel = UserDataModel(
-                                uid,
-                                name,
-                                gender
-                            )
+                            FirebaseMessaging.getInstance().token.addOnCompleteListener(
+                                OnCompleteListener { task->
+                                    if(!task.isSuccessful){
+                                        Log.w(TAG, "Fatching FCM registration token failed", task.exception)
+                                        return@OnCompleteListener
+                                    }
 
-                            FirebaseRef.userInfoRef.child(uid).setValue(userModel)
-                            uploadImage(uid)
+                                    val token = task.result
 
-                            Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this, MainActivity::class.java)
+                                    Log.e(TAG, token.toString())
 
-                            //기존 액티비티를 다 날려버린다//
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            startActivity(intent)
+                                    val userModel = UserDataModel(
+                                        uid,
+                                        name,
+                                        gender,
+                                        token
+                                    )
+
+                                    FirebaseRef.userInfoRef.child(uid).setValue(userModel)
+                                    uploadImage(uid)
+
+                                    Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
+                                    val intent = Intent(this, MainActivity::class.java)
+
+                                    //기존 액티비티를 다 날려버린다//
+                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    startActivity(intent)
+
+                                })
+
                         }
                         //실패했을때//
                         else {

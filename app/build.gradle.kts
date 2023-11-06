@@ -117,7 +117,6 @@ dependencies {
     //cloud messaging
     implementation ("com.google.firebase:firebase-messaging-ktx")
 
-    //implementation ("androidx.appcompat:appcompat:1.3.0-beta01")
 
     //glide
 
