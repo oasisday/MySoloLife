@@ -19,6 +19,7 @@ class MyMsgActivity : AppCompatActivity() {
     lateinit var listViewAdapter: MsgAdapter
     val msgList = mutableListOf<MsgModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_msg)
 
