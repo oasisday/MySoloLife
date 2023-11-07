@@ -108,7 +108,6 @@ class MyLikeListActivity : AppCompatActivity() {
                 }
 
             showDialog2()
-
         }
 
 
