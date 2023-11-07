@@ -64,6 +64,12 @@
                 android:layout_height="wrap_content"
                 android:text="likes"
                 android:textColor="@color/mainColor"/>
+            <Button
+                android:id="@+id/msgBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="메세지 보관함"
+                android:textColor="@color/mainColor"/>
         </LinearLayout>
 
 

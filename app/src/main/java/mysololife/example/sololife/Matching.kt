@@ -29,6 +29,7 @@ import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.slider.CardStackAdapter
 import mysololife.example.sololife.utils.FirebaseAuthUtils
 import mysololife.example.sololife.utils.FirebaseRef
+import mysololife.example.sololife.utils.MyInfo
 
 
 class Matching : AppCompatActivity() {
@@ -136,6 +137,8 @@ class Matching : AppCompatActivity() {
                 Log.d(TAG, data?.gender.toString())
 
                 currentUserGender = data?.gender.toString()
+
+                MyInfo.myNickname = data?.nickname.toString()
 
                 getUserDataList(currentUserGender)
 

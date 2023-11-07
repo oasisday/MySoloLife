@@ -3,12 +3,17 @@ package mysololife.example.sololife.message
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ListView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.example.mysololife.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,6 +23,7 @@ import mysololife.example.sololife.message.fcm.PushNotification
 import mysololife.example.sololife.message.fcm.RetrofitInstance
 import mysololife.example.sololife.utils.FirebaseAuthUtils
 import mysololife.example.sololife.utils.FirebaseRef
+import mysololife.example.sololife.utils.MyInfo
 import okhttp3.Dispatcher
 
 class MyLikeListActivity : AppCompatActivity() {
@@ -29,6 +35,9 @@ class MyLikeListActivity : AppCompatActivity() {
     private val likeUserListUid = mutableListOf<String>()
 
     lateinit var listviewAdapter : ListViewAdapter
+    lateinit var getterUid : String
+    lateinit var getterToken : String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,13 +53,24 @@ class MyLikeListActivity : AppCompatActivity() {
 
         userListView.setOnItemClickListener{ parent, view, position, id ->
 
-            checkMatching(likeUserList[position].uid.toString())
-
+            //checkMatching(likeUserList[position].uid.toString())
+            /*
             val notiModel = NotiModel("a", "b")
 
             val pushModel = PushNotification(notiModel,likeUserList[position].token.toString())
             testPush(pushModel)
+            */
         }
+
+        userListView.setOnItemLongClickListener{ parent, view, position, id ->
+
+            getterUid = likeUserList[position].uid.toString()
+            getterToken = likeUserList[position].token.toString()
+            checkMatching(likeUserList[position].uid.toString())
+
+            return@setOnItemLongClickListener (true)
+        }
+
 
     }
 
@@ -67,6 +87,9 @@ class MyLikeListActivity : AppCompatActivity() {
                         //매칭이 되어있는지
                         if(likeUserKey.equals(uid)){
                             Toast.makeText(this@MyLikeListActivity, "매칭 성공", Toast.LENGTH_SHORT).show()
+                            //Dialog
+                            showDialog()
+
                         }else{
                             Toast.makeText(this@MyLikeListActivity,"매칭 실패", Toast.LENGTH_SHORT).show()
                         }
@@ -130,6 +153,34 @@ class MyLikeListActivity : AppCompatActivity() {
 
     private  fun testPush(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
         RetrofitInstance.api.postNotification(notification)
+    }
+
+    private fun showDialog(){
+
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog_msg, null)
+        val mBuilder = AlertDialog.Builder(this)
+            .setView(mDialogView)
+            .setTitle("메세지 보내기")
+
+        val mAlertDialog = mBuilder.show()
+
+        val btn = mAlertDialog.findViewById<Button>(R.id.sendBtn)
+        val textArea = mAlertDialog.findViewById<EditText>(R.id.sendTextArea)
+        btn?.setOnClickListener{
+
+            val msgText = textArea!!.text.toString()
+
+            val msgModel = MsgModel(MyInfo.myNickname, msgText)
+
+            //push를 하면 겹쳐서 계속해서 들어간다//
+            FirebaseRef.userMsgRef.child(getterUid).push().setValue(msgModel)
+
+            val notiModel = NotiModel(MyInfo.myNickname, msgText)
+            val pushModel = PushNotification(notiModel, getterToken)
+
+            testPush(pushModel)
+            mAlertDialog.dismiss()
+        }
     }
 
 }
