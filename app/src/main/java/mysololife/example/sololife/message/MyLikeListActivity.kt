@@ -46,6 +46,12 @@ class MyLikeListActivity : AppCompatActivity() {
     lateinit var getterUid : String
     lateinit var getterToken : String
 
+    lateinit var groupId : String
+
+    private var groupModel = GroupDataModel(
+        null,null, null, null, Vector()
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_like_list)
@@ -83,10 +89,10 @@ class MyLikeListActivity : AppCompatActivity() {
 
         writebtn.setOnClickListener{
 
-            val groupId = UUID.randomUUID().toString()
+            groupId = UUID.randomUUID().toString()
 
-            val groupModel = GroupDataModel(
-                null,null, Vector()
+            groupModel = GroupDataModel(
+                null,null,null,null, Vector()
             )
             groupModel.groupnum = groupId
             groupModel.leader = uid
@@ -100,7 +106,9 @@ class MyLikeListActivity : AppCompatActivity() {
                     groupModel.member?.add(item.uid.toString())
 
                 }
-            FBboard.boardInfoRef.child(groupId).setValue(groupModel)
+
+            showDialog2()
+
         }
 
 
@@ -212,6 +220,31 @@ class MyLikeListActivity : AppCompatActivity() {
 
             testPush(pushModel)
             mAlertDialog.dismiss()
+        }
+    }
+
+    private fun showDialog2(){
+
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog_board, null)
+        val mBuilder = AlertDialog.Builder(this)
+            .setView(mDialogView)
+            .setTitle("과목 정보입력")
+
+        val mAlertDialog = mBuilder.show()
+
+        val btn = mAlertDialog.findViewById<Button>(R.id.sendBtn)
+        val classNameArea = mAlertDialog.findViewById<EditText>(R.id.classNameArea)
+        val classInfoArea = mAlertDialog.findViewById<EditText>(R.id.classInfoArea)
+
+        btn?.setOnClickListener{
+
+            val classText = classNameArea!!.text.toString()
+            val infoText = classInfoArea!!.text.toString()
+
+            groupModel.classname = classText
+            groupModel.classinfo = infoText
+
+            FBboard.boardInfoRef.child(groupId).setValue(groupModel)
         }
     }
 
