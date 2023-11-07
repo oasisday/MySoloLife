@@ -29,15 +29,15 @@ class MsgAdapter(val context : Context, val items : MutableList<MsgModel>) : Bas
         var convertView = convertView
         if (convertView == null) {
 
-            convertView = LayoutInflater.from(parent?.context).inflate(R.layout.list_view_item, parent, false)
+            convertView = LayoutInflater.from(parent?.context).inflate(R.layout.list_view_item2, parent, false)
 
         }
 
-        val nicknameArea = convertView!!.findViewById<TextView>(R.id.listViewItemNicknameArea)
-        val textArea = convertView!!.findViewById<TextView>(R.id.listViewItemNickname)
+        val nicknameArea2 = convertView!!.findViewById<TextView>(R.id.listViewItemNicknameArea2)
+        val textArea2 = convertView!!.findViewById<TextView>(R.id.listViewItemNickname2)
 
-        nicknameArea.text = items[position].senderInfo
-        textArea.text = items[position].sendTxt
+        nicknameArea2.text = items[position].senderInfo
+        textArea2.text = items[position].sendTxt
 
         return convertView!!
 

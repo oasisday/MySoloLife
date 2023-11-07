@@ -200,8 +200,8 @@ class Matching : AppCompatActivity() {
     private fun sendNotification(){
         var builder = NotificationCompat.Builder(this, "Test_ch")
             .setSmallIcon(R.drawable.ic_launcher_background)
-            .setContentTitle("title")
-            .setContentText("content")
+            .setContentTitle("Study Matching")
+            .setContentText("새로운 스터디원과 연결되었습니다. 확인해보세요!")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         with(NotificationManagerCompat.from(this)){
             if (ActivityCompat.checkSelfPermission(

@@ -1,15 +1,19 @@
 package mysololife.example.sololife.message
 
+import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatImageView
 import com.example.mysololife.R
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -18,13 +22,17 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import mysololife.example.sololife.auth.UserDataModel
+import mysololife.example.sololife.group.GroupDataModel
 import mysololife.example.sololife.message.fcm.NotiModel
 import mysololife.example.sololife.message.fcm.PushNotification
 import mysololife.example.sololife.message.fcm.RetrofitInstance
+import mysololife.example.sololife.utils.FBboard
 import mysololife.example.sololife.utils.FirebaseAuthUtils
 import mysololife.example.sololife.utils.FirebaseRef
 import mysololife.example.sololife.utils.MyInfo
 import okhttp3.Dispatcher
+import java.util.UUID
+import java.util.Vector
 
 class MyLikeListActivity : AppCompatActivity() {
 
@@ -38,19 +46,21 @@ class MyLikeListActivity : AppCompatActivity() {
     lateinit var getterUid : String
     lateinit var getterToken : String
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_like_list)
 
         val userListView = findViewById<ListView>(R.id.userListView)
+        val writebtn = findViewById<ImageView>(R.id.writeBtn)
 
         listviewAdapter = ListViewAdapter(this, likeUserList)
+
         userListView.adapter = listviewAdapter
 
         //내가 좋아요한 사람들
         getMyLikeList()
 
+        //짧은 클릭
         userListView.setOnItemClickListener{ parent, view, position, id ->
 
             //checkMatching(likeUserList[position].uid.toString())
@@ -61,7 +71,7 @@ class MyLikeListActivity : AppCompatActivity() {
             testPush(pushModel)
             */
         }
-
+        //긴 클릭
         userListView.setOnItemLongClickListener{ parent, view, position, id ->
 
             getterUid = likeUserList[position].uid.toString()
@@ -69,6 +79,28 @@ class MyLikeListActivity : AppCompatActivity() {
             checkMatching(likeUserList[position].uid.toString())
 
             return@setOnItemLongClickListener (true)
+        }
+
+        writebtn.setOnClickListener{
+
+            val groupId = UUID.randomUUID().toString()
+
+            val groupModel = GroupDataModel(
+                null,null, Vector()
+            )
+            groupModel.groupnum = groupId
+            groupModel.leader = uid
+            groupModel.member?.add(uid)
+
+            val selectedItems = listviewAdapter.getSelectedItems()
+                for(item in selectedItems){
+                //    Log.d("강민기",item.uid.toString())
+                //    Log.d("강민기",uid)
+
+                    groupModel.member?.add(item.uid.toString())
+
+                }
+            FBboard.boardInfoRef.child(groupId).setValue(groupModel)
         }
 
 

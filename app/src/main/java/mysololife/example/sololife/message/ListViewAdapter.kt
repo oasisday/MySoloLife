@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.CheckBox
 import android.widget.TextView
 import com.example.mysololife.R
 import mysololife.example.sololife.auth.UserDataModel
@@ -32,9 +33,16 @@ class ListViewAdapter(val context : Context, val items : MutableList<UserDataMod
 
         val nickname = convertView!!.findViewById<TextView>(R.id.listViewItemNickname)
         nickname.text = items[position].nickname
-
+        val checkBox: CheckBox = convertView!!.findViewById<CheckBox>(R.id.likeCheckox)
+        checkBox.isChecked = items[position].ischecked
+        checkBox.setOnCheckedChangeListener { _,isChecked ->
+            items[position].ischecked= isChecked
+        }
         return convertView!!
     }
 
+    fun getSelectedItems(): List<UserDataModel>{
+        return items.filter {it.ischecked}
+    }
 
 }
