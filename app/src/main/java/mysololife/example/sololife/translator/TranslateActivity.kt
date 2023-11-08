@@ -13,7 +13,7 @@ import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
 
 
-class MainActivity : AppCompatActivity() {
+class TranslateActivity : AppCompatActivity() {
     lateinit var binding: ActivityTranslateBinding
     private var items= arrayOf("ENGLISH","KOREAN","JAPANESE","CHINESE","SPANISH","GERMAN", "FRENCH")
     private var conditions = DownloadConditions.Builder()
@@ -22,9 +22,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_translate)
 
-        binding= DataBindingUtil.setContentView(this,R.layout.activity_main)
+        binding= DataBindingUtil.setContentView(this,R.layout.activity_translate)
 
         val itemsAdapter:ArrayAdapter<String> =ArrayAdapter(
             this,
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
             ""-> TranslateLanguage.ENGLISH
 
-            "English"->TranslateLanguage.ENGLISH
+            "ENGLISH"->TranslateLanguage.ENGLISH
 
             "KOREAN"->TranslateLanguage.KOREAN
 
@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
 
             ""-> TranslateLanguage.KOREAN
 
-            "English"->TranslateLanguage.ENGLISH
+            "ENGLISH"->TranslateLanguage.ENGLISH
 
             "KOREAN"->TranslateLanguage.KOREAN
 

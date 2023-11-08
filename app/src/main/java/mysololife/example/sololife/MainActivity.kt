@@ -7,6 +7,7 @@ import androidx.navigation.ui.setupWithNavController
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.translation.Translator
 import androidx.databinding.DataBindingUtil.setContentView
 
 import com.example.mysololife.R
@@ -19,6 +20,7 @@ import mysololife.example.sololife.setting.SettingActivity
 import mysololife.example.sololife.Matching
 import mysololife.example.sololife.setting.MyPageActivity
 import mysololife.example.sololife.timetable.TestTableActivity
+import mysololife.example.sololife.translator.TranslateActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,6 +43,11 @@ class MainActivity : AppCompatActivity() {
         }
         binding.choi.setOnClickListener {
             val intent = Intent(this, TestTableActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.lee.setOnClickListener {
+            val intent = Intent(this, TranslateActivity::class.java)
             startActivity(intent)
         }
 
