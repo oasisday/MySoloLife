@@ -29,6 +29,10 @@
         <activity
             android:name="mysololife.example.sololife.dashboard.MainDashboardActivity"
             android:exported="true"></activity>
+
+        <activity
+            android:name="mysololife.example.sololife.dashboard.LectureMainActivity"
+            android:exported="true"></activity>
         <activity
             android:name="mysololife.example.sololife.recorder.GalleryActivity"
             android:exported="false" />
