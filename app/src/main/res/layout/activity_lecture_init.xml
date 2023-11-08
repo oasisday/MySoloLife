@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/round_white_6">
+
+    <TextView
+        android:id="@+id/lectureTextView"
+        style="@style/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="32dp"
+        android:text="수업명"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/startimageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_access_time_24"
+        app:layout_constraintBottom_toBottomOf="@+id/starttime"
+        app:layout_constraintStart_toEndOf="@+id/starttime"
+        app:layout_constraintTop_toTopOf="@+id/starttime" />
+
+    <ImageView
+        android:id="@+id/endimageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_access_time_filled_24"
+        app:layout_constraintBottom_toBottomOf="@+id/starttime"
+        app:layout_constraintStart_toEndOf="@+id/endtime"
+        app:layout_constraintTop_toTopOf="@+id/starttime" />
+
+    <ImageView
+        android:id="@+id/startimageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_access_time_24"
+        app:layout_constraintBottom_toBottomOf="@+id/starttime2"
+        app:layout_constraintStart_toEndOf="@+id/starttime2"
+        app:layout_constraintTop_toTopOf="@+id/starttime2" />
+
+    <ImageView
+        android:id="@+id/endimageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_access_time_filled_24"
+        app:layout_constraintBottom_toBottomOf="@+id/starttime2"
+        app:layout_constraintStart_toEndOf="@+id/endtime2"
+        app:layout_constraintTop_toTopOf="@+id/starttime2" />
+
+    <EditText
+        android:id="@+id/lectureEditText"
+        style="@style/Value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="36dp"
+        android:inputType="text"
+        app:layout_constraintBaseline_toBaselineOf="@id/lectureTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideLine" />
+
+    <TextView
+        android:id="@+id/professorTextview"
+        style="@style/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="교수명"
+        app:layout_constraintStart_toStartOf="@id/lectureTextView"
+        app:layout_constraintTop_toBottomOf="@id/lectureTextView" />
+
+
+    <EditText
+        android:id="@+id/professorEditText"
+        style="@style/Value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="36dp"
+        android:inputType="text"
+        app:layout_constraintBaseline_toBaselineOf="@id/professorTextview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideLine" />
+
+    <EditText
+        android:id="@+id/locationEditText"
+        style="@style/Value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="36dp"
+        android:inputType="text"
+        app:layout_constraintBaseline_toBaselineOf="@id/locationTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideLine" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.3" />
+
+    <TextView
+        android:id="@+id/timeTypeTextView"
+        style="@style/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="시간"
+        app:layout_constraintStart_toStartOf="@id/lectureTextView"
+        app:layout_constraintTop_toBottomOf="@id/professorTextview" />
+
+    <TextView
+        android:id="@+id/locationTextView"
+        style="@style/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:text="장소"
+        app:layout_constraintStart_toStartOf="@+id/timeTypeTextView"
+        app:layout_constraintTop_toBottomOf="@+id/timeTypeTextView" />
+
+
+    <TextView
+        android:id="@+id/colorTextView"
+        style="@style/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="색상 설정"
+        app:layout_constraintStart_toStartOf="@+id/locationTextView"
+        app:layout_constraintTop_toBottomOf="@+id/locationTextView" />
+
+    <LinearLayout
+        android:id="@+id/colorLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/colorTextView"
+        app:layout_constraintEnd_toEndOf="@+id/locationEditText"
+        app:layout_constraintStart_toStartOf="@+id/guideLine"
+        app:layout_constraintTop_toTopOf="@+id/colorTextView">
+
+        <TextView
+            android:id="@+id/colorcode"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end|center_horizontal"
+            android:text="#00000000"
+            android:textSize="20sp" />
+
+        <View
+            android:id="@+id/colorview"
+            android:layout_width="19dp"
+            android:layout_height="20dp"
+            android:layout_gravity="end"
+            android:layout_marginStart="10dp" />
+    </LinearLayout>
+
+
+    <Spinner
+        android:id="@+id/timeTypeSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/timeTypeTextView"
+
+        app:layout_constraintStart_toStartOf="@+id/guideLine"
+        app:layout_constraintTop_toTopOf="@id/timeTypeTextView" />
+
+    <TextView
+        android:id="@+id/starttime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="09:00"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/timeTypeSpinner"
+        app:layout_constraintStart_toEndOf="@+id/timeTypeSpinner"
+        app:layout_constraintTop_toTopOf="@+id/timeTypeSpinner" />
+
+    <TextView
+        android:id="@+id/endtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="10:00"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/timeTypeSpinner"
+        app:layout_constraintStart_toEndOf="@+id/startimageView"
+        app:layout_constraintTop_toTopOf="@+id/timeTypeSpinner" />
+
+    <TextView
+        android:id="@+id/starttime2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="09:00"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/timeTypeSpinner2"
+        app:layout_constraintStart_toEndOf="@+id/timeTypeSpinner2"
+        app:layout_constraintTop_toTopOf="@+id/timeTypeSpinner2" />
+
+    <TextView
+        android:id="@+id/endtime2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="10:00"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/timeTypeSpinner2"
+        app:layout_constraintStart_toEndOf="@+id/startimageView2"
+        app:layout_constraintTop_toTopOf="@+id/timeTypeSpinner2" />
+
+    <Spinner
+        android:id="@+id/timeTypeSpinner2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+
+
+        app:layout_constraintStart_toStartOf="@+id/guideLine"
+        app:layout_constraintTop_toBottomOf="@id/timeTypeSpinner"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <com.skydoves.colorpickerview.ColorPickerView
+        android:id="@+id/colorPickerView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="50dp"
+        android:padding="30dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/colorLayout" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/colorPickerView">
+
+        <com.skydoves.colorpickerview.sliders.AlphaSlideBar
+            android:id="@+id/alphaSlideBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:borderColor_AlphaSlideBar="@android:color/darker_gray"
+            app:borderSize_AlphaSlideBar="5"
+            app:selector_AlphaSlideBar="@drawable/colorpickerview_wheel" />
+
+        <com.skydoves.colorpickerview.sliders.BrightnessSlideBar
+            android:id="@+id/brightnessSlide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:borderColor_BrightnessSlider="@android:color/darker_gray"
+            app:borderSize_BrightnessSlider="5"
+            app:selector_BrightnessSlider="@drawable/colorpickerview_wheel" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginEnd="25dp"
+        android:background="@color/black"
+        android:id="@+id/startline"
+        app:layout_constraintBottom_toBottomOf="@+id/timeTypeSpinner"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toEndOf="@+id/timeTypeSpinner"
+        app:layout_constraintTop_toTopOf="@+id/timeTypeSpinner" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/saveBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/gray_cc"
+        android:src="@drawable/baseline_save_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.constraintlayout.helper.widget.Layer
+        android:id="@+id/startBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="starttime,startimageView"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.constraintlayout.helper.widget.Layer
+        android:id="@+id/endBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="endimageView, endtime"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.constraintlayout.helper.widget.Layer
+        android:id="@+id/startBtn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="starttime2,startimageView2"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.constraintlayout.helper.widget.Layer
+        android:id="@+id/endBtn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="endtime2,endimageView2"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="0dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

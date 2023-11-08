@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
     id("kotlin-parcelize")
+    id("kotlin-kapt")
 }
 
 android {
@@ -33,11 +34,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 
     dataBinding{
@@ -122,7 +123,11 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.2.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 
+    implementation ("com.airbnb.android:lottie:5.2.0")
 
+    //테이블
+    implementation ("com.github.islandparadise14:Mintable:1.5.1")
+    implementation ("com.github.skydoves:colorpickerview:2.3.0")
 
     //notifications
     // Normal
@@ -131,4 +136,10 @@ dependencies {
     //implementation ("com.firebase:firebase-ui-storage:7.2.0")
 //    implementation ("com.google.firebase:firebase-storage:20.2.0")
 //    kapt ("com.github.bumptech.glide:compiler:4.12.0")
+
+    //저장소 제작
+    val room_version = "2.5.0"
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
 }
