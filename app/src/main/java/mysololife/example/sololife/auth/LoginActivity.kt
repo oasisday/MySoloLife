@@ -4,9 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
-import com.example.mysololife.R
-import com.example.mysololife.databinding.ActivityLoginBinding
+
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -16,21 +14,23 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.util.Patterns
+import com.example.mysololife.databinding.ActivityLoginFinalBinding
 import java.util.regex.Pattern
 
 class LoginActivity : Activity() {
 
     private lateinit var auth: FirebaseAuth
 
-    private lateinit var binding : ActivityLoginBinding
+    private lateinit var binding : ActivityLoginFinalBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         auth = Firebase.auth
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
-
+        binding = ActivityLoginFinalBinding.inflate(layoutInflater).apply{
+            setContentView(root)
+        }
         binding.loginBtn.setOnClickListener {
 
             val email = binding.emailArea.text.toString()

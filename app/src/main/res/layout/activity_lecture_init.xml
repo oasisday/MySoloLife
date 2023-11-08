@@ -227,8 +227,8 @@
         android:id="@+id/colorPickerView"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_marginTop="50dp"
-        android:padding="30dp"
+        android:layout_marginTop="100dp"
+        android:padding="100dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -236,11 +236,12 @@
         app:layout_constraintTop_toBottomOf="@+id/colorLayout" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/colorPickerView"
+        app:layout_constraintStart_toStartOf="@+id/colorPickerView"
         app:layout_constraintTop_toBottomOf="@+id/colorPickerView">
 
         <com.skydoves.colorpickerview.sliders.AlphaSlideBar

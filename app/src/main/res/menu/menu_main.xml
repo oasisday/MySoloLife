@@ -4,24 +4,27 @@
     <item
         android:id="@+id/bookmarkFragment"
         android:icon="@drawable/baseline_home_24"
+        android:background="@color/maincolor_five"
         android:title="홈"/>
 
+
+
+
+
     <item
-        android:id="@+id/homeFragment"
-        android:icon="@drawable/baseline_person_24"
-        android:title="내 정보"/>
+        android:id="@+id/showFragment"
+        android:icon="@drawable/baseline_calendar_view_month_24"
+        android:background="#96ADE4"
+        android:title="시간표"/>
 
     <item
         android:id="@+id/talkFragment"
-        android:icon="@drawable/baseline_access_alarm_24"
-        android:title="알람 설정"/>
-
+        android:icon="@drawable/baseline_format_list_bulleted_24"
+        android:background="#96ADE4"
+        android:title="민기형"/>
     <item
-        android:id="@+id/tipFragment"
-        android:icon="@drawable/baseline_access_alarm_24"
-        android:title="알람 설정"/>
-    <item
-        android:id="@+id/showFragment"
-        android:icon="@drawable/baseline_access_alarm_24"
-        android:title="알람 설정"/>
+    android:id="@+id/homeFragment"
+    android:icon="@drawable/baseline_person_24"
+        android:background="#96ADE4"
+    android:title="마이 페이지"/>
 </menu>

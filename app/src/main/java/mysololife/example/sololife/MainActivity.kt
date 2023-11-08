@@ -35,10 +35,10 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         binding.bottomNavigationView.setupWithNavController(navHostFragment.navController)
 
-        binding.settingBtn.setOnClickListener{
-            val intent = Intent(this, MyPageActivity::class.java)
-            startActivity(intent)
-        }
+//        binding.settingBtn.setOnClickListener{
+//            val intent = Intent(this, MyPageActivity::class.java)
+//            startActivity(intent)
+//        }
         binding.choi.setOnClickListener {
             val intent = Intent(this, TestTableActivity::class.java)
             startActivity(intent)

@@ -32,7 +32,7 @@ class splashscreen : AppCompatActivity() {
         )
         topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation)
         bottomAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation)
-        imageView = findViewById(R.id.imageView2)
+        imageView = findViewById(R.id.loginBtn)
         app_name = findViewById(R.id.app_name)
         imageView?.animation = topAnim
         app_name?.animation = bottomAnim

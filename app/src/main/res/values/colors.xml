@@ -34,4 +34,9 @@
     <color name="gray">#ECECEC</color>
     <color name="grayDark">#656565</color>
     <color name="grayDarkDisabled">#8F8F8F</color>
+    <color name="maincolor_one">#EFF0FC</color>
+    <color name="maincolor_two">#6672FF</color>
+    <color name="maincolor_three">#3B60BC</color>
+    <color name="maincolor_four">#CED2FF</color>
+    <color name="maincolor_five">#96ADE4</color>
 </resources>

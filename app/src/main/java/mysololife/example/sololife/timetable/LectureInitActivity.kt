@@ -25,11 +25,13 @@ class LectureInitActivity : AppCompatActivity() {
     var lectureDay1: Int = 0
     var lectureDay2: Int = 0
     val cal = Calendar.getInstance()
+    private lateinit var infoEntities: List<InfoEntity>
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         binding = ActivityLectureInitBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         SpinnerInit()
         binding.colorPickerView.setColorListener(
             ColorEnvelopeListener { envelope, fromUser ->
@@ -37,13 +39,17 @@ class LectureInitActivity : AppCompatActivity() {
                 binding.colorview.setBackgroundColor(envelope.getColor())
             }
         )
+        Thread {
+            infoEntities = AppDatabase.getInstance(this)?.infoDao()?.getAll() ?: emptyList()
+        }.start()
+
         binding.colorPickerView.attachAlphaSlider(binding.alphaSlideBar)
         binding.colorPickerView.attachBrightnessSlider(binding.brightnessSlide)
         binding.saveBtn.setOnClickListener {
-            //형이만든 시간 비교해서 가능한 함수
-            //true일때만 add해주기
-
-            add()
+            if (blankCheck()) {
+                if (timeCheck())
+                    add()
+            }
         }
     }
 
@@ -75,14 +81,10 @@ class LectureInitActivity : AppCompatActivity() {
                         lectureDay1 = position
                         binding.startline.visibility = View.GONE
                         binding.startBtn.setOnClickListener {
-                            binding.startBtn.setOnClickListener {
                                 dayPicker(binding.starttime)
-                            }
                         }
-                        binding.endBtn.setOnClickListener {
-                            binding.endBtn.setOnClickListener {
+                        binding.endBtn.setOnClickListener{
                                 dayPicker(binding.endtime)
-                            }
                         }
                     }
                 }
@@ -164,12 +166,15 @@ class LectureInitActivity : AppCompatActivity() {
         }.start()
     }
 
-    private fun dayPicker(textview: TextView) : OnTimeSetListener {
+    private fun dayPicker(textview: TextView){
         val timeSetListener =
             OnTimeSetListener { view, hourOfDay, minute ->
-                val adjustedMinute = (minute / 5) * 5 // 5의 배수로 조정
+                var nextMinute = 0
+                nextMinute =
+                    if (minute >= 45 && minute <= 59) 0 else if (minute >= 30) 45 else if (minute >= 15) 30 else 15
+
                 cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                cal.set(Calendar.MINUTE, adjustedMinute)
+                cal.set(Calendar.MINUTE, nextMinute)
                 val formattedTime = SimpleDateFormat(
                     "HH:mm",
                     Locale.getDefault()
@@ -184,12 +189,93 @@ class LectureInitActivity : AppCompatActivity() {
             cal.get(Calendar.MINUTE),
             true
         ).show()
-        return timeSetListener
+    }
+    private fun timeCheck(): Boolean {
+        val flag = true
+        val day1: Int = lectureDay1 - 1
+        val day2: Int = lectureDay2 - 1
+        var startT1 = binding.starttime.text.toString().split(":")
+        var endT1 = binding.endtime.text.toString().split(":")
+        var startT2 = binding.starttime2.text.toString().split(":")
+        var endT2 = binding.endtime2.text.toString().split(":")
+        var tmp: Int = 0;
+
+        val sTime1 = startT1[0].toInt() * 60 + startT1[1].toInt()
+        val eTime1 = endT1[0].toInt() * 60 + endT1[1].toInt()
+
+        if (sTime1 >= eTime1) {
+            Toast.makeText(this@LectureInitActivity, "시간1 설정 오류", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (day2 >= 0) {
+            val sTime2 = startT2[0].toInt() * 60 + startT2[1].toInt()
+            val eTime2 = endT2[0].toInt() * 60 + endT2[1].toInt()
+            if (sTime2 >= eTime2) {
+                Toast.makeText(this@LectureInitActivity, "시간2 설정 오류", Toast.LENGTH_SHORT).show()
+                return false
+            }
+        }
+
+        for (item in infoEntities) {
+            var startT = item.startTime.split(":")
+            var endT = item.endTime.split(":")
+            val day: Int = item.scheduleDay
+
+            if (day == day1) {
+                val sTime = startT[0].toInt() * 60 + startT[1].toInt()
+                val eTime = endT[0].toInt() * 60 + endT[1].toInt()
+
+                if (sTime in sTime1 until eTime1) {
+                    Toast.makeText(this@LectureInitActivity, "시간 중복", Toast.LENGTH_SHORT).show()
+                    return false
+                } else if (eTime in sTime1 + 1..eTime1) {
+                    Toast.makeText(this@LectureInitActivity, "시간 중복", Toast.LENGTH_SHORT).show()
+                    return false
+                }
+
+            } else if (day2 >= 0) {
+                val sTime2 = startT2[0].toInt() * 60 + startT2[1].toInt()
+                val eTime2 = endT2[0].toInt() * 60 + endT2[1].toInt()
+
+                if (day == day2) {
+                    val sTime = startT[0].toInt() * 60 + startT[1].toInt()
+                    val eTime = endT[0].toInt() * 60 + endT[1].toInt()
+
+                    if (sTime in sTime2 until eTime2) {
+                        Toast.makeText(this@LectureInitActivity, "시간 중복", Toast.LENGTH_SHORT).show()
+                        return false
+                    } else if (eTime in sTime2 + 1..eTime2)
+                        return false
+                }
+            }
+        }
+        return true
     }
 
-    private fun timeCheck() {
-        val infoEntities = AppDatabase.getInstance(this)?.infoDao()?.getAll() ?: emptyList()
-        //infoEntities[0].
+
+    fun blankCheck(): Boolean {
+        if (binding.lectureEditText.text.toString() == "") {
+            Toast.makeText(this@LectureInitActivity, "수업명을 입력해주세요", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (binding.professorEditText.text.toString() == "") {
+            Toast.makeText(this@LectureInitActivity, "교수명을 입력해주세요", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (binding.locationEditText.text.toString() == "") {
+            Toast.makeText(this@LectureInitActivity, "장소를 입력해주세요", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (binding.colorcode.text.toString() == "#FFFFFFFF") {
+            Toast.makeText(this@LectureInitActivity, "색상을 설정해주세요", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (lectureDay1 - 1 < 0) {
+            Toast.makeText(this@LectureInitActivity, "시간을 입력해주세요", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
     }
 }
 
