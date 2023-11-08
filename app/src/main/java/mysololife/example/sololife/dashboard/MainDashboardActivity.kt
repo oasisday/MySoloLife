@@ -1,5 +1,6 @@
 package mysololife.example.sololife.dashboard
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivityMainDashboardBinding
+import mysololife.example.sololife.recorder.RecorderMainActivity
 import mysololife.example.sololife.timetable.AppDatabase
 import mysololife.example.sololife.timetable.InfoEntity
 
@@ -52,7 +54,9 @@ class MainDashboardActivity : AppCompatActivity(), OnItemClickListener {
     }
 
     override fun onItemClickListener(position: Int) {
-        Toast.makeText(this, "${lectureList[position].scheduleName}을 클릭하였습니다.", Toast.LENGTH_SHORT)
-            .show()
+        Intent(this,LectureMainActivity::class.java).apply {
+            putExtra("lecturename",lectureList[position].scheduleName)
+            startActivity(this)
+        }
     }
 }

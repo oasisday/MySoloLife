@@ -9,6 +9,7 @@ import com.example.mysololife.databinding.FragmentTimetableBinding
 import com.islandparadise14.mintable.model.ScheduleEntity
 import com.islandparadise14.mintable.tableinterface.OnScheduleClickListener
 import com.islandparadise14.mintable.tableinterface.OnScheduleLongClickListener
+import mysololife.example.sololife.dashboard.LectureMainActivity
 import mysololife.example.sololife.dashboard.MainDashboardActivity
 
 
@@ -24,7 +25,10 @@ class TestTableActivity : AppCompatActivity() {
 
         binding.table.setOnScheduleClickListener(object : OnScheduleClickListener {
             override fun scheduleClicked(entity: ScheduleEntity) {
-                Toast.makeText(this@TestTableActivity, entity.scheduleName + " 클릭",Toast.LENGTH_SHORT).show()
+                Intent(this@TestTableActivity, LectureMainActivity::class.java).apply {
+                    putExtra("lecturename",entity.scheduleName)
+                    startActivity(this)
+                }
             }
         })
 
