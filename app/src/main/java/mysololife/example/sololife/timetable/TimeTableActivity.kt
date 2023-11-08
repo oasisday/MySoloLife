@@ -13,7 +13,7 @@ import mysololife.example.sololife.dashboard.LectureMainActivity
 import mysololife.example.sololife.dashboard.MainDashboardActivity
 
 
-class TestTableActivity : AppCompatActivity() {
+class TimeTableActivity : AppCompatActivity() {
     lateinit var binding: FragmentTimetableBinding
     private val day = arrayOf("월", "화", "수", "목", "금", "토")
     val scheduleList: ArrayList<ScheduleEntity> = ArrayList()
@@ -25,7 +25,7 @@ class TestTableActivity : AppCompatActivity() {
 
         binding.table.setOnScheduleClickListener(object : OnScheduleClickListener {
             override fun scheduleClicked(entity: ScheduleEntity) {
-                Intent(this@TestTableActivity, LectureMainActivity::class.java).apply {
+                Intent(this@TimeTableActivity, LectureMainActivity::class.java).apply {
                     putExtra("lecturename",entity.scheduleName)
                     startActivity(this)
                 }

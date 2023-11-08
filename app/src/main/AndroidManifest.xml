@@ -99,7 +99,7 @@
             android:name="mysololife.example.sololife.timetable.LectureInitActivity"
             android:exported="false" />
         <activity
-            android:name="mysololife.example.sololife.timetable.TestTableActivity"
+            android:name="mysololife.example.sololife.timetable.TimeTableActivity"
             android:exported="false" />
         <activity
             android:name="mysololife.example.sololife.dashboard.LectureMainActivity"

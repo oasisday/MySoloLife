@@ -11,10 +11,10 @@
         android:label="스터디원 모으는거"
         tools:layout="@layout/fragment_talk" />
     <fragment
-        android:id="@+id/timetableFragment"
-        android:name="mysololife.example.sololife.fragments.TimeTableFragment"
+        android:id="@+id/maindashboardFragment"
+        android:name="mysololife.example.sololife.fragments.MainDashboardFragment"
         android:label="TimeTableFragment"
-        tools:layout="@layout/fragment_timetable"/>
+        tools:layout="@layout/activity_main_dashboard"/>
 
     <fragment
         android:id="@+id/groupFragment"

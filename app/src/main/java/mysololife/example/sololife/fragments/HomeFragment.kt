@@ -24,6 +24,7 @@ import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.dashboard.LectureMainActivity
 import mysololife.example.sololife.dashboard.MainDashboardActivity
 import mysololife.example.sololife.recorder.RecorderMainActivity
+import mysololife.example.sololife.timetable.TimeTableActivity
 import mysololife.example.sololife.utils.FirebaseAuthUtils
 import mysololife.example.sololife.utils.FirebaseRef
 
@@ -53,8 +54,8 @@ class HomeFragment : Fragment() {
             }
         }
 
-        binding.btnDashboard.setOnClickListener {
-            Intent(getActivity(),MainDashboardActivity::class.java).apply{
+        binding.btnTimeTable.setOnClickListener {
+            Intent(getActivity(), TimeTableActivity::class.java).apply{
                 startActivity(this)
             }
         }

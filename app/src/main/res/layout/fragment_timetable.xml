@@ -29,7 +29,7 @@
                     android:layout_height="26dp"
                     android:layout_marginStart="10dp"
                     android:text="2023년 2학기"
-                    android:textColor="#F44336"
+                    android:textColor="@color/maincolor_seven"
                     app:layout_constraintBottom_toTopOf="@+id/tableName"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -79,11 +79,9 @@
     <com.islandparadise14.mintable.MinTimeTableView
         android:id="@+id/table"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         app:isFullWidth="true"
-
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

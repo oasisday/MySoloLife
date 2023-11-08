@@ -13,6 +13,7 @@ import com.example.mysololife.databinding.ActivityMainDashboardBinding
 import mysololife.example.sololife.recorder.RecorderMainActivity
 import mysololife.example.sololife.timetable.AppDatabase
 import mysololife.example.sololife.timetable.InfoEntity
+import mysololife.example.sololife.timetable.LectureInitActivity
 
 class MainDashboardActivity : AppCompatActivity(), OnItemClickListener {
     private lateinit var recyclerView: RecyclerView
@@ -37,6 +38,11 @@ class MainDashboardActivity : AppCompatActivity(), OnItemClickListener {
         binding.recyclerView.adapter!!.apply {
             notifyDataSetChanged()
         }
+        binding.reginsterBtn.setOnClickListener {
+            Intent(this, LectureInitActivity::class.java).apply {
+                startActivity(this)
+            }
+        }
     }
 
     override fun onResume() {
@@ -49,7 +55,7 @@ class MainDashboardActivity : AppCompatActivity(), OnItemClickListener {
             binding.textView3.textSize =16f
         }
         else {
-            binding.animationView.visibility = View.VISIBLE
+            binding.animationView.visibility = View.GONE
         }
     }
 

@@ -8,10 +8,10 @@
         android:title="홈"/>
 
     <item
-        android:id="@+id/timetableFragment"
+        android:id="@+id/maindashboardFragment"
         android:icon="@drawable/baseline_calendar_view_month_24"
         android:background="#96ADE4"
-        android:title="시간표"/>
+        android:title="대시보드"/>
 
 
 

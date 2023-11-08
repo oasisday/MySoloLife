@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".dashboard.MainDashboardActivity">
+   >
 
     <TextView
         android:id="@+id/textView3"
@@ -46,4 +46,17 @@
         android:visibility="gone"
         app:lottie_loop="true"
         app:lottie_speed="1.0" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/reginsterBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/round_add_24"
+        android:text="과목 추가"
+        android:layout_marginBottom="100dp"
+        android:visibility="gone"
+        android:backgroundTint="@color/maincolor_five"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -169,12 +169,8 @@ class LectureInitActivity : AppCompatActivity() {
     private fun dayPicker(textview: TextView){
         val timeSetListener =
             OnTimeSetListener { view, hourOfDay, minute ->
-                var nextMinute = 0
-                nextMinute =
-                    if (minute >= 45 && minute <= 59) 0 else if (minute >= 30) 45 else if (minute >= 15) 30 else 15
-
                 cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                cal.set(Calendar.MINUTE, nextMinute)
+                cal.set(Calendar.MINUTE, minute)
                 val formattedTime = SimpleDateFormat(
                     "HH:mm",
                     Locale.getDefault()
