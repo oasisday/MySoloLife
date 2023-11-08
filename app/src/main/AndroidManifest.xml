@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="29" />
@@ -27,9 +29,12 @@
         android:theme="@style/Theme.MySoloLife"
         tools:replace="android:appComponentFactory, android:theme">
         <activity
+            android:name="mysololife.example.sololife.group.GroupQnAActivity"
+            android:exported="false" />
+        <activity
             android:name="mysololife.example.sololife.splashscreen"
-            android:screenOrientation="portrait"
-            android:exported="true" >
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,6 +43,9 @@
         </activity>
         <activity
             android:name="mysololife.example.sololife.message.MyMsgActivity"
+            android:exported="false" />
+        <activity
+            android:name="mysololife.example.sololife.group.GroupMainActivity"
             android:exported="false" />
 
         <service
@@ -86,9 +94,28 @@
             android:name="mysololife.example.sololife.SplashActivity"
             android:exported="false"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar">
-
-        </activity>
+            android:theme="@android:style/Theme.NoTitleBar"></activity>
+        <activity
+            android:name="mysololife.example.sololife.timetable.LectureInitActivity"
+            android:exported="false" />
+        <activity
+            android:name="mysololife.example.sololife.timetable.TestTableActivity"
+            android:exported="false" />
+        <activity
+            android:name="mysololife.example.sololife.dashboard.LectureMainActivity"
+            android:exported="false" />
+        <activity
+            android:name="mysololife.example.sololife.dashboard.MainDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name="mysololife.example.sololife.recorder.AudioPlayerActivity"
+            android:exported="false" />
+        <activity
+            android:name="mysololife.example.sololife.recorder.GalleryActivity"
+            android:exported="false" />
+        <activity
+            android:name="mysololife.example.sololife.recorder.RecorderMainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

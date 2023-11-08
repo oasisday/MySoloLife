@@ -18,6 +18,7 @@ import mysololife.example.sololife.auth.introActivity
 import mysololife.example.sololife.setting.SettingActivity
 import mysololife.example.sololife.Matching
 import mysololife.example.sololife.setting.MyPageActivity
+import mysololife.example.sololife.timetable.TestTableActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,6 +37,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.settingBtn.setOnClickListener{
             val intent = Intent(this, MyPageActivity::class.java)
+            startActivity(intent)
+        }
+        binding.choi.setOnClickListener {
+            val intent = Intent(this, TestTableActivity::class.java)
             startActivity(intent)
         }
 

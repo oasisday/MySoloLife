@@ -1,5 +1,6 @@
 package mysololife.example.sololife.group
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import com.example.mysololife.databinding.ActivityGroupMainBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import mysololife.example.sololife.auth.introActivity
 import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBboard
 
@@ -29,7 +31,9 @@ class GroupMainActivity : AppCompatActivity() {
         getBoardData(key)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_group_main)
 
-
+        binding.groupboardBtn.setOnClickListener{
+            startActivity(Intent(this, GroupQnAActivity::class.java))
+        }
     }
 
     private fun getBoardData(key : String){

@@ -22,6 +22,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import mysololife.example.sololife.auth.UserDataModel
+import mysololife.example.sololife.board.BoardModel
 import mysololife.example.sololife.group.GroupDataModel
 import mysololife.example.sololife.message.fcm.NotiModel
 import mysololife.example.sololife.message.fcm.PushNotification
@@ -92,11 +93,12 @@ class MyLikeListActivity : AppCompatActivity() {
             groupId = UUID.randomUUID().toString()
 
             groupModel = GroupDataModel(
-                null,null,null,null, Vector()
+                null,null,null,null,
             )
             groupModel.groupnum = groupId
             groupModel.leader = uid
             groupModel.member?.add(uid)
+
 
             val selectedItems = listviewAdapter.getSelectedItems()
                 for(item in selectedItems){
