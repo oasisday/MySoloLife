@@ -17,6 +17,8 @@ interface InfoDao {
     @Insert
     fun insert(info: InfoEntity)
 
+
+
     @Query("DELETE FROM Info WHERE scheduleName = :name")
     fun deleteByScheduleName(name: String)
     @Delete
