@@ -37,7 +37,17 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <activity
+            android:name="mysololife.example.sololife.recorder.AudioPlayerActivity"
+            android:exported="false" />
+        <activity
+            android:name="mysololife.example.sololife.recorder.RecorderMainActivity"
+            android:exported="true">
 
+        </activity>
+        <activity
+            android:name="mysololife.example.sololife.recorder.GalleryActivity"
+            android:exported="false" />
         <activity
             android:name="mysololife.example.sololife.message.MyLikeListActivity"
             android:exported="false" />
@@ -84,5 +94,7 @@
             </intent-filter>
         </activity>
     </application>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
+    <uses-permission android:name="android.permission.VIBRATE" />
 </manifest>
