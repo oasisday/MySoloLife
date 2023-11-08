@@ -7,6 +7,8 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.ContextCompat
+import com.example.mysololife.R
 
 class WaveformView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
 
@@ -21,7 +23,7 @@ class WaveformView(context: Context?, attrs: AttributeSet?) : View(context, attr
 
     private var maxSpikes = 0
     init{
-        paint.color = Color.rgb(244,81,30)
+        paint.color = ContextCompat.getColor(context!!, R.color.maincolor_seven)
         sw = resources.displayMetrics.widthPixels.toFloat()
         maxSpikes = (sw/(w+d)).toInt()
     }
@@ -53,6 +55,8 @@ class WaveformView(context: Context?, attrs: AttributeSet?) : View(context, attr
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
+        spikes.forEach {
+            canvas?.drawRoundRect(it, radius, radius, paint)
+        }
     }
 }

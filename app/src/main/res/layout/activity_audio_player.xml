@@ -27,8 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
         android:progress="40"
-        android:progressTint="@color/playerColor"
-        android:thumbTint="@color/playerColor"
+        android:progressTint="@color/maincolor_seven"
+        android:thumbTint="@color/maincolor_seven"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout" />
 
     <TextView

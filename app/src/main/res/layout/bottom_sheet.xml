@@ -48,7 +48,7 @@
             android:layout_height="60dp"
             android:text="저장"
             android:layout_marginStart="20dp"
-            android:backgroundTint="@color/strokeColor"
+            android:backgroundTint="@color/maincolor_seven"
             android:textColor="@color/white"
             app:cornerRadius="26dp"
             app:rippleColor="@color/grayDark"
