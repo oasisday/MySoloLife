@@ -25,7 +25,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MySoloLife"
-        tools:replace="android:appComponentFactory">
+        tools:replace="android:appComponentFactory, android:theme">
         <activity
             android:name="mysololife.example.sololife.splashscreen"
             android:screenOrientation="portrait"
