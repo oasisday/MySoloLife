@@ -7,11 +7,12 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context="mysololife.example.sololife.fragments.ShowFragment">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="50dp"
-                android:text="5번 fragment" />
+        <ListView
+            android:id="@+id/gotoBoardListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:choiceMode="multipleChoice"
+            android:layout_marginBottom="70dp" />
 
             <ImageView
                 android:id="@+id/CardBtn"

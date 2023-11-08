@@ -7,5 +7,5 @@ data class GroupDataModel (
     var leader : String? = null,
     var classname : String? = null,
     var classinfo : String? = null,
-    var member : Vector<String>? = null
+    var member : MutableList<String>? = ArrayList()
 )
