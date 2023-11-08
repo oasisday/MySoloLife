@@ -13,7 +13,8 @@
             android:layout_margin="20dp"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:id="@+id/myImage"/>
+            android:id="@+id/myImage"
+            />
 
         <TextView
             android:id="@+id/myUid"

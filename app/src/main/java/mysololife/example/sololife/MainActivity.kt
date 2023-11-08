@@ -39,10 +39,5 @@ class MainActivity : AppCompatActivity() {
 //            val intent = Intent(this, MyPageActivity::class.java)
 //            startActivity(intent)
 //        }
-        binding.choi.setOnClickListener {
-            val intent = Intent(this, TestTableActivity::class.java)
-            startActivity(intent)
-        }
-
     }
 }

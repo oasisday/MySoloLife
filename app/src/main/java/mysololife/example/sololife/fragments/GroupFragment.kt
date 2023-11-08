@@ -14,7 +14,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import mysololife.example.sololife.Matching
-import mysololife.example.sololife.board.BoardInsideActivity
 import mysololife.example.sololife.group.GroupDataModel
 import mysololife.example.sololife.group.GroupMainActivity
 import mysololife.example.sololife.group.GroupboardLVAdapter
@@ -22,13 +21,13 @@ import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBboard
 
 
-class ShowFragment : Fragment() {
+class GroupFragment : Fragment() {
     private lateinit var binding : FragmentShowBinding
 
     private val boardDataList = mutableListOf<GroupDataModel>()
     private val boardKeyList = mutableListOf<String>()
 
-    private val TAG = ShowFragment::class.java.simpleName
+    private val TAG = GroupFragment::class.java.simpleName
 
     private lateinit var gboardRVAdapter: GroupboardLVAdapter
 

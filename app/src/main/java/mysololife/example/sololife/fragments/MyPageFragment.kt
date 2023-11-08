@@ -8,84 +8,89 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.mysololife.R
-import com.example.mysololife.databinding.FragmentHomeBinding
-import com.example.mysololife.databinding.FragmentTimetableBinding
+import com.example.mysololife.databinding.ActivityMyPageBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.islandparadise14.mintable.model.ScheduleEntity
-import com.islandparadise14.mintable.tableinterface.OnScheduleClickListener
 import mysololife.example.sololife.auth.UserDataModel
-import mysololife.example.sololife.dashboard.LectureMainActivity
-import mysololife.example.sololife.dashboard.MainDashboardActivity
-import mysololife.example.sololife.recorder.RecorderMainActivity
+import mysololife.example.sololife.message.MyLikeListActivity
+import mysololife.example.sololife.message.MyMsgActivity
+import mysololife.example.sololife.setting.SettingActivity
 import mysololife.example.sololife.utils.FirebaseAuthUtils
 import mysololife.example.sololife.utils.FirebaseRef
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class MyPageFragment : Fragment() {
 
-class HomeFragment : Fragment() {
-    lateinit var binding: FragmentHomeBinding
+    private val TAG = "MyPageFragment"
     private val uid = FirebaseAuthUtils.getUid()
+
+    private lateinit var binding: ActivityMyPageBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+    ): View? {
+        binding = ActivityMyPageBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnVoiceRecorder.setOnClickListener {
-            Intent(getActivity(),RecorderMainActivity::class.java).apply{
-                startActivity(this)
-            }
+        binding.profileeditBtn.setOnClickListener {
+            val intent = Intent(activity, SettingActivity::class.java)
+            startActivity(intent)
         }
 
-        binding.btnDashboard.setOnClickListener {
-            Intent(getActivity(),MainDashboardActivity::class.java).apply{
-                startActivity(this)
-            }
+        binding.likelistBtn.setOnClickListener {
+            val intent = Intent(activity, MyLikeListActivity::class.java)
+            startActivity(intent)
         }
+
+        binding.msgBtn.setOnClickListener {
+            val intent = Intent(activity, MyMsgActivity::class.java)
+            startActivity(intent)
+        }
+
         getMyData()
     }
 
     private fun getMyData() {
-        val myImage = binding.userProfile
-        val myNickname = binding.nicknameTextView
+        val myUid = binding.myUid
+        val myNickname = binding.myNickname
+        val myGender = binding.myGender
+        val myImage = binding.myImage
 
-        val requestOptions = RequestOptions().circleCrop()
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                Log.d(TAG, dataSnapshot.toString())
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
-                myNickname.text = data!!.nickname+" 님"
-                val storageRef = Firebase.storage.reference.child(data!!.uid + ".png")
+
+                myUid.text = data!!.uid
+                myNickname.text = data!!.nickname
+                myGender.text = data!!.gender
+
+                val storageRef = Firebase.storage.reference.child(data.uid + ".png")
                 storageRef.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
                     if (task.isSuccessful) {
                         if(getActivity() !=null){
-                            Glide.with(this@HomeFragment)
-                                .load(task.result)
-                                .apply(requestOptions)
-                                .into(myImage)}
+                        Glide.with(this@MyPageFragment)
+                            .load(task.result)
+                            .into(myImage)}
                     }
                 })
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
                 // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
             }
         }
+
         FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
     }
 }

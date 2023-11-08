@@ -51,5 +51,8 @@ class WaveformView(context: Context?, attrs: AttributeSet?) : View(context, attr
         return amps
     }
 
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
 
+    }
 }

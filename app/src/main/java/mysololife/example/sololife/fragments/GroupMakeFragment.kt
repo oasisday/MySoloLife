@@ -19,14 +19,14 @@ import mysololife.example.sololife.board.BoardModel
 import mysololife.example.sololife.board.BoardWriteActivity
 import mysololife.example.sololife.utils.FBRef
 
-class TalkFragment : Fragment() {
+class GroupMakeFragment : Fragment() {
 
     private lateinit var binding : FragmentTalkBinding
 
     private val boardDataList = mutableListOf<BoardModel>()
     private val boardKeyList = mutableListOf<String>()
 
-    private val TAG = TalkFragment::class.java.simpleName
+    private val TAG = GroupMakeFragment::class.java.simpleName
 
     private lateinit var boardRVAdapter : BoardListLVAdapter
     override fun onCreate(savedInstanceState: Bundle?) {

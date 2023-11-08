@@ -2,28 +2,32 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/bookmarkFragment"
+        android:id="@+id/homeFragment"
         android:icon="@drawable/baseline_home_24"
         android:background="@color/maincolor_five"
         android:title="홈"/>
 
-
-
-
-
     <item
-        android:id="@+id/showFragment"
+        android:id="@+id/timetableFragment"
         android:icon="@drawable/baseline_calendar_view_month_24"
         android:background="#96ADE4"
         android:title="시간표"/>
 
+
+
     <item
-        android:id="@+id/talkFragment"
+        android:id="@+id/groupFragment"
+        android:icon="@drawable/round_group_24"
+        android:background="#96ADE4"
+        android:title="스터디 팀"/>
+
+    <item
+        android:id="@+id/groupmakeFragment"
         android:icon="@drawable/baseline_format_list_bulleted_24"
         android:background="#96ADE4"
         android:title="민기형"/>
     <item
-    android:id="@+id/homeFragment"
+    android:id="@+id/mypageFragment"
     android:icon="@drawable/baseline_person_24"
         android:background="#96ADE4"
     android:title="마이 페이지"/>
