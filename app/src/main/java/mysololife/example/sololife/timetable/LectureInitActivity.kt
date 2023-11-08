@@ -39,7 +39,11 @@ class LectureInitActivity : AppCompatActivity() {
         )
         binding.colorPickerView.attachAlphaSlider(binding.alphaSlideBar)
         binding.colorPickerView.attachBrightnessSlider(binding.brightnessSlide)
-        binding.saveBtn.setOnClickListener { add()
+        binding.saveBtn.setOnClickListener {
+            //형이만든 시간 비교해서 가능한 함수
+            //true일때만 add해주기
+
+            add()
         }
     }
 
@@ -181,6 +185,11 @@ class LectureInitActivity : AppCompatActivity() {
             true
         ).show()
         return timeSetListener
+    }
+
+    private fun timeCheck() {
+        val infoEntities = AppDatabase.getInstance(this)?.infoDao()?.getAll() ?: emptyList()
+        //infoEntities[0].
     }
 }
 
