@@ -40,7 +40,7 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
         binding = ActivityGalleryBinding.inflate(layoutInflater).apply {
             setContentView(root)
         }
-
+        val lecture = intent.getStringExtra("lecture")
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
