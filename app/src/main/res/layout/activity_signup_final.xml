@@ -16,6 +16,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
+        android:layout_marginTop="-150dp"
+        >
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -26,7 +34,7 @@
         android:textStyle="bold"
         android:textColor="#6672FF"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTextName"
@@ -47,6 +55,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
+        <EditText
+            android:id="@+id/editTextGender"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:drawableStart="@drawable/gender2"
+            android:drawablePadding="16dp"
+            android:hint="Gender"
+            android:textColorHint="#3B60BC"
+            android:textSize="18sp"
+            android:background="@drawable/edittext_background_final"
+            android:ems="10"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextName" />
+
     <EditText
         android:id="@+id/emailArea"
         android:layout_width="0dp"
@@ -64,7 +91,7 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextGender" />
 
     <EditText
         android:id="@+id/passwordArea"
@@ -86,6 +113,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailArea" />
 
+    <EditText
+        android:id="@+id/passwordCheckArea"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/edittext_background_final"
+        android:drawableStart="@drawable/key"
+        android:drawablePadding="16dp"
+        android:ems="10"
+        android:hint="Password Check"
+        android:inputType="textPassword"
+        android:textColorHint="#3B60BC"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordArea" />
+
     <ImageView
         android:id="@+id/loginBtn"
         android:layout_width="wrap_content"
@@ -93,7 +140,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordArea"
+        app:layout_constraintTop_toBottomOf="@+id/passwordCheckArea"
         app:srcCompat="@drawable/btn_arraw1" />
 
     <TextView
@@ -107,5 +154,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
