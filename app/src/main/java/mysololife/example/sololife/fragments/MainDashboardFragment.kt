@@ -54,10 +54,10 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
         if (lectureList.isEmpty()) {
             binding.animationView.visibility = View.VISIBLE
             binding.reginsterBtn.visibility = View.VISIBLE
-            binding.animationView.setAnimation(R.raw.heart)
+            binding.animationView.setAnimation(R.raw.nofile_animation)
             binding.animationView.playAnimation();
             val heartEmoji = "\uD83D\uDC97"
-            binding.textView3.text = "강의를 등록하세요 $heartEmoji"
+            binding.textView3.text = "강의를 등록하세요 !"
             binding.textView3.textSize = 16f
             binding.reginsterBtn.setOnClickListener {
                 Intent(getActivity(), LectureInitActivity::class.java).apply {

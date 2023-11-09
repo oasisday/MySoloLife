@@ -41,6 +41,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="mysololife.example.sololife.message.MyMsgActivity"
             android:exported="false" />
@@ -90,11 +91,7 @@
         <activity
             android:name="mysololife.example.sololife.board.BoardInsideActivity"
             android:exported="false" />
-        <activity
-            android:name="mysololife.example.sololife.SplashActivity"
-            android:exported="false"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar"></activity>
+
         <activity
             android:name="mysololife.example.sololife.timetable.LectureInitActivity"
             android:exported="false" />
