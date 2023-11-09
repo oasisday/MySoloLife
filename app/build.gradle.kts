@@ -41,13 +41,10 @@ android {
         jvmTarget = "17"
     }
 
-    dataBinding{
-        enable = true
-    }
-
     buildFeatures {
         compose = true
         viewBinding = true
+        dataBinding = true
     }
 
 
@@ -59,6 +56,8 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+
 
     /*
     //추가해준거
@@ -142,4 +141,11 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
+
+    // translator
+    implementation("com.google.mlkit:translate:17.0.2")
+    implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-functions:20.4.0")
+    implementation("com.google.code.gson:gson:2.9.0")
 }
