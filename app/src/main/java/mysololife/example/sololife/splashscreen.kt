@@ -13,6 +13,7 @@ import com.example.mysololife.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import mysololife.example.sololife.auth.LoginActivity
 import mysololife.example.sololife.auth.introActivity
 
 class splashscreen : AppCompatActivity() {
@@ -32,7 +33,7 @@ class splashscreen : AppCompatActivity() {
         )
         topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation)
         bottomAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation)
-        imageView = findViewById(R.id.loginBtn)
+        imageView = findViewById(R.id.joinBtn)
         app_name = findViewById(R.id.app_name)
         imageView?.animation = topAnim
         app_name?.animation = bottomAnim
@@ -43,7 +44,7 @@ class splashscreen : AppCompatActivity() {
         if(auth.currentUser?.uid == null){
             //3초 있다가 다음 화면으로 넘어간다.
             Handler().postDelayed({
-                startActivity(Intent(this, introActivity::class.java))
+                startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }, 1000)
 

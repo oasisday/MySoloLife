@@ -23,6 +23,7 @@ import com.google.firebase.ktx.Firebase
 import mysololife.example.sololife.MainActivity
 import java.util.regex.Pattern
 import androidx.core.app.ActivityCompat
+import com.example.mysololife.databinding.ActivitySignupFinalBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
@@ -34,7 +35,7 @@ class  JoinActivity : AppCompatActivity() {
     private val TAG = "JoinActivity"
     private lateinit var auth: FirebaseAuth
 
-    private lateinit var binding : ActivityJoinBinding
+    private lateinit var binding : ActivitySignupFinalBinding
 
     private var uid = ""
     lateinit var profileImage : ImageView
@@ -45,7 +46,9 @@ class  JoinActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_join)
+        binding = ActivitySignupFinalBinding.inflate(layoutInflater).apply {
+            setContentView(root)
+        }
 
         profileImage = findViewById(R.id.profileImage)
         val getAction = registerForActivityResult(
@@ -178,9 +181,6 @@ class  JoinActivity : AppCompatActivity() {
             // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
             // ...
         }
-
-
     }
-
 }
 
