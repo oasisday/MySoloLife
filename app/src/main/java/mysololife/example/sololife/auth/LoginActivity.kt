@@ -33,6 +33,7 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
+import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
 import mysololife.example.sololife.MainActivity
@@ -61,20 +62,24 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        var keyHash = Utility.getKeyHash(this)
+        Log.e(TAG, "해시 키 값 : ${keyHash}")
 
         auth = Firebase.auth
 
         //알림 권한 설정
 
-        val isTiramisuOrHigher = Build.VERSION.SDK_INT>= Build.VERSION_CODES.TIRAMISU
+        val isTiramisuOrHigher = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
         val notificationPermission = Manifest.permission.POST_NOTIFICATIONS
 
         var hasNotificationPermission =
             if (isTiramisuOrHigher)
-                ContextCompat.checkSelfPermission(this, notificationPermission) == PackageManager.PERMISSION_GRANTED
+                ContextCompat.checkSelfPermission(
+                    this,
+                    notificationPermission
+                ) == PackageManager.PERMISSION_GRANTED
             else true
-        val launcher = registerForActivityResult(ActivityResultContracts.RequestPermission()){
+        val launcher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             hasNotificationPermission = it
 
         }
@@ -91,13 +96,13 @@ class LoginActivity : AppCompatActivity() {
         //카카오 sdk 초기화 해주기
         KakaoSdk.init(this, "903acc73748f829977599eb159665724")
 
-        if (AuthApiClient.instance.hasToken()) {
-            UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-                if (error == null) {
-                    getKakaoAccountInfo()
-                }
-            }
-        }
+//        if (AuthApiClient.instance.hasToken()) {
+//            UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
+//                if (error == null) {
+//                    getKakaoAccountInfo()
+//                }
+//            }
+//        }
 
 
         //회원가입 구현
@@ -232,55 +237,50 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 val token = task.result
-
-                Log.e(TAG, token.toString())
-
                 val userModel = UserDataModel(
                     uid,
-                    user.kakaoAccount?.name.orEmpty(),
+                    user.kakaoAccount?.profile?.nickname.toString(),
                     user.kakaoAccount?.gender.toString(),
                     token
                 )
-
                 FirebaseRef.userInfoRef.child(uid).setValue(userModel)
-                uploadImage(uid,user.kakaoAccount?.profile?.thumbnailImageUrl.orEmpty())
-
+                uploadImage(uid, user.kakaoAccount?.profile?.thumbnailImageUrl.orEmpty())
                 Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
-
                 //기존 액티비티를 다 날려버린다//
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
-
             })
     }
 
     private fun uploadImage(uid: String, link: String) {
         val storage = Firebase.storage
         val storageRef = storage.reference.child(uid + ".png")
-        try {
-            val url = URL(link)
-            val connection =
-                url.openConnection() as HttpURLConnection
-            connection.doInput = true
-            connection.connect()
-            val input = connection.inputStream
-            val bitmap =  BitmapFactory.decodeStream(input)
-            val baos = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-            val data = baos.toByteArray()
+        Thread {
+            try {
+                val url = URL(link)
+                val connection =
+                    url.openConnection() as HttpURLConnection
+                connection.doInput = true
+                connection.connect()
+                val input = connection.inputStream
+                val bitmap = BitmapFactory.decodeStream(input)
+                val baos = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                val data = baos.toByteArray()
 
-            var uploadTask = storageRef.putBytes(data)
-            uploadTask.addOnFailureListener {
-                // Handle unsuccessful uploads
-            }.addOnSuccessListener { taskSnapshot ->
-                // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-                // ...
+                var uploadTask = storageRef.putBytes(data)
+                uploadTask.addOnFailureListener {
+                    // Handle unsuccessful uploads
+                }.addOnSuccessListener { taskSnapshot ->
+                    // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+                    // ...
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+                null
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            null
-        }
+        }.start()
     }
 }
 
