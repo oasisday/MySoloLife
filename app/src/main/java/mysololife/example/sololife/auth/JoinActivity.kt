@@ -122,7 +122,8 @@ class  JoinActivity : AppCompatActivity() {
                                         uid,
                                         name,
                                         gender,
-                                        token
+                                        token,
+                                        false
                                     )
 
                                     FirebaseRef.userInfoRef.child(uid).setValue(userModel)
@@ -145,7 +146,7 @@ class  JoinActivity : AppCompatActivity() {
                             }
 
                             else {
-                                Toast.makeText(this, "회원가입 오류.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, "?회원가입 오류.", Toast.LENGTH_SHORT).show()
                             }
                         }
                     }

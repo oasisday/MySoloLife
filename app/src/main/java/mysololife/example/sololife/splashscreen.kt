@@ -8,6 +8,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mysololife.R
 import com.google.firebase.auth.FirebaseAuth
@@ -41,6 +42,7 @@ class splashscreen : AppCompatActivity() {
 
         //로그아웃 상태//
         if(auth.currentUser?.uid == null){
+            Toast.makeText(this,"로그아웃 상태",Toast.LENGTH_SHORT).show()
             //3초 있다가 다음 화면으로 넘어간다.
             Handler().postDelayed({
                 startActivity(Intent(this, introActivity::class.java))
@@ -50,6 +52,8 @@ class splashscreen : AppCompatActivity() {
         }
         //로그인 상태//
         else{
+            Toast.makeText(this,"로그인 상태",Toast.LENGTH_SHORT).show()
+
             Handler().postDelayed({
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()

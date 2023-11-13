@@ -44,6 +44,7 @@ class Matching : AppCompatActivity() {
     private var userCount =0
 
     private lateinit var currentUserGender : String
+    private lateinit var currentUserUid : String
 
     private val uid = FirebaseAuthUtils.getUid()
 
@@ -71,7 +72,7 @@ class Matching : AppCompatActivity() {
 
                 //다 넘겼으면//
                 if(userCount == usersDataList.count()){
-                    getUserDataList(currentUserGender)
+                    getUserDataList(currentUserUid)
                 }
             }
 
@@ -99,7 +100,7 @@ class Matching : AppCompatActivity() {
 
 
 
-    private fun getUserDataList(currentUserGender : String) {
+    private fun getUserDataList(currentUserUid : String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
@@ -107,7 +108,8 @@ class Matching : AppCompatActivity() {
 
                     val user = dataModel.getValue(UserDataModel::class.java)
 
-                    if(user!!.gender.toString().equals(currentUserGender)){
+                    //본인 빼고
+                    if(user!!.uid.toString().equals(currentUserUid)){
 
                     }else{
                         usersDataList.add(user!!)
@@ -137,10 +139,11 @@ class Matching : AppCompatActivity() {
                 Log.d(TAG, data?.gender.toString())
 
                 currentUserGender = data?.gender.toString()
+                currentUserUid = data?.uid.toString()
 
                 MyInfo.myNickname = data?.nickname.toString()
 
-                getUserDataList(currentUserGender)
+                getUserDataList(currentUserUid)
 
             }
 

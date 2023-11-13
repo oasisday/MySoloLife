@@ -45,7 +45,7 @@
             android:id="@+id/nicknameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="최형우님"
+            android:text="OOO님"
             android:textColor="#ffffff"
             android:textSize="40sp"
             android:textStyle="bold"
