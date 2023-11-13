@@ -32,6 +32,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import mysololife.example.sololife.auth.LoginActivity
 import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.auth.introActivity
 import mysololife.example.sololife.board.BoardModel
@@ -86,7 +87,7 @@ class SettingActivity : AppCompatActivity() {
             auth.signOut()
             Toast.makeText(this, "로그아웃 되었습니다.", Toast.LENGTH_LONG).show()
 
-            val intent = Intent(this, introActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
 
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
@@ -163,10 +164,7 @@ class SettingActivity : AppCompatActivity() {
 
             }
         })
-
-
     }
-
 
     private fun getBoardData(uid : String){
 
@@ -181,7 +179,6 @@ class SettingActivity : AppCompatActivity() {
 
             }
 
-
             override fun onCancelled(databaseError: DatabaseError) {
                 // Getting Post failed, log a message
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
@@ -189,6 +186,4 @@ class SettingActivity : AppCompatActivity() {
         }
         FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
     }
-
-
 }
