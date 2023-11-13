@@ -4,6 +4,7 @@ plugins {
     id("com.google.gms.google-services")
     id("kotlin-parcelize")
     id("kotlin-kapt")
+
 }
 
 android {
@@ -71,6 +72,9 @@ android {
 
 dependencies {
 
+    //card stack view
+    implementation ("com.yuyakaido.android:card-stack-view:2.3.4")
+
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.7.2")
@@ -104,9 +108,6 @@ dependencies {
     implementation("com.google.firebase:firebase-storage-ktx")
 
     implementation("com.github.bumptech.glide:glide:4.16.0")
-
-    implementation ("com.yuyakaido.android:card-stack-view:2.3.4")
-
     implementation ("androidx.activity:activity-ktx:1.2.0-alpha04")
     implementation ("androidx.fragment:fragment-ktx:1.3.0-alpha04")
 
@@ -141,6 +142,10 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
+
+
+    //kakao
+    implementation ("com.kakao.sdk:v2-user:2.16.0")
 
     // translator
     implementation("com.google.mlkit:translate:17.0.2")

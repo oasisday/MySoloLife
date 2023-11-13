@@ -51,7 +51,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <EditText
-        android:id="@+id/passwordArea"
+        android:id="@+id/pwArea"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
@@ -72,14 +72,14 @@
         app:layout_constraintTop_toBottomOf="@+id/emailArea" />
 
     <ImageView
-        android:id="@+id/loginBtn"
+        android:id="@+id/LoginBtn"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
 
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordArea"
+        app:layout_constraintTop_toBottomOf="@+id/pwArea"
 
         android:src="@drawable/btn_arraw1" />
 
@@ -91,12 +91,12 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/loginBtn"
+        app:layout_constraintTop_toBottomOf="@id/LoginBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button"
+            android:id="@+id/kakaoBtn"
             style="@android:style/Widget.Button"
             android:layout_width="0dp"
             android:layout_height="55dp"
@@ -125,10 +125,11 @@
             android:textStyle="bold" />
     </LinearLayout>
     <TextView
+        android:id="@+id/signupBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="회원가입을 하고 새로운 계정을 만들어보세요"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:textSize="14sp"
         android:textColor="#3b608c"
         android:textStyle="bold"

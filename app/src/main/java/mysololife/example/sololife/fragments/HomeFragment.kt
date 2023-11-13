@@ -63,7 +63,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun getMyData() {
-        val myImage = binding.userProfile
+        val myImage = binding.profileImage
+
         val myNickname = binding.nicknameTextView
 
         val requestOptions = RequestOptions().circleCrop()
