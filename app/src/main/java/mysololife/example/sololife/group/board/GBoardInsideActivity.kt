@@ -1,4 +1,4 @@
-package mysololife.example.sololife.board
+package mysololife.example.sololife.group.board
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -14,22 +14,24 @@ import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivityBoardInsideBinding
+import com.example.mysololife.databinding.GActivityBoardInsideBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import mysololife.example.sololife.board.BoardModel
 import mysololife.example.sololife.comment.CommentLVAdapter
 import mysololife.example.sololife.comment.CommentModel
 import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBRef
 
-class BoardInsideActivity : Activity() {
+class GBoardInsideActivity : Activity() {
 
-    private val TAG = BoardInsideActivity::class.java.simpleName
+    private val TAG = GBoardInsideActivity::class.java.simpleName
 
-    private lateinit var binding : ActivityBoardInsideBinding
+    private lateinit var binding : GActivityBoardInsideBinding
 
     private lateinit var key:String
 
@@ -41,7 +43,7 @@ class BoardInsideActivity : Activity() {
 
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_board_inside)
+        binding = DataBindingUtil.setContentView(this, R.layout.g_activity_board_inside)
 
         binding.boardSettingIcon.setOnClickListener{
             showDialog()
@@ -122,7 +124,7 @@ class BoardInsideActivity : Activity() {
         alertDialog.findViewById<Button>(R.id.editBtn2)?.setOnClickListener{
             Toast.makeText(this, "수정버튼을 눌렀습니다.", Toast.LENGTH_LONG).show()
 
-            val intent = Intent(this, BoardEditActivity::class.java)
+            val intent = Intent(this, GBoardEditActivity::class.java)
             intent.putExtra("key", key)
             startActivity(intent)
             finish()
@@ -134,6 +136,7 @@ class BoardInsideActivity : Activity() {
         }
         //mBuilder.show()
     }
+
     private fun getImageData(key : String){
 
         // Reference to an image file in Cloud Storage
@@ -157,6 +160,8 @@ class BoardInsideActivity : Activity() {
 
 
     }
+
+
     private fun getBoardData(key : String){
 
         val postListener = object : ValueEventListener {

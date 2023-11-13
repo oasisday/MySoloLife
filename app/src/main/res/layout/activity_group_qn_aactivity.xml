@@ -7,6 +7,12 @@
         android:layout_height="match_parent"
         tools:context="mysololife.example.sololife.group.GroupQnAActivity">
 
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/gboard_listview">
+        </ListView>
+
         <ImageView
             android:id="@+id/writeBtn"
             android:layout_width="80dp"

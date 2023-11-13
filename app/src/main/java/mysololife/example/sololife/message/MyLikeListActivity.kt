@@ -50,7 +50,7 @@ class MyLikeListActivity : AppCompatActivity() {
     lateinit var groupId : String
 
     private var groupModel = GroupDataModel(
-        null,null, null, null, Vector()
+        null,null, null, null
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,7 +93,7 @@ class MyLikeListActivity : AppCompatActivity() {
             groupId = UUID.randomUUID().toString()
 
             groupModel = GroupDataModel(
-                null,null,null,null,
+                null,null,null,null
             )
             groupModel.groupnum = groupId
             groupModel.leader = uid

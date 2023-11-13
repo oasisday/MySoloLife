@@ -11,6 +11,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import mysololife.example.sololife.auth.introActivity
+import mysololife.example.sololife.board.BoardInsideActivity
 import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBboard
 
@@ -32,7 +33,11 @@ class GroupMainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_group_main)
 
         binding.groupboardBtn.setOnClickListener{
-            startActivity(Intent(this, GroupQnAActivity::class.java))
+            //startActivity(Intent(this, GroupQnAActivity::class.java))
+
+            val intent = Intent(this, GroupQnAActivity::class.java)
+            intent.putExtra("key", key)
+            startActivity(intent)
         }
     }
 
