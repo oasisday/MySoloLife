@@ -4,14 +4,22 @@ import android.annotation.SuppressLint
 import android.app.ProgressDialog.show
 import android.content.Intent
 import android.graphics.Color
+import android.media.MediaPlayer
+import android.media.PlaybackParams
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.SeekBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
@@ -19,18 +27,27 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivityGalleryBinding
+import com.google.android.material.appbar.MaterialToolbar
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.chip.Chip
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
+import java.text.NumberFormat
 
 
 class GalleryActivity : AppCompatActivity() , OnItemClickListener {
+    private lateinit var runnable: Runnable
+    private lateinit var handler : Handler
+    private var delay = 10L
+    private var jumpValue = 1000
+    private var playbackSpeed = 1.0f
     private  lateinit var records : ArrayList<AudioRecord>
     private lateinit var mAdapter: Adapter
     private lateinit var db : AppDatabase
-
+    private lateinit var mediaPlayer :MediaPlayer
     private var allChecked = false
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     private lateinit var binding : ActivityGalleryBinding
@@ -41,6 +58,8 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
             setContentView(root)
         }
         val lecture = intent.getStringExtra("lecture")
+
+        //recordinit()
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -81,6 +100,7 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
             leaveEditMode()
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            binding.recordConstraintLayout.visibility = View.VISIBLE
         }
 
         binding.btnSelectAll.setOnClickListener {
@@ -115,6 +135,7 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
                         leaveEditMode()
                         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                        binding.recordConstraintLayout.visibility = View.VISIBLE
                     }
                 }
             }
@@ -124,6 +145,7 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
             dialog.show()
         }
     }
+
 
     private fun fetchAll(){
         GlobalScope.launch {
@@ -161,6 +183,7 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
                             leaveEditMode()
                             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                            binding.recordConstraintLayout.visibility = View.VISIBLE
                         }
                     }
                 }
@@ -200,11 +223,100 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
                 }
 
         } else {
-            var intent = Intent(this, AudioPlayerActivity::class.java)
-            intent.putExtra("filepath", audioRecord.filePath)
-            intent.putExtra("filename", audioRecord.filename)
-            startActivity(intent)
+            if (::mediaPlayer.isInitialized && mediaPlayer != null && mediaPlayer.isPlaying) {
+                mediaPlayer.stop()
+            }
+            binding.chip.text = "x 1.0"
+            val filePath = audioRecord.filePath
+            val fileName = audioRecord.filename
+            binding.tvFilename.text = fileName
+            mediaPlayer = MediaPlayer()
+            try {
+                mediaPlayer.setDataSource(filePath)
+                mediaPlayer.prepare()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            handler = Handler(Looper.getMainLooper())
+            runnable = Runnable {
+                binding.seekbar.progress = mediaPlayer.currentPosition
+                handler.postDelayed(runnable,delay)
+                binding.tvTrackProgress.text = dateFormat(mediaPlayer.currentPosition)
+            }
+            mediaPlayer.setOnCompletionListener {
+                binding.btnPlay.background = ResourcesCompat.getDrawable(resources,
+                    R.drawable.ic_play_circle,theme)
+                handler.removeCallbacks(runnable)
+            }
+            playPausePlayer()
+            recordInit()
         }
+    }
+
+    private fun recordInit() {
+        binding.tvTrackDuration.text = dateFormat(mediaPlayer.duration)
+        binding.btnPlay.setOnClickListener{
+            playPausePlayer()
+        }
+
+        binding.seekbar.max = mediaPlayer.duration
+
+
+        binding.btnforward.setOnClickListener {
+            mediaPlayer.seekTo(mediaPlayer.currentPosition+jumpValue)
+            binding.seekbar.progress += jumpValue
+        }
+        binding.btnBackward.setOnClickListener {
+            mediaPlayer.seekTo(mediaPlayer.currentPosition-jumpValue)
+            binding.seekbar.progress -= jumpValue
+        }
+        binding.chip.setOnClickListener{
+            if(playbackSpeed != 2f)
+                playbackSpeed += 0.25f
+            else
+                playbackSpeed = 0.5f
+
+            mediaPlayer.playbackParams = PlaybackParams().setSpeed(playbackSpeed)
+            binding.chip.text = "x $playbackSpeed"
+        }
+
+        binding.seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if(fromUser)
+                    mediaPlayer.seekTo(progress)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?){}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?){}
+        })
+    }
+
+    private fun playPausePlayer() {
+        if(!mediaPlayer.isPlaying){
+            mediaPlayer.start()
+            binding.btnPlay.background = ResourcesCompat.getDrawable(resources,
+                R.drawable.ic_pause_circle,theme)
+            handler.postDelayed(runnable,delay)
+        }else{
+            mediaPlayer.pause()
+            binding.btnPlay.background = ResourcesCompat.getDrawable(resources,
+                R.drawable.ic_play_circle,theme)
+            handler.removeCallbacks(runnable)
+        }
+    }
+
+    private fun dateFormat(duration:Int):String{
+        val d= duration/1000
+        val s = d%60
+        val m = (d/60 % 60)
+        val h = ((d - m*60)/3600)
+        Log.d("testplease",s.toString()+" "+m.toString()+" "+h.toString())
+        val f : NumberFormat = DecimalFormat("00")
+        var str = "$m:${f.format(s)}"
+        if(h>0)
+            str = "$h:$str"
+        return str
     }
 
     private fun searchDatabase(query: String){
@@ -260,6 +372,10 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
 
     override fun onItemLongClickListener(position: Int) {
         mAdapter.setEditMode(true)
+        binding.recordConstraintLayout.visibility = View.GONE
+        if (::mediaPlayer.isInitialized && mediaPlayer != null && mediaPlayer.isPlaying) {
+            mediaPlayer.stop()
+        }
         records[position].isChecked = !records[position].isChecked
         mAdapter.notifyItemChanged(position)
 
@@ -272,6 +388,5 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
             enableRename()
             enableDelete()
         }
-
     }
 }

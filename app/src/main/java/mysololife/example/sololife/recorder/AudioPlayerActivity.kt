@@ -19,8 +19,15 @@ import com.example.mysololife.R
 
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.chip.Chip
+import mysololife.example.sololife.recorder.AudioReceiver.Companion.TAG
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.ObjectInputStream
 import java.text.DecimalFormat
 import java.text.NumberFormat
+import java.util.Scanner
+import kotlin.text.Typography.amp
 
 
 class AudioPlayerActivity : AppCompatActivity() {
@@ -34,7 +41,7 @@ class AudioPlayerActivity : AppCompatActivity() {
     private lateinit var tvFilename :TextView
     private lateinit var tvTrackProgress :TextView
     private lateinit var tvTrackDuration :TextView
-
+    private lateinit var waveformView: WaveformView
     private lateinit var runnable: Runnable
     private lateinit var handler : Handler
     private var delay = 10L
@@ -47,6 +54,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_audio_player)
         val filePath = intent.getStringExtra("filepath")
         val fileName = intent.getStringExtra("filename")
+
 
         toolbar = findViewById(R.id.toolbar)
         tvFilename = findViewById(R.id.tvFilename)
@@ -61,6 +69,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         tvTrackDuration = findViewById(R.id.tvTrackDuration)
         tvTrackProgress= findViewById(R.id.tvTrackProgress)
 
+
         mediaPlayer = MediaPlayer()
         try {
             mediaPlayer.setDataSource(filePath)
@@ -74,7 +83,6 @@ class AudioPlayerActivity : AppCompatActivity() {
         btnForward = findViewById(R.id.btnforward)
         speedChip = findViewById(R.id.chip)
         seekBar= findViewById(R.id.seekbar)
-
         tvTrackDuration.text = dateFormat(mediaPlayer.duration)
 
         btnPlay.setOnClickListener{

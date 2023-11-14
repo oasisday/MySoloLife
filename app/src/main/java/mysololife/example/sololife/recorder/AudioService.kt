@@ -30,14 +30,11 @@ class AudioService : Service() {
     }
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-        Toast.makeText(this, "AudioService started.", Toast.LENGTH_SHORT).show()
         return START_REDELIVER_INTENT
     }
     override fun onDestroy() {
         super.onDestroy()
-        Toast.makeText(this, "AudioService finished.", Toast.LENGTH_SHORT).show()
         if (audioRecorder?.recordingState != RecordingState.BEFORE_RECORDING) {
-            Toast.makeText(this, "Recording stopped.", Toast.LENGTH_SHORT).show()
             audioRecorder?.stopRecording()
             AudioTimer.stopTimer()
         }

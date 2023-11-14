@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".recorder.AudioPlayerActivity">
+    >
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -19,8 +19,17 @@
             android:textSize="20sp"
             android:gravity="center"
             android:layout_marginEnd="46dp"/>
+        <ImageButton
+            android:id="@+id/anotherPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/round_open_in_new_24"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="다른 앱에서 열기"
+            android:layout_marginEnd="16dp"/>
 
     </com.google.android.material.appbar.MaterialToolbar>
+
     <SeekBar
         android:id="@+id/seekbar"
         android:layout_width="match_parent"

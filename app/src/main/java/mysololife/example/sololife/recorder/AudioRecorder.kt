@@ -19,7 +19,6 @@ interface OnRecordingStateChangeListener {
 }
 
 class AudioRecorder private constructor() : AppCompatActivity() {
-    private val handler = Handler(Looper.getMainLooper())
     var recorder: MediaRecorder? = null
     var filename: String = ""
     var recordingState = RecordingState.BEFORE_RECORDING
@@ -45,9 +44,9 @@ class AudioRecorder private constructor() : AppCompatActivity() {
     fun startRecording() {
         recorder = MediaRecorder()
         Log.e("RecordTest", dirPath)
-        var simpleDateFormat = SimpleDateFormat("yyyy.MM.dd_hh시 mm분")
+        var simpleDateFormat = SimpleDateFormat("[MM월 dd일]")
         var date = simpleDateFormat.format(Date())
-        filename = "audio_record_$date"
+        filename = "과목 이름_$date"
 
         recorder?.apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
@@ -91,7 +90,6 @@ class AudioRecorder private constructor() : AppCompatActivity() {
     fun cancelRecording() {
         stopRecording()
         File("$dirPath$filename.mp3").delete()
-        Log.d(TAG,"취소 눌렀을 때 상태는 ${recordingState}")
         recordingStateChangeListener?.onRecordingStateChanged(recordingState)
     }
 
