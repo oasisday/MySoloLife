@@ -12,6 +12,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import mysololife.example.sololife.board.BoardModel
+import mysololife.example.sololife.group.board.GBoardInsideActivity
 import mysololife.example.sololife.group.board.GBoardWriteActivity
 import mysololife.example.sololife.group.board.InsideGBoardAdapter
 import mysololife.example.sololife.utils.FBboard
@@ -36,8 +37,6 @@ class GroupQnAActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val userListView = findViewById<ListView>(R.id.userListView)
-
         binding = DataBindingUtil.setContentView(this,R.layout.activity_group_qn_aactivity)
 
         key = intent.getStringExtra("key").toString()
@@ -54,6 +53,15 @@ class GroupQnAActivity : AppCompatActivity() {
         binding.gboardListview.adapter = boardRVAdapter
 
         getFBBoardData(key)
+
+        binding.gboardListview.setOnItemClickListener{parent, view, position, id ->
+            val intent = Intent(this, GBoardInsideActivity::class.java)
+            intent.putExtra("title", boardDataList[position].title)
+            intent.putExtra("content", boardDataList[position].content)
+            intent.putExtra("time", boardDataList[position].time)
+            intent.putExtra("uid",boardDataList[position].uid)
+            startActivity(intent)
+        }
 
     }
 

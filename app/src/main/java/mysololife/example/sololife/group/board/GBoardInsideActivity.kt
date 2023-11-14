@@ -21,11 +21,13 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.board.BoardModel
 import mysololife.example.sololife.comment.CommentLVAdapter
 import mysololife.example.sololife.comment.CommentModel
 import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBRef
+import mysololife.example.sololife.utils.FirebaseRef
 
 class GBoardInsideActivity : Activity() {
 
@@ -39,11 +41,26 @@ class GBoardInsideActivity : Activity() {
 
     private lateinit var commentAdapter : CommentLVAdapter
 
+    private lateinit var title:String
+    private lateinit var content:String
+    private lateinit var time:String
+    private lateinit var uid:String
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.g_activity_board_inside)
+
+        title = intent.getStringExtra("title").toString()
+        content = intent.getStringExtra("content").toString()
+        time = intent.getStringExtra("time").toString()
+        uid = intent.getStringExtra("uid").toString()
+
+        binding.titleArea.text = title
+        binding.textArea.text = content
+        binding.timeArea.text = time
+        getWriterData(uid)
 
         binding.boardSettingIcon.setOnClickListener{
             showDialog()
@@ -53,14 +70,14 @@ class GBoardInsideActivity : Activity() {
         getBoardData(key)
         getImageData(key)
 
-        binding.commentBtn.setOnClickListener{
-            insertComment(key)
-        }
-
-        commentAdapter = CommentLVAdapter(commentDataList)
-        binding.commentLV.adapter = commentAdapter
-
-        getCommentData(key)
+//        binding.commentBtn.setOnClickListener{
+//            insertComment(key)
+//        }
+//
+//        //commentAdapter = CommentLVAdapter(commentDataList)
+//        //binding.commentLV.adapter = commentAdapter
+//
+//        //getCommentData(key)
 
     }
 
@@ -161,32 +178,28 @@ class GBoardInsideActivity : Activity() {
 
     }
 
-
-    private fun getBoardData(key : String){
+    private fun getWriterData(uid:String) {
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                Log.d(TAG, dataSnapshot.toString())
+                val data = dataSnapshot.getValue(UserDataModel::class.java)
 
-                try {
-                    val dataModel = dataSnapshot.getValue(BoardModel::class.java)
-                    Log.d(TAG, dataModel!!.title)
+                binding.nameArea.text = data!!.nickname
 
-                    binding.titleArea.text = dataModel!!.title
-                    binding.textArea.text = dataModel!!.content
-                    binding.timeArea.text = dataModel!!.time
-
-                    val myUid = FBAuth.getUid()
-                    val writerUid = dataModel.uid
-
-                    if(myUid.equals(writerUid)){
-                        Log.d(TAG, "내가 쓴 글")
-                        binding.boardSettingIcon.isVisible = true
-                    }
-                }
-                catch (e:Exception){
-                    Log.d(TAG, "삭제완료")
-                }
-
+//                myUid.text = data!!.uid
+//                myNickname.text = data!!.nickname
+//                myGender.text = data!!.gender
+//
+//                val storageRef = Firebase.storage.reference.child(data.uid + ".png")
+//                storageRef.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
+//                    if (task.isSuccessful) {
+//                        if(getActivity() !=null){
+//                            Glide.with(this@MyPageFragment)
+//                                .load(task.result)
+//                                .into(myImage)}
+//                    }
+//                })
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -194,7 +207,45 @@ class GBoardInsideActivity : Activity() {
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
             }
         }
-        FBRef.boardRef.child(key).addValueEventListener(postListener)
+
+        FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
+    }
+
+    private fun getBoardData(key : String){
+
+
+
+//        val postListener = object : ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//
+//                try {
+//                    val dataModel = dataSnapshot.getValue(BoardModel::class.java)
+//                    Log.d(TAG, dataModel!!.title)
+//
+//                    binding.titleArea.text = dataModel!!.title
+//                    binding.textArea.text = dataModel!!.content
+//                    binding.timeArea.text = dataModel!!.time
+//
+//                    val myUid = FBAuth.getUid()
+//                    val writerUid = dataModel.uid
+//
+//                    if(myUid.equals(writerUid)){
+//                        Log.d(TAG, "내가 쓴 글")
+//                        binding.boardSettingIcon.isVisible = true
+//                    }
+//                }
+//                catch (e:Exception){
+//                    Log.d(TAG, "삭제완료")
+//                }
+//
+//            }
+//
+//            override fun onCancelled(databaseError: DatabaseError) {
+//                // Getting Post failed, log a message
+//                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+//            }
+//        }
+//        FBRef.boardRef.child(key).addValueEventListener(postListener)
     }
 
 }

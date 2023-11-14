@@ -246,6 +246,8 @@ class MyLikeListActivity : AppCompatActivity() {
             groupModel.classinfo = infoText
 
             FBboard.boardInfoRef.child(groupId).setValue(groupModel)
+
+
         }
     }
 
