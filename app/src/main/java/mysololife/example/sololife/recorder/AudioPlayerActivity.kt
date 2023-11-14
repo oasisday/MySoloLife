@@ -133,6 +133,7 @@ class AudioPlayerActivity : AppCompatActivity() {
                 R.drawable.ic_pause_circle,theme)
             handler.postDelayed(runnable,delay)
         }else{
+            mediaPlayer.pause()
             btnPlay.background = ResourcesCompat.getDrawable(resources,
                 R.drawable.ic_play_circle,theme)
             handler.removeCallbacks(runnable)

@@ -46,8 +46,7 @@ import java.util.regex.Pattern
 
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var emailLoginResult: ActivityResultLauncher<Intent>
-    private lateinit var pendingUser: User
+
     private val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
             showErrorToast(error.toString())
