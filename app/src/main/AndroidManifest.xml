@@ -94,9 +94,7 @@
         <activity
             android:name="mysololife.example.sololife.dashboard.MainDashboardActivity"
             android:exported="false" />
-        <activity
-            android:name="mysololife.example.sololife.recorder.AudioPlayerActivity"
-            android:exported="false" />
+
         <activity
             android:name="mysololife.example.sololife.recorder.GalleryActivity"
             android:exported="false" />

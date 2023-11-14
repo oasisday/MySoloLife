@@ -1,39 +1,36 @@
 package mysololife.example.sololife.recorder
 
-import android.annotation.SuppressLint
-import android.app.ProgressDialog.show
 import android.content.Intent
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.media.PlaybackParams
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.StrictMode
+import android.os.StrictMode.VmPolicy
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.SeekBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivityGalleryBinding
-import com.google.android.material.appbar.MaterialToolbar
-
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.chip.Chip
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import mysololife.example.sololife.recorder.AudioReceiver.Companion.TAG
 import java.text.DecimalFormat
 import java.text.NumberFormat
 
@@ -57,9 +54,9 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
         binding = ActivityGalleryBinding.inflate(layoutInflater).apply {
             setContentView(root)
         }
-        val lecture = intent.getStringExtra("lecture")
+        val builder = VmPolicy.Builder()
+        StrictMode.setVmPolicy(builder.build())
 
-        //recordinit()
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -93,14 +90,12 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
                 var query = p0.toString()
                 searchDatabase("%$query%")
             }
-
         })
+
 
         binding.btnClose.setOnClickListener {
             leaveEditMode()
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            binding.recordConstraintLayout.visibility = View.VISIBLE
+            hideBottomSheet()
         }
 
         binding.btnSelectAll.setOnClickListener {
@@ -118,6 +113,17 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
             }
         }
 
+        binding.btnOut.setOnClickListener {
+            val record = records.filter { it.isChecked }.get(0)
+            Log.d(TAG, record.filePath)
+            val playIntent = Intent(Intent.ACTION_VIEW)
+            val uri = Uri.parse("file:/${record.filePath}")
+            Log.d(TAG, uri.toString())
+            playIntent.setDataAndType(uri, "audio/mp3")
+            playIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            startActivity(playIntent)
+        }
+
         binding.btnDelete.setOnClickListener {
             val builder = AlertDialog.Builder(this)
 
@@ -133,9 +139,7 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
                         records.removeAll(toDelete)
                         mAdapter.notifyDataSetChanged()
                         leaveEditMode()
-                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                        binding.recordConstraintLayout.visibility = View.VISIBLE
+                        hideBottomSheet()
                     }
                 }
             }
@@ -144,6 +148,13 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
             val dialog = builder.create()
             dialog.show()
         }
+    }
+
+    private fun hideBottomSheet() {
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheetBehavior.peekHeight = 0
+        binding.recordConstraintLayout.visibility = View.VISIBLE
     }
 
 
@@ -181,9 +192,7 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
                             dialog.dismiss()
                             onBackPressed()
                             leaveEditMode()
-                            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                            binding.recordConstraintLayout.visibility = View.VISIBLE
+                            hideBottomSheet()
                         }
                     }
                 }
@@ -387,6 +396,10 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
 
             enableRename()
             enableDelete()
+            enableOutApp()
         }
+    }
+
+    private fun enableOutApp() {
     }
 }
