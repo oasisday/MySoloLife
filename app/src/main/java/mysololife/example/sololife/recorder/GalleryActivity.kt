@@ -57,6 +57,7 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
         val builder = VmPolicy.Builder()
         StrictMode.setVmPolicy(builder.build())
 
+
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -117,7 +118,7 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
             val record = records.filter { it.isChecked }.get(0)
             Log.d(TAG, record.filePath)
             val playIntent = Intent(Intent.ACTION_VIEW)
-            val uri = Uri.parse("file:/${record.filePath}")
+            val uri = Uri.parse("content://com.example.mysololife${record.filePath}")
             Log.d(TAG, uri.toString())
             playIntent.setDataAndType(uri, "audio/mp3")
             playIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
