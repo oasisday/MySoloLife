@@ -153,4 +153,8 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-functions:20.4.0")
     implementation("com.google.code.gson:gson:2.9.0")
+
+    //boardUI
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 }
