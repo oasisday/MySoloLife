@@ -151,6 +151,13 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        if (::mediaPlayer.isInitialized && mediaPlayer != null && mediaPlayer.isPlaying) {
+            mediaPlayer.stop()
+        }
+    }
+
     private fun hideBottomSheet() {
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED

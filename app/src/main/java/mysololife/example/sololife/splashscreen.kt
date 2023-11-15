@@ -20,9 +20,10 @@ import mysololife.example.sololife.auth.introActivity
 class splashscreen : AppCompatActivity() {
     var topAnim: Animation? = null
     var bottomAnim: Animation? = null
+    var topimgAnim: Animation? = null
     var imageView: ImageView? = null
     var app_name: TextView? = null
-
+    var topimageView: ImageView? = null
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,11 +35,15 @@ class splashscreen : AppCompatActivity() {
         )
         topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation)
         bottomAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation)
+        topimgAnim = AnimationUtils.loadAnimation(this,R.anim.png_animation)
+        topimageView = findViewById(R.id.shape)
         imageView = findViewById(R.id.joinBtn)
         app_name = findViewById(R.id.app_name)
+
+
         imageView?.animation = topAnim
         app_name?.animation = bottomAnim
-
+        topimageView?.animation = topimgAnim
         auth = Firebase.auth
 
         //로그아웃 상태//
