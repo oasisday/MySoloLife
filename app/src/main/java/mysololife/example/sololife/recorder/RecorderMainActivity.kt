@@ -75,9 +75,6 @@ class RecorderMainActivity : AppCompatActivity(), OnRecordingStateChangeListener
         val functionName = intent.getStringExtra("EXTRA_FUNCTION_TO_CALL")
         Log.d(TAG, functionName.toString())
 
-        //알림설정
-        alarmPermission()
-
         audioRecorder = AudioRecorder.getInstance()
         audioRecorder.dirPath = "${externalCacheDir?.absolutePath}/"
         audioRecorder.permissionGranted = (ActivityCompat.checkSelfPermission(
@@ -88,7 +85,8 @@ class RecorderMainActivity : AppCompatActivity(), OnRecordingStateChangeListener
             ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE)
         }
         audioRecorder.setOnRecordingStateChangeListener(this)
-
+        //알림설정
+        alarmPermission()
         //초기화 해주기
         val bottomSheet = findViewById<LinearLayout>(R.id.bottomSheet)
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
