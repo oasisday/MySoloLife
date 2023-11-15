@@ -143,6 +143,9 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
 
+    //camera
+    implementation("io.fotoapparat:fotoapparat:2.7.0")
+    implementation("com.jraska:falcon:2.2.0")
 
     //kakao
     implementation ("com.kakao.sdk:v2-user:2.16.0")
@@ -156,5 +159,5 @@ dependencies {
 
     //boardUI
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    //implementation("com.github.bumptech.glide:glide:4.16.0")
+
 }

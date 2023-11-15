@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.mysololife.R
@@ -18,11 +19,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.islandparadise14.mintable.model.ScheduleEntity
-import com.islandparadise14.mintable.tableinterface.OnScheduleClickListener
+import mysololife.example.sololife.CameraActivity
 import mysololife.example.sololife.auth.UserDataModel
-import mysololife.example.sololife.dashboard.LectureMainActivity
-import mysololife.example.sololife.dashboard.MainDashboardActivity
 import mysololife.example.sololife.recorder.RecorderMainActivity
 import mysololife.example.sololife.timetable.TimeTableActivity
 import mysololife.example.sololife.utils.FirebaseAuthUtils
@@ -33,7 +31,7 @@ import mysololife.example.sololife.utils.FirebaseRef
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(){
     lateinit var binding: FragmentHomeBinding
     private val uid = FirebaseAuthUtils.getUid()
 
@@ -56,6 +54,12 @@ class HomeFragment : Fragment() {
 
         binding.btnTimeTable.setOnClickListener {
             Intent(getActivity(), TimeTableActivity::class.java).apply{
+                startActivity(this)
+            }
+        }
+
+        binding.btnCamera.setOnClickListener {
+            Intent(getActivity(), CameraActivity::class.java).apply{
                 startActivity(this)
             }
         }
@@ -90,4 +94,5 @@ class HomeFragment : Fragment() {
         }
         FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
     }
+
 }

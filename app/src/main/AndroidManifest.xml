@@ -3,22 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:installLocation="preferExternal">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission
-        android:name="android.permission.POST_NOTIFICATIONS"
-        android:minSdkVersion="33" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="29" />
-
     <application
         android:allowBackup="true"
         android:appComponentFactory="whateverString"
@@ -29,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MySoloLife"
         tools:replace="android:appComponentFactory, android:theme">
+        <activity
+            android:name="mysololife.example.sololife.CameraActivity"
+            android:exported="false" />
         <activity
             android:name="mysololife.example.sololife.boardUI.BoardActivity1"
             android:exported="false" />
@@ -123,6 +110,11 @@
             android:name="mysololife.example.sololife.translator.TranslateActivity"
             android:exported="false" />
 
+        <receiver
+            android:name="mysololife.example.sololife.recorder.AudioReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
         <service
             android:name="mysololife.example.sololife.message.fcm.FirebaseService"
             android:exported="false">
@@ -131,15 +123,24 @@
             </intent-filter>
         </service>
 
-        <receiver
-            android:name="mysololife.example.sololife.recorder.AudioReceiver"
-            android:enabled="true"
-            android:exported="true"></receiver>
-
         <service
             android:name="mysololife.example.sololife.recorder.AudioService"
             android:enabled="true"
             android:exported="true" />
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission
+        android:name="android.permission.POST_NOTIFICATIONS"
+        android:minSdkVersion="33" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
 </manifest>
