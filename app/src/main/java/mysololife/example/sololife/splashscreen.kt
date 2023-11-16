@@ -16,6 +16,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import mysololife.example.sololife.auth.LoginActivity
 import mysololife.example.sololife.auth.introActivity
+import mysololife.example.sololife.translator.TranslateActivity
 
 class splashscreen : AppCompatActivity() {
     var topAnim: Animation? = null
@@ -52,6 +53,8 @@ class splashscreen : AppCompatActivity() {
             //3초 있다가 다음 화면으로 넘어간다.
             Handler().postDelayed({
                 startActivity(Intent(this, LoginActivity::class.java))
+                //startActivity(Intent(this, TranslateActivity::class.java))
+
                 finish()
             }, 1000)
 
