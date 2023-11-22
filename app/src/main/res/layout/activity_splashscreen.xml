@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/white"
     tools:context="mysololife.example.sololife.splashscreen">
 
     <ImageView
@@ -23,7 +23,7 @@
         android:id="@+id/joinBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/todo"
+        android:src="@drawable/splash_img"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
@@ -35,14 +35,16 @@
         android:id="@+id/app_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="cursive"
+        android:fontFamily="serif"
         android:text="STUDY MANAGER"
-        android:textSize="40dp"
         android:textAlignment="center"
         android:textColor="@color/black"
+        android:textSize="40dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/joinBtn"
-        app:layout_constraintVertical_bias=".5" />
+        android:layout_marginBottom="80dp"
+        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

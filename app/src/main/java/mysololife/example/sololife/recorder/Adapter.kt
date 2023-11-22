@@ -49,7 +49,7 @@ class Adapter(var records:ArrayList<AudioRecord>,var listener: OnItemClickListen
         if(position != RecyclerView.NO_POSITION){
             var record = records[position]
 
-            var sdf = SimpleDateFormat("dd/MM/yyyy")
+            var sdf = SimpleDateFormat("yyyy년 MM월 dd일 a h:mm")
             var date = Date(record.timestamp)
             var strDate = sdf.format(date)
 

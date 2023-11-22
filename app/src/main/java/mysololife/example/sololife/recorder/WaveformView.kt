@@ -6,9 +6,11 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.mysololife.R
+import mysololife.example.sololife.recorder.AudioReceiver.Companion.TAG
 
 class WaveformView(context: Context?, attrs: AttributeSet?) : View(context, attrs){
 
@@ -52,6 +54,29 @@ class WaveformView(context: Context?, attrs: AttributeSet?) : View(context, attr
         invalidate()
         return amps
     }
+    private fun updateSpikes() {
+        spikes.clear()  // 이전에 저장된 spikes를 지웁니다.
+
+        // 최근에 추가된 amplitudes를 가져옵니다.
+        var amps = amplitudes.takeLast(maxSpikes)
+
+        // 각 amplitude에 대해 RectF를 생성하여 spikes 리스트에 추가합니다.
+        for (i in amps.indices) {
+            Log.d(TAG,i.toString())
+            var left = sw - i * (w + d)
+            var top = sh / 2 - amps[i] / 2
+            var right = left + w
+            var bottom = top + amps[i]
+            spikes.add(RectF(left, top, right, bottom))
+        }
+    }
+    fun setAmplitudes(amps: ArrayList<Float>) {
+        amplitudes.clear()
+        amplitudes.addAll(amps)
+        updateSpikes()
+        invalidate()
+    }
+
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)

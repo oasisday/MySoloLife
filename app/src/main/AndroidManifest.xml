@@ -107,15 +107,6 @@
         <activity
             android:name="mysololife.example.sololife.translator.TranslateActivity"
             android:exported="false" />
-        <activity
-            android:name="mysololife.example.sololife.group.board.GBoardEditActivity"
-            android:exported="false" />
-        <activity
-            android:name="mysololife.example.sololife.group.board.GBoardInsideActivity"
-            android:exported="false" />
-        <activity
-            android:name="mysololife.example.sololife.group.board.GBoardWriteActivity"
-            android:exported="false" />
         <service
             android:name="mysololife.example.sololife.message.fcm.FirebaseService"
             android:exported="false">
