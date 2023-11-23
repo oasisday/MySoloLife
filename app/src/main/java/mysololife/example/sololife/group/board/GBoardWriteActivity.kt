@@ -24,6 +24,7 @@ import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBRef
 import mysololife.example.sololife.utils.FBboard
 import java.io.ByteArrayOutputStream
+import java.util.UUID
 
 class GBoardWriteActivity : Activity() {
 
@@ -33,6 +34,10 @@ class GBoardWriteActivity : Activity() {
 
     // 받아온 key값
     private lateinit var key:String
+
+    //board key값
+    val randomUUID: UUID = UUID.randomUUID()
+    val bkey: String = randomUUID.toString()
 
     private lateinit var groupkey:String
 
@@ -52,6 +57,7 @@ class GBoardWriteActivity : Activity() {
             val content = binding.contentArea.text.toString()
             val uid = FBAuth.getUid()
             val time = FBAuth.getTime()
+            val board_key = bkey
 
             Log.d(TAG, title)
             Log.d(TAG, content)
@@ -59,24 +65,16 @@ class GBoardWriteActivity : Activity() {
             //파이어베이스 스토리지 이미지 저장을 하고 싶음
             //게시글 클릭-> 정보를 받아 와야함
 
-
-//            FBboard.boardInfoRef
-//                .child(key)
-//                .child("board")
-//                .child(uid)
-//                .push()
-//                .setValue(BoardModel(title, content, uid, time))
-
             FBboard.insideboardRef
                 .child(key)
-                .child(uid)
-                .push()
-                .setValue(BoardModel(title, content, uid, time))
+                .child(bkey)
+                .setValue(BoardModel(title, content, uid, time, board_key))
 
             Toast.makeText(this, "게시글 입력 완료", Toast.LENGTH_LONG).show()
 
             if(isImageUpload == true){
-                imageUpload(key)
+                Toast.makeText(this, "이미지 저장", Toast.LENGTH_SHORT).show()
+                imageUpload()
             }
 
             finish()
@@ -90,12 +88,12 @@ class GBoardWriteActivity : Activity() {
 
     }
 
-    private fun imageUpload(key : String){
+    private fun imageUpload(){
 
         // Get the data from an ImageView as bytes
         val storage = Firebase.storage
         val storageRef = storage.reference
-        val mountainsRef = storageRef.child(key + ".png")
+        val mountainsRef = storageRef.child(bkey + ".png")
 
         val imageView = binding.imageArea
         imageView.isDrawingCacheEnabled = true

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
+import android.widget.ListView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -27,7 +28,11 @@ import mysololife.example.sololife.comment.CommentLVAdapter
 import mysololife.example.sololife.comment.CommentModel
 import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBRef
+import mysololife.example.sololife.utils.FBboard
+import mysololife.example.sololife.utils.FirebaseAuthUtils
 import mysololife.example.sololife.utils.FirebaseRef
+import org.w3c.dom.Comment
+import java.util.UUID
 
 class GBoardInsideActivity : Activity() {
 
@@ -45,10 +50,15 @@ class GBoardInsideActivity : Activity() {
     private lateinit var content:String
     private lateinit var time:String
     private lateinit var uid:String
+    private lateinit var bkey:String
+
+    private val commentList = mutableListOf<CommentModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
+        var commentLV = findViewById<ListView>(R.id.commentLV)
 
         binding = DataBindingUtil.setContentView(this, R.layout.g_activity_board_inside)
 
@@ -56,31 +66,45 @@ class GBoardInsideActivity : Activity() {
         content = intent.getStringExtra("content").toString()
         time = intent.getStringExtra("time").toString()
         uid = intent.getStringExtra("uid").toString()
+        bkey = intent.getStringExtra("bkey").toString()
+        key = intent.getStringExtra("key").toString()
 
         binding.titleArea.text = title
         binding.textArea.text = content
         binding.timeArea.text = time
         getWriterData(uid)
 
+        val myUid = FBAuth.getUid()
+        val writerUid = uid
+
+        if(myUid.equals(writerUid)){
+            Log.d(TAG, "내가 쓴 글")
+            binding.boardSettingIcon.isVisible = true
+        }
+
         binding.boardSettingIcon.setOnClickListener{
             showDialog()
         }
 
         key = intent.getStringExtra("key").toString()
-        getBoardData(key)
-        getImageData(key)
+        //getBoardData(key)
+        getImageData(bkey)
 
-//        binding.commentBtn.setOnClickListener{
-//            insertComment(key)
+        binding.commentBtn.setOnClickListener{
+            insertComment(bkey)
+        }
+
+        commentAdapter = CommentLVAdapter(commentDataList)
+        binding.commentLV.adapter = commentAdapter
+
+//        commentLV.setOnItemLongClickListener{ parent, view, position, id ->
+//            delDialog2(commentList[position].key)
+//            return@setOnItemLongClickListener (true)
 //        }
-//
-//        //commentAdapter = CommentLVAdapter(commentDataList)
-//        //binding.commentLV.adapter = commentAdapter
-//
-//        //getCommentData(key)
+
+        getCommentData(bkey)
 
     }
-
     fun getCommentData(key : String){
 
         val postListener = object : ValueEventListener {
@@ -106,7 +130,6 @@ class GBoardInsideActivity : Activity() {
         }
         FBRef.commentRef.child(key).addValueEventListener(postListener)
 
-
     }
 
     fun insertComment(key:String){
@@ -115,6 +138,8 @@ class GBoardInsideActivity : Activity() {
         //      - CommentKey
         //          - CommentData
 
+        val rUid = UUID.randomUUID().toString()
+
         FBRef
             .commentRef
             .child(key)
@@ -122,8 +147,9 @@ class GBoardInsideActivity : Activity() {
             .setValue(
                 CommentModel(
                     binding.commentArea.text.toString(),
-                    FBAuth.getTime()
-                    )
+                    FBAuth.getTime(),
+                    FirebaseAuthUtils.getUid()
+                )
             )
 
         Toast.makeText(this, "댓글 입력 완료", Toast.LENGTH_SHORT).show()
@@ -143,11 +169,41 @@ class GBoardInsideActivity : Activity() {
 
             val intent = Intent(this, GBoardEditActivity::class.java)
             intent.putExtra("key", key)
+            intent.putExtra("uid",uid)
+            intent.putExtra("title",title)
+            intent.putExtra("content",content)
+            intent.putExtra("bkey",bkey)
+            intent.putExtra("time",time)
+            /*
+
+        title = intent.getStringExtra("title").toString()
+        content = intent.getStringExtra("content").toString()
+        time = intent.getStringExtra("time").toString()
+        uid = intent.getStringExtra("uid").toString()
+            */
             startActivity(intent)
             finish()
         }
         alertDialog.findViewById<Button>(R.id.removeBtn)?.setOnClickListener{
-            FBRef.boardRef.child(key).removeValue()
+            FBboard.insideboardRef.child(key).child(bkey).removeValue()
+            Log.d("dDD",key);
+            Log.d("FFF",bkey);
+            Toast.makeText(this,"삭제완료", Toast.LENGTH_LONG).show()
+            finish()
+        }
+        //mBuilder.show()
+    }
+    private fun delDialog2(key: String){
+
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
+        val mBuilder = AlertDialog.Builder(this)
+            .setView(mDialogView)
+            .setTitle("게시글 수정/삭제")
+
+        val alertDialog = mBuilder.show()
+
+        alertDialog.findViewById<Button>(R.id.removeBtn)?.setOnClickListener{
+            FBRef.commentRef.child(key).removeValue()
             Toast.makeText(this,"삭제완료", Toast.LENGTH_LONG).show()
             finish()
         }
@@ -186,6 +242,8 @@ class GBoardInsideActivity : Activity() {
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
 
                 binding.nameArea.text = data!!.nickname
+
+
 
 //                myUid.text = data!!.uid
 //                myNickname.text = data!!.nickname

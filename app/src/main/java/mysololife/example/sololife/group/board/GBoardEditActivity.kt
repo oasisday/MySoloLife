@@ -25,6 +25,7 @@ import com.google.firebase.storage.ktx.storage
 import mysololife.example.sololife.board.BoardModel
 import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBRef
+import mysololife.example.sololife.utils.FBboard
 import java.io.ByteArrayOutputStream
 
 class GBoardEditActivity : Activity() {
@@ -39,6 +40,12 @@ class GBoardEditActivity : Activity() {
 
     private var isImageUpload2 = false
 
+    private lateinit var title:String
+    private lateinit var content:String
+    private lateinit var time:String
+    private lateinit var uid:String
+    private lateinit var bkey:String
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -46,8 +53,20 @@ class GBoardEditActivity : Activity() {
         binding = DataBindingUtil.setContentView(this, R.layout.g_activity_board_edit)
 
         key = intent.getStringExtra("key").toString()
-        getBoardData(key)
-        getImageData(key)
+
+        title = intent.getStringExtra("title").toString()
+        content = intent.getStringExtra("content").toString()
+        time = intent.getStringExtra("time").toString()
+        uid = intent.getStringExtra("uid").toString()
+        bkey = intent.getStringExtra("bkey").toString()
+
+
+        binding.titleArea.setText(title)
+        binding.contentArea.setText(content)
+
+
+        //getBoardData(bkey)
+        getImageData(bkey)
 
         binding.editBtn.setOnClickListener{
             editBoardData(key)
@@ -68,7 +87,7 @@ class GBoardEditActivity : Activity() {
             .setValue(
                 BoardModel(binding.titleArea.text.toString(),
                     binding.contentArea.text.toString(),
-                    writerUid,
+                    uid,
                     FBAuth.getTime())
             )
 
@@ -76,7 +95,7 @@ class GBoardEditActivity : Activity() {
 
         if(isImageUpload2 == true){
             Toast.makeText(this,"이미지업로드",Toast.LENGTH_LONG).show()
-            imageUpload(key)
+            imageUpload()
         }
 
         finish()
@@ -114,9 +133,11 @@ class GBoardEditActivity : Activity() {
 
                 val dataModel = dataSnapshot.getValue(BoardModel::class.java)
 
+                Log.d("mmmm",dataModel?.title.toString())
+
                 binding.titleArea.setText(dataModel?.title)
                 binding.contentArea.setText((dataModel?.content))
-                writerUid = dataModel!!.uid
+                //writerUid = dataModel!!.uid.toString()
 
             }
 
@@ -126,15 +147,15 @@ class GBoardEditActivity : Activity() {
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
             }
         }
-        FBRef.boardRef.child(key).addValueEventListener(postListener)
+        FBboard.insideboardRef.child(key).addValueEventListener(postListener)
     }
 
-    private fun imageUpload(key : String){
+    private fun imageUpload(){
 
         // Get the data from an ImageView as bytes
         val storage = Firebase.storage
         val storageRef = storage.reference
-        val mountainsRef = storageRef.child(key + ".png")
+        val mountainsRef = storageRef.child(bkey + ".png")
 
         val imageView = binding.imageArea
         imageView.isDrawingCacheEnabled = true

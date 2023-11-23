@@ -24,6 +24,8 @@ import mysololife.example.sololife.comment.CommentLVAdapter
 import mysololife.example.sololife.comment.CommentModel
 import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBRef
+import mysololife.example.sololife.utils.FirebaseAuthUtils
+import java.util.UUID
 
 class BoardInsideActivity : Activity() {
 
@@ -37,6 +39,8 @@ class BoardInsideActivity : Activity() {
 
     private lateinit var commentAdapter : CommentLVAdapter
 
+    private lateinit var Uid:String
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -48,6 +52,7 @@ class BoardInsideActivity : Activity() {
         }
 
         key = intent.getStringExtra("key").toString()
+        Uid = FirebaseAuthUtils.getUid()
         getBoardData(key)
         getImageData(key)
 
@@ -96,6 +101,8 @@ class BoardInsideActivity : Activity() {
         //      - CommentKey
         //          - CommentData
 
+
+/*
         FBRef
             .commentRef
             .child(key)
@@ -103,9 +110,40 @@ class BoardInsideActivity : Activity() {
             .setValue(
                 CommentModel(
                     binding.commentArea.text.toString(),
-                    FBAuth.getTime()
+                    FBAuth.getTime(),
+                    Uid
                     )
             )
+*/
+        val rkey = UUID.randomUUID().toString()
+
+// Create a reference to the "comments" node under your "commentRef"
+        val commentsRef = FBRef.commentRef.child(key)
+
+// Get a new push key
+        val commentKey = commentsRef.push().key
+
+// Create a CommentModel object
+        val commentModel = CommentModel(
+            binding.commentArea.text.toString(),
+            FBAuth.getTime(),
+            FirebaseAuthUtils.getUid(),
+            rkey
+        )
+
+// Set the comment data at the specific UID
+        commentKey?.let {
+            val specificUid = rkey // Replace with the desired UID value
+            commentsRef.child(specificUid).setValue(commentModel)
+                .addOnSuccessListener {
+                    // Handle success
+                    println("Comment added successfully!")
+                }
+                .addOnFailureListener { e ->
+                    // Handle failure
+                    println("Error adding comment: $e")
+                }
+        }
 
         Toast.makeText(this, "댓글 입력 완료", Toast.LENGTH_SHORT).show()
         binding.commentArea.setText("")
@@ -191,5 +229,23 @@ class BoardInsideActivity : Activity() {
         }
         FBRef.boardRef.child(key).addValueEventListener(postListener)
     }
+
+    private fun delDialog2(key: String){
+
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
+        val mBuilder = AlertDialog.Builder(this)
+            .setView(mDialogView)
+            .setTitle("게시글 수정/삭제")
+
+        val alertDialog = mBuilder.show()
+
+        alertDialog.findViewById<Button>(R.id.removeBtn)?.setOnClickListener{
+            FBRef.commentRef.child(key).removeValue()
+            Toast.makeText(this,"삭제완료", Toast.LENGTH_LONG).show()
+            finish()
+        }
+        //mBuilder.show()
+    }
+
 
 }

@@ -53,6 +53,7 @@ class GroupQnAActivity : AppCompatActivity() {
         binding.gboardListview.adapter = boardRVAdapter
 
         getFBBoardData(key)
+        Log.d("abc",key)
 
         binding.gboardListview.setOnItemClickListener{parent, view, position, id ->
             val intent = Intent(this, GBoardInsideActivity::class.java)
@@ -60,6 +61,9 @@ class GroupQnAActivity : AppCompatActivity() {
             intent.putExtra("content", boardDataList[position].content)
             intent.putExtra("time", boardDataList[position].time)
             intent.putExtra("uid",boardDataList[position].uid)
+            intent.putExtra("bkey", boardDataList[position].bkey)
+            intent.putExtra("key",key)
+
             startActivity(intent)
         }
 
@@ -74,14 +78,12 @@ class GroupQnAActivity : AppCompatActivity() {
 
                 for (dataModel in dataSnapshot.children) {
 
-                    for (insidedataModel in dataModel.children) {
-                        Log.d(TAG, insidedataModel.toString())
+                    Log.d(TAG, dataModel.toString())
 //                    dataModel.key
 
-                        val item = insidedataModel.getValue(BoardModel::class.java)
-                        boardDataList.add(item!!)
-                        boardKeyList.add(dataModel.key.toString())
-                    }
+                    val item = dataModel.getValue(BoardModel::class.java)
+                    boardDataList.add(item!!)
+                    boardKeyList.add(dataModel.key.toString())
                 }
 
 //                boardKeyList.reverse()

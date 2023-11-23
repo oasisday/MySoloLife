@@ -148,6 +148,8 @@ class MyLikeListActivity : AppCompatActivity() {
         FirebaseRef.userLikeRef.child(otherUid).addValueEventListener(postListener)
     }
 
+
+
     private fun getMyLikeList(){
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -247,7 +249,8 @@ class MyLikeListActivity : AppCompatActivity() {
 
             FBboard.boardInfoRef.child(groupId).setValue(groupModel)
 
-
+            Toast.makeText(this,"스터디 그룹이 생성되었습니다.",Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 

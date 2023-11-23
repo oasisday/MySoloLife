@@ -68,6 +68,15 @@
             android:name="mysololife.example.sololife.board.BoardWriteActivity"
             android:exported="false" />
         <activity
+            android:name="mysololife.example.sololife.group.board.GBoardInsideActivity"
+            android:exported="false" />
+        <activity
+            android:name="mysololife.example.sololife.group.board.GBoardWriteActivity"
+            android:exported="false" />
+        <activity
+            android:name="mysololife.example.sololife.group.board.GBoardEditActivity"
+            android:exported="false" />
+        <activity
             android:name="mysololife.example.sololife.MainActivity"
             android:exported="false"
             android:label="@string/app_name" />

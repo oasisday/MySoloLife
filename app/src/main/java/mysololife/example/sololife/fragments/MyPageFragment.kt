@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import mysololife.example.sololife.Matching
 import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.message.MyLikeListActivity
 import mysololife.example.sololife.message.MyMsgActivity
@@ -47,7 +48,7 @@ class MyPageFragment : Fragment() {
         }
 
         binding.likelistBtn.setOnClickListener {
-            val intent = Intent(activity, MyLikeListActivity::class.java)
+            val intent = Intent(context, Matching::class.java)
             startActivity(intent)
         }
 
