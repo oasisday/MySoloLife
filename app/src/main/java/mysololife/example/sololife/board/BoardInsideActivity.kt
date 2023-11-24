@@ -20,11 +20,13 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.comment.CommentLVAdapter
 import mysololife.example.sololife.comment.CommentModel
 import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBRef
 import mysololife.example.sololife.utils.FirebaseAuthUtils
+import mysololife.example.sololife.utils.FirebaseRef
 import java.util.UUID
 
 class BoardInsideActivity : Activity() {
@@ -40,6 +42,8 @@ class BoardInsideActivity : Activity() {
     private lateinit var commentAdapter : CommentLVAdapter
 
     private lateinit var Uid:String
+
+    private lateinit var uid:String     //작성자 Uid값
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -64,7 +68,28 @@ class BoardInsideActivity : Activity() {
         binding.commentLV.adapter = commentAdapter
 
         getCommentData(key)
+        //getWriterData(uid)
 
+    }
+
+    private fun getWriterData(uid:String) {
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                Log.d(TAG, dataSnapshot.toString())
+                val data = dataSnapshot.getValue(UserDataModel::class.java)
+
+                binding.nameArea.text = "작성자: " + data!!.nickname
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+
+        FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
     }
 
     fun getCommentData(key : String){
@@ -102,19 +127,6 @@ class BoardInsideActivity : Activity() {
         //          - CommentData
 
 
-/*
-        FBRef
-            .commentRef
-            .child(key)
-            .push()
-            .setValue(
-                CommentModel(
-                    binding.commentArea.text.toString(),
-                    FBAuth.getTime(),
-                    Uid
-                    )
-            )
-*/
         val rkey = UUID.randomUUID().toString()
 
 // Create a reference to the "comments" node under your "commentRef"
@@ -210,7 +222,8 @@ class BoardInsideActivity : Activity() {
 
                     val myUid = FBAuth.getUid()
                     val writerUid = dataModel.uid
-
+                    uid = dataModel!!.uid
+                    getWriterData(uid)
                     if(myUid.equals(writerUid)){
                         Log.d(TAG, "내가 쓴 글")
                         binding.boardSettingIcon.isVisible = true
