@@ -1,5 +1,6 @@
 package mysololife.example.sololife.message
 
+import android.content.Intent
 import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,7 +13,9 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.databinding.DataBindingUtil
 import com.example.mysololife.R
+import com.example.mysololife.databinding.ActivityMyLikeListBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -63,6 +66,14 @@ class MyLikeListActivity : AppCompatActivity() {
         listviewAdapter = ListViewAdapter(this, likeUserList)
 
         userListView.adapter = listviewAdapter
+
+        val msgBtn = findViewById<ImageView>(R.id.msgBtn)
+
+        //메세지 버튼
+        msgBtn.setOnClickListener{
+            val intent = Intent(this, MyMsgActivity::class.java)
+            startActivity(intent)
+        }
 
         //내가 좋아요한 사람들
         getMyLikeList()

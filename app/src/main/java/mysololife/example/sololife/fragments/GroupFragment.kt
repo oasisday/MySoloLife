@@ -18,6 +18,7 @@ import mysololife.example.sololife.group.GroupDataModel
 import mysololife.example.sololife.group.GroupMainActivity
 import mysololife.example.sololife.group.GroupboardLVAdapter
 import mysololife.example.sololife.message.MyLikeListActivity
+import mysololife.example.sololife.message.MyMsgActivity
 import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBboard
 
@@ -50,6 +51,7 @@ class GroupFragment : Fragment() {
         binding.gotoBoardListView.setOnItemClickListener { parent, view, position, id->
             val intent = Intent(context, GroupMainActivity::class.java)
             intent.putExtra("key", boardKeyList[position])
+            intent.putExtra("g_name", boardKeyList[position])
             startActivity(intent)
         }
 

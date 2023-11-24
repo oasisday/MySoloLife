@@ -22,6 +22,8 @@ class GroupMainActivity : AppCompatActivity() {
 
     private lateinit var key:String
 
+    private lateinit var gname:String
+
     val myUid = FBAuth.getUid()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,10 +34,11 @@ class GroupMainActivity : AppCompatActivity() {
         getBoardData(key)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_group_main)
 
+
         binding.groupboardBtn.setOnClickListener{
             //startActivity(Intent(this, GroupQnAActivity::class.java))
-
             val intent = Intent(this, GroupQnAActivity::class.java)
+            intent.putExtra("gname",gname)
             intent.putExtra("key", key)
             startActivity(intent)
         }
@@ -52,6 +55,7 @@ class GroupMainActivity : AppCompatActivity() {
                     binding.studyName.text = dataModel!!.classname
                     binding.studyInfo.text = dataModel!!.classinfo
 
+                    gname = dataModel!!.classname.toString()
                 }
                 catch (e:Exception){
                     Log.d(TAG, "삭제완료")

@@ -32,13 +32,13 @@ class GroupboardLVAdapter(private val boardList: List<GroupDataModel>) : BaseAda
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
         var view = convertView
-        view = LayoutInflater.from(parent?.context).inflate(R.layout.gboard_list_item,parent,false)
+        view = LayoutInflater.from(parent?.context).inflate(R.layout.board_list_item,parent,false)
         val itemLinearLayoutView = view?.findViewById<LinearLayout>(R.id.gitemView)
 
 
-        view = LayoutInflater.from(parent?.context).inflate(R.layout.gboard_list_item, parent, false)
-        val title = view?.findViewById<TextView>(R.id.gtitleArea)
-        val content = view?.findViewById<TextView>(R.id.gcontentArea)
+        view = LayoutInflater.from(parent?.context).inflate(R.layout.board_list_item, parent, false)
+        val title = view?.findViewById<TextView>(R.id.titleArea)
+        val content = view?.findViewById<TextView>(R.id.contentArea)
 
         //내가 리더인 게시판이면
         if(boardList[position].leader == FBAuth.getUid()){

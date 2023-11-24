@@ -25,6 +25,9 @@ class GroupQnAActivity : AppCompatActivity() {
     // 받아온 key값
     private lateinit var key:String
 
+    // 받아온 그룹 이름 값
+    private lateinit var gname:String
+
     //TAG
     private var TAG = GroupQnAActivity::class.java.simpleName
 
@@ -49,8 +52,11 @@ class GroupQnAActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        gname = intent.getStringExtra("gname").toString()
+
         boardRVAdapter = InsideGBoardAdapter(boardDataList)
         binding.gboardListview.adapter = boardRVAdapter
+        binding.qnainsideName.setText(" \""+gname+"\"  자유게시판")
 
         getFBBoardData(key)
         Log.d("abc",key)

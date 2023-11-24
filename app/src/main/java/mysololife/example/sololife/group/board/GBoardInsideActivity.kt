@@ -58,7 +58,7 @@ class GBoardInsideActivity : Activity() {
 
         super.onCreate(savedInstanceState)
 
-        var commentLV = findViewById<ListView>(R.id.commentLV)
+        val commentLV = findViewById<ListView>(R.id.commentLV)
 
         binding = DataBindingUtil.setContentView(this, R.layout.g_activity_board_inside)
 
@@ -97,9 +97,10 @@ class GBoardInsideActivity : Activity() {
         commentAdapter = CommentLVAdapter(commentDataList)
         binding.commentLV.adapter = commentAdapter
 
+
 //        commentLV.setOnItemLongClickListener{ parent, view, position, id ->
-//            delDialog2(commentList[position].key)
-//            return@setOnItemLongClickListener (true)
+//            Toast.makeText(this,"hi",Toast.LENGTH_SHORT).show()
+//            return@setOnItemLongClickListener (false)
 //        }
 
         getCommentData(bkey)
@@ -241,7 +242,7 @@ class GBoardInsideActivity : Activity() {
                 Log.d(TAG, dataSnapshot.toString())
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
 
-                binding.nameArea.text = data!!.nickname
+                binding.nameArea.text = "작성자: " + data!!.nickname
 
 
 

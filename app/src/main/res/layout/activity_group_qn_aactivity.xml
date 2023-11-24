@@ -7,11 +7,31 @@
         android:layout_height="match_parent"
         tools:context="mysololife.example.sololife.group.GroupQnAActivity">
 
-        <ListView
+
+        <TextView
+            android:id="@+id/qnainsideName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/gboard_listview">
-        </ListView>
+            android:layout_height="45dp"
+            android:background="@color/maincolor_two"
+            android:gravity="center"
+            android:text="Study Room"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            tools:ignore="MissingConstraints"></TextView>
+
+
+        <ListView
+            android:id="@+id/gboard_listview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:choiceMode="multipleChoice"
+            android:clipToPadding="false"
+            android:divider="@color/white"
+            android:dividerHeight="8dp"
+            android:padding="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/qnainsideName" />
+
 
         <ImageView
             android:id="@+id/writeBtn"

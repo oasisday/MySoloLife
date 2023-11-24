@@ -22,7 +22,8 @@
                 android:id="@+id/profileImage"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/cmt_profile"/>
+                android:src="@drawable/cmt_profile" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

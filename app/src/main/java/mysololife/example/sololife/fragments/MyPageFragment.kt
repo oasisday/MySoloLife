@@ -61,7 +61,7 @@ class MyPageFragment : Fragment() {
     }
 
     private fun getMyData() {
-        val myUid = binding.myUid
+        //val myUid = binding.myUid
         val myNickname = binding.myNickname
         val myGender = binding.myGender
         val myImage = binding.myImage
@@ -71,9 +71,9 @@ class MyPageFragment : Fragment() {
                 Log.d(TAG, dataSnapshot.toString())
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
 
-                myUid.text = data!!.uid
-                myNickname.text = data!!.nickname
-                myGender.text = data!!.gender
+                //myUid.text = data!!.uid
+                myNickname.text = "이름 : " + data!!.nickname
+                myGender.text = "성별 : " + data!!.gender
 
                 val storageRef = Firebase.storage.reference.child(data.uid + ".png")
                 storageRef.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
