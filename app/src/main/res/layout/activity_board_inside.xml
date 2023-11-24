@@ -25,6 +25,7 @@
 
                         <TextView
                             android:id="@+id/titleArea"
+                            android:background="@color/maincolor_two"
                             android:text="title"
                             android:textColor="@color/black"
                             android:textSize="20sp"
