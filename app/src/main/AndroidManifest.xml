@@ -13,7 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MySoloLife"
         tools:replace="android:appComponentFactory, android:theme">
-
+        <activity
+            android:name="mysololife.example.sololife.CameraActivity"
+            android:exported="false" />
+        <activity
+            android:name="mysololife.example.sololife.boardUI.BoardActivity1"
+            android:exported="false" />
         <activity
             android:name="mysololife.example.sololife.group.GroupQnAActivity"
             android:exported="false" />
@@ -33,7 +38,6 @@
         <activity
             android:name="mysololife.example.sololife.group.GroupMainActivity"
             android:exported="false" />
-
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -48,7 +52,6 @@
                     android:scheme="kakao903acc73748f829977599eb159665724" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="mysololife.example.sololife.message.MyLikeListActivity"
             android:exported="false" />
@@ -66,15 +69,6 @@
             android:exported="false" />
         <activity
             android:name="mysololife.example.sololife.board.BoardWriteActivity"
-            android:exported="false" />
-        <activity
-            android:name="mysololife.example.sololife.group.board.GBoardInsideActivity"
-            android:exported="false" />
-        <activity
-            android:name="mysololife.example.sololife.group.board.GBoardWriteActivity"
-            android:exported="false" />
-        <activity
-            android:name="mysololife.example.sololife.group.board.GBoardEditActivity"
             android:exported="false" />
         <activity
             android:name="mysololife.example.sololife.MainActivity"
@@ -105,17 +99,22 @@
             android:name="mysololife.example.sololife.dashboard.MainDashboardActivity"
             android:exported="false" />
         <activity
-            android:name="mysololife.example.sololife.recorder.AudioPlayerActivity"
-            android:exported="false" />
-        <activity
             android:name="mysololife.example.sololife.recorder.GalleryActivity"
             android:exported="false" />
         <activity
             android:name="mysololife.example.sololife.recorder.RecorderMainActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="mysololife.example.sololife.translator.TranslateActivity"
             android:exported="false" />
+
+        <receiver
+            android:name="mysololife.example.sololife.recorder.AudioReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
         <service
             android:name="mysololife.example.sololife.message.fcm.FirebaseService"
             android:exported="false">
@@ -123,21 +122,29 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <service
+            android:name="mysololife.example.sololife.recorder.AudioService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="ocr" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission
         android:name="android.permission.POST_NOTIFICATIONS"
         android:minSdkVersion="33" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.VIBRATE" />
-
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="29" />
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
 </manifest>

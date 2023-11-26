@@ -9,7 +9,11 @@
         android:id="@+id/groupmakeFragment"
         android:name="mysololife.example.sololife.fragments.GroupMakeFragment"
         android:label="스터디원 모으는거"
-        tools:layout="@layout/fragment_talk" />
+        tools:layout="@layout/fragment_talk" >
+        <action
+            android:id="@+id/action_groupmakeFragment_to_maindashboardFragment"
+            app:destination="@id/maindashboardFragment" />
+    </fragment>
     <fragment
         android:id="@+id/maindashboardFragment"
         android:name="mysololife.example.sololife.fragments.MainDashboardFragment"
@@ -20,12 +24,23 @@
         android:id="@+id/groupFragment"
         android:name="mysololife.example.sololife.fragments.GroupFragment"
         android:label="그룹 만들기"
-        tools:layout="@layout/fragment_show"/>
+        tools:layout="@layout/fragment_show">
+        <action
+            android:id="@+id/action_groupFragment_to_mypageFragment"
+            app:destination="@id/mypageFragment" />
+        <action
+            android:id="@+id/action_groupFragment_to_maindashboardFragment"
+            app:destination="@id/maindashboardFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="mysololife.example.sololife.fragments.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_groupFragment"
+            app:destination="@id/groupFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mypageFragment"
         android:name="mysololife.example.sololife.fragments.MyPageFragment"
