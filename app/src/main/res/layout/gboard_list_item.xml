@@ -3,7 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/gitemView"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="100dp"
+    android:background="@drawable/background_items"
+    android:padding="20dp"
+    android:layout_margin="20dp"
     android:orientation="vertical">
 
     <TextView
@@ -12,9 +15,11 @@
         android:text="title"
         android:id="@+id/gtitleArea"
         android:textStyle="bold"
+        android:layout_gravity="center"
         android:layout_margin="5dp"
         android:textColor="@color/black"
-        android:textSize="30sp" />
+        android:textSize="24sp"
+        android:layout_marginBottom="14dp"/>
 
     <TextView
         android:id="@+id/gcontentArea"
@@ -24,6 +29,6 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:textColor="@color/black"
-        android:textSize="30sp" />
+        android:textSize="16sp" />
 
 </LinearLayout>
