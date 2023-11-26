@@ -104,6 +104,9 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-database-ktx")
 
+    //circleImg
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
+
     //stroage
     implementation("com.google.firebase:firebase-storage-ktx")
 

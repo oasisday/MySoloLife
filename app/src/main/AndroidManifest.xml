@@ -96,6 +96,15 @@
             android:name="mysololife.example.sololife.dashboard.LectureMainActivity"
             android:exported="false" />
         <activity
+            android:name="mysololife.example.sololife.group.board.GBoardEditActivity"
+            android:exported="false" />
+        <activity
+            android:name="mysololife.example.sololife.group.board.GBoardInsideActivity"
+            android:exported="false" />
+        <activity
+            android:name="mysololife.example.sololife.group.board.GBoardWriteActivity"
+            android:exported="false" />
+        <activity
             android:name="mysololife.example.sololife.dashboard.MainDashboardActivity"
             android:exported="false" />
         <activity
