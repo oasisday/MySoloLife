@@ -1,5 +1,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/gitemView"
     android:layout_width="match_parent"
     android:layout_height="100dp"
@@ -19,7 +21,7 @@
         android:textColor="#311B92"
         android:textSize="25sp" />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -28,24 +30,26 @@
             android:id="@+id/gcontentArea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Content"
-            android:layout_marginTop="3dp"
-            android:textColor="#4A148C"
             android:paddingLeft="20dp"
-            android:textSize="15sp" />
+            android:text="Content"
+            android:textColor="#4A148C"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toStartOf="@+id/gtimeArea"
+            tools:ignore="MissingConstraints" />
 
 
         <TextView
             android:id="@+id/gtimeArea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
             android:text="Time"
-            android:layout_marginTop="3dp"
             android:textColor="#4A148C"
-            android:paddingLeft="25dp"
-            android:textSize="15sp" />
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:layout_width="match_parent"

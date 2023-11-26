@@ -27,6 +27,7 @@ import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBRef
 import mysololife.example.sololife.utils.FirebaseAuthUtils
 import mysololife.example.sololife.utils.FirebaseRef
+import java.sql.Types.NULL
 import java.util.UUID
 
 class BoardInsideActivity : Activity() {
@@ -61,7 +62,12 @@ class BoardInsideActivity : Activity() {
         getImageData(key)
 
         binding.commentBtn.setOnClickListener{
-            insertComment(key)
+            if(binding.commentArea.text.toString() == ""){
+                Toast.makeText(this,"댓글 내용을 입력해주세요.",Toast.LENGTH_SHORT).show()
+            }
+            else {
+                insertComment(key)
+            }
         }
 
         commentAdapter = CommentLVAdapter(commentDataList)

@@ -51,6 +51,7 @@ class SettingActivity : AppCompatActivity() {
     private var nickname = ""
     private var gender = ""
     private var uid = ""
+    private var info = ""
 
     //이미 쓴 게 있으면//
     private lateinit var writerUid : String
@@ -100,6 +101,7 @@ class SettingActivity : AppCompatActivity() {
 
             gender = findViewById<TextInputEditText>(R.id.genderArea).text.toString()
             nickname = findViewById<TextInputEditText>(R.id.nicknameArea).text.toString()
+            info = findViewById<TextInputEditText>(R.id.infoArea).text.toString()
 
             val user = auth.currentUser
             uid = user?.uid.toString()
@@ -107,7 +109,8 @@ class SettingActivity : AppCompatActivity() {
             val userModel = UserDataModel(
                 uid,
                 nickname,
-                gender
+                gender,
+                info
             )
 
             FirebaseRef.userInfoRef.child(uid).setValue(userModel)
@@ -175,6 +178,7 @@ class SettingActivity : AppCompatActivity() {
 
                 binding.nicknameArea.setText(dataModel?.nickname)
                 binding.genderArea.setText((dataModel?.gender))
+                binding.infoArea.setText((dataModel?.info))
                 writerUid = dataModel!!.uid.toString()
 
             }

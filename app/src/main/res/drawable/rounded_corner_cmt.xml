@@ -1,0 +1,11 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Rounded Rectangle -->
+    <item android:top="2dp" android:right="2dp"> <!-- Adjust the top and right values to control the shadow position -->
+        <shape>
+            <solid android:color="@color/maincolor_one" />
+            <corners android:radius="16dp" />
+        </shape>
+    </item>
+
+</layer-list>

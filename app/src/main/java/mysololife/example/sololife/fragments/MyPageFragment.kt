@@ -65,6 +65,7 @@ class MyPageFragment : Fragment() {
         val myNickname = binding.myNickname
         val myGender = binding.myGender
         val myImage = binding.myImage
+        val myInfo = binding.myInfo
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -72,8 +73,9 @@ class MyPageFragment : Fragment() {
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
 
                 //myUid.text = data!!.uid
-                myNickname.text = "이름 : " + data!!.nickname
-                myGender.text = "성별 : " + data!!.gender
+                myNickname.text = data!!.nickname
+                myGender.text = data!!.gender
+                myInfo.text = data!!.info
 
                 val storageRef = Firebase.storage.reference.child(data.uid + ".png")
                 storageRef.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->

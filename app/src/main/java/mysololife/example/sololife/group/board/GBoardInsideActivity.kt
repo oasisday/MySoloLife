@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import mysololife.example.sololife.auth.UserDataModel
+import mysololife.example.sololife.board.BoardInsideActivity
 import mysololife.example.sololife.board.BoardModel
 import mysololife.example.sololife.comment.CommentLVAdapter
 import mysololife.example.sololife.comment.CommentModel
@@ -36,9 +37,9 @@ import java.util.UUID
 
 class GBoardInsideActivity : Activity() {
 
-    private val TAG = GBoardInsideActivity::class.java.simpleName
+    private val TAG = BoardInsideActivity::class.java.simpleName
 
-    private lateinit var binding : GActivityBoardInsideBinding
+    private lateinit var binding : ActivityBoardInsideBinding
 
     private lateinit var key:String
 
@@ -60,7 +61,7 @@ class GBoardInsideActivity : Activity() {
 
         val commentLV = findViewById<ListView>(R.id.commentLV)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.g_activity_board_inside)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_board_inside)
 
         title = intent.getStringExtra("title").toString()
         content = intent.getStringExtra("content").toString()

@@ -125,6 +125,7 @@ class  JoinActivity : AppCompatActivity() {
                                         uid,
                                         name,
                                         gender,
+                                        "자기를 소개 해주세요:)",
                                         token,
                                         false
                                     )

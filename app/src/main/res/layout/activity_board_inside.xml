@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,7 +28,7 @@
                             android:id="@+id/titleArea"
                             android:background="@color/maincolor_two"
                             android:text="title"
-                            android:textColor="@color/black"
+                            android:textColor="@color/white"
                             android:textSize="20sp"
                             android:textStyle="bold"
                             android:layout_width="match_parent"
@@ -94,7 +95,7 @@
                     android:layout_margin="20dp"
                     android:textColor="@color/black"
                     android:text="여기는 내용 영역"
-                    android:background="@drawable/background_radius"
+                    android:background="@drawable/rounded_corner_cmt"
                     android:padding="10dp"/>
 
 
@@ -112,7 +113,7 @@
                     android:gravity="center_vertical"
                     android:textSize="20dp"
                     android:textStyle="bold"
-                    android:background="#999999"
+                    android:background="@color/maincolor_four"
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="@+id/Topbar"
                     tools:ignore="UnknownId" />
@@ -129,7 +130,7 @@
             android:layout_alignParentBottom="true"
             android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:orientation="horizontal">
 
             <EditText
@@ -142,9 +143,11 @@
 
             <ImageView
                 android:id="@+id/commentBtn"
-                android:src="@drawable/btnwrite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:src="@drawable/round_send_24"
+                android:padding="5dp"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                app:tint="@color/maincolor_three" />
 
         </LinearLayout>
 

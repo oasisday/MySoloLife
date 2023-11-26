@@ -58,20 +58,21 @@ class MyPageActivity : AppCompatActivity() {
 
     private fun getMyData(){
 
-        val myUid = findViewById<TextView>(R.id.myUid)
+//        val myUid = findViewById<TextView>(R.id.myUid)
         val myNickname = findViewById<TextView>(R.id.myNickname)
         val myGender = findViewById<TextView>(R.id.myGender)
         val myImage = findViewById<ImageView>(R.id.myImage)
-
+        val myInfo = findViewById<TextView>(R.id.myInfo)
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 Log.d(TAG, dataSnapshot.toString())
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
 
-                myUid.text = data!!.uid
+                //myUid.text = data!!.uid
                 myNickname.text = data!!.nickname
                 myGender.text = data!!.gender
+                myInfo.text = data!!.info
 
                 val storageRef = Firebase.storage.reference.child(data.uid + ".png")
                 storageRef.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
