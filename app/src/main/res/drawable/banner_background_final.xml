@@ -2,8 +2,18 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 <item>
     <shape android:shape="rectangle">
-        <gradient android:startColor="#4C6184" android:endColor="#727DFF" android:angle="0"/>
-        <corners android:radius="18sp"/>
+        <!-- 그라데이션 설정 -->
+        <gradient
+            android:startColor="#E2EBF4"
+             android:endColor="@color/maincolor_one"
+            android:angle="45"/>
+
+        <!-- 코너 설정 -->
+        <corners android:radius="18dp"/>
+
+        <!-- 그림자 설정 -->
+        <padding android:left="5dp" android:right="5dp" android:top="5dp" android:bottom="5dp"/>
+        <size android:width="270dp" android:height="60dp"/>
     </shape>
 </item>
 </selector>

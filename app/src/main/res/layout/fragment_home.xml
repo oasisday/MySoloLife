@@ -159,13 +159,33 @@
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/textView4"
+        style="@style/viewParent.headerText"
+        android:text="스터디팀 목록"
+        android:textColor="@color/maincolor_seven"
+        android:textSize="25sp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintStart_toStartOf="@+id/constraintLayout2" />
+
+    <TextView
+        android:id="@+id/makestudyBtn"
+        style="@style/viewParent"
+        android:text="스터디 만들기"
+        android:textColor="@color/maincolor_six"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
+        app:layout_constraintTop_toTopOf="@+id/textView4" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
-        android:layout_height="270dp"
+        android:layout_height="200dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="40dp"
         android:background="@drawable/banner_background_final"
         android:padding="10dp"
@@ -175,32 +195,28 @@
 
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
-        <ListView
-            android:id="@+id/gotoBoardListView"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/studyteamrecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:choiceMode="multipleChoice"
-            android:divider="#00000000"
-            android:dividerHeight="8dp"
-            android:orientation="horizontal"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:layout_marginStart="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
-            />
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginBottom="32dp"
-        android:orientation="vertical"
 
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/constraintLayout2">
@@ -232,8 +248,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/maincolor_seven"
-                        app:srcCompat="@drawable/round_keyboard_voice_24" />
+                        app:srcCompat="@drawable/round_keyboard_voice_24"
+                        app:tint="@color/maincolor_seven" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
@@ -271,7 +287,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
 
-                        app:srcCompat="@drawable/timetable_icon"  />
+                        app:srcCompat="@drawable/timetable_icon" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
@@ -308,8 +324,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/maincolor_seven"
-                        app:srcCompat="@drawable/baseline_photo_camera_24"  />
+                        app:srcCompat="@drawable/baseline_photo_camera_24"
+                        app:tint="@color/maincolor_seven" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
@@ -347,8 +363,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/maincolor_seven"
-                        app:srcCompat="@drawable/round_add_icon"  />
+                        app:srcCompat="@drawable/round_add_icon"
+                        app:tint="@color/maincolor_seven" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
@@ -372,4 +388,6 @@
 
         </LinearLayout>
     </LinearLayout>
+    <!--remove the below layout with recycler view, use card poplar courses as model for design-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

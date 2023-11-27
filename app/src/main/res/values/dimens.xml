@@ -2,4 +2,7 @@
 <resources>
     <dimen name="btn_size">56dp</dimen>
     <dimen name="btnSize">40dp</dimen>
+    <dimen name="card_image_elevation">4dp</dimen>
+    <dimen name="card_itemcourse_elevation">2dp</dimen>
+    <dimen name="headerTextSize">24dp</dimen>
 </resources>
