@@ -1,7 +1,13 @@
 package mysololife.example.sololife.fragments
 
+import android.Manifest
 import android.app.AlertDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,6 +17,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat.getSystemService
 import com.bumptech.glide.Glide
 import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivityMyPageBinding
@@ -186,6 +196,9 @@ class MyPageFragment : Fragment() {
 
                         if(email == data!!.email){
                             userLikeRef.child(currentUser.toString()).child(data!!.uid.toString()).setValue("true")
+
+                            userLikeOtherUser(currentUser.toString(),data!!.uid.toString())
+
                             Log.d("aaaa", data!!.nickname.toString())
                             name = data!!.nickname.toString()
                             check = false
@@ -214,5 +227,80 @@ class MyPageFragment : Fragment() {
 
 
         //mBuilder.show()
+    }
+    private fun userLikeOtherUser(myUid : String, otherUid : String){
+        FirebaseRef.userLikeRef.child(uid).child(otherUid).setValue("true")
+
+        getOtherUserLikeList(otherUid)
+    }
+    private fun getOtherUserLikeList(otherUid: String){
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                for (dataModel in dataSnapshot.children){
+                    val likeUserKey = dataModel.key.toString()
+                    if(likeUserKey.equals(uid)){
+                        Toast.makeText(activity,"matching success!!", Toast.LENGTH_SHORT).show()
+                        createNotificationChannel()
+                        sendNotification()
+                    }
+
+                }
+
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        FirebaseRef.userLikeRef.child(otherUid).addValueEventListener(postListener)
+    }
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "name"
+            val descriptionText = "description"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("Test_ch", name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+    private fun sendNotification(){
+        var builder = activity?.let {
+            NotificationCompat.Builder(it, "Test_ch")
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle("Study Matching")
+                .setContentText("새로운 스터디원과 연결되었습니다. 확인해보세요!")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        }
+        if (builder != null) {
+            with(activity?.let { NotificationManagerCompat.from(it) }){
+                if (activity?.let {
+                        ActivityCompat.checkSelfPermission(
+                            it,
+                            Manifest.permission.POST_NOTIFICATIONS
+                        )
+                    } != PackageManager.PERMISSION_GRANTED
+                ) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return
+                }
+                this?.notify(123,builder.build())
+            }
+        }
     }
 }
