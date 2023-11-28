@@ -4,7 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/maincolor_one"
     tools:context="mysololife.example.sololife.Matching">
+
+    <View
+        android:id="@+id/bottomSheetBG"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/opoqueBG"
+ />
 
     <com.yuyakaido.android.cardstackview.CardStackView
         android:layout_width="match_parent"

@@ -12,6 +12,8 @@ class FirebaseRef {
         val userLikeRef = database.getReference("userLike")
         val userMsgRef = database.getReference("userMsg")
 
+        val userDataRef = database.getReference("userData")
+
     }
 
 }

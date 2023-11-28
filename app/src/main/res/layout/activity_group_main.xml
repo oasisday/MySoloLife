@@ -76,6 +76,13 @@
             android:text="그룹게시판"
             />
 
+        <Button
+            android:id="@+id/groupLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="그룹 탈퇴"
+            />
 
 
     </LinearLayout>

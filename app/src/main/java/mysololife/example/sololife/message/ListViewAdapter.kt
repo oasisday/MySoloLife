@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.mysololife.R
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.internal.ContextUtils.getActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -66,14 +67,17 @@ class ListViewAdapter(val context : Context, val items : MutableList<UserDataMod
                     if(task.isSuccessful) {
 
                         convertView?.context?.let {
-                            if (profile != null) {
-                                Glide.with(it)
-                                    .load(task.result)
-                                    .into(profile)
+                            if(context != null) {
+                                if (profile != null) {
+                                    Glide.with(it)
+                                        .load(task.result)
+                                        .into(profile)
+                                }
                             }
                         }
 
                     } else {
+
                     }
                 })
             }

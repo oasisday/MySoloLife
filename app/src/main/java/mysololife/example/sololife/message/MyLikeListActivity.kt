@@ -52,6 +52,8 @@ class MyLikeListActivity : AppCompatActivity() {
 
     lateinit var groupId : String
 
+    lateinit var mBuilder : AlertDialog.Builder
+    lateinit var mAlertDialog : AlertDialog
     private var groupModel = GroupDataModel(
         null,null, null, null
     )
@@ -78,17 +80,6 @@ class MyLikeListActivity : AppCompatActivity() {
         //내가 좋아요한 사람들
         getMyLikeList()
 
-        //짧은 클릭
-        userListView.setOnItemClickListener{ parent, view, position, id ->
-
-            //checkMatching(likeUserList[position].uid.toString())
-            /*
-            val notiModel = NotiModel("a", "b")
-
-            val pushModel = PushNotification(notiModel,likeUserList[position].token.toString())
-            testPush(pushModel)
-            */
-        }
         //긴 클릭
         userListView.setOnItemLongClickListener{ parent, view, position, id ->
 
@@ -120,10 +111,43 @@ class MyLikeListActivity : AppCompatActivity() {
 
                 }
 
-            showDialog2()
+            //showDialog2()
+
+            val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog_board, null)
+            mBuilder = AlertDialog.Builder(this)
+                .setView(mDialogView)
+                .setTitle("과목 정보입력")
+
+            mAlertDialog = mBuilder.show()
+
+            val btn = mAlertDialog.findViewById<Button>(R.id.sendBtn)
+            val classNameArea = mAlertDialog.findViewById<EditText>(R.id.classNameArea)
+            val classInfoArea = mAlertDialog.findViewById<EditText>(R.id.classInfoArea)
+
+            btn?.setOnClickListener{
+
+                val classText = classNameArea!!.text.toString()
+                val infoText = classInfoArea!!.text.toString()
+
+                groupModel.classname = classText
+                groupModel.classinfo = infoText
+
+                FBboard.boardInfoRef.child(groupId).setValue(groupModel)
+
+                Toast.makeText(this,"스터디 그룹이 생성되었습니다.",Toast.LENGTH_SHORT).show()
+                finish()
+            }
         }
 
 
+    }
+
+    override fun onDestroy() {
+
+        if (mAlertDialog != null && mAlertDialog!!.isShowing) {
+            mAlertDialog!!.dismiss()
+        }
+        super.onDestroy()
     }
 
     private fun checkMatching(otherUid : String){

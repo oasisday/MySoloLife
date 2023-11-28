@@ -25,6 +25,7 @@ import java.util.regex.Pattern
 import androidx.core.app.ActivityCompat
 import com.example.mysololife.databinding.ActivitySignupFinalBinding
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.UserInfo
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import mysololife.example.sololife.utils.FirebaseRef
@@ -125,12 +126,20 @@ class  JoinActivity : AppCompatActivity() {
                                         uid,
                                         name,
                                         gender,
-                                        "자기를 소개 해주세요:)",
+                                        null,
                                         token,
                                         false
                                     )
 
+                                    val userInfo = UserInfoModel(
+                                        uid,
+                                        name,
+                                        email
+                                    )
+
                                     FirebaseRef.userInfoRef.child(uid).setValue(userModel)
+                                    FirebaseRef.userDataRef.child(uid).setValue(userInfo)
+
                                     uploadImage(uid)
 
                                     Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
