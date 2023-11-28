@@ -1,6 +1,7 @@
 package mysololife.example.sololife
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
@@ -48,6 +50,7 @@ class Matching : AppCompatActivity() {
 
     private val uid = FirebaseAuthUtils.getUid()
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_matching)
@@ -63,9 +66,10 @@ class Matching : AppCompatActivity() {
 
                 if(direction == Direction.Right){
                     userLikeOtherUser(uid,usersDataList[userCount].uid.toString())
+                    //lightOverlay.bringToFront()
                 }
                 if(direction == Direction.Left){
-
+                    //rightOverlay.bringToFront()
                 }
 
                 userCount = userCount + 1
@@ -111,9 +115,9 @@ class Matching : AppCompatActivity() {
                     //본인 빼고
                     if(user!!.uid.toString().equals(currentUserUid)){
 
-                    }else{
+                    }
+                    else{
                         usersDataList.add(user!!)
-
                     }
                 }
 
@@ -127,6 +131,28 @@ class Matching : AppCompatActivity() {
             }
         }
         FirebaseRef.userInfoRef.addValueEventListener(postListener)
+    }
+
+    private fun is_like(uid : String) {
+
+        var ans = true
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                val data = dataSnapshot.value.toString()
+
+                Log.d("abc",data)
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        FirebaseRef.userLikeRef.child(uid).addValueEventListener(postListener)
+
     }
 
     private fun getMyUserData(){

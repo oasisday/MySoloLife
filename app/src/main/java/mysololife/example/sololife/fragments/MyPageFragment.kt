@@ -77,6 +77,10 @@ class MyPageFragment : Fragment() {
                 myGender.text = data!!.gender
                 myInfo.text = data!!.info
 
+                if(myInfo.text == ""){
+                    myInfo.text = "자기소개를 해주세요:)"
+                }
+
                 val storageRef = Firebase.storage.reference.child(data.uid + ".png")
                 storageRef.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
                     if (task.isSuccessful) {

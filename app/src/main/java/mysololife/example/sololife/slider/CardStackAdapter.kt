@@ -51,8 +51,14 @@ class CardStackAdapter(val context : Context, val items : List<UserDataModel>) :
 
             })
 
-            nickname.text = "Name: " + data.nickname
-            gender.text = "학년: " + data.gender
+            nickname.text = data.nickname
+            gender.text = data.info
+
+            if(gender.text==""){
+                gender.text="아직 등록된 정보가 없습니다."
+            }
+
+
         }
 
     }

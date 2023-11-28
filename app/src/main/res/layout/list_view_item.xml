@@ -1,32 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    tools:ignore="MissingDefaultResource">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileImg"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:src="@drawable/cmt_profile"
+        app:civ_border_overlay="false"
+        app:civ_border_color="@color/maincolor_two"
+        app:civ_border_width="3dp"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingLeft="15dp"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+
+        <TextView
+            android:id="@+id/listViewItemNickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User Name"
+            android:textSize="20sp"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
 
     <CheckBox
-        android:id="@+id/likeCheckox"
+        android:id="@+id/likeCheckbox"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:focusable="false"/>
-
-    <TextView
-        android:id="@+id/listViewItemNicknameArea"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:textStyle="bold"
-        android:text="Nickname: "
-        android:textSize="20sp"/>
-    <TextView
-        android:id="@+id/listViewItemNickname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="강민기"
-        android:textColor="@color/black"
-        android:textSize="20sp"/>
-
+        android:layout_gravity="center"
+        android:layout_marginEnd="16dp"
+        android:focusable="false"
+        android:buttonTint="@color/maincolor_three"/>
 
 </LinearLayout>

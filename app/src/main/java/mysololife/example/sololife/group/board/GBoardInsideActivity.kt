@@ -99,10 +99,6 @@ class GBoardInsideActivity : Activity() {
         binding.commentLV.adapter = commentAdapter
 
 
-//        commentLV.setOnItemLongClickListener{ parent, view, position, id ->
-//            Toast.makeText(this,"hi",Toast.LENGTH_SHORT).show()
-//            return@setOnItemLongClickListener (false)
-//        }
 
         getCommentData(bkey)
 

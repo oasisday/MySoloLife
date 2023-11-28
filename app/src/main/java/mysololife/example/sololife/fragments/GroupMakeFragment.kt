@@ -91,4 +91,5 @@ class GroupMakeFragment : Fragment() {
         FBRef.boardRef.addValueEventListener(postListener)
 
     }
+
 }
