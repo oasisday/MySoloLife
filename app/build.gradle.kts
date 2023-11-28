@@ -167,6 +167,9 @@ dependencies {
     implementation ("com.google.android.gms:play-services-mlkit-text-recognition-japanese:16.0.0")
     implementation ("com.google.android.gms:play-services-mlkit-text-recognition-korean:16.0.0")
 
+    //alarm manager
+    implementation("com.github.ColdTea-Projects:SmplrAlarm:2.1.1")
+
     //boardUI
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 

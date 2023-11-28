@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="mysololife.example.sololife.alarm.AlarmsetActivity">
+
+    <ListView
+        android:id="@+id/alarmListView"
+        android:layout_width="0dp"
+        android:layout_height="350dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/banner_background_final"
+        android:padding="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/showTimeTextView" />
+
+    <TextView
+        android:id="@+id/showTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:text="녹음 예약 정보"
+        android:textColor="@color/maincolor_seven"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/plusTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="녹음 예약 추가하기"
+        android:textSize="14sp"
+        android:textColor="@color/maincolor_seven"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alarmListView" />
+    <View
+        android:id="@+id/bottomSheetBG"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/opoqueBG"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/alarmsetConstraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:background="@drawable/background_round"
+
+        android:layout_marginTop="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alarmListView"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:id="@+id/daySelectionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/alarmsetConstraintLayout">
+
+            <ToggleButton
+                android:id="@+id/mondayToggleButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/toggle_button_selector"
+                android:textColor="@drawable/toggle_button_text_selector"
+                android:textOff="월"
+                android:textOn="월" />
+
+            <ToggleButton
+                android:id="@+id/tuesdayToggleButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="8dp"
+                android:background="@drawable/toggle_button_selector"
+                android:textColor="@drawable/toggle_button_text_selector"
+                android:textOff="화"
+                android:textOn="화" />
+
+            <ToggleButton
+                android:id="@+id/wednesdayToggleButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="8dp"
+                android:background="@drawable/toggle_button_selector"
+                android:textColor="@drawable/toggle_button_text_selector"
+                android:textOff="수"
+                android:textOn="수" />
+
+            <ToggleButton
+                android:id="@+id/thursdayToggleButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="8dp"
+                android:background="@drawable/toggle_button_selector"
+                android:textColor="@drawable/toggle_button_text_selector"
+                android:textOff="목"
+                android:textOn="목" />
+
+            <ToggleButton
+                android:id="@+id/fridayToggleButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="8dp"
+                android:background="@drawable/toggle_button_selector"
+                android:textColor="@drawable/toggle_button_text_selector"
+                android:textOff="금"
+                android:textOn="금" />
+
+            <ToggleButton
+                android:id="@+id/saturdayToggleButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="8dp"
+                android:background="@drawable/toggle_button_selector"
+                android:textColor="@color/maincolor_seven"
+                android:textOff="토"
+                android:textOn="토" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/timePicker">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancel"
+                android:layout_width="140dp"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/gray"
+                android:text="취소"
+                android:textColor="@color/grayDark"
+                app:cornerRadius="26dp"
+                app:rippleColor="@color/grayDark" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnOk"
+                android:layout_width="140dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:backgroundTint="@color/maincolor_seven"
+                android:text="저장"
+                android:textColor="@color/white"
+                app:cornerRadius="26dp"
+                app:rippleColor="@color/grayDark" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/timePicker"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            android:background="#2775DC"
+            android:text="12:12"
+            android:textColor="@color/background"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textSize="50sp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/daySelectionLayout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

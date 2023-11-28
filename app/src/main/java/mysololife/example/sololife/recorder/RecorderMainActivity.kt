@@ -28,6 +28,7 @@ import com.example.mysololife.databinding.ActivityRecorderMainBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import mysololife.example.sololife.MainActivity
 import mysololife.example.sololife.recorder.AudioReceiver.Companion.TAG
 import mysololife.example.sololife.recorder.GalleryActivity
 import java.io.File
@@ -75,6 +76,10 @@ class RecorderMainActivity : AppCompatActivity(), OnRecordingStateChangeListener
         val functionName = intent.getStringExtra("EXTRA_FUNCTION_TO_CALL")
         Log.d(TAG, functionName.toString())
 
+        val onClickShortcutIntent = Intent(
+            applicationContext,
+            MainActivity::class.java
+        )
         audioRecorder = AudioRecorder.getInstance()
         audioRecorder.dirPath = "${externalCacheDir?.absolutePath}/"
         audioRecorder.permissionGranted = (ActivityCompat.checkSelfPermission(
