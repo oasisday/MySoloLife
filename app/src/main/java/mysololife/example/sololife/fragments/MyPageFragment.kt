@@ -1,5 +1,6 @@
 package mysololife.example.sololife.fragments
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.mysololife.R
@@ -25,6 +28,7 @@ import mysololife.example.sololife.auth.UserInfoModel
 import mysololife.example.sololife.message.MyLikeListActivity
 import mysololife.example.sololife.message.MyMsgActivity
 import mysololife.example.sololife.setting.SettingActivity
+import mysololife.example.sololife.utils.FBRef
 import mysololife.example.sololife.utils.FirebaseAuthUtils
 import mysololife.example.sololife.utils.FirebaseRef
 import mysololife.example.sololife.utils.FirebaseRef.Companion.userLikeRef
@@ -69,6 +73,7 @@ class MyPageFragment : Fragment() {
         }
 
         binding.plusBtn.setOnClickListener{
+            /*
             val email = binding.getEmail.text.toString()
 
             val current_user = Firebase.auth.currentUser?.uid
@@ -97,8 +102,9 @@ class MyPageFragment : Fragment() {
             }
 
             FirebaseRef.userDataRef.addValueEventListener(postListener)
+*/
 
-
+            addDialog()
 
 
         }
@@ -148,4 +154,65 @@ class MyPageFragment : Fragment() {
     }
 
 
+    private fun addDialog(){
+
+        var check = true
+
+        var name = ""
+
+        val mDialogView = LayoutInflater.from(activity).inflate(R.layout.custom_dialog_add, null)
+        val mBuilder = AlertDialog.Builder(activity)
+            .setView(mDialogView)
+            .setTitle("E-mail로 친구추가")
+
+        val alertDialog = mBuilder.show()
+        val getTxt = alertDialog.findViewById<EditText>(R.id.getEmail)
+
+        alertDialog.findViewById<Button>(R.id.plusBtn)?.setOnClickListener{
+
+
+            val email = getTxt.text.toString()
+
+            val currentUser = Firebase.auth.currentUser?.uid
+
+            Log.d("aaa",email)
+
+            val postListener = object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                    for (dataModel in dataSnapshot.children){
+                        val data = dataModel.getValue(UserInfoModel::class.java)
+                        Log.d(TAG, data.toString())
+
+                        if(email == data!!.email){
+                            userLikeRef.child(currentUser.toString()).child(data!!.uid.toString()).setValue("true")
+                            Log.d("aaaa", data!!.nickname.toString())
+                            name = data!!.nickname.toString()
+                            check = false
+                        }
+                    }
+
+                    if(check) Toast.makeText(activity,"존재하지 않는 E-mail 입니다.", Toast.LENGTH_SHORT).show()
+                    else {
+                        Toast.makeText(activity,name+"님을 친구로 추가하였습니다.",Toast.LENGTH_SHORT).show()
+                        alertDialog.dismiss()
+                    }
+
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    // Getting Post failed, log a message
+                    Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                }
+            }
+
+            FirebaseRef.userDataRef.addValueEventListener(postListener)
+            //finish()
+
+        }
+
+
+
+        //mBuilder.show()
+    }
 }

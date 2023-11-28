@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:id="@+id/getEmail"
+            android:layout_width="270dp"
+            android:layout_height="50dp"
+            style="@style/AuthEditText"
+            android:hint="추가할 친구 E-mail"/>
+
+        <android.widget.Button
+            android:id="@+id/plusBtn"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:background="@drawable/background_radius_yellow"
+            android:textSize="10sp"
+            android:text="추가" />
+
+    </LinearLayout>
+
+</LinearLayout>

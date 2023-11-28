@@ -154,28 +154,27 @@
                     android:background="@drawable/bottom_background_final"
                     android:layout_marginStart="10dp" />
             </LinearLayout>
-
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-
-                <EditText
-                    android:id="@+id/getEmail"
-                    android:layout_width="250dp"
-                    android:layout_height="50dp"
-                    style="@style/AuthEditText"
-                    android:hint="추가할 친구 E-mail"/>
-
-                <Button
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:text="친구추가"
+                <android.widget.Button
                     android:id="@+id/plusBtn"
-                    android:textColor="@color/white"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="이메일로 친구추가"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/background_radius_yellow"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="MissingConstraints" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
@@ -184,7 +183,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="50dp"
             android:layout_marginBottom="75dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/white_background_final"
