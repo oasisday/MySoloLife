@@ -26,7 +26,7 @@
             android:textColor="@color/white"
             android:layout_weight="1"
             android:background="@drawable/background_radius_yellow"
-            android:textSize="10sp"
+            android:textSize="22sp"
             android:text="추가" />
 
     </LinearLayout>
