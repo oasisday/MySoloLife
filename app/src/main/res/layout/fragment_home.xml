@@ -17,10 +17,10 @@
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="250dp"
             android:layout_marginBottom="46dp"
             android:scaleType="fitXY"
-            android:src="@drawable/top_background"
+            android:src="@drawable/sky_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -60,7 +60,9 @@
             app:layout_constraintBottom_toBottomOf="@+id/nicknameTextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView3"
-            android:background="@drawable/ic_profilecircle" />
+
+            android:background="@drawable/ic_profilecircle"
+            />
 
         <LinearLayout
             android:id="@+id/midlayout"
@@ -68,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/white_background_final"
             android:elevation="4dp"
             android:orientation="horizontal"
@@ -173,7 +176,7 @@
         android:id="@+id/makestudyBtn"
         style="@style/viewParent"
         android:text="스터디 만들기"
-        android:textColor="@color/maincolor_six"
+        android:textColor="@color/maincolor_three"
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView4"
@@ -183,10 +186,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginStart="40dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="60dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="30dp"
         android:background="@drawable/banner_background_final"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -213,7 +216,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="25dp"
 
         android:orientation="vertical"
@@ -286,8 +289,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-
-                        app:srcCompat="@drawable/timetable_icon" />
+                        app:srcCompat="@drawable/baseline_calendar_view_month_24"
+                        app:tint="@color/maincolor_seven" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView

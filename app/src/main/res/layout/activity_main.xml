@@ -24,7 +24,7 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"
         android:layout_height="65dp"
-        android:background="@color/maincolor_six"
+        android:background="#64B4FA"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

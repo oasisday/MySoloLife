@@ -38,7 +38,7 @@ class MainDashboardActivity : AppCompatActivity(), OnItemClickListener {
         binding.recyclerView.adapter!!.apply {
             notifyDataSetChanged()
         }
-        binding.reginsterBtn.setOnClickListener {
+        binding.animationView.setOnClickListener {
             Intent(this, LectureInitActivity::class.java).apply {
                 startActivity(this)
             }
@@ -51,7 +51,7 @@ class MainDashboardActivity : AppCompatActivity(), OnItemClickListener {
             binding.animationView.visibility = View.VISIBLE
             binding.animationView.setAnimation(R.raw.heart)
             val heartEmoji = "\uD83D\uDC97"
-            binding.textView3.text = "강의를 등록하세요 $heartEmoji"
+            binding.textView3.text = "아이콘을 눌러 강의를 등록하세요 $heartEmoji"
             binding.textView3.textSize =16f
         }
         else {

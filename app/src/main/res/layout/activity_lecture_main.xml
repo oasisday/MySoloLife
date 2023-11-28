@@ -123,7 +123,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/reserveBtn"
                 app:layout_constraintEnd_toEndOf="@+id/reserveBtn" />
             <TextView
-                android:id="@+id/four"
+                android:id="@+id/groupOutBtn"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_margin="16dp"
@@ -143,11 +143,11 @@
                 android:layout_height="70dp"
                 android:layout_margin="10dp"
                 android:src="@drawable/round_question_mark_24"
-                app:layout_constraintBottom_toBottomOf="@+id/four"
-                app:layout_constraintEnd_toEndOf="@+id/four" />
+                app:layout_constraintBottom_toBottomOf="@+id/groupOutBtn"
+                app:layout_constraintEnd_toEndOf="@+id/groupOutBtn" />
 
             <TextView
-                android:id="@+id/five"
+                android:id="@+id/locationShareBtn"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_margin="16dp"
@@ -160,7 +160,7 @@
                 android:text="스터디원 위치 공유"
                 app:layout_constraintEnd_toEndOf="@+id/one"
                 app:layout_constraintStart_toStartOf="@+id/one"
-                app:layout_constraintTop_toBottomOf="@+id/four" />
+                app:layout_constraintTop_toBottomOf="@+id/groupOutBtn" />
 
             <ImageView
                 android:id="@+id/imageView21"
@@ -168,8 +168,8 @@
                 android:layout_height="70dp"
                 android:layout_margin="10dp"
                 android:src="@drawable/round_gps_fixed_24"
-                app:layout_constraintBottom_toBottomOf="@+id/five"
-                app:layout_constraintEnd_toEndOf="@+id/five" />
+                app:layout_constraintBottom_toBottomOf="@+id/locationShareBtn"
+                app:layout_constraintEnd_toEndOf="@+id/locationShareBtn" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/bestSeller3RecyclerView"
@@ -180,7 +180,7 @@
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/five" />
+                app:layout_constraintTop_toBottomOf="@id/locationShareBtn" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

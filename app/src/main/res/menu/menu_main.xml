@@ -14,13 +14,6 @@
         android:title="대시보드"/>
 
 
-
-    <item
-        android:id="@+id/groupFragment"
-        android:icon="@drawable/round_group_24"
-        android:background="#96ADE4"
-        android:title="스터디 팀"/>
-
     <item
         android:id="@+id/groupmakeFragment"
         android:icon="@drawable/baseline_format_list_bulleted_24"

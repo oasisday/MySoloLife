@@ -7,9 +7,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.NavDirections
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.mysololife.R
 import com.example.mysololife.databinding.FragmentHomeBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.DataSnapshot
@@ -53,21 +58,11 @@ class HomeFragment : Fragment(),OnItemClickListener{
 
         getFBBoardData()
 
-        studyteamAdapter = StudyTeamAdapter(boardDataList,this)
-        binding.studyteamrecyclerView.apply {
-
-            adapter = studyteamAdapter
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        }
 
         binding.makestudyBtn.setOnClickListener {
                 val intent = Intent(activity, MyLikeListActivity::class.java)
                 startActivity(intent)
         }
-        binding.studyteamrecyclerView.adapter!!.apply {
-            notifyDataSetChanged()
-        }
-        studyteamAdapter.notifyDataSetChanged()
         binding.matchingBtn.setOnClickListener{
             val intent = Intent(context, Matching::class.java)
             startActivity(intent)
@@ -93,14 +88,17 @@ class HomeFragment : Fragment(),OnItemClickListener{
                         }
                     }
 
-                    //boardDataList.add(item!!)
-                    //boardKeyList.add(dataModel.key.toString())
-
                 }
 
                 boardKeyList.reverse()
                 boardDataList.reverse()
                 Log.d("homefragment", boardDataList.toString())
+                studyteamAdapter = StudyTeamAdapter(boardDataList,this@HomeFragment)
+                binding.studyteamrecyclerView.apply {
+
+                    adapter = studyteamAdapter
+                    layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                }
 
             }
 
@@ -165,9 +163,8 @@ class HomeFragment : Fragment(),OnItemClickListener{
     }
 
     override fun onItemClickListener(position: Int) {
-        val intent = Intent(context, GroupMainActivity::class.java)
-        intent.putExtra("key", boardKeyList[position])
-        startActivity(intent)
+        val bundle = bundleOf("amount" to boardKeyList[position])
+        view?.findNavController()?.navigate(R.id.action_homeFragment_to_groupMainFragment,bundle)
     }
 
 }

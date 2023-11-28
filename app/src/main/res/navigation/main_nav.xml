@@ -20,31 +20,30 @@
         android:label="TimeTableFragment"
         tools:layout="@layout/activity_main_dashboard"/>
 
-    <fragment
-        android:id="@+id/groupFragment"
-        android:name="mysololife.example.sololife.fragments.GroupFragment"
-        android:label="그룹 만들기"
-        tools:layout="@layout/fragment_show">
-        <action
-            android:id="@+id/action_groupFragment_to_mypageFragment"
-            app:destination="@id/mypageFragment" />
-        <action
-            android:id="@+id/action_groupFragment_to_maindashboardFragment"
-            app:destination="@id/maindashboardFragment" />
-    </fragment>
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="mysololife.example.sololife.fragments.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
+
         <action
-            android:id="@+id/action_homeFragment_to_groupFragment"
-            app:destination="@id/groupFragment" />
+            android:id="@+id/action_homeFragment_to_groupMainFragment"
+            app:destination="@id/groupMainFragment" >
+
+        </action>
     </fragment>
     <fragment
         android:id="@+id/mypageFragment"
         android:name="mysololife.example.sololife.fragments.MyPageFragment"
         android:label="마이페이지Fragment"
         tools:layout="@layout/activity_my_page"/>
+    <fragment
+        android:id="@+id/groupMainFragment"
+        android:name="mysololife.example.sololife.fragments.GroupMainFragment"
+        android:label="GroupMainFragment"
+        tools:layout="@layout/fragment_studyteam">
+
+    </fragment>
 
 </navigation>
