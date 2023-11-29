@@ -38,7 +38,7 @@ class InsideGBoardAdapter(val items: MutableList<BoardModel>): BaseAdapter() {
 
         val itemLinearLayoutView = view?.findViewById<LinearLayout>(R.id.itemView)
         val title = view?.findViewById<TextView>(R.id.gtitleArea)
-        val content = view?.findViewById<TextView>(R.id.gcontentArea)
+        val content = view?.findViewById<TextView>(R.id.contentArea)
         val time = view?.findViewById<TextView>(R.id.gtimeArea)
 
         if(items[position].uid.equals(FBAuth.getUid())){

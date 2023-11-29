@@ -19,6 +19,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import mysololife.example.sololife.board.BoardModel
+import mysololife.example.sololife.board.BoardWriteActivity
 import mysololife.example.sololife.group.GroupDataModel
 import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBRef
@@ -28,8 +29,8 @@ import java.util.UUID
 
 class GBoardWriteActivity : Activity() {
 
-    private lateinit var binding : GActivityBoardWriteBinding
-    private val TAG = GBoardWriteActivity::class.java.simpleName
+    private lateinit var binding : ActivityBoardWriteBinding
+    private val TAG = BoardWriteActivity::class.java.simpleName
     private var isImageUpload = false
 
     // 받아온 key값
@@ -45,7 +46,7 @@ class GBoardWriteActivity : Activity() {
 
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.g_activity_board_write)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_board_write)
         key = intent.getStringExtra("key").toString()
 
         getGroupData(key)

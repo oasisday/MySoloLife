@@ -65,7 +65,7 @@ class Matching : AppCompatActivity() {
             override fun onCardSwiped(direction: Direction?) {
 
                 if(direction == Direction.Right){
-                    userLikeOtherUser(uid,usersDataList[userCount].uid.toString())
+                    //userLikeOtherUser(uid,usersDataList[userCount].uid.toString())
                     //lightOverlay.bringToFront()
 
                     checkUid(uid, usersDataList[userCount].uid.toString()) { result ->
@@ -145,6 +145,9 @@ class Matching : AppCompatActivity() {
             }
         }
         FirebaseRef.userInfoRef.addValueEventListener(postListener)
+
+
+
     }
 
     private fun is_like(uid : String) {

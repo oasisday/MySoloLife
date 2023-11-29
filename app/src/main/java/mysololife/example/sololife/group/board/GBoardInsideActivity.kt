@@ -176,7 +176,7 @@ class GBoardInsideActivity : Activity() {
             .setTitle("게시글 수정/삭제")
 
         val alertDialog = mBuilder.show()
-        alertDialog.findViewById<Button>(R.id.editBtn)?.setOnClickListener{
+        alertDialog.findViewById<Button>(R.id.btnEdit)?.setOnClickListener{
 
             val intent = Intent(this, GBoardEditActivity::class.java)
             intent.putExtra("key", key)

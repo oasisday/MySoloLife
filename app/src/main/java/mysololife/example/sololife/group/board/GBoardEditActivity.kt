@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import mysololife.example.sololife.board.BoardModel
+import mysololife.example.sololife.board.BoardWriteActivity
 import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBRef
 import mysololife.example.sololife.utils.FBboard
@@ -32,9 +33,9 @@ class GBoardEditActivity : Activity() {
 
     private lateinit var key:String
 
-    private lateinit var binding : ActivityBoardEditBinding
+    private lateinit var binding : ActivityBoardWriteBinding
 
-    private var TAG = GBoardEditActivity::class.java.simpleName
+    private var TAG = BoardWriteActivity::class.java.simpleName
 
     private lateinit var writerUid : String
 
@@ -50,7 +51,7 @@ class GBoardEditActivity : Activity() {
 
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_board_edit)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_board_write)
 
         key = intent.getStringExtra("key").toString()
 
@@ -63,12 +64,12 @@ class GBoardEditActivity : Activity() {
 
         binding.titleArea.setText(title)
         binding.contentArea.setText(content)
-
+        binding.title.text = "게시물 수정"
 
         //getBoardData(bkey)
         getImageData(bkey)
 
-        binding.editBtn.setOnClickListener{
+        binding.writeBtn.setOnClickListener{
             editBoardData(key)
         }
 

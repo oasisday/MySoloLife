@@ -16,7 +16,7 @@
             android:id="@+id/fragmentName"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/maincolor_two"
+            android:background="@color/maincolor_seven"
             android:gravity="center"
             android:text="자유게시판"
             android:textAlignment="center"
@@ -49,20 +49,45 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <android.widget.Button
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/writeBtn"
             android:layout_width="150dp"
             android:layout_height="45dp"
-            android:background="@drawable/background_radius_yellow2"
-            android:text="글쓰기"
-            android:textColor="@color/maincolor_three"
+            android:background="@drawable/background_radius_yellow4"
+            android:textColor="@color/maincolor_seven"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginBottom="15dp"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints" >
+
+            <android.widget.ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/pencil"
+                android:tint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textView9"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.widget.TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/white"
+                android:text=" 글쓰기"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 

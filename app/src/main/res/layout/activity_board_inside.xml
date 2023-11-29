@@ -11,9 +11,9 @@
             android:id="@+id/boardArea"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@color/maincolor_two"
+            android:background="@color/maincolor_seven"
             android:gravity="center"
-            android:text="title"
+            android:text="자유게시판"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -133,6 +133,7 @@
                     android:text="    Comment"
                     android:textSize="20dp"
                     android:textStyle="bold"
+                    android:textColor="@color/black"
                     tools:ignore="UnknownId" />
 
 

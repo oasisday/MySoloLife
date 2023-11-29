@@ -4,56 +4,82 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/gitemView"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="130dp"
     android:orientation="vertical"
-    android:layout_margin="25dp"
-    android:padding="15dp"
-    android:background="@drawable/rounded_corner"
-    android:outlineSpotShadowColor="#673AB7"
-    android:outlineAmbientShadowColor="#673AB7">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Title"
-        android:id="@+id/gtitleArea"
-        android:textStyle="bold"
-        android:textColor="#311B92"
-        android:textSize="25sp" />
+    android:layout_margin="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:layout_marginTop="5dp"
+                android:id="@+id/gtitleArea"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                tools:ignore="MissingConstraints" />
 
-        <TextView
-            android:id="@+id/gcontentArea"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:text="Content"
-            android:textColor="#4A148C"
-            android:textSize="10sp"
-            app:layout_constraintEnd_toStartOf="@+id/gtimeArea"
-            tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/contentArea"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="Content"
+                android:textSize="20sp"
+                android:textColor="#696969"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:ignore="MissingConstraints"
+                android:layout_marginRight="15dp">
+
+                <TextView
+                    android:id="@+id/nameArea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="name"
+                    android:textColor="#999999"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toStartOf="@+id/gtimeArea"
+                    tools:ignore="MissingConstraints" />
 
 
-        <TextView
-            android:id="@+id/gtimeArea"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:text="Time"
-            android:textColor="#4A148C"
-            android:textSize="10sp"
-            app:layout_constraintEnd_toEndOf="parent"
+                <TextView
+                    android:id="@+id/gtimeArea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:text="Time"
+                    android:textColor="#999999"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="MissingConstraints" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#999999"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:ignore="MissingConstraints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:background="#673AB7" />
 </LinearLayout>

@@ -56,7 +56,7 @@ class GroupQnAActivity : AppCompatActivity() {
 
         boardRVAdapter = InsideGBoardAdapter(boardDataList)
         binding.gboardListview.adapter = boardRVAdapter
-        binding.qnainsideName.setText(" \""+gname+"\"  자유게시판")
+        binding.qnainsideName.setText(gname+" 자유게시판")
 
         getFBBoardData(key)
         Log.d("abc",key)

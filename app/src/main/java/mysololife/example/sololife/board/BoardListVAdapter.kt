@@ -40,8 +40,10 @@ class BoardListLVAdapter(private val boardList : MutableList<BoardModel>) : Base
 
         val itemLinearLayoutView = view?.findViewById<LinearLayout>(R.id.itemView)
         val title = view?.findViewById<TextView>(R.id.gtitleArea)
-        val content = view?.findViewById<TextView>(R.id.gcontentArea)
         val time = view?.findViewById<TextView>(R.id.gtimeArea)
+        val content = view?.findViewById<TextView>(R.id.contentArea)
+        val name = view?.findViewById<TextView>(R.id.nameArea)
+
 
         if(boardList[position].uid.equals(FBAuth.getUid())){
             itemLinearLayoutView?.setBackgroundColor(Color.parseColor("#BCC6CC"))
@@ -49,13 +51,17 @@ class BoardListLVAdapter(private val boardList : MutableList<BoardModel>) : Base
 
         title!!.text = boardList[position].title
         time!!.text = boardList[position].time
+        content!!.text = boardList[position].content
 
+        if(boardList[position].content.toString().length>10){
+            content!!.text = boardList[position].content.take(60) + "..."
+        }
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
 
-                content!!.text = data!!.nickname.toString()
+                name!!.text = data!!.nickname.toString()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

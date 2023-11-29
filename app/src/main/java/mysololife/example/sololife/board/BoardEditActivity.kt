@@ -29,9 +29,9 @@ class BoardEditActivity : Activity() {
 
     private lateinit var key:String
 
-    private lateinit var binding : ActivityBoardEditBinding
+    private lateinit var binding : ActivityBoardWriteBinding
 
-    private var TAG = BoardEditActivity::class.java.simpleName
+    private var TAG = BoardWriteActivity::class.java.simpleName
 
     private lateinit var writerUid : String
 
@@ -41,13 +41,15 @@ class BoardEditActivity : Activity() {
 
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_board_edit)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_board_write)
+
+        binding.title.setText("게시물 수정")
 
         key = intent.getStringExtra("key").toString()
         getBoardData(key)
         getImageData(key)
 
-        binding.editBtn.setOnClickListener{
+        binding.writeBtn.setOnClickListener{
             editBoardData(key)
         }
 

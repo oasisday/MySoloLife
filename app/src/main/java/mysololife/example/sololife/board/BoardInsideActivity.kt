@@ -99,7 +99,25 @@ class BoardInsideActivity : Activity() {
                 Log.d(TAG, dataSnapshot.toString())
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
 
-                binding.nameArea.text = "작성자: " + data!!.nickname
+                binding.nameArea.text = data!!.nickname
+
+                val uid = data!!.uid.toString()
+                val profile = binding.wrtImg
+
+                val storageReference = Firebase.storage.reference.child(uid + ".png")
+                storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
+                    if(task.isSuccessful) {
+
+                        if (profile != null) {
+                            Glide.with(this@BoardInsideActivity)
+                                .load(task.result)
+                                .into(profile)
+                        }
+
+
+                    } else {
+                    }
+                })
 
             }
 
@@ -357,14 +375,17 @@ class BoardInsideActivity : Activity() {
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
-                            Log.d("uidtest", "here")
-                            userLikeRef.child(currentUser).child(guid).setValue("true")
-                            userLikeOtherUser(currentUser, guid)
-                            Toast.makeText(
-                                this@BoardInsideActivity,
-                                dataname + "님을 친구로 추가하였습니다.",
-                                Toast.LENGTH_SHORT
-                            ).show()
+
+                            if(currentUser == guid) Toast.makeText(this@BoardInsideActivity,"본인입니다.",Toast.LENGTH_SHORT).show()
+                            else{
+                                userLikeRef.child(currentUser).child(guid).setValue("true")
+                                userLikeOtherUser(currentUser, guid)
+                                Toast.makeText(
+                                    this@BoardInsideActivity,
+                                    dataname + "님을 친구로 추가하였습니다.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     }
                 }
