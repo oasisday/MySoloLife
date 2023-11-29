@@ -48,19 +48,13 @@ class BoardInsideActivity : Activity() {
 
     private val TAG = BoardInsideActivity::class.java.simpleName
 
-    private lateinit var binding : ActivityBoardInsideBinding
+    private lateinit var binding: ActivityBoardInsideBinding
 
-    private lateinit var key:String
-
+    private lateinit var key: String
     private val commentDataList = mutableListOf<CommentModel>()
-
-    private lateinit var commentAdapter : CommentLVAdapter
-
-    private lateinit var Uid:String
-
-    private lateinit var uid:String     //작성자 Uid값
-
-    var check = false
+    private lateinit var commentAdapter: CommentLVAdapter
+    private lateinit var Uid: String
+    private lateinit var uid: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -68,7 +62,7 @@ class BoardInsideActivity : Activity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_inside)
 
-        binding.boardSettingIcon.setOnClickListener{
+        binding.boardSettingIcon.setOnClickListener {
             showDialog()
         }
 
@@ -77,11 +71,10 @@ class BoardInsideActivity : Activity() {
         getBoardData(key)
         getImageData(key)
 
-        binding.commentBtn.setOnClickListener{
-            if(binding.commentArea.text.toString() == ""){
-                Toast.makeText(this,"댓글 내용을 입력해주세요.",Toast.LENGTH_SHORT).show()
-            }
-            else {
+        binding.commentBtn.setOnClickListener {
+            if (binding.commentArea.text.toString() == "") {
+                Toast.makeText(this, "댓글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            } else {
                 insertComment(key)
             }
         }
@@ -92,14 +85,14 @@ class BoardInsideActivity : Activity() {
         getCommentData(key)
         //getWriterData(uid)
 
-        binding.commentLV.setOnItemClickListener{ parent, view, position, id ->
+        binding.commentLV.setOnItemClickListener { parent, view, position, id ->
             profileDialog(commentDataList[position].uid)
         }
 
 
     }
 
-    private fun getWriterData(uid:String) {
+    private fun getWriterData(uid: String) {
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -119,7 +112,7 @@ class BoardInsideActivity : Activity() {
         FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
     }
 
-    fun getCommentData(key : String){
+    fun getCommentData(key: String) {
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -147,7 +140,7 @@ class BoardInsideActivity : Activity() {
 
     }
 
-    fun insertComment(key:String){
+    fun insertComment(key: String) {
         //comment
         //  - BoardKey
         //      - CommentKey
@@ -188,7 +181,7 @@ class BoardInsideActivity : Activity() {
         binding.commentArea.setText("")
     }
 
-    private fun showDialog(){
+    private fun showDialog() {
 
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
         val mBuilder = AlertDialog.Builder(this)
@@ -196,21 +189,22 @@ class BoardInsideActivity : Activity() {
             .setTitle("게시글 수정/삭제")
 
         val alertDialog = mBuilder.show()
-        alertDialog.findViewById<Button>(R.id.btnEdit)?.setOnClickListener{
+        alertDialog.findViewById<Button>(R.id.btnEdit)?.setOnClickListener {
 
             val intent = Intent(this, BoardEditActivity::class.java)
             intent.putExtra("key", key)
             startActivity(intent)
             finish()
         }
-        alertDialog.findViewById<Button>(R.id.btnCancel)?.setOnClickListener{
+        alertDialog.findViewById<Button>(R.id.btnCancel)?.setOnClickListener {
             FBRef.boardRef.child(key).removeValue()
-            Toast.makeText(this,"삭제완료", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "삭제완료", Toast.LENGTH_LONG).show()
             finish()
         }
         //mBuilder.show()
     }
-    private fun getImageData(key : String){
+
+    private fun getImageData(key: String) {
 
         // Reference to an image file in Cloud Storage
         val storageReference = Firebase.storage.reference.child(key + ".png")
@@ -219,7 +213,7 @@ class BoardInsideActivity : Activity() {
         val imageViewFromFB = binding.getImageArea
 
         storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
-            if(task.isSuccessful) {
+            if (task.isSuccessful) {
 
                 Glide.with(this)
                     .load(task.result)
@@ -233,7 +227,8 @@ class BoardInsideActivity : Activity() {
 
 
     }
-    private fun getBoardData(key : String){
+
+    private fun getBoardData(key: String) {
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -250,26 +245,23 @@ class BoardInsideActivity : Activity() {
                     val writerUid = dataModel.uid
                     uid = dataModel!!.uid
                     getWriterData(uid)
-                    if(myUid.equals(writerUid)){
+                    if (myUid.equals(writerUid)) {
                         Log.d(TAG, "내가 쓴 글")
                         binding.boardSettingIcon.isVisible = true
                     }
-                }
-                catch (e:Exception){
+                } catch (e: Exception) {
                     Log.d(TAG, "삭제완료")
                 }
-
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
             }
         }
         FBRef.boardRef.child(key).addValueEventListener(postListener)
     }
 
-    private fun delDialog2(key: String){
+    private fun delDialog2(key: String) {
 
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
         val mBuilder = AlertDialog.Builder(this)
@@ -278,20 +270,20 @@ class BoardInsideActivity : Activity() {
 
         val alertDialog = mBuilder.show()
 
-        alertDialog.findViewById<Button>(R.id.btnDelete)?.setOnClickListener{
+        alertDialog.findViewById<Button>(R.id.btnDelete)?.setOnClickListener {
             FBRef.commentRef.child(key).removeValue()
-            Toast.makeText(this,"삭제완료", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "삭제완료", Toast.LENGTH_LONG).show()
             finish()
         }
-        alertDialog.findViewById<Button>(R.id.btnDelete)?.setOnClickListener{
+        alertDialog.findViewById<Button>(R.id.btnDelete)?.setOnClickListener {
             FBRef.commentRef.child(key).removeValue()
-            Toast.makeText(this,"삭제완료", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "삭제완료", Toast.LENGTH_LONG).show()
             finish()
         }
         //mBuilder.show()
     }
 
-    private fun profileDialog(uid: String){
+    private fun profileDialog(uid: String) {
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.profile_dialog, null)
         val mBuilder = AlertDialog.Builder(this)
             .setView(mDialogView)
@@ -302,9 +294,9 @@ class BoardInsideActivity : Activity() {
         //지금 유저
         val currentUser = Firebase.auth.currentUser?.uid.toString()
 
-        var name=""
-        var grade =""
-        var info =""
+        var name = ""
+        var grade = ""
+        var info = ""
         var guid = ""
 
         val postListener = object : ValueEventListener {
@@ -323,13 +315,14 @@ class BoardInsideActivity : Activity() {
 
                 alertDialog.findViewById<TextView>(R.id.nameArea).text = "이름 : " + name
                 alertDialog.findViewById<TextView>(R.id.gradeArea).text = "학년 : " + grade
-                if(info != "") alertDialog.findViewById<TextView>(R.id.infoArea).text = info
-                else alertDialog.findViewById<TextView>(R.id.infoArea).text = "아직 사용자가 정보를 입력하지 않았습니다."
+                if (info != "") alertDialog.findViewById<TextView>(R.id.infoArea).text = info
+                else alertDialog.findViewById<TextView>(R.id.infoArea).text =
+                    "아직 사용자가 정보를 입력하지 않았습니다."
 
                 val storageRef = Firebase.storage.reference.child(data.uid + ".png")
                 storageRef.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
 
-                    if(task.isSuccessful) {
+                    if (task.isSuccessful) {
                         Glide.with(baseContext)
                             .load(task.result)
                             .into(myImage)
@@ -347,7 +340,7 @@ class BoardInsideActivity : Activity() {
         }
         FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
 
-        alertDialog.findViewById<Button>(R.id.addBtn).setOnClickListener{
+        alertDialog.findViewById<Button>(R.id.addBtn).setOnClickListener {
             val postListener = object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     Log.d(TAG, dataSnapshot.toString())
@@ -356,23 +349,26 @@ class BoardInsideActivity : Activity() {
                     val dataname = data!!.nickname
                     guid = data!!.uid.toString()
 
-                    if (checkUid(currentUser,guid)) {
-                        Toast.makeText(
-                            this@BoardInsideActivity,
-                            "이미 추가된 친구입니다.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
-                        userLikeRef.child(currentUser).child(guid).setValue("true")
-                        userLikeOtherUser(currentUser, guid)
-                        Toast.makeText(
-                            this@BoardInsideActivity,
-                            dataname + "님을 친구로 추가하였습니다.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        finish()
+                    checkUid(currentUser, guid) { result ->
+                        if (result) {
+                            Toast.makeText(
+                                this@BoardInsideActivity,
+                                "이미 추가된 친구입니다.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Log.d("uidtest", "here")
+                            userLikeRef.child(currentUser).child(guid).setValue("true")
+                            userLikeOtherUser(currentUser, guid)
+                            Toast.makeText(
+                                this@BoardInsideActivity,
+                                dataname + "님을 친구로 추가하였습니다.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
+
                 override fun onCancelled(databaseError: DatabaseError) {
                     // Getting Post failed, log a message
                     Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
@@ -383,19 +379,25 @@ class BoardInsideActivity : Activity() {
         }
 
     }
-    private fun userLikeOtherUser(myUid : String, otherUid : String){
+
+    private fun userLikeOtherUser(myUid: String, otherUid: String) {
         FirebaseRef.userLikeRef.child(uid).child(otherUid).setValue("true")
 
         getOtherUserLikeList(otherUid)
     }
-    private fun getOtherUserLikeList(otherUid: String){
+
+    private fun getOtherUserLikeList(otherUid: String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-                for (dataModel in dataSnapshot.children){
+                for (dataModel in dataSnapshot.children) {
                     val likeUserKey = dataModel.key.toString()
-                    if(likeUserKey.equals(uid)){
-                        Toast.makeText(this@BoardInsideActivity,"matching success!!", Toast.LENGTH_SHORT).show()
+                    if (likeUserKey.equals(uid)) {
+                        Toast.makeText(
+                            this@BoardInsideActivity,
+                            "matching success!!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         createNotificationChannel()
                         sendNotification()
                     }
@@ -412,6 +414,7 @@ class BoardInsideActivity : Activity() {
         }
         FirebaseRef.userLikeRef.child(otherUid).addValueEventListener(postListener)
     }
+
     private fun createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -428,13 +431,14 @@ class BoardInsideActivity : Activity() {
             notificationManager.createNotificationChannel(channel)
         }
     }
-    private fun sendNotification(){
+
+    private fun sendNotification() {
         var builder = NotificationCompat.Builder(this, "Test_ch")
             .setSmallIcon(R.drawable.ic_launcher_background)
             .setContentTitle("Study Matching")
             .setContentText("새로운 스터디원과 연결되었습니다. 확인해보세요!")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        with(NotificationManagerCompat.from(this)){
+        with(NotificationManagerCompat.from(this)) {
             if (ActivityCompat.checkSelfPermission(
                     this@BoardInsideActivity,
                     Manifest.permission.POST_NOTIFICATIONS
@@ -449,29 +453,25 @@ class BoardInsideActivity : Activity() {
                 // for ActivityCompat#requestPermissions for more details.
                 return
             }
-            notify(123,builder.build())
+            notify(123, builder.build())
         }
     }
 
     //Uid1에 uid2가 있으면 true
-    private fun checkUid(uid1 : String, uid2 : String): Boolean {
-
-        Log.d("uid1",uid1)
-        Log.d("uid2",uid2)
-
-        var check = false
-
+    private fun checkUid(uid1: String, uid2: String, callback: (Boolean) -> Unit) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (dataModel in dataSnapshot.children){
+                var check = false
 
+                for (dataModel in dataSnapshot.children) {
                     val data = dataModel.key.toString()
-                    Log.d("abcd", data)
-                    if(data == uid2){
+                    if (data == uid2) {
                         check = true
                         break
                     }
                 }
+                // 데이터를 확인한 후에 콜백 호출
+                callback(check)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -479,10 +479,7 @@ class BoardInsideActivity : Activity() {
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
             }
         }
-        userLikeRef.child(uid1).addValueEventListener(postListener)
 
-        return check
+        userLikeRef.child(uid1).addListenerForSingleValueEvent(postListener)
     }
-
-
 }
