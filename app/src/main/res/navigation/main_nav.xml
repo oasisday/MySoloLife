@@ -60,7 +60,11 @@
         android:id="@+id/lectureInitFragment"
         android:name="mysololife.example.sololife.fragments.LectureInitFragment"
         android:label="LectureInitFragment"
-        tools:layout="@layout/activity_lecture_init"/>
+        tools:layout="@layout/activity_lecture_init">
+        <action
+            android:id="@+id/action_lectureInitFragment_to_maindashboardFragment"
+            app:destination="@id/maindashboardFragment" />
+    </fragment>
     <fragment
         android:id="@+id/lectureMainFragment"
         android:name="mysololife.example.sololife.fragments.LectureMainFragment"

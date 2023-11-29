@@ -65,4 +65,10 @@ class MainDashboardActivity : AppCompatActivity(), OnItemClickListener {
             startActivity(this)
         }
     }
+
+    override fun onButtonClickListener(position: Int, itemName: String, itemView: View) {
+        TODO("Not yet implemented")
+    }
+
+
 }

@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivityLectureInitBinding
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
@@ -55,8 +56,10 @@ class LectureInitFragment : Fragment() {
         binding.colorPickerView.attachBrightnessSlider(binding.brightnessSlide)
         binding.saveBtn.setOnClickListener {
             if (blankCheck()) {
-                if (timeCheck())
+                if (timeCheck()) {
                     add()
+                    view?.findNavController()?.navigate(R.id.action_lectureInitFragment_to_maindashboardFragment)
+                }
             }
         }
     }

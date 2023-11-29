@@ -67,7 +67,4 @@ class BoardListLVAdapter(private val boardList : MutableList<BoardModel>) : Base
 
         return view!!
     }
-
-
-
 }
