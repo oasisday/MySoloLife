@@ -52,8 +52,8 @@ class splashscreen : AppCompatActivity() {
             Toast.makeText(this,"로그아웃 상태",Toast.LENGTH_SHORT).show()
             //3초 있다가 다음 화면으로 넘어간다.
             Handler().postDelayed({
-                startActivity(Intent(this, LoginActivity::class.java))
-                //startActivity(Intent(this, TranslateActivity::class.java))
+                //startActivity(Intent(this, LoginActivity::class.java))
+                startActivity(Intent(this, TranslateActivity::class.java))
 
                 finish()
             }, 1000)

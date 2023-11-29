@@ -184,6 +184,12 @@ class TranslateActivity : AppCompatActivity() {
                 //Toast.makeText(this@TranslateActivity, "Storage Permission Denied", Toast.LENGTH_SHORT).show()
             }
         }
+
+        if (requestCode == 1000) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) { //거부
+                Toast.makeText(this@TranslateActivity, "Camera Permission Denied", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun detectText() {
@@ -210,9 +216,22 @@ class TranslateActivity : AppCompatActivity() {
     val REQUEST_IMAGE_CAPTURE = 1
 
     private fun dispatchTakePictureIntent() {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if(takePictureIntent.resolveActivity(packageManager)!=null){
-            takePictureLauncher.launch(takePictureIntent)
+
+        val cameraPermissionCheck = ContextCompat.checkSelfPermission(
+            this@TranslateActivity,
+            android.Manifest.permission.CAMERA
+        )
+        if (cameraPermissionCheck != PackageManager.PERMISSION_GRANTED) { // 권한이 없는 경우
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.CAMERA),
+                1000
+            )
+        }else {
+            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            if (takePictureIntent.resolveActivity(packageManager) != null) {
+                takePictureLauncher.launch(takePictureIntent)
+            }
         }
     }
 
