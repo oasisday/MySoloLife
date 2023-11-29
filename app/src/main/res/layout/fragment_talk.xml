@@ -42,22 +42,28 @@
                 android:divider="@color/white"
                 android:dividerHeight="8dp"
                 android:padding="10dp"
-                android:layout_marginBottom="45dp"/>
+                android:layout_marginBottom="45dp"
+                />
 
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
+        <android.widget.Button
             android:id="@+id/writeBtn"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_margin="10dp"
-            android:layout_marginEnd="88dp"
-            android:layout_marginBottom="8dp"
-            android:src="@drawable/plusbtn"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:background="@drawable/background_radius_yellow2"
+            android:text="글쓰기"
+            android:textColor="@color/maincolor_three"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="15dp"
+            tools:ignore="MissingConstraints" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,7 +11,7 @@
         android:background="@color/maincolor_one"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        
+
         <TextView
             android:id="@+id/fragmentName"
             android:layout_width="match_parent"
@@ -29,7 +29,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="45dp"
-            android:paddingBottom="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -39,7 +38,6 @@
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="250dp"
-                android:layout_marginBottom="46dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/top_background"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -93,17 +91,17 @@
                     android:layout_marginStart="5dp"
                     android:textStyle="bold"
                     android:textAlignment="center"
-                    android:textSize="30sp" />
+                    android:textSize="25sp" />
 
                 <TextView
                     android:id="@+id/myNickname"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:text="NN"
+                    android:text="myName"
                     android:textAlignment="center"
                     android:textColor="@color/maincolor_three"
                     android:background="@drawable/bottom_background_final"
-                    android:textSize="30sp"
+                    android:textSize="25sp"
                     android:layout_marginStart="10dp" />
             </LinearLayout>
 
@@ -117,21 +115,21 @@
                     android:layout_width="145dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bottom_background_final"
-                    android:text="Gender"
+                    android:text="Grade"
                     android:textAlignment="center"
                     android:textColor="@color/maincolor_seven"
                     android:layout_marginLeft="5dp"
                     android:textStyle="bold"
-                    android:textSize="30sp" />
+                    android:textSize="25sp" />
 
                 <TextView
                     android:id="@+id/myGender"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:text="myGender"
+                    android:text="myGrade"
                     android:textAlignment="center"
                     android:textColor="@color/maincolor_three"
-                    android:textSize="30sp"
+                    android:textSize="25sp"
                     android:background="@drawable/bottom_background_final"
                     android:layout_marginLeft="10dp" />
             </LinearLayout>
@@ -140,13 +138,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
+                android:layout_margin="2dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/myInfo"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="110dp"
                     android:text="myInfo"
                     android:textAlignment="center"
                     android:textColor="@color/maincolor_three"
@@ -156,7 +154,7 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="20dp"/>
+                android:layout_height="30dp"/>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -164,7 +162,7 @@
 
                 <android.widget.Button
                     android:id="@+id/plusBtn"
-                    android:layout_width="match_parent"
+                    android:layout_width="350dp"
                     android:layout_height="50dp"
                     android:text="이메일로 친구추가"
                     android:textSize="20sp"

@@ -32,7 +32,7 @@ class GBoardEditActivity : Activity() {
 
     private lateinit var key:String
 
-    private lateinit var binding : GActivityBoardEditBinding
+    private lateinit var binding : ActivityBoardEditBinding
 
     private var TAG = GBoardEditActivity::class.java.simpleName
 
@@ -50,7 +50,7 @@ class GBoardEditActivity : Activity() {
 
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.g_activity_board_edit)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_board_edit)
 
         key = intent.getStringExtra("key").toString()
 
@@ -82,13 +82,14 @@ class GBoardEditActivity : Activity() {
 
     private fun editBoardData(key : String){
 
-        FBRef.boardRef
+        FBboard.insideboardRef
             .child(key)
+            .child(bkey)
             .setValue(
                 BoardModel(binding.titleArea.text.toString(),
                     binding.contentArea.text.toString(),
                     uid,
-                    FBAuth.getTime())
+                    FBAuth.getTime(),bkey)
             )
 
         Toast.makeText(this, "수정완료", Toast.LENGTH_LONG).show()

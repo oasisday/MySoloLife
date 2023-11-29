@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -52,8 +53,10 @@ class MyLikeListActivity : AppCompatActivity() {
 
     lateinit var groupId : String
 
-    lateinit var mBuilder : AlertDialog.Builder
-    lateinit var mAlertDialog : AlertDialog
+    private lateinit var mBuilder : AlertDialog.Builder
+    private lateinit var mAlertDialog : AlertDialog
+    private lateinit var mDialogView : View
+
     private var groupModel = GroupDataModel(
         null,null, null, null
     )
@@ -142,6 +145,7 @@ class MyLikeListActivity : AppCompatActivity() {
 
     }
 
+/*
     override fun onDestroy() {
 
         if (mAlertDialog != null && mAlertDialog!!.isShowing) {
@@ -149,6 +153,7 @@ class MyLikeListActivity : AppCompatActivity() {
         }
         super.onDestroy()
     }
+*/
 
     private fun checkMatching(otherUid : String){
 
@@ -156,18 +161,18 @@ class MyLikeListActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 if(dataSnapshot.children.count() == 0){
-                    Toast.makeText(this@MyLikeListActivity,"매칭 실패", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MyLikeListActivity,"상대방이 아직 나를 친구로 추가하지 않았습니다.", Toast.LENGTH_SHORT).show()
                 }else{
                     for (dataModel in dataSnapshot.children){
                         val likeUserKey = dataModel.key.toString()
                         //매칭이 되어있는지
                         if(likeUserKey.equals(uid)){
-                            Toast.makeText(this@MyLikeListActivity, "매칭 성공", Toast.LENGTH_SHORT).show()
+                            //Toast.makeText(this@MyLikeListActivity, "매칭 성공", Toast.LENGTH_SHORT).show()
                             //Dialog
                             showDialog()
 
                         }else{
-                            Toast.makeText(this@MyLikeListActivity,"매칭 실패", Toast.LENGTH_SHORT).show()
+                            //Toast.makeText(this@MyLikeListActivity,"매칭 실패", Toast.LENGTH_SHORT).show()
                         }
 
                     }
@@ -235,12 +240,13 @@ class MyLikeListActivity : AppCompatActivity() {
 
     private fun showDialog(){
 
-        val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog_msg, null)
-        val mBuilder = AlertDialog.Builder(this)
+        mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog_msg, null)
+        mBuilder = AlertDialog.Builder(this)
             .setView(mDialogView)
             .setTitle("메세지 보내기")
 
-        val mAlertDialog = mBuilder.show()
+
+        mAlertDialog = mBuilder.show()
 
         val btn = mAlertDialog.findViewById<Button>(R.id.sendBtn)
         val textArea = mAlertDialog.findViewById<EditText>(R.id.sendTextArea)
@@ -257,7 +263,12 @@ class MyLikeListActivity : AppCompatActivity() {
             val pushModel = PushNotification(notiModel, getterToken)
 
             testPush(pushModel)
+
+            Toast.makeText(this,"전송완료",Toast.LENGTH_SHORT).show()
+
             mAlertDialog.dismiss()
+
+
         }
     }
 

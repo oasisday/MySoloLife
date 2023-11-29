@@ -9,6 +9,8 @@
     tools:ignore="MissingDefaultResource">
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
         android:id="@+id/profileImg"
         android:layout_width="52dp"
         android:layout_height="52dp"

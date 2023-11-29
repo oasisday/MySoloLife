@@ -99,7 +99,6 @@ class Matching : AppCompatActivity() {
         cardStackView.adapter = cardStackAdapter
 
         getMyUserData()
-        //getUserDataList(currentUserGender)
     }
 
 

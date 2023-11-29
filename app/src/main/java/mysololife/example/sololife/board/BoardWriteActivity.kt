@@ -24,9 +24,12 @@ class BoardWriteActivity : Activity() {
     private val TAG = BoardWriteActivity::class.java.simpleName
     private var isImageUpload = false
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
+        var checked = true
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_write)
 
@@ -37,25 +40,34 @@ class BoardWriteActivity : Activity() {
             val uid = FBAuth.getUid()
             val time = FBAuth.getTime()
 
-            Log.d(TAG, title)
-            Log.d(TAG, content)
+            if (title == ""){
+                Toast.makeText(this,"제목을 확인해주세요.", Toast.LENGTH_SHORT).show()
+                checked = false
+            }
+
+            else if(content == ""){
+                Toast.makeText(this,"게시물 내용을 확인해주세요.", Toast.LENGTH_SHORT).show()
+                checked = false
+            }
 
             //파이어베이스 스토리지 이미지 저장을 하고 싶음
             //게시글 클릭-> 정보를 받아 와야함
 
-            val key = FBRef.boardRef.push().key.toString()
+            if(checked) {
+                val key = FBRef.boardRef.push().key.toString()
 
-            FBRef.boardRef
-                .child(key)             //랜덤 생성//
-                .setValue(BoardModel(title, content, uid, time))
+                FBRef.boardRef
+                    .child(key)             //랜덤 생성//
+                    .setValue(BoardModel(title, content, uid, time))
 
-            Toast.makeText(this, "게시글 입력 완료", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "게시글 입력 완료", Toast.LENGTH_LONG).show()
 
-            if(isImageUpload == true){
-                imageUpload(key)
+                if (isImageUpload == true) {
+                    imageUpload(key)
+                }
+
+                finish()
             }
-
-            finish()
         }
 
         binding.imageArea.setOnClickListener {

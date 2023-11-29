@@ -36,8 +36,8 @@ class GBoardWriteActivity : Activity() {
     private lateinit var key:String
 
     //board key값
-    val randomUUID: UUID = UUID.randomUUID()
-    val bkey: String = randomUUID.toString()
+    private val randomUUID: UUID = UUID.randomUUID()
+    private val bkey: String = randomUUID.toString()
 
     private lateinit var groupkey:String
 
@@ -50,8 +50,9 @@ class GBoardWriteActivity : Activity() {
 
         getGroupData(key)
 
+        var checked = true
 
-        binding.writeBtn.setOnClickListener{
+        binding.writeBtn.setOnClickListener {
 
             val title = binding.titleArea.text.toString()
             val content = binding.contentArea.text.toString()
@@ -65,21 +66,35 @@ class GBoardWriteActivity : Activity() {
             //파이어베이스 스토리지 이미지 저장을 하고 싶음
             //게시글 클릭-> 정보를 받아 와야함
 
-            FBboard.insideboardRef
-                .child(key)
-                .child(bkey)
-                .setValue(BoardModel(title, content, uid, time, board_key))
 
-            Toast.makeText(this, "게시글 입력 완료", Toast.LENGTH_LONG).show()
-
-            if(isImageUpload == true){
-                Toast.makeText(this, "이미지 저장", Toast.LENGTH_SHORT).show()
-                imageUpload()
+            if (title == "") {
+                Toast.makeText(this, "제목을 확인해주세요.", Toast.LENGTH_SHORT).show()
+                checked = false
+            } else if (content == "") {
+                Toast.makeText(this, "게시물 내용을 확인해주세요.", Toast.LENGTH_SHORT).show()
+                checked = false
             }
 
-            finish()
-        }
+            //파이어베이스 스토리지 이미지 저장을 하고 싶음
+            //게시글 클릭-> 정보를 받아 와야함
 
+            if (checked) {
+
+                FBboard.insideboardRef
+                    .child(key)
+                    .child(bkey)
+                    .setValue(BoardModel(title, content, uid, time, board_key))
+
+                Toast.makeText(this, "게시글 입력 완료", Toast.LENGTH_LONG).show()
+
+                if (isImageUpload == true) {
+                    Toast.makeText(this, "이미지 저장", Toast.LENGTH_SHORT).show()
+                    imageUpload()
+                }
+
+                finish()
+            }
+        }
         binding.imageArea.setOnClickListener {
             val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
             startActivityForResult(gallery, 100)
