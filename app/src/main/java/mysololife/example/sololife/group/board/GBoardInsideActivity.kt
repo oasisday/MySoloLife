@@ -64,6 +64,7 @@ class GBoardInsideActivity : Activity() {
     private lateinit var time:String
     private lateinit var uid:String
     private lateinit var bkey:String
+    private lateinit var gname:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -79,10 +80,12 @@ class GBoardInsideActivity : Activity() {
         uid = intent.getStringExtra("uid").toString()
         bkey = intent.getStringExtra("bkey").toString()
         key = intent.getStringExtra("key").toString()
+        gname = intent.getStringExtra("bname").toString()
 
         binding.titleArea.text = title
         binding.textArea.text = content
         binding.timeArea.text = time
+        binding.boardArea.text = gname + " 자유게시판"
         getWriterData(uid)
 
         val myUid = FBAuth.getUid()
@@ -115,7 +118,7 @@ class GBoardInsideActivity : Activity() {
         getCommentData(bkey)
 
     }
-    fun getCommentData(key : String){
+    private fun getCommentData(key : String){
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -127,7 +130,7 @@ class GBoardInsideActivity : Activity() {
                     val item = dataModel.getValue(CommentModel::class.java)
                     commentDataList.add(item!!)
                 }
-
+                Log.d("dddd",commentDataList.toString())
                 //adapter 동기화//
                 commentAdapter.notifyDataSetChanged()
 
@@ -142,7 +145,7 @@ class GBoardInsideActivity : Activity() {
 
     }
 
-    fun insertComment(key:String){
+    private fun insertComment(key:String){
         //comment
         //  - BoardKey
         //      - CommentKey
@@ -196,22 +199,6 @@ class GBoardInsideActivity : Activity() {
             FBboard.insideboardRef.child(key).child(bkey).removeValue()
             Log.d("dDD",key);
             Log.d("FFF",bkey);
-            Toast.makeText(this,"삭제완료", Toast.LENGTH_LONG).show()
-            finish()
-        }
-        //mBuilder.show()
-    }
-    private fun delDialog2(key: String){
-
-        val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
-        val mBuilder = AlertDialog.Builder(this)
-            .setView(mDialogView)
-            .setTitle("게시글 수정/삭제")
-
-        val alertDialog = mBuilder.show()
-
-        alertDialog.findViewById<Button>(R.id.btnDelete)?.setOnClickListener{
-            FBRef.commentRef.child(key).removeValue()
             Toast.makeText(this,"삭제완료", Toast.LENGTH_LONG).show()
             finish()
         }
@@ -328,9 +315,25 @@ class GBoardInsideActivity : Activity() {
                 Log.d(TAG, dataSnapshot.toString())
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
 
-                binding.nameArea.text = "작성자: " + data!!.nickname
+                binding.nameArea.text = data!!.nickname
+
+                val uid = data!!.uid.toString()
+                val profile = binding.wrtImg
+
+                val storageReference = Firebase.storage.reference.child(uid + ".png")
+                storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
+                    if(task.isSuccessful) {
+
+                            if (profile != null) {
+                                Glide.with(this@GBoardInsideActivity)
+                                    .load(task.result)
+                                    .into(profile)
+                            }
 
 
+                    } else {
+                    }
+                })
 
 //                myUid.text = data!!.uid
 //                myNickname.text = data!!.nickname

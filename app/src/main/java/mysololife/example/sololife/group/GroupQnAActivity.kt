@@ -68,6 +68,7 @@ class GroupQnAActivity : AppCompatActivity() {
             intent.putExtra("time", boardDataList[position].time)
             intent.putExtra("uid",boardDataList[position].uid)
             intent.putExtra("bkey", boardDataList[position].bkey)
+            intent.putExtra("bname",gname)
             intent.putExtra("key",key)
 
             startActivity(intent)
