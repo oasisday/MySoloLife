@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MySoloLife"
+        android:requestLegacyExternalStorage="true"
         tools:replace="android:appComponentFactory, android:theme">
         <activity
             android:name="mysololife.example.sololife.alarm.AlarmsetActivity"
@@ -162,7 +163,5 @@
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
-
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
 </manifest>

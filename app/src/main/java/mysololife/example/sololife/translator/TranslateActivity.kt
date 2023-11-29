@@ -1,19 +1,27 @@
 package mysololife.example.sololife.translator
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivityTranslateBinding
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
@@ -22,6 +30,7 @@ import com.google.mlkit.nl.translate.TranslatorOptions
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.TextRecognizer
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 
 
@@ -50,11 +59,34 @@ class TranslateActivity : AppCompatActivity() {
             }
         }
 
+    var intentActivityResultLauncher:ActivityResultLauncher<Intent>?=null
+    lateinit var inputImage: InputImage
+    lateinit var textRecognizer: TextRecognizer
+    private val STORAGE_PERMISSION_CODE=113
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_translate)
 
         binding= DataBindingUtil.setContentView(this,R.layout.activity_translate)
+
+        textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+        intentActivityResultLauncher=registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult(),
+            ActivityResultCallback {
+                val data=it.data
+                val imageUri=data?.data
+
+                convertImageToText(imageUri)
+            }
+        )
+
+        binding.galBtn.setOnClickListener{
+            val chooseIntent = Intent()
+            chooseIntent.type="image/*"
+            chooseIntent.action=Intent.ACTION_GET_CONTENT
+            intentActivityResultLauncher?.launch((chooseIntent))
+        }
 
         val itemsAdapter:ArrayAdapter<String> =ArrayAdapter(
             this,
@@ -71,13 +103,13 @@ class TranslateActivity : AppCompatActivity() {
                 .setTargetLanguage(selectTo())
                 .build()
 
-            val englishGermanTranslator = Translation.getClient(options)
+            val translator = Translation.getClient(options)
 
             binding.progressBar.visibility = View.VISIBLE
-            englishGermanTranslator.downloadModelIfNeeded(conditions)
+            translator.downloadModelIfNeeded(conditions)
                 .addOnSuccessListener {
 
-                    englishGermanTranslator.translate(binding.input.text.toString())
+                    translator.translate(binding.input.text.toString())
                         .addOnSuccessListener { translatedText ->
 
                             binding.output.text=translatedText
@@ -108,6 +140,50 @@ class TranslateActivity : AppCompatActivity() {
         binding.passBtn.setOnClickListener(View.OnClickListener {
             detectText()
         })
+    }
+
+    private fun convertImageToText(imageUri: Uri?) {
+        try {
+            inputImage = InputImage.fromFilePath(applicationContext, imageUri!!)
+
+            val result: Task<Text> = textRecognizer.process(inputImage)
+                .addOnSuccessListener{
+                    binding.input.setText(it.text)
+                }.addOnFailureListener{
+                    binding.input.setText("Error" + it.message)
+                }
+        }catch (e:Exception){
+
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //checkPermission(READ_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE)
+
+    }
+
+    private fun checkPermission(permission:String, requestCode:Int) {
+        if (ContextCompat.checkSelfPermission(this@TranslateActivity, permission) == PackageManager.PERMISSION_DENIED){
+
+            ActivityCompat.requestPermissions(this@TranslateActivity, arrayOf(permission), requestCode)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if(requestCode==STORAGE_PERMISSION_CODE){
+            if(grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(this@TranslateActivity, "Storage Permission Granted", Toast.LENGTH_SHORT).show()
+            }else{
+                //Toast.makeText(this@TranslateActivity, "Storage Permission Denied", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun detectText() {
