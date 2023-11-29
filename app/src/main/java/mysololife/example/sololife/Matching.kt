@@ -67,6 +67,21 @@ class Matching : AppCompatActivity() {
                 if(direction == Direction.Right){
                     userLikeOtherUser(uid,usersDataList[userCount].uid.toString())
                     //lightOverlay.bringToFront()
+
+                    checkUid(uid, usersDataList[userCount].uid.toString()) { result ->
+                        if (result) {
+                            Toast.makeText(
+                                this@Matching,
+                                "이미 추가된 친구입니다.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Log.d("uidtest", "here")
+                            FirebaseRef.userLikeRef.child(uid).child(usersDataList[userCount].uid.toString()).setValue("true")
+                            userLikeOtherUser(uid, usersDataList[userCount].uid.toString())
+                        }
+                    }
+
                 }
                 if(direction == Direction.Left){
                     //rightOverlay.bringToFront()
@@ -250,4 +265,29 @@ class Matching : AppCompatActivity() {
         }
     }
 
+
+    private fun checkUid(uid1: String, uid2: String, callback: (Boolean) -> Unit) {
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var check = false
+
+                for (dataModel in dataSnapshot.children) {
+                    val data = dataModel.key.toString()
+                    if (data == uid2) {
+                        check = true
+                        break
+                    }
+                }
+                // 데이터를 확인한 후에 콜백 호출
+                callback(check)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+
+        FirebaseRef.userLikeRef.child(uid1).addListenerForSingleValueEvent(postListener)
+    }
 }

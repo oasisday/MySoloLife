@@ -41,17 +41,18 @@ class CommentLVAdapter(val commentList: MutableList<CommentModel>) : BaseAdapter
 
         if(view == null) {
             view = LayoutInflater.from(parent?.context)
-                .inflate(R.layout.list_item, parent, false)
+                .inflate(R.layout.comment_list_item, parent, false)
         }
-        val time = view?.findViewById<TextView>(R.id.msgtime)
-        val content = view?.findViewById<TextView>(R.id.lastMessage)
-        val nickname = view?.findViewById<TextView>(R.id.personName)
-        val profile = view?.findViewById<ImageView>(R.id.profile_pic)
+        val time = view?.findViewById<TextView>(R.id.timeArea)
+        val content = view?.findViewById<TextView>(R.id.contentArea)
+        val nickname = view?.findViewById<TextView>(R.id.nicknameArea)
+        val profile = view?.findViewById<ImageView>(R.id.profileImage)
 
         val uid = commentList[position].uid
 
         content!!.text = commentList[position].commentTitle
         time!!.text = commentList[position].commentCreatedTime
+
         //nickname!!.text = FirebaseRef.userInfoRef.child(FirebaseAuthUtils.getUid()).child("nickname").toString()
 
         /*
