@@ -6,44 +6,43 @@
     android:layout_height="match_parent"
     android:background="@drawable/cloudbg">
 
+    <TextView
+        android:id="@+id/mainlectureName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="과목 이름"
+        android:textAlignment="center"
+        android:textColor="@color/maincolor_one"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="개인 공부방"
+        android:textAlignment="center"
+        android:textColor="@color/maincolor_one"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainlectureName" />
     <ScrollView
+        android:layout_marginTop="230dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/bestSeller2RecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
 
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/mainlectureName" />
-
-            <TextView
-
-                android:layout_marginTop="16dp"
-                android:id="@+id/mainlectureName"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="#F5F9F8"
-                android:padding="20dp"
-                android:text="데이터베이스"
-                android:textSize="30sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/bestSeller2RecyclerView" />
 
             <TextView
                 android:id="@+id/one"
@@ -51,15 +50,15 @@
                 android:layout_height="100dp"
                 android:layout_margin="16dp"
                 android:background="@drawable/background_round_all"
-                android:backgroundTint="#F4EDF5"
+                android:backgroundTint="#A4E6FB"
                 android:padding="16dp"
                 android:text="스터디룸 접속"
                 android:textSize="20sp"
                 android:textStyle="bold"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mainlectureName" />
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
             <TextView
                 android:id="@+id/btnStartRecord"
@@ -157,7 +156,7 @@
 
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="스터디원 위치 공유"
+                android:text="rkddml tnwjd"
                 app:layout_constraintEnd_toEndOf="@+id/one"
                 app:layout_constraintStart_toStartOf="@+id/one"
                 app:layout_constraintTop_toBottomOf="@+id/groupOutBtn" />
@@ -171,16 +170,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/locationShareBtn"
                 app:layout_constraintEnd_toEndOf="@+id/locationShareBtn" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/bestSeller3RecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/locationShareBtn" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

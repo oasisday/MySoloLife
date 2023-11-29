@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.content.Intent
+import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mysololife.R
@@ -17,7 +19,6 @@ import mysololife.example.sololife.dashboard.OnItemClickListener
 import mysololife.example.sololife.timetable.AppDatabase
 import mysololife.example.sololife.timetable.InfoEntity
 import mysololife.example.sololife.timetable.LectureInitActivity
-
 
 class MainDashboardFragment : Fragment(), OnItemClickListener {
 
@@ -55,13 +56,10 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
             binding.animationView.visibility = View.VISIBLE
             binding.animationView.setAnimation(R.raw.nofile_animation)
             binding.animationView.playAnimation();
-            val heartEmoji = "\uD83D\uDC97"
-            binding.textView3.text = "아이콘을 눌러 강의를 등록하세요 $heartEmoji"
+            binding.textView3.text = "아이콘을 눌러 강의를 등록하세요"
             binding.textView3.textSize = 16f
             binding.animationView.setOnClickListener {
-                Intent(getActivity(), LectureInitActivity::class.java).apply {
-                    startActivity(this)
-                }
+                view?.findNavController()?.navigate(R.id.action_maindashboardFragment_to_lectureInitFragment)
             }
         } else {
             binding.animationView.visibility = View.GONE
@@ -84,10 +82,8 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
         }.start()
     }
     override fun onItemClickListener(position: Int) {
-        val intent = Intent(requireContext(), LectureMainActivity::class.java).apply {
-            putExtra("lecturename", lectureList[position].scheduleName)
-        }
-        startActivity(intent)
+        val bundle = bundleOf("lecturename" to lectureList[position].scheduleName)
+        view?.findNavController()?.navigate(R.id.action_maindashboardFragment_to_lectureMainFragment,bundle)
     }
 }
 

@@ -14,7 +14,14 @@
         android:id="@+id/maindashboardFragment"
         android:name="mysololife.example.sololife.fragments.MainDashboardFragment"
         android:label="TimeTableFragment"
-        tools:layout="@layout/activity_main_dashboard"/>
+        tools:layout="@layout/activity_main_dashboard">
+        <action
+            android:id="@+id/action_maindashboardFragment_to_lectureInitFragment"
+            app:destination="@id/lectureInitFragment" />
+        <action
+            android:id="@+id/action_maindashboardFragment_to_lectureMainFragment"
+            app:destination="@id/lectureMainFragment" />
+    </fragment>
 
 
     <fragment
@@ -49,5 +56,15 @@
         android:name="mysololife.example.sololife.fragments.MyLikeListFragment"
         android:label="MyLikeListFragment"
         tools:layout="@layout/activity_my_like_list"/>
+    <fragment
+        android:id="@+id/lectureInitFragment"
+        android:name="mysololife.example.sololife.fragments.LectureInitFragment"
+        android:label="LectureInitFragment"
+        tools:layout="@layout/activity_lecture_init"/>
+    <fragment
+        android:id="@+id/lectureMainFragment"
+        android:name="mysololife.example.sololife.fragments.LectureMainFragment"
+        android:label="LectureMainFragment"
+        tools:layout="@layout/activity_lecture_main"/>
 
 </navigation>
