@@ -21,6 +21,7 @@ import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.utils.FirebaseRef
 
 class ListViewAdapter(val context : Context, val items : MutableList<UserDataModel>): BaseAdapter() {
+    private var isGlideLoadingPaused = false
     override fun getCount(): Int {
         return items.size
     }
@@ -91,6 +92,7 @@ class ListViewAdapter(val context : Context, val items : MutableList<UserDataMod
         }
         return convertView!!
     }
+
 
     fun getSelectedItems(): List<UserDataModel>{
         return items.filter {it.ischecked}

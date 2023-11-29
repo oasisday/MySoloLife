@@ -21,8 +21,7 @@
             android:fontFamily="sans-serif-black"
             android:text="과목 이름"
             android:textColor="#fff"
-            android:textSize="50sp"
-            android:textStyle="bold"
+            android:textSize="48sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,7 +32,7 @@
             android:fontFamily="sans-serif-black"
             android:text="스터디룸"
             android:textColor="#fff"
-            android:textSize="20dp"
+            android:textSize="16sp"
             android:textStyle="italic"
             app:layout_constraintBaseline_toBaselineOf="@id/studyNameTextView"
             app:layout_constraintStart_toEndOf="@+id/studyNameTextView"

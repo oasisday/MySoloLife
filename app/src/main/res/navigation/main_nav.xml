@@ -9,11 +9,7 @@
         android:id="@+id/groupmakeFragment"
         android:name="mysololife.example.sololife.fragments.GroupMakeFragment"
         android:label="스터디원 모으는거"
-        tools:layout="@layout/fragment_talk" >
-        <action
-            android:id="@+id/action_groupmakeFragment_to_maindashboardFragment"
-            app:destination="@id/maindashboardFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_talk" />
     <fragment
         android:id="@+id/maindashboardFragment"
         android:name="mysololife.example.sololife.fragments.MainDashboardFragment"
@@ -32,6 +28,9 @@
             app:destination="@id/groupMainFragment" >
 
         </action>
+        <action
+            android:id="@+id/action_homeFragment_to_myLikeListFragment"
+            app:destination="@id/myLikeListFragment" />
     </fragment>
     <fragment
         android:id="@+id/mypageFragment"
@@ -45,5 +44,10 @@
         tools:layout="@layout/fragment_studyteam">
 
     </fragment>
+    <fragment
+        android:id="@+id/myLikeListFragment"
+        android:name="mysololife.example.sololife.fragments.MyLikeListFragment"
+        android:label="MyLikeListFragment"
+        tools:layout="@layout/activity_my_like_list"/>
 
 </navigation>

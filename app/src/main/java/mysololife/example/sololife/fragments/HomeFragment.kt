@@ -57,11 +57,8 @@ class HomeFragment : Fragment(),OnItemClickListener{
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         getFBBoardData()
-
-
         binding.makestudyBtn.setOnClickListener {
-                val intent = Intent(activity, MyLikeListActivity::class.java)
-                startActivity(intent)
+            view?.findNavController()?.navigate(R.id.action_homeFragment_to_myLikeListFragment)
         }
         binding.matchingBtn.setOnClickListener{
             val intent = Intent(context, Matching::class.java)
@@ -95,7 +92,6 @@ class HomeFragment : Fragment(),OnItemClickListener{
                 Log.d("homefragment", boardDataList.toString())
                 studyteamAdapter = StudyTeamAdapter(boardDataList,this@HomeFragment)
                 binding.studyteamrecyclerView.apply {
-
                     adapter = studyteamAdapter
                     layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 }

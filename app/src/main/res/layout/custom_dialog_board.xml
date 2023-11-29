@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
     android:orientation="vertical">
 
     <EditText
@@ -11,32 +12,45 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:background="@android:color/transparent"
+        android:paddingStart="10dp"
+        android:background="@drawable/background_round_all"
         android:hint="과목명" />
 
     <EditText
         android:id="@+id/classInfoArea"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="20dp"
-        android:background="@android:color/transparent"
+        android:paddingStart="10dp"
+        android:textSize="14sp"
+        android:background="@drawable/background_round_all"
         android:hint="과목 설명을 입력하세요" />
 
-    <Button
-        android:id="@+id/sendBtn"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="63dp"
-        android:background="@drawable/background_radius_yellow"
-        android:text="설정" />
-
-
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="30dp"
+        >
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancel"
+            android:layout_width="140dp"
+            android:layout_height="60dp"
+            android:text="취소"
+            android:backgroundTint="@color/gray"
+            android:textColor="@color/grayDark"
+            />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnOk"
+            android:layout_width="140dp"
+            android:layout_height="60dp"
+            android:text="저장"
+            android:layout_marginStart="20dp"
+            android:backgroundTint="@color/maincolor_seven"
+            android:textColor="@color/white"
+            />
+    </LinearLayout>
 </LinearLayout>
