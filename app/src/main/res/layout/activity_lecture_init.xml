@@ -4,8 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="15dp"
     android:background="@drawable/round_white_6">
 
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/background_round_all"
+        android:backgroundTint="#F4F9FB"
+        app:layout_constraintBottom_toTopOf="@+id/colorPickerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/lectureTextView"
         style="@style/Title"
@@ -53,16 +65,26 @@
         app:layout_constraintStart_toEndOf="@+id/endtime2"
         app:layout_constraintTop_toTopOf="@+id/starttime2" />
 
-    <EditText
-        android:id="@+id/lectureEditText"
-        style="@style/Value"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/lectureTextInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:inputType="text"
+        android:layout_marginEnd="20dp"
         app:layout_constraintBaseline_toBaselineOf="@id/lectureTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideLine" />
+        app:endIconMode="clear_text"
+        app:boxStrokeColor="@color/maincolor_seven"
+        app:layout_constraintStart_toStartOf="@+id/guideLine">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/lectureEditText"
+            style="@style/Value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/professorTextview"
@@ -74,29 +96,47 @@
         app:layout_constraintTop_toBottomOf="@id/lectureTextView" />
 
 
-    <EditText
-        android:id="@+id/professorEditText"
-        style="@style/Value"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/professorTextInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:inputType="text"
+        android:layout_marginEnd="20dp"
+        app:endIconMode="clear_text"
+        app:boxStrokeColor="@color/maincolor_seven"
         app:layout_constraintBaseline_toBaselineOf="@id/professorTextview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideLine" />
+        app:layout_constraintStart_toStartOf="@+id/guideLine">
 
-    <EditText
-        android:id="@+id/locationEditText"
-        style="@style/Value"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/professorEditText"
+            style="@style/Value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/locationTextInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:inputType="text"
+        android:layout_marginEnd="20dp"
+        app:endIconMode="clear_text"
+        app:boxStrokeColor="@color/maincolor_seven"
         app:layout_constraintBaseline_toBaselineOf="@id/locationTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/guideLine" />
+        app:layout_constraintStart_toStartOf="@+id/guideLine">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/locationEditText"
+            style="@style/Value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideLine"
@@ -140,7 +180,7 @@
         android:layout_height="0dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/colorTextView"
-        app:layout_constraintEnd_toEndOf="@+id/locationEditText"
+        app:layout_constraintEnd_toEndOf="@+id/locationTextInputLayout"
         app:layout_constraintStart_toStartOf="@+id/guideLine"
         app:layout_constraintTop_toTopOf="@+id/colorTextView">
 
@@ -149,13 +189,13 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="end|center_horizontal"
-            android:text="#00000000"
+            android:text="#FF90C9FB"
             android:textSize="20sp" />
 
         <View
             android:id="@+id/colorview"
-            android:layout_width="19dp"
-            android:layout_height="20dp"
+            android:layout_width="21dp"
+            android:layout_height="match_parent"
             android:layout_gravity="end"
             android:layout_marginStart="10dp" />
     </LinearLayout>
@@ -166,7 +206,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/timeTypeTextView"
-
         app:layout_constraintStart_toStartOf="@+id/guideLine"
         app:layout_constraintTop_toTopOf="@id/timeTypeTextView" />
 
@@ -216,18 +255,14 @@
         android:id="@+id/timeTypeSpinner2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-
-
         app:layout_constraintStart_toStartOf="@+id/guideLine"
         app:layout_constraintTop_toBottomOf="@id/timeTypeSpinner"
         app:layout_constraintVertical_bias="1.0" />
-
     <com.skydoves.colorpickerview.ColorPickerView
         android:id="@+id/colorPickerView"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="100dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="35dp"
         android:padding="100dp"
 
         app:layout_constraintEnd_toEndOf="parent"
@@ -236,12 +271,12 @@
         app:layout_constraintTop_toBottomOf="@+id/colorLayout" />
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="@+id/colorPickerView"
-        app:layout_constraintStart_toStartOf="@+id/colorPickerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/colorPickerView">
 
         <com.skydoves.colorpickerview.sliders.AlphaSlideBar
@@ -279,8 +314,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:backgroundTint="@color/gray_cc"
+        android:backgroundTint="@color/maincolor_five"
         android:src="@drawable/baseline_save_24"
+        android:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

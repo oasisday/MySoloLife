@@ -1,5 +1,7 @@
 package mysololife.example.sololife.board
 
+import mysololife.example.sololife.timetable.InfoEntity
+
 data class BoardModel (
     val title : String = "",
     val content : String = "",

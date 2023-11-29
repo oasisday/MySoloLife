@@ -32,6 +32,7 @@ import mysololife.example.sololife.group.GroupboardLVAdapter
 import mysololife.example.sololife.message.MyLikeListActivity
 import mysololife.example.sololife.recorder.RecorderMainActivity
 import mysololife.example.sololife.timetable.TimeTableActivity
+import mysololife.example.sololife.translator.TranslateActivity
 import mysololife.example.sololife.ui.OnItemClickListener
 import mysololife.example.sololife.ui.StudyTeamAdapter
 import mysololife.example.sololife.utils.FBAuth
@@ -123,8 +124,8 @@ class HomeFragment : Fragment(),OnItemClickListener{
             }
         }
 
-        binding.btnCamera.setOnClickListener {
-            Intent(getActivity(), CameraActivity::class.java).apply{
+        binding.btnTranslate.setOnClickListener {
+            Intent(getActivity(), TranslateActivity::class.java).apply{
                 startActivity(this)
             }
         }

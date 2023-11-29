@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivityLectureInitBinding
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
@@ -49,6 +50,7 @@ class LectureInitActivity : AppCompatActivity() {
             if (blankCheck()) {
                 if (timeCheck())
                     add()
+                    finish()
             }
         }
     }

@@ -23,6 +23,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.bumptech.glide.Glide
 import com.example.mysololife.R
+import com.example.mysololife.databinding.ActivityMainMpBinding
 import com.example.mysololife.databinding.ActivityMyPageBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
@@ -48,7 +49,7 @@ class MyPageFragment : Fragment() {
     private val TAG = "MyPageFragment"
     private val uid = FirebaseAuthUtils.getUid()
 
-    private lateinit var binding: ActivityMyPageBinding
+    private lateinit var binding: ActivityMainMpBinding
 
     private lateinit var auth: FirebaseAuth
 
@@ -57,7 +58,7 @@ class MyPageFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = ActivityMyPageBinding.inflate(inflater, container, false)
+        binding = ActivityMainMpBinding.inflate(inflater, container, false)
         return binding.root
     }
 

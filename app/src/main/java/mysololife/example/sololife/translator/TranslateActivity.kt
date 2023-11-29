@@ -109,6 +109,8 @@ class TranslateActivity : AppCompatActivity() {
             translator.downloadModelIfNeeded(conditions)
                 .addOnSuccessListener {
 
+                    binding.progressBar.visibility = View.INVISIBLE
+
                     translator.translate(binding.input.text.toString())
                         .addOnSuccessListener { translatedText ->
 
@@ -121,7 +123,6 @@ class TranslateActivity : AppCompatActivity() {
 
                         }
 
-                    binding.progressBar.visibility = View.INVISIBLE
                 }
                 .addOnFailureListener { exception ->
 
