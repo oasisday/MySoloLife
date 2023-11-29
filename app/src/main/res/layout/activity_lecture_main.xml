@@ -50,9 +50,9 @@
                 android:layout_height="100dp"
                 android:layout_margin="16dp"
                 android:background="@drawable/background_round_all"
-                android:backgroundTint="#A4E6FB"
+                android:backgroundTint="#C684BFFD"
                 android:padding="16dp"
-                android:text="스터디룸 접속"
+                android:text="뭐넣지?!"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +78,7 @@
             <ImageView
                 android:layout_width="130dp"
                 android:layout_height="80dp"
-                android:src="@drawable/studyroom"
+                android:src="@drawable/like"
 
                 app:layout_constraintBottom_toBottomOf="@+id/one"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -102,7 +102,7 @@
                 android:layout_margin="16dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/background_round_all"
-                android:backgroundTint="#ACB3E3"
+                android:backgroundTint="#ACC2E3"
                 android:padding="16dp"
                 android:text="강의 녹음 예약"
                 android:textSize="20sp"
@@ -118,7 +118,7 @@
                 android:layout_height="60dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginBottom="16dp"
-                android:src="@drawable/round_settings_24"
+                android:src="@drawable/notification"
                 app:layout_constraintBottom_toBottomOf="@+id/reserveBtn"
                 app:layout_constraintEnd_toEndOf="@+id/reserveBtn" />
             <TextView
@@ -127,11 +127,11 @@
                 android:layout_height="100dp"
                 android:layout_margin="16dp"
                 android:background="@drawable/background_round_all"
-                android:backgroundTint="#FFF7C9"
+                android:backgroundTint="#BF1E88E5"
                 android:padding="16dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="QNA"
+                android:text="과목 정보 수정"
                 app:layout_constraintEnd_toEndOf="@+id/one"
                 app:layout_constraintStart_toStartOf="@+id/one"
                 app:layout_constraintTop_toBottomOf="@+id/reserveBtn" />
@@ -141,7 +141,8 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_margin="10dp"
-                android:src="@drawable/round_question_mark_24"
+                android:src="@drawable/round_settings_24"
+                app:tint="@color/maincolor_three"
                 app:layout_constraintBottom_toBottomOf="@+id/groupOutBtn"
                 app:layout_constraintEnd_toEndOf="@+id/groupOutBtn" />
 
@@ -151,12 +152,12 @@
                 android:layout_height="100dp"
                 android:layout_margin="16dp"
                 android:background="@drawable/background_round_all"
-                android:backgroundTint="#C0E891"
+                android:backgroundTint="@color/maincolor_seven"
                 android:padding="16dp"
-
+                android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="rkddml tnwjd"
+                android:text="할께 없다"
                 app:layout_constraintEnd_toEndOf="@+id/one"
                 app:layout_constraintStart_toStartOf="@+id/one"
                 app:layout_constraintTop_toBottomOf="@+id/groupOutBtn" />
@@ -167,6 +168,7 @@
                 android:layout_height="70dp"
                 android:layout_margin="10dp"
                 android:src="@drawable/round_gps_fixed_24"
+                app:tint="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/locationShareBtn"
                 app:layout_constraintEnd_toEndOf="@+id/locationShareBtn" />
 
