@@ -61,6 +61,9 @@ class HomeFragment : Fragment(),OnItemClickListener{
         binding.makestudyBtn.setOnClickListener {
             view?.findNavController()?.navigate(R.id.action_homeFragment_to_myLikeListFragment)
         }
+        binding.profileImage.setOnClickListener {
+            view?.findNavController()?.navigate(R.id.action_homeFragment_to_mypageFragment)
+        }
         binding.matchingBtn.setOnClickListener{
             val intent = Intent(context, Matching::class.java)
             startActivity(intent)
@@ -117,9 +120,18 @@ class HomeFragment : Fragment(),OnItemClickListener{
                 startActivity(this)
             }
         }
+        binding.btneveryoneboard.setOnClickListener {
+            view?.findNavController()?.navigate(R.id.action_homeFragment_to_groupMakeFragment)
+        }
 
         binding.btnTimeTable.setOnClickListener {
             Intent(getActivity(), TimeTableActivity::class.java).apply{
+                startActivity(this)
+            }
+        }
+
+        binding.btnCamera.setOnClickListener {
+            Intent(getActivity(), CameraActivity::class.java).apply{
                 startActivity(this)
             }
         }

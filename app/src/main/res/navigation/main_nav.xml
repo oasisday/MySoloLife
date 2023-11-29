@@ -6,11 +6,6 @@
     app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/groupmakeFragment"
-        android:name="mysololife.example.sololife.fragments.GroupMakeFragment"
-        android:label="스터디원 모으는거"
-        tools:layout="@layout/fragment_talk" />
-    <fragment
         android:id="@+id/maindashboardFragment"
         android:name="mysololife.example.sololife.fragments.MainDashboardFragment"
         android:label="TimeTableFragment"
@@ -33,11 +28,17 @@
         <action
             android:id="@+id/action_homeFragment_to_groupMainFragment"
             app:destination="@id/groupMainFragment" >
-
         </action>
+
         <action
             android:id="@+id/action_homeFragment_to_myLikeListFragment"
             app:destination="@id/myLikeListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_mypageFragment"
+            app:destination="@id/mypageFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_groupMakeFragment"
+            app:destination="@id/groupMakeFragment" />
     </fragment>
     <fragment
         android:id="@+id/mypageFragment"
@@ -79,5 +80,10 @@
         android:name="mysololife.example.sololife.fragments.AlarmsetFragment"
         android:label="AlarmsetFragment"
         tools:layout="@layout/activity_alarmset"/>
+    <fragment
+        android:id="@+id/groupMakeFragment"
+        android:name="mysololife.example.sololife.fragments.GroupMakeFragment"
+        android:label="GroupMakeFragment"
+        tools:layout="@layout/activity_board_inside"/>
 
 </navigation>

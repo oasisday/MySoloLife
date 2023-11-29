@@ -61,6 +61,9 @@
             android:name="mysololife.example.sololife.message.MyLikeListActivity"
             android:exported="false" />
         <activity
+            android:name="mysololife.example.sololife.ListViewActivity"
+            android:exported="false" />
+        <activity
             android:name="mysololife.example.sololife.setting.MyPageActivity"
             android:exported="false" />
         <activity

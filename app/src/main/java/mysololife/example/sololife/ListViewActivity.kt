@@ -3,6 +3,7 @@ package mysololife.example.sololife
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivityListViewBinding
 
@@ -70,13 +71,8 @@ class ListViewActivity : AppCompatActivity() {
             val phone = phoneNo[position]
             val country = country[position]
             val imageId = imageId[position]
+            Toast.makeText(this,"해당 기능은 준비 중 입니다 :)",Toast.LENGTH_SHORT).show()
 
-            val i = Intent(this, UserActivity::class.java)
-            i.putExtra("name", name)
-            i.putExtra("phone", phone)
-            i.putExtra("country", country)
-            i.putExtra("imageId", imageId)
-            startActivity(i)
         }
 
     }

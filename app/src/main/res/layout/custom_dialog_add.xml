@@ -3,7 +3,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="15dp"
     android:gravity="center">
 
     <LinearLayout
@@ -15,7 +14,7 @@
 
         <EditText
             android:id="@+id/getEmail"
-            android:layout_width="270dp"
+            android:layout_width="260dp"
             android:layout_height="50dp"
             style="@style/AuthEditText"
             android:hint="추가할 친구 E-mail"/>

@@ -43,11 +43,7 @@ class MainActivity : AppCompatActivity() {
                     navHostFragment.navController.navigate(R.id.mypageFragment)
                     true
                 }
-                R.id.groupmakeFragment ->{
-                    navHostFragment.navController.popBackStack(R.id.homeFragment, false)
-                    navHostFragment.navController.navigate(R.id.groupmakeFragment)
-                    true
-                }
+
                 // 다른 메뉴 항목들도 필요에 따라 추가합니다.
                 else -> false
             }
