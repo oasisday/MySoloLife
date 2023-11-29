@@ -8,12 +8,40 @@
     tools:context="mysololife.example.sololife.splashscreen">
 
     <ImageView
-        android:id="@+id/shape"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/shape"
+        android:id="@+id/cloud4"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="-20dp"
+        android:src="@drawable/cloud4"
+        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/cloud1"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="-20dp"
+        android:layout_marginStart="-10dp"
+        android:src="@drawable/cloud1"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/cloud7"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="-40dp"
+        android:src="@drawable/cloud7"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintHorizontal_bias="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,13 +51,13 @@
         android:id="@+id/joinBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/splash_img"
+        android:src="@drawable/student1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias=".4" />
+        app:layout_constraintVertical_bias=".5" />
 
     <TextView
         android:id="@+id/app_name"
