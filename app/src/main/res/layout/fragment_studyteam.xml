@@ -130,7 +130,7 @@
 
 
                 <TextView
-                    android:id="@+id/btnStartRecord"
+                    android:id="@+id/btnRecordrepository"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_margin="16dp"
@@ -153,8 +153,8 @@
 
                     android:src="@drawable/round_file_copy_24"
                     app:tint="@color/maincolor_seven"
-                    app:layout_constraintBottom_toBottomOf="@+id/btnStartRecord"
-                    app:layout_constraintEnd_toEndOf="@+id/btnStartRecord" />
+                    app:layout_constraintBottom_toBottomOf="@+id/btnRecordrepository"
+                    app:layout_constraintEnd_toEndOf="@+id/btnRecordrepository" />
 
                 <TextView
                     android:id="@+id/reserveBtn"
@@ -169,7 +169,7 @@
                     android:textColor="#767C9A"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    app:layout_constraintTop_toBottomOf="@+id/btnStartRecord"
+                    app:layout_constraintTop_toBottomOf="@+id/btnRecordrepository"
                     tools:layout_editor_absoluteX="16dp" />
 
                 <ImageView
@@ -194,7 +194,7 @@
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    app:layout_constraintTop_toBottomOf="@+id/locationShareBtn"
+                    app:layout_constraintTop_toBottomOf="@+id/deleteStudyRoomBtn"
                     tools:layout_editor_absoluteX="44dp" />
 
                 <ImageView
@@ -208,11 +208,11 @@
                     app:tint="@color/white" />
 
                 <TextView
-                    android:id="@+id/locationShareBtn"
+                    android:id="@+id/deleteStudyRoomBtn"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_margin="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/background_round_all"
                     android:backgroundTint="#91CCE8"
                     android:padding="24dp"
@@ -229,8 +229,8 @@
                     android:layout_height="70dp"
                     android:layout_margin="10dp"
                     android:src="@drawable/round_gps_fixed_24"
-                    app:layout_constraintBottom_toBottomOf="@+id/locationShareBtn"
-                    app:layout_constraintEnd_toEndOf="@+id/locationShareBtn"
+                    app:layout_constraintBottom_toBottomOf="@+id/deleteStudyRoomBtn"
+                    app:layout_constraintEnd_toEndOf="@+id/deleteStudyRoomBtn"
                     app:tint="#0D5285" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

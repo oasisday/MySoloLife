@@ -44,24 +44,10 @@
             android:layout_height="match_parent">
 
 
-            <TextView
-                android:id="@+id/one"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_margin="16dp"
-                android:background="@drawable/background_round_all"
-                android:backgroundTint="#EE84BFFD"
-                android:padding="16dp"
-                android:text="뭐넣지?!"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+
 
             <TextView
-                android:id="@+id/btnStartRecord"
+                android:id="@+id/btnRecordrepository"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_margin="16dp"
@@ -69,19 +55,14 @@
                 android:backgroundTint="#EEEBF5FF"
                 android:padding="16dp"
                 android:text="강의 녹음실"
-                android:textSize="20sp"
+
+                android:textSize="22sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/one"
-                app:layout_constraintStart_toStartOf="@+id/one"
-                app:layout_constraintTop_toBottomOf="@+id/one" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:layout_width="130dp"
-                android:layout_height="80dp"
-                android:src="@drawable/like"
 
-                app:layout_constraintBottom_toBottomOf="@+id/one"
-                app:layout_constraintEnd_toEndOf="parent" />
 
 
 
@@ -92,8 +73,8 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/baseline_keyboard_voice_24"
-                app:layout_constraintBottom_toBottomOf="@+id/btnStartRecord"
-                app:layout_constraintEnd_toEndOf="@+id/btnStartRecord" />
+                app:layout_constraintBottom_toBottomOf="@+id/btnRecordrepository"
+                app:layout_constraintEnd_toEndOf="@+id/btnRecordrepository" />
 
             <TextView
                 android:id="@+id/reserveBtn"
@@ -105,12 +86,12 @@
                 android:backgroundTint="#ACC2E3"
                 android:padding="16dp"
                 android:text="강의 녹음 예약"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/one"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/one"
-                app:layout_constraintTop_toBottomOf="@+id/btnStartRecord" />
+                app:layout_constraintTop_toBottomOf="@+id/btnRecordrepository" />
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -122,18 +103,19 @@
                 app:layout_constraintBottom_toBottomOf="@+id/reserveBtn"
                 app:layout_constraintEnd_toEndOf="@+id/reserveBtn" />
             <TextView
-                android:id="@+id/groupOutBtn"
+                android:id="@+id/colorChangeBtn"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_margin="16dp"
                 android:background="@drawable/background_round_all"
-                android:backgroundTint="#BF1E88E5"
+                android:backgroundTint="#C96E79FF"
                 android:padding="16dp"
-                android:textSize="20sp"
+                android:textSize="23sp"
                 android:textStyle="bold"
-                android:text="과목 정보 수정"
-                app:layout_constraintEnd_toEndOf="@+id/one"
-                app:layout_constraintStart_toStartOf="@+id/one"
+                android:text=" 과목 색상\n 구름색으로 랜덤 변환"
+                android:textColor="@color/maincolor_one"
+                app:layout_constraintEnd_toEndOf="@+id/btnRecordrepository"
+                app:layout_constraintStart_toStartOf="@+id/btnRecordrepository"
                 app:layout_constraintTop_toBottomOf="@+id/reserveBtn" />
 
             <ImageView
@@ -141,13 +123,13 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_margin="10dp"
-                android:src="@drawable/round_settings_24"
-                app:tint="@color/maincolor_three"
-                app:layout_constraintBottom_toBottomOf="@+id/groupOutBtn"
-                app:layout_constraintEnd_toEndOf="@+id/groupOutBtn" />
+                android:src="@drawable/baseline_color_lens_24"
+                app:tint="@color/maincolor_one"
+                app:layout_constraintBottom_toBottomOf="@+id/colorChangeBtn"
+                app:layout_constraintEnd_toEndOf="@+id/colorChangeBtn" />
 
             <TextView
-                android:id="@+id/locationShareBtn"
+                android:id="@+id/deleteStudyRoomBtn"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_margin="16dp"
@@ -155,22 +137,23 @@
                 android:backgroundTint="@color/maincolor_seven"
                 android:padding="16dp"
                 android:textColor="@color/white"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
-                android:text="할께 없다"
-                app:layout_constraintEnd_toEndOf="@+id/one"
-                app:layout_constraintStart_toStartOf="@+id/one"
-                app:layout_constraintTop_toBottomOf="@+id/groupOutBtn" />
+                android:text="개인 공부방 삭제"
+                app:layout_constraintEnd_toEndOf="@+id/btnRecordrepository"
+                app:layout_constraintStart_toStartOf="@+id/btnRecordrepository"
+                app:layout_constraintTop_toBottomOf="@+id/colorChangeBtn" />
 
             <ImageView
                 android:id="@+id/imageView21"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_margin="10dp"
-                android:src="@drawable/round_gps_fixed_24"
+                android:src="@drawable/round_delete_24"
                 app:tint="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/locationShareBtn"
-                app:layout_constraintEnd_toEndOf="@+id/locationShareBtn" />
+                app:layout_constraintBottom_toBottomOf="@+id/deleteStudyRoomBtn"
+                app:layout_constraintEnd_toEndOf="@+id/deleteStudyRoomBtn" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

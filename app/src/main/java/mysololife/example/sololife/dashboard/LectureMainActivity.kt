@@ -19,7 +19,7 @@ class LectureMainActivity : AppCompatActivity() {
         val lectureName = intent.getStringExtra("lecturename")
 
         binding.mainlectureName.text = lectureName
-        binding.btnStartRecord.setOnClickListener {
+        binding.btnRecordrepository.setOnClickListener {
             Intent(this,RecorderMainActivity::class.java).apply {
                 startActivity(this)
             }

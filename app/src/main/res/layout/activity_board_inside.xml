@@ -158,7 +158,7 @@
 
             <EditText
                 android:id="@+id/commentArea"
-                android:layout_width="338dp"
+                android:layout_width="340dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:background="@android:color/transparent"
@@ -168,7 +168,8 @@
                 android:id="@+id/commentBtn"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
-                android:padding="5dp"
+
+                android:padding="10dp"
                 android:src="@drawable/round_send_24"
                 app:tint="@color/maincolor_three" />
 

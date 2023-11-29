@@ -35,6 +35,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import mysololife.example.sololife.ListViewActivity
 import mysololife.example.sololife.Matching
+import mysololife.example.sololife.auth.LoginActivity
 import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.auth.UserInfoModel
 import mysololife.example.sololife.message.MyLikeListActivity
@@ -76,6 +77,14 @@ class MyPageFragment : Fragment() {
             startActivity(intent)
         }
 
+        binding.logoutBtn.setOnClickListener {
+            auth.signOut()
+            Toast.makeText(requireContext(), "로그아웃 되었습니다.", Toast.LENGTH_LONG).show()
+
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
         binding.msgBtn.setOnClickListener {
             val intent = Intent(activity, ListViewActivity::class.java)
             startActivity(intent)
