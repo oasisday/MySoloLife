@@ -62,11 +62,8 @@ class MyPageFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
-
         auth = Firebase.auth
-
         binding.profileeditBtn.setOnClickListener {
             val intent = Intent(activity, SettingActivity::class.java)
             startActivity(intent)

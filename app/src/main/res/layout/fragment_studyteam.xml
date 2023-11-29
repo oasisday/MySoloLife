@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/cloudbg">
+    android:background="@drawable/cloudbackground1">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -136,9 +136,8 @@
                     android:layout_margin="16dp"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/background_round_all"
-                    android:backgroundTint="#EBF5FF"
+                    android:backgroundTint="#EEEBF5FF"
                     android:padding="24dp"
-
                     android:text="스터디 파일 공유"
 
                     android:textStyle="bold"
@@ -164,7 +163,7 @@
                     android:layout_margin="16dp"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/background_round_all"
-                    android:backgroundTint="#C1D9E1"
+                    android:backgroundTint="#EEC1D9E1"
                     android:padding="24dp"
                     android:text="팀 설정"
                     android:textColor="#767C9A"

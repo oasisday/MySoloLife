@@ -36,15 +36,7 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Thread {
-            val infoEntities =
-                AppDatabase.getInstance(requireContext())?.infoDao()?.getAllLecture() ?: emptyList()
-            lectureList.addAll(infoEntities)
 
-            activity?.runOnUiThread {
-                initializeRecyclerView()
-            }
-        }.start()
     }
     private fun initializeRecyclerView() {
         recyclerView = binding.recyclerView

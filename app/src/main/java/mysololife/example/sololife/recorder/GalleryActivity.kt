@@ -48,15 +48,21 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
     private var allChecked = false
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     private lateinit var binding : ActivityGalleryBinding
-
+    var lecture : String ="askljefijidljigalkjjji"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGalleryBinding.inflate(layoutInflater).apply {
             setContentView(root)
         }
+        lecture = intent.getStringExtra("lecturename") ?: "askljefijidljigalkjjji"
+        if(lecture != "askljefijidljigalkjjji"){
+            binding.toolbar.title = "$lecture 강의 녹음본"
+        }
+        else{
+            binding.toolbar.title = "전체 강의 녹음본"
+        }
         val builder = VmPolicy.Builder()
         StrictMode.setVmPolicy(builder.build())
-
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -169,9 +175,14 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
     private fun fetchAll(){
         GlobalScope.launch {
             records.clear()
-            var queryResult = db.audioRecorDao().getAll()
-            records.addAll(queryResult)
-
+            if(lecture=="askljefijidljigalkjjji") {
+                var queryResult = db.audioRecorDao().getAll()
+                records.addAll(queryResult)
+            }
+            else{
+                var queryResult = db.audioRecorDao().getlectureDatabase(lecture)
+                records.addAll(queryResult)
+            }
             mAdapter.notifyDataSetChanged()
         }
 

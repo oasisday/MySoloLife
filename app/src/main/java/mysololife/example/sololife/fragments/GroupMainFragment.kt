@@ -125,6 +125,7 @@ class GroupMainFragment : Fragment() {
         alertDialog.findViewById<Button>(R.id.yesBtn)?.setOnClickListener {
             Toast.makeText(requireContext(), "\"$gname\" 그룹에서 탈퇴되었습니다.", Toast.LENGTH_LONG).show()
             logoutGroup(uid)
+            alertDialog.dismiss()
             requireActivity().finish()
         }
 

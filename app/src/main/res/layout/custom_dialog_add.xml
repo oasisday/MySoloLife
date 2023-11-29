@@ -18,16 +18,20 @@
             style="@style/AuthEditText"
             android:hint="추가할 친구 E-mail"/>
 
-        <android.widget.Button
-            android:id="@+id/plusBtn"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
-            android:textColor="@color/white"
-            android:layout_weight="1"
-            android:background="@drawable/background_radius_yellow"
-            android:textSize="22sp"
-            android:text="추가" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnOk"
+                android:layout_width="85dp"
+                android:layout_height="55dp"
+                android:layout_gravity="center"
+                android:text="추가"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginStart="5dp"
+                android:backgroundTint="@color/maincolor_seven"
+                android:textColor="@color/white"/>
+
 
     </LinearLayout>
 

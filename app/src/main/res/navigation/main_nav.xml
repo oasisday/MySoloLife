@@ -65,6 +65,15 @@
         android:id="@+id/lectureMainFragment"
         android:name="mysololife.example.sololife.fragments.LectureMainFragment"
         android:label="LectureMainFragment"
-        tools:layout="@layout/activity_lecture_main"/>
+        tools:layout="@layout/activity_lecture_main">
+        <action
+            android:id="@+id/action_lectureMainFragment_to_alarmsetFragment"
+            app:destination="@id/alarmsetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/alarmsetFragment"
+        android:name="mysololife.example.sololife.fragments.AlarmsetFragment"
+        android:label="AlarmsetFragment"
+        tools:layout="@layout/activity_alarmset"/>
 
 </navigation>

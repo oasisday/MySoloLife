@@ -254,6 +254,7 @@ class MyLikeListFragment : Fragment() {
 
         val btn = mAlertDialog.findViewById<Button>(R.id.sendBtn)
         val textArea = mAlertDialog.findViewById<EditText>(R.id.sendTextArea)
+        val cancelbtn = mAlertDialog.findViewById<Button>(R.id.btnCancel)
         btn?.setOnClickListener {
 
             val msgText = textArea!!.text.toString()
@@ -266,6 +267,9 @@ class MyLikeListFragment : Fragment() {
             val pushModel = PushNotification(notiModel, getterToken!!)
 
             testPush(pushModel)
+            mAlertDialog.dismiss()
+        }
+        cancelbtn!!.setOnClickListener {
             mAlertDialog.dismiss()
         }
     }

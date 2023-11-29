@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/cloudbg">
+    android:background="@drawable/maincloud3">
 
     <TextView
         android:id="@+id/mainlectureName"
@@ -50,7 +50,7 @@
                 android:layout_height="100dp"
                 android:layout_margin="16dp"
                 android:background="@drawable/background_round_all"
-                android:backgroundTint="#C684BFFD"
+                android:backgroundTint="#EE84BFFD"
                 android:padding="16dp"
                 android:text="뭐넣지?!"
                 android:textSize="20sp"
@@ -66,7 +66,7 @@
                 android:layout_height="100dp"
                 android:layout_margin="16dp"
                 android:background="@drawable/background_round_all"
-                android:backgroundTint="#EBF5FF"
+                android:backgroundTint="#EEEBF5FF"
                 android:padding="16dp"
                 android:text="강의 녹음실"
                 android:textSize="20sp"

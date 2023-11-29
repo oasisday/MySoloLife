@@ -5,10 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivityLectureInitBinding
 import com.example.mysololife.databinding.ActivityLectureMainBinding
 import mysololife.example.sololife.alarm.AlarmsetActivity
+import mysololife.example.sololife.recorder.GalleryActivity
 import mysololife.example.sololife.recorder.RecorderMainActivity
 
 class LectureMainFragment : Fragment() {
@@ -24,22 +28,18 @@ class LectureMainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val lectureName =   arguments?.getString("lecturename").toString()
         binding.mainlectureName.text = lectureName
 
         binding.btnStartRecord.setOnClickListener {
-            Intent(requireContext(), RecorderMainActivity::class.java).apply {
+            Intent(requireContext(), GalleryActivity::class.java).apply {
+                putExtra("lecturename",lectureName)
                 startActivity(this)
             }
         }
-
         binding.reserveBtn.setOnClickListener {
-            Intent(requireContext(), AlarmsetActivity::class.java).apply {
-                putExtra("lecturename", lectureName)
-                startActivity(this)
-            }
+            val bundle = bundleOf("alarmlecturename" to lectureName)
+            view?.findNavController()?.navigate(R.id.action_lectureMainFragment_to_alarmsetFragment,bundle)
         }
     }
-
 }

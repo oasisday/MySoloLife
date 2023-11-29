@@ -16,8 +16,8 @@
         android:layout_height="52dp"
         android:src="@drawable/cmt_profile"
         app:civ_border_overlay="false"
-        app:civ_border_color="@color/maincolor_two"
-        app:civ_border_width="3dp"/>
+        app:civ_border_color="@color/maincolor_seven"
+        app:civ_border_width="2dp"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -45,6 +45,6 @@
         android:layout_gravity="center"
         android:layout_marginEnd="16dp"
         android:focusable="false"
-        android:buttonTint="@color/maincolor_three"/>
+        android:buttonTint="@color/maincolor_seven"/>
 
 </LinearLayout>

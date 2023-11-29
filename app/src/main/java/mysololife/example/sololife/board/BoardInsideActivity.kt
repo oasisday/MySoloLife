@@ -196,14 +196,14 @@ class BoardInsideActivity : Activity() {
             .setTitle("게시글 수정/삭제")
 
         val alertDialog = mBuilder.show()
-        alertDialog.findViewById<Button>(R.id.editBtn2)?.setOnClickListener{
+        alertDialog.findViewById<Button>(R.id.btnEdit)?.setOnClickListener{
 
             val intent = Intent(this, BoardEditActivity::class.java)
             intent.putExtra("key", key)
             startActivity(intent)
             finish()
         }
-        alertDialog.findViewById<Button>(R.id.removeBtn)?.setOnClickListener{
+        alertDialog.findViewById<Button>(R.id.btnCancel)?.setOnClickListener{
             FBRef.boardRef.child(key).removeValue()
             Toast.makeText(this,"삭제완료", Toast.LENGTH_LONG).show()
             finish()
@@ -278,7 +278,12 @@ class BoardInsideActivity : Activity() {
 
         val alertDialog = mBuilder.show()
 
-        alertDialog.findViewById<Button>(R.id.removeBtn)?.setOnClickListener{
+        alertDialog.findViewById<Button>(R.id.btnDelete)?.setOnClickListener{
+            FBRef.commentRef.child(key).removeValue()
+            Toast.makeText(this,"삭제완료", Toast.LENGTH_LONG).show()
+            finish()
+        }
+        alertDialog.findViewById<Button>(R.id.btnDelete)?.setOnClickListener{
             FBRef.commentRef.child(key).removeValue()
             Toast.makeText(this,"삭제완료", Toast.LENGTH_LONG).show()
             finish()
