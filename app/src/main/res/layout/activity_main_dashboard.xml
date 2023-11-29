@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/cloud"
    >
 
     <TextView
@@ -21,10 +22,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
+
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="5dp"
+        android:layout_height="500dp"
+        android:layout_margin="20dp"
+
 
         android:layout_marginStart="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -46,5 +49,6 @@
 
         app:lottie_loop="true"
         app:lottie_speed="1.0" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
