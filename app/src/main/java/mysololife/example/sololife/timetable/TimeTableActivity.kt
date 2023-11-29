@@ -32,11 +32,6 @@ class TimeTableActivity : AppCompatActivity() {
             }
         })
 
-        binding.tableList.setOnClickListener {
-            Intent(this, MainDashboardActivity::class.java).apply {
-                startActivity(this)
-            }
-        }
 
         binding.table.setOnScheduleLongClickListener(object : OnScheduleLongClickListener {
             override fun scheduleLongClicked(entity: ScheduleEntity) {

@@ -17,7 +17,8 @@ interface InfoDao {
     @Insert
     fun insert(info: InfoEntity)
 
-
+    @Query("UPDATE Info SET backgroundColor = :newColor WHERE scheduleName = :scheduleName")
+    fun updateColor(scheduleName: String, newColor: String)
 
     @Query("DELETE FROM Info WHERE scheduleName = :name")
     fun deleteByScheduleName(name: String)

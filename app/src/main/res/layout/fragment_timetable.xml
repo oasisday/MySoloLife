@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/cloudbackground7">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -56,17 +58,6 @@
                     android:paddingEnd="10dp"
                     android:src="@drawable/baseline_add_box_24"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/table_list"
-                    app:layout_constraintTop_toTopOf="@+id/tableName" />
-
-                <ImageView
-                    android:id="@+id/table_list"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:src="@drawable/baseline_format_list_bulleted_24"
-                    app:layout_constraintBottom_toBottomOf="@+id/lecture_add"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tableName" />
 
@@ -80,7 +71,8 @@
         android:id="@+id/table"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="80dp"
+
         app:isFullWidth="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
