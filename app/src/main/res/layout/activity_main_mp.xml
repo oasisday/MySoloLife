@@ -40,6 +40,7 @@
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/myImage"
+                        android:src="@drawable/cmt_profile"
                         android:layout_width="160dp"
                         android:layout_height="160dp"
                         android:layout_marginTop="35dp"

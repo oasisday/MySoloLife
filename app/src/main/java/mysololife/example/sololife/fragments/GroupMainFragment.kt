@@ -16,6 +16,7 @@ import com.example.mysololife.databinding.FragmentStudyteamBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import mysololife.example.sololife.MainActivity
 import mysololife.example.sololife.auth.introActivity
 import mysololife.example.sololife.board.BoardEditActivity
 import mysololife.example.sololife.board.BoardInsideActivity
@@ -126,7 +127,10 @@ class GroupMainFragment : Fragment() {
             Toast.makeText(requireContext(), "\"$gname\" 그룹에서 탈퇴되었습니다.", Toast.LENGTH_LONG).show()
             logoutGroup(uid)
             alertDialog.dismiss()
-            requireActivity().finish()
+            //requireActivity().finish()
+
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            startActivity(intent)
         }
 
         alertDialog.findViewById<Button>(R.id.noBtn)?.setOnClickListener {

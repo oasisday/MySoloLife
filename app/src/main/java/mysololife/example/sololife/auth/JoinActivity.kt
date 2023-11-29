@@ -41,6 +41,8 @@ class  JoinActivity : AppCompatActivity() {
     private var uid = ""
     lateinit var profileImage : ImageView
 
+    var imgcheck = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -61,6 +63,7 @@ class  JoinActivity : AppCompatActivity() {
 
         profileImage.setOnClickListener {
             getAction.launch("image/*")
+            imgcheck = true
         }
 
         binding.joinBtn.setOnClickListener {
@@ -140,7 +143,7 @@ class  JoinActivity : AppCompatActivity() {
                                     FirebaseRef.userInfoRef.child(uid).setValue(userModel)
                                     FirebaseRef.userDataRef.child(uid).setValue(userInfo)
 
-                                    uploadImage(uid)
+                                    if(imgcheck) uploadImage(uid)
 
                                     Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
                                     val intent = Intent(this, MainActivity::class.java)
