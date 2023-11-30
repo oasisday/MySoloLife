@@ -120,69 +120,56 @@
             android:layout_height="280dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
 
-                <TextView
-                    android:id="@+id/btnRecordrepository"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_margin="16dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/background_round_all"
-                    android:backgroundTint="#EEEBF5FF"
-                    android:elevation="10dp"
-                    android:padding="24dp"
-                    android:text=""
-
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <ImageView
                     android:id="@+id/imageView"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_margin="10dp"
-                    android:visibility="gone"
                     android:src="@drawable/round_file_copy_24"
-                    app:tint="@color/maincolor_seven"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/btnRecordrepository"
-                    app:layout_constraintEnd_toEndOf="@+id/btnRecordrepository" />
-
-                <TextView
-                    android:id="@+id/reserveBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_margin="16dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/background_round_all"
-                    android:backgroundTint="#EEC1D9E1"
-                    android:padding="24dp"
-                    android:text=""
-                    android:elevation="10dp"
-                    android:textColor="#767C9A"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintTop_toBottomOf="@+id/btnRecordrepository"
-                    tools:layout_editor_absoluteX="16dp" />
+                    app:layout_constraintEnd_toEndOf="@+id/btnRecordrepository"
+                    app:tint="@color/maincolor_seven" />
 
                 <ImageView
                     android:id="@+id/imageView3"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_margin="10dp"
-                    android:visibility="gone"
                     android:src="@drawable/round_settings_24"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/reserveBtn"
                     app:layout_constraintEnd_toEndOf="@+id/reserveBtn" />
+
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/round_delete_24"
+                    app:layout_constraintBottom_toBottomOf="@+id/groupOutBtn"
+                    app:layout_constraintEnd_toEndOf="@+id/groupOutBtn"
+                    app:tint="@color/white" />
+
+                <ImageView
+                    android:id="@+id/imageView21"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/round_gps_fixed_24"
+                    app:layout_constraintBottom_toBottomOf="@+id/deleteStudyRoomBtn"
+                    app:layout_constraintEnd_toEndOf="@+id/deleteStudyRoomBtn"
+                    app:tint="#0D5285" />
 
                 <TextView
                     android:id="@+id/groupOutBtn"
@@ -200,15 +187,22 @@
                     app:layout_constraintTop_toBottomOf="@+id/deleteStudyRoomBtn"
                     tools:layout_editor_absoluteX="44dp" />
 
-                <ImageView
-                    android:id="@+id/imageView1"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/round_delete_24"
-                    app:layout_constraintBottom_toBottomOf="@+id/groupOutBtn"
-                    app:layout_constraintEnd_toEndOf="@+id/groupOutBtn"
-                    app:tint="@color/white" />
+                <TextView
+                    android:id="@+id/reserveBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_margin="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/background_round_all"
+                    android:backgroundTint="#EEC1D9E1"
+                    android:elevation="10dp"
+                    android:padding="24dp"
+                    android:text=""
+                    android:textColor="#767C9A"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/btnRecordrepository"
+                    tools:layout_editor_absoluteX="16dp" />
 
                 <TextView
                     android:id="@+id/deleteStudyRoomBtn"
@@ -219,22 +213,30 @@
                     android:background="@drawable/background_round_all"
                     android:backgroundTint="#91CCE8"
                     android:padding="24dp"
-                    android:text="스터디원 위치 공유"
+                    android:text=""
+                    android:elevation="10dp"
                     android:textColor="#0D5285"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     app:layout_constraintTop_toBottomOf="@+id/reserveBtn"
                     tools:layout_editor_absoluteX="16dp" />
 
-                <ImageView
-                    android:id="@+id/imageView21"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/round_gps_fixed_24"
-                    app:layout_constraintBottom_toBottomOf="@+id/deleteStudyRoomBtn"
-                    app:layout_constraintEnd_toEndOf="@+id/deleteStudyRoomBtn"
-                    app:tint="#0D5285" />
+                <TextView
+                    android:id="@+id/btnRecordrepository"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_margin="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/background_round_all"
+                    android:backgroundTint="#EEEBF5FF"
+                    android:elevation="10dp"
+                    android:padding="24dp"
+                    android:text=""
+
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -72,9 +72,9 @@ android {
 
 dependencies {
 
-    //card stack view
-    implementation ("com.yuyakaido.android:card-stack-view:2.3.4")
-
+    //notification
+    //noinspection GradleCompatible
+    implementation ("com.android.support:support-compat:28.0.0")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.7.2")
@@ -97,6 +97,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+    // [파이어베이스 관련 dependency]
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     implementation("com.google.firebase:firebase-analytics-ktx")
 
@@ -104,43 +105,46 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-database-ktx")
 
-    //circleImg
-    implementation ("de.hdodenhof:circleimageview:3.1.0")
-
     //stroage
     implementation("com.google.firebase:firebase-storage-ktx")
-
-    implementation("com.github.bumptech.glide:glide:4.16.0")
-    implementation ("androidx.activity:activity-ktx:1.2.0-alpha04")
-    implementation ("androidx.fragment:fragment-ktx:1.3.0-alpha04")
-
-    //notification
-    //noinspection GradleCompatible
-    implementation ("com.android.support:support-compat:28.0.0")
 
     //cloud messaging
     implementation ("com.google.firebase:firebase-messaging-ktx")
 
-    //ver 3.0
+
+    // [UI 관련 dependency]
+
+    //glide 불러오기
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation ("androidx.activity:activity-ktx:1.2.0-alpha04")
+    implementation ("androidx.fragment:fragment-ktx:1.3.0-alpha04")
+
+    //circleImg
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
+
+    //lottie animation
+    implementation ("com.airbnb.android:lottie:5.2.0")
+
+    //시간표 library
+    implementation ("com.github.islandparadise14:Mintable:1.5.1")
+    implementation ("com.github.skydoves:colorpickerview:2.3.0")
+
+    //boardUI
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
+    //card stack view
+    implementation ("com.yuyakaido.android:card-stack-view:2.3.4")
+
+
+    // [기능 관련 dependency]
+
+    // 레트로핏 (인터넷 불러오기)
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.2.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 
-    implementation ("com.airbnb.android:lottie:5.2.0")
 
-    //테이블
-    implementation ("com.github.islandparadise14:Mintable:1.5.1")
-    implementation ("com.github.skydoves:colorpickerview:2.3.0")
-
-    //notifications
-    // Normal
-
-    //glide
-    //implementation ("com.firebase:firebase-ui-storage:7.2.0")
-//    implementation ("com.google.firebase:firebase-storage:20.2.0")
-//    kapt ("com.github.bumptech.glide:compiler:4.12.0")
-
-    //저장소 제작
+    // 룸데이터 베이스 저장소 제작
     val room_version = "2.5.0"
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
@@ -150,7 +154,7 @@ dependencies {
     implementation("io.fotoapparat:fotoapparat:2.7.0")
     implementation("com.jraska:falcon:2.2.0")
 
-    //kakao
+    //kakao 로그인
     implementation ("com.kakao.sdk:v2-user:2.16.0")
 
     // translator
@@ -169,8 +173,4 @@ dependencies {
 
     //alarm manager
     implementation("com.github.ColdTea-Projects:SmplrAlarm:2.1.1")
-
-    //boardUI
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-
 }
