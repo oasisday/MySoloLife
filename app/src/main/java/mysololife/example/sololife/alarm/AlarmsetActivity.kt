@@ -58,11 +58,12 @@ class AlarmsetActivity : AppCompatActivity() {
             applicationContext,
             RecorderMainActivity::class.java
         )
-
+        onClickShortcutIntent.putExtra("lecturename",lecture)
         val fullScreenIntent = Intent(
             applicationContext,
-            AudioService::class.java
+            RecorderMainActivity::class.java
         )
+        fullScreenIntent.putExtra("lecturename",lecture)
 
 
         val isTiramisuOrHigher = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU

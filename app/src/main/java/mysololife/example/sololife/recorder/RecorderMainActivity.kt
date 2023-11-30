@@ -26,9 +26,11 @@ import androidx.room.Room
 import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivityRecorderMainBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import de.coldtea.smplr.smplralarm.apis.SmplrAlarmAPI
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import mysololife.example.sololife.MainActivity
+import mysololife.example.sololife.alarm.RECORD_NAME
 import mysololife.example.sololife.recorder.AudioReceiver.Companion.TAG
 import mysololife.example.sololife.recorder.GalleryActivity
 import java.io.File
@@ -72,6 +74,19 @@ class RecorderMainActivity : AppCompatActivity(), OnRecordingStateChangeListener
         binding = ActivityRecorderMainBinding.inflate(layoutInflater).apply {
             setContentView(root)
         }
+        val sharedPrefs = getSharedPreferences(RECORD_NAME, Context.MODE_PRIVATE)
+        val alarmID = intent.getIntExtra(SmplrAlarmAPI.SMPLR_ALARM_REQUEST_ID, -1)
+        val lecture = intent.getStringExtra("lecturename")
+        Log.d(TAG,lecture.toString())
+
+        if(alarmID != -1) {
+            if (sharedPrefs.contains(alarmID.toString())) {
+                // If it exists, retrieve data using the RequestId as the key
+                val lecture = sharedPrefs.getString(alarmID.toString(), null)
+                Log.d(TAG, lecture!!)
+            }
+        }
+        Log.d(TAG, alarmID.toString())
         Log.d(TAG,"ONCREATE")
         val functionName = intent.getStringExtra("EXTRA_FUNCTION_TO_CALL")
         Log.d(TAG, functionName.toString())

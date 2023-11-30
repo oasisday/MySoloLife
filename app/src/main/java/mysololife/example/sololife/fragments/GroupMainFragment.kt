@@ -16,6 +16,7 @@ import com.example.mysololife.databinding.FragmentStudyteamBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import mysololife.example.sololife.ListViewActivity
 import mysololife.example.sololife.MainActivity
 import mysololife.example.sololife.auth.introActivity
 import mysololife.example.sololife.board.BoardEditActivity
@@ -53,7 +54,10 @@ class GroupMainFragment : Fragment() {
             intent.putExtra("key", key)
             startActivity(intent)
         }
-
+        binding.chatBtn.setOnClickListener {
+            val intent = Intent(activity, ListViewActivity::class.java)
+            startActivity(intent)
+        }
         binding.groupOutBtn.setOnClickListener {
             showDialog(myUid)
         }

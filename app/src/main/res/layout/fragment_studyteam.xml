@@ -137,8 +137,9 @@
                     android:layout_marginTop="16dp"
                     android:background="@drawable/background_round_all"
                     android:backgroundTint="#EEEBF5FF"
+                    android:elevation="10dp"
                     android:padding="24dp"
-                    android:text="스터디 파일 공유"
+                    android:text=""
 
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -150,7 +151,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_margin="10dp"
-
+                    android:visibility="gone"
                     android:src="@drawable/round_file_copy_24"
                     app:tint="@color/maincolor_seven"
                     app:layout_constraintBottom_toBottomOf="@+id/btnRecordrepository"
@@ -165,7 +166,8 @@
                     android:background="@drawable/background_round_all"
                     android:backgroundTint="#EEC1D9E1"
                     android:padding="24dp"
-                    android:text="팀 설정"
+                    android:text=""
+                    android:elevation="10dp"
                     android:textColor="#767C9A"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -177,6 +179,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_margin="10dp"
+                    android:visibility="gone"
                     android:src="@drawable/round_settings_24"
                     app:layout_constraintBottom_toBottomOf="@+id/reserveBtn"
                     app:layout_constraintEnd_toEndOf="@+id/reserveBtn" />
