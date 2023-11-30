@@ -109,20 +109,7 @@
             android:text="kakao"
             android:textSize="20sp"
             android:textStyle="bold" />
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button2"
-            style="@android:style/Widget.Button"
-            android:layout_width="0dp"
-            android:layout_height="55dp"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="0.5"
-            android:background="@drawable/btn_background_final"
-            android:drawableEnd="@drawable/google"
-            android:padding="10dp"
-            android:textColor="#3b608c"
-            android:text="Google"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+
     </LinearLayout>
     <TextView
         android:id="@+id/signupBtn"
