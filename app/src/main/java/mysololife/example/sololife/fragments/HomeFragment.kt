@@ -77,14 +77,16 @@ class HomeFragment : Fragment(),OnItemClickListener{
             view?.findNavController()?.navigate(R.id.action_homeFragment_to_myLikeListFragment)
         }
         binding.profileImage.setOnClickListener {
-            view?.findNavController()?.navigate(R.id.action_homeFragment_to_mypageFragment)
+            //view?.findNavController()?.navigate(R.id.action_homeFragment_to_mypageFragment)
+            view?.findNavController()?.navigate(R.id.action_homeFragment_to_chatListFragment)
         }
         binding.matchingBtn.setOnClickListener{
             val intent = Intent(context, Matching::class.java)
             startActivity(intent)
         }
         binding.addfriendBtn.setOnClickListener {
-            addDialog()
+            //addDialog()
+            view?.findNavController()?.navigate(R.id.action_homeFragment_to_userFragment)
         }
         return binding.root
     }

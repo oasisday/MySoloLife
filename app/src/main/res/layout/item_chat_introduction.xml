@@ -10,15 +10,16 @@
         >
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
             android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_img"
+                android:layout_marginTop="5dp"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:id="@+id/profile_pic"
                 android:layout_marginStart="20dp"
                 android:src="@drawable/cmt_profile"/>
 
@@ -31,32 +32,24 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/personName"
+                    android:id="@+id/nicknameTextView"
                     android:text="Name"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="24sp"
                     android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/lastMessage"
+                    android:id="@+id/descriptionTextView"
                     android:layout_marginTop="2dp"
-                    android:textSize="20sp"
-                    android:text="톡 미리보기"/>
+                    android:textSize="16sp"
+                    android:text="자기소개"/>
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/msgtime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:layout_alignParentRight="true"
-            android:textSize="12sp"
-            android:text="7:00 pm"/>
     </RelativeLayout>
 
 </LinearLayout>

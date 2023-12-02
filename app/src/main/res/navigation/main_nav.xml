@@ -39,6 +39,12 @@
         <action
             android:id="@+id/action_homeFragment_to_groupMakeFragment"
             app:destination="@id/groupMakeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_chatListFragment"
+            app:destination="@id/chatListFragment" />
     </fragment>
     <fragment
         android:id="@+id/mypageFragment"
@@ -88,5 +94,15 @@
         android:name="mysololife.example.sololife.fragments.GroupMakeFragment"
         android:label="GroupMakeFragment"
         tools:layout="@layout/activity_board_inside"/>
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="mysololife.example.sololife.userlist.UserFragment"
+        android:label="UserFragment"
+        tools:layout="@layout/fragment_userlist"/>
+    <fragment
+        android:id="@+id/chatListFragment"
+        android:name="mysololife.example.sololife.chatlist.ChatListFragment"
+        android:label="ChatListFragment"
+        tools:layout="@layout/fragment_chatlist"/>
 
 </navigation>
