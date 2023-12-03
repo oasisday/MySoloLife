@@ -18,8 +18,11 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import com.example.mysololife.databinding.ActivityLoginFinalBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
@@ -65,36 +68,16 @@ class LoginActivity : AppCompatActivity() {
         Log.e(TAG, "해시 키 값 : ${keyHash}")
 
         auth = Firebase.auth
-
         //알림 권한 설정
 
-        val isTiramisuOrHigher = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
-        val notificationPermission = Manifest.permission.POST_NOTIFICATIONS
-
-        var hasNotificationPermission =
-            if (isTiramisuOrHigher)
-                ContextCompat.checkSelfPermission(
-                    this,
-                    notificationPermission
-                ) == PackageManager.PERMISSION_GRANTED
-            else true
-        val launcher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            hasNotificationPermission = it
-
-        }
-
-        if (!hasNotificationPermission) {
-            launcher.launch(notificationPermission)
-        }
+        askNotificationPermission()
 
         binding = ActivityLoginFinalBinding.inflate(layoutInflater).apply {
             setContentView(root)
         }
 
-
         //카카오 sdk 초기화 해주기
         KakaoSdk.init(this, "903acc73748f829977599eb159665724")
-
 //        if (AuthApiClient.instance.hasToken()) {
 //            UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
 //                if (error == null) {
@@ -102,7 +85,6 @@ class LoginActivity : AppCompatActivity() {
 //                }
 //            }
 //        }
-
 
         //회원가입 구현
         binding.signupBtn.setOnClickListener {
@@ -161,12 +143,10 @@ class LoginActivity : AppCompatActivity() {
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-
                             val intent = Intent(this, MainActivity::class.java)
                             intent.flags =
                                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
-
                             Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
                         } else {
                             if (!NetworkManager.checkNetworkState(this)) {
@@ -181,6 +161,43 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // FCM SDK (and your app) can post notifications.
+        } else {
+            // 알림권한 없음
+        }
+    }
+
+    private fun askNotificationPermission() {
+        // This is only necessary for API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                // FCM SDK (and your app) can post notifications.
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                showPermissionRationalDialog()
+            } else {
+                // Directly ask for the permission
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun showPermissionRationalDialog() {
+        AlertDialog.Builder(this)
+            .setMessage("알림 권한이 없으면 알림을 받을 수 없습니다.")
+            .setPositiveButton("권한 허용하기") { _, _ ->
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }.setNegativeButton("취소") { dialogInterface, _ -> dialogInterface.cancel() }
+            .show()
+    }
+
 
     private fun showErrorToast(error: String) {
         Toast.makeText(this, "사용자 로그인에 실패했습니다." + "오류 : " + error, Toast.LENGTH_SHORT).show()
@@ -240,6 +257,7 @@ class LoginActivity : AppCompatActivity() {
                     uid,
                     user.kakaoAccount?.profile?.nickname.toString(),
                     user.kakaoAccount?.gender.toString(),
+                    "자기 소개를 입력하세요 :)",
                     token
                 )
                 FirebaseRef.userInfoRef.child(uid).setValue(userModel)
@@ -272,8 +290,7 @@ class LoginActivity : AppCompatActivity() {
                 uploadTask.addOnFailureListener {
                     // Handle unsuccessful uploads
                 }.addOnSuccessListener { taskSnapshot ->
-                    // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-                    // ...
+
                 }
             } catch (e: IOException) {
                 e.printStackTrace()

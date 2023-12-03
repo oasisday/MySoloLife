@@ -76,6 +76,9 @@
             android:name="mysololife.example.sololife.board.BoardEditActivity"
             android:exported="false" />
         <activity
+            android:name="mysololife.example.sololife.chatdetail.ChatActivity"
+            android:exported="false" />
+        <activity
             android:name="mysololife.example.sololife.board.BoardWriteActivity"
             android:exported="false" />
         <activity
@@ -145,7 +148,16 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
         <service
             android:name="mysololife.example.sololife.recorder.AudioService"
             android:enabled="true"

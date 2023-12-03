@@ -29,9 +29,11 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import mysololife.example.sololife.auth.Key
 import mysololife.example.sololife.auth.LoginActivity
 import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.auth.introActivity
@@ -98,21 +100,25 @@ class SettingActivity : AppCompatActivity() {
 
 
         binding.SettingBtn.setOnClickListener{
-
             gender = findViewById<TextInputEditText>(R.id.genderArea).text.toString()
             nickname = findViewById<TextInputEditText>(R.id.nicknameArea).text.toString()
             info = findViewById<TextInputEditText>(R.id.infoArea).text.toString()
 
-            val user = auth.currentUser
-            uid = user?.uid.toString()
+            val currentUserId = Firebase.auth.currentUser?.uid ?:""
+            val currentUserDB = Firebase.database.reference.child(Key.DB_USERS).child(currentUserId)
+
 
             val userModel = UserDataModel(
-                uid,
+                currentUserId,
                 nickname,
                 gender,
                 info
             )
 
+            val user = mutableMapOf<String,Any>()
+            user["username"] = nickname
+            user["descriotion"] = info
+            currentUserDB.updateChildren(user)
             FirebaseRef.userInfoRef.child(uid).setValue(userModel)
 
             uploadImage(uid)

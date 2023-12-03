@@ -78,6 +78,7 @@ class HomeFragment : Fragment(),OnItemClickListener{
         }
         binding.profileImage.setOnClickListener {
             //view?.findNavController()?.navigate(R.id.action_homeFragment_to_mypageFragment)
+            //채팅 리스트로 가기
             view?.findNavController()?.navigate(R.id.action_homeFragment_to_chatListFragment)
         }
         binding.matchingBtn.setOnClickListener{
@@ -86,6 +87,7 @@ class HomeFragment : Fragment(),OnItemClickListener{
         }
         binding.addfriendBtn.setOnClickListener {
             //addDialog()
+            //친구목록 프래그먼트로 가기
             view?.findNavController()?.navigate(R.id.action_homeFragment_to_userFragment)
         }
         return binding.root

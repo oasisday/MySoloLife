@@ -26,23 +26,20 @@ import androidx.core.app.ActivityCompat
 import com.example.mysololife.databinding.ActivitySignupFinalBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.UserInfo
+import com.google.firebase.database.ktx.database
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
+import mysololife.example.sololife.auth.Key.Companion.DB_USERS
 import mysololife.example.sololife.utils.FirebaseRef
 import java.io.ByteArrayOutputStream
 
-class  JoinActivity : AppCompatActivity() {
-
+class JoinActivity : AppCompatActivity() {
     private val TAG = "JoinActivity"
     private lateinit var auth: FirebaseAuth
-
-    private lateinit var binding : ActivitySignupFinalBinding
-
+    private lateinit var binding: ActivitySignupFinalBinding
     private var uid = ""
-    lateinit var profileImage : ImageView
-
+    lateinit var profileImage: ImageView
     var imgcheck = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -79,35 +76,36 @@ class  JoinActivity : AppCompatActivity() {
 
             val pattern: Pattern = Patterns.EMAIL_ADDRESS
 
-            if(email.isEmpty()){
-                Toast.makeText(this,"이메일을 입력해주세요", Toast.LENGTH_SHORT).show()
+            if (email.isEmpty()) {
+                Toast.makeText(this, "이메일을 입력해주세요", Toast.LENGTH_SHORT).show()
                 isGoToJoin = false
             }
-            if(password1.isEmpty()){
-                Toast.makeText(this,"비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show()
+            if (password1.isEmpty()) {
+                Toast.makeText(this, "비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show()
                 isGoToJoin = false
             }
-            if(!pattern.matcher(email.toString()).matches()){
+            if (!pattern.matcher(email.toString()).matches()) {
                 Toast.makeText(this, "이메일 형식을 확인하세요.", Toast.LENGTH_SHORT).show()
             }
-            if(password2.isEmpty()){
-                Toast.makeText(this,"비밀번호를 다시 입력해주세요", Toast.LENGTH_SHORT).show()
+            if (password2.isEmpty()) {
+                Toast.makeText(this, "비밀번호를 다시 입력해주세요", Toast.LENGTH_SHORT).show()
                 isGoToJoin = false
             }
             //비밀번호가 같은지 확인//
-            if(!password1.equals(password2)){
+            if (!password1.equals(password2)) {
                 Toast.makeText(this, "비밀번호를 똑같이 확인해주세요", Toast.LENGTH_SHORT).show()
                 isGoToJoin = false
             }
-            if(password1.length < 6){
+            if (password1.length < 6) {
                 Toast.makeText(this, "비밀번호를 6자리 이상으로 입력해주세요", Toast.LENGTH_SHORT).show()
                 isGoToJoin = false
             }
 
 
             //비밀번호가 모두 정확하면 실행//
-            if(isGoToJoin){
-                auth.createUserWithEmailAndPassword(email, password1).addOnCompleteListener(this) { task ->
+            if (isGoToJoin) {
+                auth.createUserWithEmailAndPassword(email, password1)
+                    .addOnCompleteListener(this) { task ->
                         //성공했을때//
                         if (task.isSuccessful) {
 
@@ -115,9 +113,13 @@ class  JoinActivity : AppCompatActivity() {
                             uid = user?.uid.toString()
 
                             FirebaseMessaging.getInstance().token.addOnCompleteListener(
-                                OnCompleteListener { task->
-                                    if(!task.isSuccessful){
-                                        Log.w(TAG, "Fatching FCM registration token failed", task.exception)
+                                OnCompleteListener { task ->
+                                    if (!task.isSuccessful) {
+                                        Log.w(
+                                            TAG,
+                                            "Fatching FCM registration token failed",
+                                            task.exception
+                                        )
                                         return@OnCompleteListener
                                     }
 
@@ -140,41 +142,42 @@ class  JoinActivity : AppCompatActivity() {
                                         email
                                     )
 
+                                    val user = mutableMapOf<String,Any>()
+                                    user["userId"] = uid
+                                    user["username"] = name
+                                    user["fcmTocken"] = token
+                                    //채팅방 기능
+                                    Firebase.database.reference.child(DB_USERS).child(uid).updateChildren(user)
+
                                     FirebaseRef.userInfoRef.child(uid).setValue(userModel)
                                     FirebaseRef.userDataRef.child(uid).setValue(userInfo)
-
-                                    if(imgcheck) uploadImage(uid)
-
+                                    if (imgcheck) uploadImage(uid)
                                     Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
                                     val intent = Intent(this, MainActivity::class.java)
-
                                     //기존 액티비티를 다 날려버린다//
-                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    intent.flags =
+                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                     startActivity(intent)
-
                                 })
-
                         }
                         //실패했을때//
                         else {
                             if (!NetworkManager.checkNetworkState(this)) {
-                                Toast.makeText(this, "네트워크 연결상태가 좋지 않습니다.", Toast.LENGTH_SHORT).show()
-                            }
-
-                            else {
+                                Toast.makeText(this, "네트워크 연결상태가 좋지 않습니다.", Toast.LENGTH_SHORT)
+                                    .show()
+                            } else {
                                 Toast.makeText(this, "?회원가입 오류.", Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
 
 
-
-                }
+            }
         }
 
     }
 
-    private fun uploadImage(uid : String){
+    private fun uploadImage(uid: String) {
 
         val storage = Firebase.storage
         val storageRef = storage.reference.child(uid + ".png")

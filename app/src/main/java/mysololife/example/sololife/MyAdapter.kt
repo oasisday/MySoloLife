@@ -17,10 +17,10 @@ class MyAdapter(private val context : Activity, private val arrayList : ArrayLis
         val inflater : LayoutInflater = LayoutInflater.from(context)
         val view : View = inflater.inflate(R.layout.item_chatroom, null)
 
-        val imageView : ImageView = view.findViewById(R.id.profile_pic)
-        val username : TextView = view.findViewById(R.id.personName)
-        val lastMsg : TextView = view.findViewById(R.id.lastMessage)
-        val lastMsgtime : TextView = view.findViewById(R.id.msgtime)
+        val imageView : ImageView = view.findViewById(R.id.profile_img)
+        val username : TextView = view.findViewById(R.id.nicknameTextView)
+        val lastMsg : TextView = view.findViewById(R.id.lastMessageTextView)
+        val lastMsgtime : TextView = view.findViewById(R.id.chatTime)
 
         imageView.setImageResource(arrayList[position].imageId)
         username.text = arrayList[position].name

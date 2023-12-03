@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mysololife.databinding.ItemChatIntroductionBinding
 
-class UserAdapter: ListAdapter<UserItem, UserAdapter.ViewHolder>(differ) {
+class UserAdapter(private val onClick : (UserItem) ->Unit): ListAdapter<UserItem, UserAdapter.ViewHolder>(differ) {
 
     inner class ViewHolder(private val binding: ItemChatIntroductionBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -16,6 +16,9 @@ class UserAdapter: ListAdapter<UserItem, UserAdapter.ViewHolder>(differ) {
             binding.nicknameTextView.text = item.username
             binding.descriptionTextView.text = item.description
 
+            binding.root.setOnClickListener {
+                onClick(item)
+            }
         }
     }
 
