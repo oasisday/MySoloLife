@@ -149,7 +149,7 @@
             </intent-filter>
         </service>
         <service
-            android:name=".MyFirebaseMessagingService"
+            android:name="mysololife.example.sololife.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

@@ -15,7 +15,6 @@ class ChatListAdapter(private val onClick : (ChatRoomItem) -> Unit) : ListAdapte
         fun bind(item: ChatRoomItem) {
             binding.nicknameTextView.text = item.otherUserName
             binding.lastMessageTextView.text = item.lastMessage
-
             binding.root.setOnClickListener {
                 onClick(item)
             }

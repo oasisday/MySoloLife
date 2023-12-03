@@ -21,6 +21,9 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class ChatActivity : AppCompatActivity() {
 
@@ -52,7 +55,7 @@ class ChatActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 val myUserItem = it.getValue(UserItem::class.java)
                 myUserName = myUserItem?.username ?: ""
-               getOtherUserData()
+                getOtherUserData()
             }
 
         binding.chatRecyclerView.apply {
@@ -86,7 +89,8 @@ class ChatActivity : AppCompatActivity() {
 
             val newChatItem = ChatItem(
                 message = message,
-                userId = myUserId
+                userId = myUserId,
+                timestamp = System.currentTimeMillis()
             )
 
             Firebase.database.reference.child(Key.DB_CHATS).child(chatRoomId).push().apply {
@@ -104,7 +108,6 @@ class ChatActivity : AppCompatActivity() {
             Firebase.database.reference.updateChildren(updates)
 
             val client = OkHttpClient()
-
             val root = JSONObject()
             val notification = JSONObject()
             notification.put("title", getString(R.string.app_name))
@@ -150,12 +153,14 @@ class ChatActivity : AppCompatActivity() {
                     chatItemList.add(chatItem)
                     chatAdapter.submitList(chatItemList.toMutableList())
                 }
+
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
                 override fun onChildRemoved(snapshot: DataSnapshot) {}
                 override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
                 override fun onCancelled(error: DatabaseError) {}
             })
     }
+
     companion object {
         const val EXTRA_CHAT_ROOM_ID = "CHAT_ROOM_ID"
         const val EXTRA_OTHER_USER_ID = "OTHER_USER_ID"
