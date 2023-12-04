@@ -111,7 +111,6 @@ dependencies {
     //cloud messaging
     implementation ("com.google.firebase:firebase-messaging-ktx")
 
-
     // [UI 관련 dependency]
 
     //glide 불러오기
@@ -135,9 +134,6 @@ dependencies {
     //card stack view
     implementation ("com.yuyakaido.android:card-stack-view:2.3.4")
 
-
-    // [기능 관련 dependency]
-
     // 레트로핏 (인터넷 불러오기)
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.2.0")
@@ -145,7 +141,6 @@ dependencies {
 
     //okhttp
     implementation ("com.squareup.okhttp3:okhttp:4.10.0")
-
     // 룸데이터 베이스 저장소 제작
     val room_version = "2.5.0"
     implementation("androidx.room:room-runtime:$room_version")

@@ -1,13 +1,13 @@
-package mysololife.example.sololife.chatdetail
-
-import com.example.mysololife.R
-import com.example.mysololife.databinding.ActivityChatdetailBinding
+package mysololife.example.sololife.chatlist
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mysololife.R
+import com.example.mysololife.databinding.ActivityChatdetailBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -15,15 +15,15 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import mysololife.example.sololife.auth.Key
+import mysololife.example.sololife.chatdetail.ChatAdapter
+import mysololife.example.sololife.chatdetail.ChatItem
 import mysololife.example.sololife.message.UserItem
+
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class ChatActivity : AppCompatActivity() {
 
@@ -55,6 +55,7 @@ class ChatActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 val myUserItem = it.getValue(UserItem::class.java)
                 myUserName = myUserItem?.username ?: ""
+
                 getOtherUserData()
             }
 
@@ -63,17 +64,17 @@ class ChatActivity : AppCompatActivity() {
             adapter = chatAdapter
         }
 
-//        chatAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-//            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-//                super.onItemRangeInserted(positionStart, itemCount)
-//
-//                linearLayoutManager.smoothScrollToPosition(
-//                    binding.chatRecyclerView,
-//                    null,
-//                    chatAdapter.itemCount
-//                )
-//            }
-//        })
+        chatAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                super.onItemRangeInserted(positionStart, itemCount)
+
+                linearLayoutManager.smoothScrollToPosition(
+                    binding.chatRecyclerView,
+                    null,
+                    chatAdapter.itemCount
+                )
+            }
+        })
 
         binding.sendButton.setOnClickListener {
             val message = binding.messageEditText.text.toString()
@@ -111,21 +112,26 @@ class ChatActivity : AppCompatActivity() {
             val root = JSONObject()
             val notification = JSONObject()
             notification.put("title", getString(R.string.app_name))
-            notification.put("body", message)
-
+            notification.put("body", myUserName+": "+message)
             root.put("to", otherUserFcmToken)
             root.put("priority", "high")
             root.put("notification", notification)
-
+            Log.d("testApi",root.toString())
             val requestBody =
                 root.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
             val request =
                 Request.Builder().post(requestBody).url("https://fcm.googleapis.com/fcm/send")
                     .header("Authorization", "key=${getString(R.string.fcm_server_key)}").build()
+            Log.d("testApi",request.toString())
             client.newCall(request).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {}
+                override fun onFailure(call: Call, e: IOException) {
+                    e.stackTraceToString()
+                }
 
-                override fun onResponse(call: Call, response: Response) {}
+                override fun onResponse(call: Call, response: Response) {
+                    // ignore onResponse
+                }
+
             })
 
             binding.messageEditText.text.clear()
@@ -136,7 +142,9 @@ class ChatActivity : AppCompatActivity() {
         Firebase.database.reference.child(Key.DB_USERS).child(otherUserId).get()
             .addOnSuccessListener {
                 val otherUserItem = it.getValue(UserItem::class.java)
+                Log.d("testApi",otherUserItem.toString() +"여기 들어와있나?")
                 otherUserFcmToken = otherUserItem?.fcmToken.orEmpty()
+                Log.d("testApi",otherUserFcmToken +"여기 들어와있나?")
                 chatAdapter.otherUserItem = otherUserItem
 
                 isInit = true
@@ -153,7 +161,6 @@ class ChatActivity : AppCompatActivity() {
                     chatItemList.add(chatItem)
                     chatAdapter.submitList(chatItemList.toMutableList())
                 }
-
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
                 override fun onChildRemoved(snapshot: DataSnapshot) {}
                 override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
@@ -165,4 +172,5 @@ class ChatActivity : AppCompatActivity() {
         const val EXTRA_CHAT_ROOM_ID = "CHAT_ROOM_ID"
         const val EXTRA_OTHER_USER_ID = "OTHER_USER_ID"
     }
+
 }

@@ -211,8 +211,8 @@ class Matching : AppCompatActivity() {
                     val likeUserKey = dataModel.key.toString()
                     if(likeUserKey.equals(uid)){
                         Toast.makeText(this@Matching,"matching success!!", Toast.LENGTH_SHORT).show()
-                        createNotificationChannel()
-                        sendNotification()
+                        //createNotificationChannel()
+                        //sendNotification()
                     }
 
                 }
@@ -227,46 +227,46 @@ class Matching : AppCompatActivity() {
         }
         FirebaseRef.userLikeRef.child(otherUid).addValueEventListener(postListener)
     }
-    private fun createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "name"
-            val descriptionText = "description"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel("Test_ch", name, importance).apply {
-                description = descriptionText
-            }
-            // Register the channel with the system
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
-    private fun sendNotification(){
-        var builder = NotificationCompat.Builder(this, "Test_ch")
-            .setSmallIcon(R.drawable.ic_launcher_background)
-            .setContentTitle("Study Matching")
-            .setContentText("새로운 스터디원과 연결되었습니다. 확인해보세요!")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        with(NotificationManagerCompat.from(this)){
-            if (ActivityCompat.checkSelfPermission(
-                    this@Matching,
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return
-            }
-            notify(123,builder.build())
-        }
-    }
+//    private fun createNotificationChannel() {
+//        // Create the NotificationChannel, but only on API 26+ because
+//        // the NotificationChannel class is new and not in the support library
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val name = "name"
+//            val descriptionText = "description"
+//            val importance = NotificationManager.IMPORTANCE_DEFAULT
+//            val channel = NotificationChannel("Test_ch", name, importance).apply {
+//                description = descriptionText
+//            }
+//            // Register the channel with the system
+//            val notificationManager: NotificationManager =
+//                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//            notificationManager.createNotificationChannel(channel)
+//        }
+//    }
+//    private fun sendNotification(){
+//        var builder = NotificationCompat.Builder(this, "Test_ch")
+//            .setSmallIcon(R.drawable.ic_launcher_background)
+//            .setContentTitle("Study Matching")
+//            .setContentText("새로운 스터디원과 연결되었습니다. 확인해보세요!")
+//            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//        with(NotificationManagerCompat.from(this)){
+//            if (ActivityCompat.checkSelfPermission(
+//                    this@Matching,
+//                    Manifest.permission.POST_NOTIFICATIONS
+//                ) != PackageManager.PERMISSION_GRANTED
+//            ) {
+//                // TODO: Consider calling
+//                //    ActivityCompat#requestPermissions
+//                // here to request the missing permissions, and then overriding
+//                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                //                                          int[] grantResults)
+//                // to handle the case where the user grants the permission. See the documentation
+//                // for ActivityCompat#requestPermissions for more details.
+//                return
+//            }
+//            notify(123,builder.build())
+//        }
+//    }
 
 
     private fun checkUid(uid1: String, uid2: String, callback: (Boolean) -> Unit) {

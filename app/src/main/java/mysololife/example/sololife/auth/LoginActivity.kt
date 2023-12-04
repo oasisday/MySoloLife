@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
@@ -260,7 +261,16 @@ class LoginActivity : AppCompatActivity() {
                     "자기 소개를 입력하세요 :)",
                     token
                 )
+
+
+
                 FirebaseRef.userInfoRef.child(uid).setValue(userModel)
+                val kakaouser = mutableMapOf<String,Any>()
+                kakaouser["userId"] = uid
+                kakaouser["username"] = user.kakaoAccount?.profile?.nickname.toString()
+                kakaouser["fcmToken"] = token
+                //채팅방 기능
+                Firebase.database.reference.child(Key.DB_USERS).child(uid).updateChildren(kakaouser)
                 uploadImage(uid, user.kakaoAccount?.profile?.thumbnailImageUrl.orEmpty())
                 Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)

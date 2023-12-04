@@ -28,9 +28,6 @@ import kotlinx.coroutines.launch
 import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.board.BoardModel
 import mysololife.example.sololife.group.GroupDataModel
-import mysololife.example.sololife.message.fcm.NotiModel
-import mysololife.example.sololife.message.fcm.PushNotification
-import mysololife.example.sololife.message.fcm.RetrofitInstance
 import mysololife.example.sololife.utils.FBboard
 import mysololife.example.sololife.utils.FirebaseAuthUtils
 import mysololife.example.sololife.utils.FirebaseRef
@@ -234,9 +231,9 @@ class MyLikeListActivity : AppCompatActivity() {
         FirebaseRef.userInfoRef.addValueEventListener(postListener)
     }
 
-    private  fun testPush(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
-        RetrofitInstance.api.postNotification(notification)
-    }
+//    private  fun testPush(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+//        RetrofitInstance.api.postNotification(notification)
+//    }
 
     private fun showDialog(){
 
@@ -259,10 +256,10 @@ class MyLikeListActivity : AppCompatActivity() {
             //push를 하면 겹쳐서 계속해서 들어간다//
             FirebaseRef.userMsgRef.child(getterUid).push().setValue(msgModel)
 
-            val notiModel = NotiModel(MyInfo.myNickname, msgText)
-            val pushModel = PushNotification(notiModel, getterToken)
-
-            testPush(pushModel)
+//            val notiModel = NotiModel(MyInfo.myNickname, msgText)
+//            val pushModel = PushNotification(notiModel, getterToken)
+//
+//            testPush(pushModel)
 
             Toast.makeText(this,"전송완료",Toast.LENGTH_SHORT).show()
 

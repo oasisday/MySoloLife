@@ -30,9 +30,6 @@ import mysololife.example.sololife.group.GroupDataModel
 import mysololife.example.sololife.message.ListViewAdapter
 import mysololife.example.sololife.message.MsgModel
 import mysololife.example.sololife.message.MyMsgActivity
-import mysololife.example.sololife.message.fcm.NotiModel
-import mysololife.example.sololife.message.fcm.PushNotification
-import mysololife.example.sololife.message.fcm.RetrofitInstance
 import mysololife.example.sololife.utils.FBboard
 import mysololife.example.sololife.utils.FirebaseAuthUtils
 import mysololife.example.sololife.utils.FirebaseRef
@@ -204,9 +201,9 @@ class MyLikeListFragment : Fragment() {
         FirebaseRef.userInfoRef.addValueEventListener(postListener)
     }
 
-    private fun testPush(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
-        RetrofitInstance.api.postNotification(notification)
-    }
+//    private fun testPush(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+//        RetrofitInstance.api.postNotification(notification)
+//    }
 
     private fun checkMatching(otherUid: String) {
 
@@ -263,10 +260,10 @@ class MyLikeListFragment : Fragment() {
 
             FirebaseRef.userMsgRef.child(getterUid!!).push().setValue(msgModel)
 
-            val notiModel = NotiModel(MyInfo.myNickname, msgText)
-            val pushModel = PushNotification(notiModel, getterToken!!)
+//            val notiModel = NotiModel(MyInfo.myNickname, msgText)
+//            val pushModel = PushNotification(notiModel, getterToken!!)
 
-            testPush(pushModel)
+//            testPush(pushModel)
             mAlertDialog.dismiss()
         }
         cancelbtn!!.setOnClickListener {

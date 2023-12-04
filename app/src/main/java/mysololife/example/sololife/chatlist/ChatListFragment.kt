@@ -17,7 +17,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import mysololife.example.sololife.auth.Key
-import mysololife.example.sololife.chatdetail.ChatActivity
+
 
 
 class ChatListFragment : Fragment() {

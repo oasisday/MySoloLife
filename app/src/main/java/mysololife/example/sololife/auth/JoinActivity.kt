@@ -145,7 +145,7 @@ class JoinActivity : AppCompatActivity() {
                                     val user = mutableMapOf<String,Any>()
                                     user["userId"] = uid
                                     user["username"] = name
-                                    user["fcmTocken"] = token
+                                    user["fcmToken"] = token
                                     //채팅방 기능
                                     Firebase.database.reference.child(DB_USERS).child(uid).updateChildren(user)
 

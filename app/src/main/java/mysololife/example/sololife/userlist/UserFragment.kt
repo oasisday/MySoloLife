@@ -1,5 +1,7 @@
 package mysololife.example.sololife.userlist
 
+import mysololife.example.sololife.chatlist.ChatActivity.Companion.EXTRA_CHAT_ROOM_ID
+import mysololife.example.sololife.chatlist.ChatActivity.Companion.EXTRA_OTHER_USER_ID
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -18,9 +20,8 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import mysololife.example.sololife.auth.Key.Companion.DB_CHAT_ROOMS
 import mysololife.example.sololife.auth.Key.Companion.DB_USERS
-import mysololife.example.sololife.chatdetail.ChatActivity
-import mysololife.example.sololife.chatdetail.ChatActivity.Companion.EXTRA_CHAT_ROOM_ID
-import mysololife.example.sololife.chatdetail.ChatActivity.Companion.EXTRA_OTHER_USER_ID
+import mysololife.example.sololife.chatlist.ChatActivity
+
 import mysololife.example.sololife.chatlist.ChatRoomItem
 import java.util.UUID
 
@@ -59,7 +60,7 @@ class UserFragment : Fragment() {
                     )
                     chatRoomDB.setValue(newChatRoom)
                 }
-                val intent = Intent(context,ChatActivity::class.java)
+                val intent = Intent(context, ChatActivity::class.java)
                 intent.putExtra(EXTRA_OTHER_USER_ID,otherUser.userId)
                 intent.putExtra(EXTRA_CHAT_ROOM_ID,chatRoomId)
                 startActivity(intent)
