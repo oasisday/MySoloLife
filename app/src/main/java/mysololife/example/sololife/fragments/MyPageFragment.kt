@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+
 import com.bumptech.glide.Glide
 import com.example.mysololife.databinding.ActivityMainMpBinding
 import com.google.android.gms.tasks.OnCompleteListener
@@ -18,7 +19,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import mysololife.example.sololife.ListViewActivity
 import mysololife.example.sololife.Matching
 import mysololife.example.sololife.auth.LoginActivity
 import mysololife.example.sololife.auth.UserDataModel
@@ -66,8 +66,7 @@ class MyPageFragment : Fragment() {
             startActivity(intent)
         }
         binding.msgBtn.setOnClickListener {
-            val intent = Intent(activity, ListViewActivity::class.java)
-            startActivity(intent)
+            Toast.makeText(requireContext(),"msg버튼을 클릭하였습니다.",Toast.LENGTH_SHORT).show()
         }
 
 
@@ -84,16 +83,17 @@ class MyPageFragment : Fragment() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 Log.d(TAG, dataSnapshot.toString())
-                val data = dataSnapshot.getValue(UserDataModel::class.java)
+                try {
+                    val data = dataSnapshot.getValue(UserDataModel::class.java)
 
-                //myUid.text = data!!.uid
-                myNickname.text = data!!.nickname
-                myGender.text = data!!.gender
-                myInfo.text = data!!.info
+                    //myUid.text = data!!.uid
+                    myNickname.text = data!!.nickname
+                    myGender.text = data!!.gender
+                    myInfo.text = data!!.info
 
-                if(myInfo.text == ""){
-                    myInfo.text = "자기소개를 해주세요:)"
-                }
+                    if (myInfo.text == "") {
+                        myInfo.text = "자기소개를 해주세요:)"
+                    }
 
                 val storageRef = Firebase.storage.reference.child(data.uid + ".png")
                 storageRef.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
@@ -104,6 +104,14 @@ class MyPageFragment : Fragment() {
                             .into(myImage)}
                     }
                 })
+                }
+                catch(e:Exception) {
+                    Toast.makeText(requireContext(),"데이터를 저장하는 중 오류가 발생하였습니다. 로그인 페이지로 이동합니다.",Toast.LENGTH_SHORT).show()
+                    auth.signOut()
+                    val intent = Intent(requireContext(), LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

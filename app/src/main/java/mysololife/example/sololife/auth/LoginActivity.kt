@@ -3,6 +3,7 @@ package mysololife.example.sololife.auth
 import android.Manifest
 import android.R.attr.src
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -62,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     val TAG = "KakaoLogin"
     private lateinit var binding: ActivityLoginFinalBinding
-
+    private lateinit var progressDialog: ProgressDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var keyHash = Utility.getKeyHash(this)
@@ -70,6 +71,9 @@ class LoginActivity : AppCompatActivity() {
 
         auth = Firebase.auth
         //알림 권한 설정
+        progressDialog = ProgressDialog(this)
+        progressDialog.setMessage("로그인 중...")
+        progressDialog.setCancelable(false)
 
         askNotificationPermission()
 
@@ -95,12 +99,14 @@ class LoginActivity : AppCompatActivity() {
 
         //카카오 로그인 구현
         binding.kakaoBtn.setOnClickListener {
-            if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
+            showProgressDialog()
+                if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
                 //카카오톡 로그인
                 UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
                     if (error != null) {
                         //카카오톡 로그인 실패
                         if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
+                            hideProgressDialog()
                             return@loginWithKakaoTalk
                         }
                         //카카오톡계정 로그인
@@ -110,11 +116,16 @@ class LoginActivity : AppCompatActivity() {
                             //카카오톡에서 정보 가져와서 파이어베이스 로그인
                             getKakaoAccountInfo()
                         } else {
+                            hideProgressDialog()
                             val intent = Intent(this, MainActivity::class.java)
                             intent.flags =
                                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
                         }
+                    }
+                    else{
+                        hideProgressDialog()
+                        Toast.makeText(this, "카카오톡 로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
             } else {
@@ -141,15 +152,18 @@ class LoginActivity : AppCompatActivity() {
             }
 
             if (isGoToJoin == true) {
+                showProgressDialog()
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
+                            hideProgressDialog()
                             val intent = Intent(this, MainActivity::class.java)
                             intent.flags =
                                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
                             Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
                         } else {
+                            hideProgressDialog()
                             if (!NetworkManager.checkNetworkState(this)) {
                                 Toast.makeText(this, "네트워크 연결상태가 좋지 않습니다.", Toast.LENGTH_SHORT)
                                     .show()
@@ -158,6 +172,10 @@ class LoginActivity : AppCompatActivity() {
                                     .show()
                             }
                         }
+                    }
+                    .addOnFailureListener {
+                        hideProgressDialog()
+                        Toast.makeText(this, "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show()
                     }
             }
         }
@@ -210,9 +228,13 @@ class LoginActivity : AppCompatActivity() {
                 showErrorToast(error.toString())
                 error.printStackTrace()
                 Log.d("testing", error.toString())
+
             } else if (user != null) {
                 // 사용자 정보 요청 성공
                 signInFirebase(user)
+            }
+            else{
+                hideProgressDialog()
             }
         }
     }
@@ -232,13 +254,16 @@ class LoginActivity : AppCompatActivity() {
                         if (result.isSuccessful) {
                             updateFirebaseDatabase(user)
                         } else {
+                            hideProgressDialog()
                             showErrorToast(" 아이디 충돌 오류 발생")
                         }
                     }.addOnFailureListener { error ->
                         error.printStackTrace()
                         showErrorToast(error.toString())
+                        hideProgressDialog()
                     }
             } else {
+                hideProgressDialog()
                 showErrorToast(" 파이어 베이스 관련 오류 발생")
             }
         }
@@ -250,21 +275,21 @@ class LoginActivity : AppCompatActivity() {
             OnCompleteListener { task ->
                 if (!task.isSuccessful) {
                     Log.w(TAG, "Fatching FCM registration token failed", task.exception)
+                    hideProgressDialog()
                     return@OnCompleteListener
                 }
 
                 val token = task.result
                 val userModel = UserDataModel(
-                    uid,
-                    user.kakaoAccount?.profile?.nickname.toString(),
-                    user.kakaoAccount?.gender.toString(),
+                    uid = uid,
+                    nickname = user.kakaoAccount?.profile?.nickname.toString(),
+                    "성별 선택",
                     "자기 소개를 입력하세요 :)",
                     token
                 )
-
-
-
                 FirebaseRef.userInfoRef.child(uid).setValue(userModel)
+
+                //내가 만든거
                 val kakaouser = mutableMapOf<String,Any>()
                 kakaouser["userId"] = uid
                 kakaouser["username"] = user.kakaoAccount?.profile?.nickname.toString()
@@ -273,6 +298,7 @@ class LoginActivity : AppCompatActivity() {
                 Firebase.database.reference.child(Key.DB_USERS).child(uid).updateChildren(kakaouser)
                 uploadImage(uid, user.kakaoAccount?.profile?.thumbnailImageUrl.orEmpty())
                 Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
+                hideProgressDialog()
                 val intent = Intent(this, MainActivity::class.java)
                 //기존 액티비티를 다 날려버린다//
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -308,6 +334,17 @@ class LoginActivity : AppCompatActivity() {
             }
         }.start()
     }
+    private fun showProgressDialog() {
+        if (!progressDialog.isShowing) {
+            progressDialog.show()
+        }
+    }
+
+    private fun hideProgressDialog() {
+        if (progressDialog.isShowing) {
+            progressDialog.dismiss()
+        }
+    }
 }
 
 public class NetworkManager {
@@ -327,4 +364,5 @@ public class NetworkManager {
             }
         }
     }
+
 }

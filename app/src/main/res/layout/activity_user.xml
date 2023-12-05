@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="mysololife.example.sololife.UserActivity">
+    >
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/name"
+        android:src="@drawable/cloud7"
         android:layout_marginTop="20dp"/>
 
     <TextView

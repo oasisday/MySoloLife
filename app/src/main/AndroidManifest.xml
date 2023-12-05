@@ -23,9 +23,6 @@
             android:name="mysololife.example.sololife.CameraActivity"
             android:exported="false" />
         <activity
-            android:name="mysololife.example.sololife.boardUI.BoardActivity1"
-            android:exported="false" />
-        <activity
             android:name="mysololife.example.sololife.group.GroupQnAActivity"
             android:exported="false" />
         <activity
@@ -60,9 +57,7 @@
         <activity
             android:name="mysololife.example.sololife.message.MyLikeListActivity"
             android:exported="false" />
-        <activity
-            android:name="mysololife.example.sololife.ListViewActivity"
-            android:exported="false" />
+
         <activity
             android:name="mysololife.example.sololife.setting.MyPageActivity"
             android:exported="false" />
@@ -90,9 +85,6 @@
             android:exported="false" />
         <activity
             android:name="mysololife.example.sololife.auth.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name="mysololife.example.sololife.auth.introActivity"
             android:exported="false" />
         <activity
             android:name="mysololife.example.sololife.board.BoardInsideActivity"

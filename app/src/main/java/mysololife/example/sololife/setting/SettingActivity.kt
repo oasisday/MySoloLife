@@ -1,23 +1,16 @@
 package mysololife.example.sololife.setting
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.example.mysololife.R
@@ -31,15 +24,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import mysololife.example.sololife.auth.Key
 import mysololife.example.sololife.auth.LoginActivity
 import mysololife.example.sololife.auth.UserDataModel
-import mysololife.example.sololife.auth.introActivity
-import mysololife.example.sololife.board.BoardModel
-import mysololife.example.sololife.utils.FBAuth
-import mysololife.example.sololife.utils.FBRef
 import mysololife.example.sololife.utils.FirebaseRef
 import java.io.ByteArrayOutputStream
 
@@ -100,6 +88,7 @@ class SettingActivity : AppCompatActivity() {
 
 
         binding.SettingBtn.setOnClickListener{
+           try{
             gender = findViewById<TextInputEditText>(R.id.genderArea).text.toString()
             nickname = findViewById<TextInputEditText>(R.id.nicknameArea).text.toString()
             info = findViewById<TextInputEditText>(R.id.infoArea).text.toString()
@@ -109,22 +98,28 @@ class SettingActivity : AppCompatActivity() {
 
 
             val userModel = UserDataModel(
-                currentUserId,
-                nickname,
-                gender,
-                info
+                uid = currentUserId,
+                nickname = nickname,
+                gender =gender,
+                info = info
             )
 
             val user = mutableMapOf<String,Any>()
             user["username"] = nickname
             user["descriotion"] = info
             currentUserDB.updateChildren(user)
-            FirebaseRef.userInfoRef.child(uid).setValue(userModel)
 
-            uploadImage(uid)
+            FirebaseRef.userInfoRef.child(currentUserId).setValue(userModel)
 
-            Toast.makeText(this,"User 정보 설정완료",Toast.LENGTH_SHORT).show()
-            finish()
+            uploadImage(currentUserId)
+
+            Toast.makeText(this,"사용자 정보 설정완료",Toast.LENGTH_SHORT).show()
+           finish()
+           }
+
+           catch (e:Exception){
+               Log.d("whatsproblem",e.toString())
+           }
         }
 
 

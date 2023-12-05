@@ -40,7 +40,7 @@ class StudyTeamAdapter(val boardList: List<GroupDataModel>, var listener: HomeFr
         holder.content.text = boardList[position].classinfo
 
         when (position % 6) {
-            0 -> holder.imageView.setImageResource(R.drawable.logo)
+            0 -> holder.imageView.setImageResource(R.drawable.cloud1)
             1 -> holder.imageView.setImageResource(R.drawable.studyroombg2)
             2 -> holder.imageView.setImageResource(R.drawable.studyroombg3)
             3 -> holder.imageView.setImageResource(R.drawable.studyroombg4)

@@ -1,6 +1,7 @@
 package mysololife.example.sololife.auth
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -40,11 +41,14 @@ class JoinActivity : AppCompatActivity() {
     private var uid = ""
     lateinit var profileImage: ImageView
     var imgcheck = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
 
         auth = Firebase.auth
+
+        //로딩화면
 
         binding = ActivitySignupFinalBinding.inflate(layoutInflater).apply {
             setContentView(root)
@@ -104,78 +108,87 @@ class JoinActivity : AppCompatActivity() {
 
             //비밀번호가 모두 정확하면 실행//
             if (isGoToJoin) {
-                auth.createUserWithEmailAndPassword(email, password1)
-                    .addOnCompleteListener(this) { task ->
-                        //성공했을때//
-                        if (task.isSuccessful) {
-
-                            val user = auth.currentUser
-                            uid = user?.uid.toString()
-
-                            FirebaseMessaging.getInstance().token.addOnCompleteListener(
-                                OnCompleteListener { task ->
-                                    if (!task.isSuccessful) {
-                                        Log.w(
-                                            TAG,
-                                            "Fatching FCM registration token failed",
-                                            task.exception
-                                        )
-                                        return@OnCompleteListener
-                                    }
-
-                                    val token = task.result
-
-                                    Log.e(TAG, token.toString())
-
-                                    val userModel = UserDataModel(
-                                        uid,
-                                        name,
-                                        gender,
-                                        null,
-                                        token,
-                                        false
-                                    )
-
-                                    val userInfo = UserInfoModel(
-                                        uid,
-                                        name,
-                                        email
-                                    )
-
-                                    val user = mutableMapOf<String,Any>()
-                                    user["userId"] = uid
-                                    user["username"] = name
-                                    user["fcmToken"] = token
-                                    //채팅방 기능
-                                    Firebase.database.reference.child(DB_USERS).child(uid).updateChildren(user)
-
-                                    FirebaseRef.userInfoRef.child(uid).setValue(userModel)
-                                    FirebaseRef.userDataRef.child(uid).setValue(userInfo)
-                                    if (imgcheck) uploadImage(uid)
-                                    Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
-                                    val intent = Intent(this, MainActivity::class.java)
-                                    //기존 액티비티를 다 날려버린다//
-                                    intent.flags =
-                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                    startActivity(intent)
-                                })
-                        }
-                        //실패했을때//
-                        else {
-                            if (!NetworkManager.checkNetworkState(this)) {
-                                Toast.makeText(this, "네트워크 연결상태가 좋지 않습니다.", Toast.LENGTH_SHORT)
-                                    .show()
-                            } else {
-                                Toast.makeText(this, "?회원가입 오류.", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    }
-
-
+                loginUser(email, password1, name, gender)
             }
         }
 
     }
+
+    private fun loginUser(
+        email: String,
+        password1: String,
+        name: String,
+        gender: String
+    ) {
+        auth.createUserWithEmailAndPassword(email, password1)
+            .addOnCompleteListener(this) { task ->
+                //성공했을때//
+                if (task.isSuccessful) {
+
+                    val user = auth.currentUser
+                    uid = user?.uid.toString()
+
+                    FirebaseMessaging.getInstance().token.addOnCompleteListener(
+                        OnCompleteListener { task ->
+                            if (!task.isSuccessful) {
+                                Log.w(
+                                    TAG,
+                                    "Fatching FCM registration token failed",
+                                    task.exception
+                                )
+                                return@OnCompleteListener
+                            }
+
+                            val token = task.result
+
+                            Log.e(TAG, token.toString())
+
+                            val userModel = UserDataModel(
+                                uid,
+                                name,
+                                gender,
+                                null,
+                                token,
+                                false
+                            )
+
+                            val userInfo = UserInfoModel(
+                                uid,
+                                name,
+                                email
+                            )
+
+                            val user = mutableMapOf<String, Any>()
+                            user["userId"] = uid
+                            user["username"] = name
+                            user["fcmToken"] = token
+                            //채팅방 기능
+                            Firebase.database.reference.child(DB_USERS).child(uid)
+                                .updateChildren(user)
+
+                            FirebaseRef.userInfoRef.child(uid).setValue(userModel)
+                            FirebaseRef.userDataRef.child(uid).setValue(userInfo)
+                            if (imgcheck) uploadImage(uid)
+                            Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, MainActivity::class.java)
+                            //기존 액티비티를 다 날려버린다//
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(intent)
+                        })
+                }
+                //실패했을때//
+                else {
+                    if (!NetworkManager.checkNetworkState(this)) {
+                        Toast.makeText(this, "네트워크 연결상태가 좋지 않습니다.", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        Toast.makeText(this, "?회원가입 오류.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+    }
+
 
     private fun uploadImage(uid: String) {
 

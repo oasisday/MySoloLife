@@ -14,11 +14,7 @@ import com.example.mysololife.databinding.ActivityGroupMainBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import mysololife.example.sololife.auth.introActivity
-import mysololife.example.sololife.board.BoardEditActivity
-import mysololife.example.sololife.board.BoardInsideActivity
 import mysololife.example.sololife.utils.FBAuth
-import mysololife.example.sololife.utils.FBRef
 import mysololife.example.sololife.utils.FBboard
 
 class GroupMainActivity : AppCompatActivity() {

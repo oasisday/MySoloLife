@@ -30,6 +30,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.mysololife.R
 import com.example.mysololife.databinding.FragmentHomeBinding
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -39,6 +40,7 @@ import com.google.firebase.storage.ktx.storage
 
 import mysololife.example.sololife.CameraActivity
 import mysololife.example.sololife.Matching
+import mysololife.example.sololife.auth.LoginActivity
 import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.auth.UserInfoModel
 import mysololife.example.sololife.group.GroupDataModel
@@ -172,18 +174,36 @@ class HomeFragment : Fragment(),OnItemClickListener{
         val requestOptions = RequestOptions().circleCrop()
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val data = dataSnapshot.getValue(UserDataModel::class.java)
-                myNickname.text = data!!.nickname+" 님"
-                val storageRef = Firebase.storage.reference.child(data!!.uid + ".png")
-                storageRef.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        if(getActivity() !=null){
-                            Glide.with(this@HomeFragment)
-                                .load(task.result)
-                                .apply(requestOptions)
-                                .into(myImage)}
+                try {
+                    val data = dataSnapshot.getValue(UserDataModel::class.java)
+                    if (data != null) {
+                        myNickname.text = data.nickname + " 님"
+                        val storageRef = Firebase.storage.reference.child(data.uid + ".png")
+                        storageRef.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                if (getActivity() != null) {
+                                    Glide.with(this@HomeFragment)
+                                        .load(task.result)
+                                        .apply(requestOptions)
+                                        .into(myImage)
+                                }
+                            }
+                        })
+                    } else {
+                        FirebaseAuth.getInstance().signOut()
+                        Toast.makeText(requireContext(), "로그아웃 되었습니다.", Toast.LENGTH_LONG).show()
+
+                        val intent = Intent(requireContext(), LoginActivity::class.java)
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
                     }
-                })
+                } catch (e: Exception) {
+                    val intent = Intent(requireContext(), LoginActivity::class.java)
+                    intent.flags =
+                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

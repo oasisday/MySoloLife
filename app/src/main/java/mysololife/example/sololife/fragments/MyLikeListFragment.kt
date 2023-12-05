@@ -181,9 +181,9 @@ class MyLikeListFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 for (dataModel in dataSnapshot.children) {
-
+                    Log.d("whatsproblem",dataModel.toString())
                     val user = dataModel.getValue(UserDataModel::class.java)
-
+                    Log.d("whatsproblem",user!!.nickname.toString() + user!!.toString())
                     if (likeUserListUid.contains(user?.uid)) {
                         //내가 좋아요한 사람들의 정보 뽑음
                         likeUserList.add(user!!)

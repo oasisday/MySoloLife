@@ -8,23 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.mysololife.R
-import com.example.mysololife.databinding.ActivityGroupMainBinding
 import com.example.mysololife.databinding.FragmentStudyteamBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import mysololife.example.sololife.ListViewActivity
 import mysololife.example.sololife.MainActivity
-import mysololife.example.sololife.auth.introActivity
-import mysololife.example.sololife.board.BoardEditActivity
-import mysololife.example.sololife.board.BoardInsideActivity
 import mysololife.example.sololife.group.GroupDataModel
 import mysololife.example.sololife.group.GroupQnAActivity
 import mysololife.example.sololife.utils.FBAuth
-import mysololife.example.sololife.utils.FBRef
 import mysololife.example.sololife.utils.FBboard
 
 class GroupMainFragment : Fragment() {
@@ -55,8 +48,7 @@ class GroupMainFragment : Fragment() {
             startActivity(intent)
         }
         binding.chatBtn.setOnClickListener {
-            val intent = Intent(activity, ListViewActivity::class.java)
-            startActivity(intent)
+           Toast.makeText(requireContext(),"chat버튼을 클릭하였습니다.",Toast.LENGTH_SHORT).show()
         }
         binding.groupOutBtn.setOnClickListener {
             showDialog(myUid)

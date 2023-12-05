@@ -15,8 +15,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import mysololife.example.sololife.auth.LoginActivity
-import mysololife.example.sololife.auth.introActivity
-import mysololife.example.sololife.translator.TranslateActivity
 
 class splashscreen : AppCompatActivity() {
     var topAnim: Animation? = null

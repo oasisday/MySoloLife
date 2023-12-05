@@ -256,7 +256,6 @@
         android:id="@+id/timeTypeSpinner2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:="@color/maincolor_seven"
         app:layout_constraintStart_toStartOf="@+id/guideLine"
         app:layout_constraintTop_toBottomOf="@id/timeTypeSpinner"
         app:layout_constraintVertical_bias="1.0" />
@@ -301,9 +300,9 @@
 
     <View
         android:layout_width="0dp"
-        android:layout_height="2dp"
+        android:layout_height="3dp"
         android:layout_marginEnd="25dp"
-        android:background="@color/black"
+        android:background="@color/maincolor_seven"
         android:id="@+id/startline"
         app:layout_constraintBottom_toBottomOf="@+id/timeTypeSpinner"
         app:layout_constraintEnd_toEndOf="parent"
