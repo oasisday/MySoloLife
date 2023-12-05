@@ -127,7 +127,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="20dp"
-                    android:background="@color/maincolor_four"
+                    android:background="@color/maincolor_one"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:text="    Comment"
@@ -146,34 +146,42 @@
             </LinearLayout>
         </ScrollView>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_alignParentBottom="true"
             android:background="@color/white"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="15dp">
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <EditText
                 android:id="@+id/commentArea"
-                android:layout_width="340dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
                 android:background="@android:color/transparent"
-                android:hint=" 댓글을 입력해주세요." />
+                android:hint=" 댓글을 입력해주세요."
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/commentBtn"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-
-                android:padding="10dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:lgravity="end"
+                android:layout_marginEnd="10dp"
                 android:src="@drawable/round_send_24"
+                app:layout_constraintBottom_toBottomOf="@+id/commentArea"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintTop_toTopOf="@+id/commentArea"
                 app:tint="@color/maincolor_three" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 

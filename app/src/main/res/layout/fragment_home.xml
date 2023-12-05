@@ -16,7 +16,7 @@
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_marginBottom="46dp"
             android:scaleType="fitXY"
@@ -396,5 +396,4 @@
         </LinearLayout>
     </LinearLayout>
     <!--remove the below layout with recycler view, use card poplar courses as model for design-->
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -189,7 +189,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="end|center_horizontal"
-            android:text="#FF90C9FB"
+            android:text="@color/maincolor_seven"
             android:textSize="20sp" />
 
         <View
@@ -214,6 +214,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="09:00"
+
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@+id/timeTypeSpinner"
         app:layout_constraintStart_toEndOf="@+id/timeTypeSpinner"
@@ -255,6 +256,7 @@
         android:id="@+id/timeTypeSpinner2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:="@color/maincolor_seven"
         app:layout_constraintStart_toStartOf="@+id/guideLine"
         app:layout_constraintTop_toBottomOf="@id/timeTypeSpinner"
         app:layout_constraintVertical_bias="1.0" />

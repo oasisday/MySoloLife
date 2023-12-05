@@ -1,30 +1,15 @@
 package mysololife.example.sololife.fragments
 
-import android.Manifest
-import android.app.AlertDialog
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat.getSystemService
 import com.bumptech.glide.Glide
-import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivityMainMpBinding
-import com.example.mysololife.databinding.ActivityMyPageBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -37,14 +22,9 @@ import mysololife.example.sololife.ListViewActivity
 import mysololife.example.sololife.Matching
 import mysololife.example.sololife.auth.LoginActivity
 import mysololife.example.sololife.auth.UserDataModel
-import mysololife.example.sololife.auth.UserInfoModel
-import mysololife.example.sololife.message.MyLikeListActivity
-import mysololife.example.sololife.message.MyMsgActivity
 import mysololife.example.sololife.setting.SettingActivity
-import mysololife.example.sololife.utils.FBRef
 import mysololife.example.sololife.utils.FirebaseAuthUtils
 import mysololife.example.sololife.utils.FirebaseRef
-import mysololife.example.sololife.utils.FirebaseRef.Companion.userLikeRef
 
 class MyPageFragment : Fragment() {
 

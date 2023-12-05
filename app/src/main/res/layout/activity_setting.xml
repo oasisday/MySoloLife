@@ -18,8 +18,8 @@
                 android:layout_height="55dp"
                 android:background="@color/mainColor">
                 <TextView
-                    android:background="@color/maincolor_two"
-                    android:text="My Information Edit"
+                    android:background="@color/maincolor_seven"
+                    android:text="개인 정보 수정"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -40,9 +40,9 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:clickable="true"
-                app:civ_border_color="@color/maincolor_two"
+                app:civ_border_color="@color/maincolor_seven"
                 app:civ_border_overlay="false"
-                app:civ_border_width="5dp"
+                app:civ_border_width="2dp"
                 android:id="@+id/profileImage"
                 android:src="@drawable/cmt_profile"
                 android:layout_marginTop="20dp"
@@ -89,6 +89,7 @@
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -102,7 +103,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="16dp"
                     android:layout_weight="1"
-                    android:background="@drawable/background_radius_yellow"
+                    android:backgroundTint="@color/maincolor_seven"
                     android:text="설정 저장"
                     android:textColor="@color/white"
                     android:textStyle="bold"
@@ -120,7 +121,7 @@
                     android:layout_marginRight="25dp"
                     android:layout_marginBottom="16dp"
                     android:layout_weight="1"
-                    android:background="@drawable/background_radius_yellow"
+                    android:backgroundTint="@color/maincolor_seven"
                     android:text="Logout"
 
                     android:textColor="@color/white"
