@@ -253,5 +253,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ProgressBar
+        android:id="@+id/loadingProgressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        android:padding="16dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/myNickname"
+        app:layout_constraintEnd_toEndOf="@+id/myImage"
+        app:layout_constraintStart_toStartOf="@+id/myImage"
+        app:layout_constraintTop_toTopOf="@+id/myImage" /> <!-- 처음에는 보이지 않도록 설정 -->
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -113,7 +113,7 @@ class SettingActivity : AppCompatActivity() {
 
             uploadImage(currentUserId)
 
-            Toast.makeText(this,"사용자 정보 설정완료",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"사용자 정보 설정완료 저장소에 사진이 올라갈 때 약간의 시간이 소요됩니다.",Toast.LENGTH_SHORT).show()
            finish()
            }
 

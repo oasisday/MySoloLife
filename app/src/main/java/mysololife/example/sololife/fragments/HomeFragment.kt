@@ -7,6 +7,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -26,7 +27,11 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.example.mysololife.R
 import com.example.mysololife.databinding.FragmentHomeBinding
 import com.google.android.gms.tasks.OnCompleteListener
@@ -98,11 +103,8 @@ class HomeFragment : Fragment(),OnItemClickListener{
     private fun getFBBoardData(){
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-
                 boardDataList.clear()
-
                 for (dataModel in dataSnapshot.children) {
-
                     Log.d("homefragment", dataModel.toString())
                     val item = dataModel.getValue(GroupDataModel::class.java)
 
@@ -112,12 +114,9 @@ class HomeFragment : Fragment(),OnItemClickListener{
                             boardKeyList.add(dataModel.key.toString())
                         }
                     }
-
                 }
-
                 boardKeyList.reverse()
                 boardDataList.reverse()
-                Log.d("homefragment", boardDataList.toString())
                 studyteamAdapter = StudyTeamAdapter(boardDataList,this@HomeFragment)
                 binding.studyteamrecyclerView.apply {
                     adapter = studyteamAdapter
@@ -175,6 +174,7 @@ class HomeFragment : Fragment(),OnItemClickListener{
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 try {
+                    binding.loadingProgressBar.visibility = View.VISIBLE
                     val data = dataSnapshot.getValue(UserDataModel::class.java)
                     if (data != null) {
                         myNickname.text = data.nickname + " 님"
@@ -182,10 +182,39 @@ class HomeFragment : Fragment(),OnItemClickListener{
                         storageRef.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 if (getActivity() != null) {
+                                    try {
                                     Glide.with(this@HomeFragment)
                                         .load(task.result)
                                         .apply(requestOptions)
+                                        .listener(object : RequestListener<Drawable> {
+                                            override fun onLoadFailed(
+                                                e: GlideException?,
+                                                model: Any?,
+                                                target: Target<Drawable>,
+                                                isFirstResource: Boolean
+                                            ): Boolean {
+                                                binding.loadingProgressBar.visibility = View.GONE // 로딩 실패 시 ProgressBar 숨김
+                                                return false
+                                            }
+
+                                            override fun onResourceReady(
+                                                resource: Drawable,
+                                                model: Any,
+                                                target: Target<Drawable>?,
+                                                dataSource: DataSource,
+                                                isFirstResource: Boolean
+                                            ): Boolean {
+                                                // target이 null이 아닌 경우에만 로딩 완료 시 ProgressBar를 숨김
+                                                if (target != null) {
+                                                    binding.loadingProgressBar.visibility = View.GONE
+                                                }
+                                                return false
+                                            }
+                                        })
                                         .into(myImage)
+                                }catch (e:Exception) {
+                                        binding.loadingProgressBar.visibility = View.GONE
+                                    }
                                 }
                             }
                         })
@@ -199,6 +228,7 @@ class HomeFragment : Fragment(),OnItemClickListener{
                         startActivity(intent)
                     }
                 } catch (e: Exception) {
+                    binding.loadingProgressBar.visibility = View.GONE
                     val intent = Intent(requireContext(), LoginActivity::class.java)
                     intent.flags =
                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -268,28 +298,19 @@ class HomeFragment : Fragment(),OnItemClickListener{
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
-                    // Getting Post failed, log a message
                 }
             }
 
             FirebaseRef.userDataRef.addValueEventListener(postListener)
-            //finish()
-
         }
-
-
-
-        //mBuilder.show()
     }
     private fun userLikeOtherUser(myUid : String, otherUid : String){
         FirebaseRef.userLikeRef.child(uid).child(otherUid).setValue("true")
-
         getOtherUserLikeList(otherUid)
     }
     private fun getOtherUserLikeList(otherUid: String){
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-
                 for (dataModel in dataSnapshot.children){
                     val likeUserKey = dataModel.key.toString()
                     if(likeUserKey.equals(uid)){
