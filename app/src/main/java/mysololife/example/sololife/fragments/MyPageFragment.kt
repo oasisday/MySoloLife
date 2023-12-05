@@ -68,8 +68,10 @@ class MyPageFragment : Fragment() {
         binding.msgBtn.setOnClickListener {
             Toast.makeText(requireContext(),"msg버튼을 클릭하였습니다.",Toast.LENGTH_SHORT).show()
         }
-
-
+        binding.swiperefreshlayout.setOnRefreshListener{
+            getMyData()
+            binding.swiperefreshlayout.isRefreshing = false
+        }
         getMyData()
     }
 
