@@ -40,6 +40,7 @@ import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBRef
 import mysololife.example.sololife.utils.FirebaseAuthUtils
 import mysololife.example.sololife.utils.FirebaseRef
+import mysololife.example.sololife.utils.FirebaseRef.Companion.userBothRef
 import mysololife.example.sololife.utils.FirebaseRef.Companion.userLikeRef
 import java.sql.Types.NULL
 import java.util.UUID
@@ -389,7 +390,7 @@ class BoardInsideActivity : Activity() {
 
                             if(currentUser == guid) Toast.makeText(this@BoardInsideActivity,"본인입니다.",Toast.LENGTH_SHORT).show()
                             else{
-                                userLikeRef.child(currentUser).child(guid).setValue("true")
+                                userBothRef.child(currentUser).child(guid).setValue("true")
                                 userLikeOtherUser(currentUser, guid)
                                 Toast.makeText(
                                     this@BoardInsideActivity,
@@ -425,11 +426,19 @@ class BoardInsideActivity : Activity() {
                 for (dataModel in dataSnapshot.children) {
                     val likeUserKey = dataModel.key.toString()
                     if (likeUserKey.equals(uid)) {
+
                         Toast.makeText(
                             this@BoardInsideActivity,
                             "matching success!!",
                             Toast.LENGTH_SHORT
                         ).show()
+
+                        FirebaseRef.userBothRef.child(uid).child(otherUid).setValue("true")
+                        FirebaseRef.userBothRef.child(otherUid).child(uid).setValue("true")
+                        FirebaseRef.userLikeRef.child(uid).child(otherUid).setValue("false")
+                        FirebaseRef.userLikeRef.child(otherUid).child(uid).setValue("false")
+
+
                         createNotificationChannel()
                         sendNotification()
                     }
