@@ -52,14 +52,22 @@
 
     <ImageView
         android:id="@+id/gridMode"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/round_grid_on_24"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/galleryBtn"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginStart="36dp"
-        android:background="@drawable/round_grid_on_24"
+        android:background="@drawable/round_photo_library_24"
         app:layout_constraintBottom_toBottomOf="@+id/captureBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/captureBtn" />
-
 
     <ImageView
         android:id="@+id/flipMode"
