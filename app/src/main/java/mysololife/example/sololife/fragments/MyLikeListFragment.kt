@@ -150,6 +150,11 @@ class MyLikeListFragment : Fragment() {
         getMyLikeList()
     }
 
+    override fun onResume() {
+        super.onResume()
+        likeUserList.clear()
+    }
+
     override fun onDestroy() {
         if (mAlertDialog != null && mAlertDialog!!.isShowing) {
             mAlertDialog!!.dismiss()
@@ -161,7 +166,6 @@ class MyLikeListFragment : Fragment() {
         super.onPause()
         Glide.with(this).pauseAllRequests()
     }
-
 
     private fun getMyLikeList() {
         val postListener = object : ValueEventListener {

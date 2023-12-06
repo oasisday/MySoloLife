@@ -78,25 +78,19 @@ class MyLikeWaitFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        val userListView = view.findViewById<ListView>(R.id.userListView)
-//        val writeBtn = view.findViewById<LinearLayout>(R.id.writeBtn)
-//        val msgBtn = view.findViewById<LinearLayout>(R.id.msgBtn)
-//
-//        listviewAdapter = ListViewAdapter(requireContext(), likeUserList)
-//        userListView.adapter = listviewAdapter
-//
-//
-//
-//        userListView.setOnItemLongClickListener { parent, view, position, id ->
-//            getterUid = likeUserList[position].uid.toString()
-//            getterToken = likeUserList[position].token.toString()
-//            checkMatching(likeUserList[position].uid.toString())
-//            true
-//        }
+        val userListView = view.findViewById<ListView>(R.id.userListView)
 
-
-//        getMyLikeList()
+        listviewAdapter = ListViewAdapter(requireContext(), likeUserList)
+        userListView.adapter = listviewAdapter
+        getMyLikeList()
     }
+
+    override fun onResume() {
+        super.onResume()
+        likeUserList.clear()
+    }
+
+
 
     override fun onDestroy() {
         if (mAlertDialog != null && mAlertDialog!!.isShowing) {
@@ -115,10 +109,13 @@ class MyLikeWaitFragment : Fragment() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
+                likeUserList.clear()
                 for (dataModel in dataSnapshot.children) {
-                    likeUserListUid.add(dataModel.key.toString())
+                    if(dataModel!!.value == "true")
+                        likeUserListUid.add(dataModel.key.toString())
+                    //Log.d("ccc",dataModel.toString())
                 }
-
+                listviewAdapter.notifyDataSetChanged()
                 getUserDataList()
             }
 
@@ -127,7 +124,7 @@ class MyLikeWaitFragment : Fragment() {
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
             }
         }
-        FirebaseRef.userBothRef.child(uid).addValueEventListener(postListener)
+        FirebaseRef.userLikeRef.child(uid).addValueEventListener(postListener)
 
         listviewAdapter.notifyDataSetChanged()
     }

@@ -37,6 +37,7 @@ class CardStackAdapter(val context : Context, val items : List<UserDataModel>) :
         val nickname: TextView = itemView.findViewById<TextView>(R.id.itemNickname)
         val gender: TextView = itemView.findViewById<TextView>(R.id.itemGender)
 
+
         fun binding(data : UserDataModel) {
 
             val storageRef = Firebase.storage.reference.child(data.uid + ".png")

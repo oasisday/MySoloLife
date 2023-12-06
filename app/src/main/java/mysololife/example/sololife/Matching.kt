@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.mysololife.R
 import com.google.firebase.database.DataSnapshot
@@ -27,6 +28,7 @@ import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.CardStackView
 import com.yuyakaido.android.cardstackview.Direction
+import kotlinx.coroutines.launch
 import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.slider.CardStackAdapter
 import mysololife.example.sololife.utils.FirebaseAuthUtils
@@ -40,6 +42,8 @@ class Matching : AppCompatActivity() {
     lateinit var manager: CardStackLayoutManager
 
     private val usersDataList = mutableListOf<UserDataModel>()
+
+    private val delList = mutableListOf<String>()
 
     private val TAG = "Matching"
 
@@ -105,10 +109,32 @@ class Matching : AppCompatActivity() {
         cardStackView.layoutManager = manager
         cardStackView.adapter = cardStackAdapter
 
-        getMyUserData()
+        lifecycleScope.launch {
+            getMylikeList()
+            getMyUserData()
+            delList()
+        }
     }
 
 
+    private fun delList(){
+        lifecycleScope.launch {
+
+            val del = mutableListOf<UserDataModel>()
+
+            for(tmp in usersDataList){
+                if(delList.contains(tmp.uid)){
+                    del.add(tmp)
+                }
+            }
+
+            Log.d("aaa",del.toString())
+
+            for(tmp in del){
+                usersDataList.remove(tmp)
+            }
+        }
+    }
 
     private fun getUserDataList(currentUserUid : String) {
         val postListener = object : ValueEventListener {
@@ -142,10 +168,8 @@ class Matching : AppCompatActivity() {
             }
         }
         FirebaseRef.userInfoRef.addValueEventListener(postListener)
-
-
-
     }
+
 
     private fun del(){
 
@@ -199,6 +223,27 @@ class Matching : AppCompatActivity() {
 
     }
 
+    private fun getMylikeList(){
+
+        delList.clear()
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                val data = dataSnapshot.value.toString()
+
+                delList.add(data)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        FirebaseRef.userLikeRef.child(uid).addValueEventListener(postListener)
+
+    }
+
     private fun getMyUserData(){
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -213,8 +258,9 @@ class Matching : AppCompatActivity() {
 
                 MyInfo.myNickname = data?.nickname.toString()
 
-                getUserDataList(currentUserUid)
 
+                getUserDataList(currentUserUid)
+                //del()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -259,48 +305,6 @@ class Matching : AppCompatActivity() {
         }
         FirebaseRef.userLikeRef.child(otherUid).addValueEventListener(postListener)
     }
-//    private fun createNotificationChannel() {
-//        // Create the NotificationChannel, but only on API 26+ because
-//        // the NotificationChannel class is new and not in the support library
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            val name = "name"
-//            val descriptionText = "description"
-//            val importance = NotificationManager.IMPORTANCE_DEFAULT
-//            val channel = NotificationChannel("Test_ch", name, importance).apply {
-//                description = descriptionText
-//            }
-//            // Register the channel with the system
-//            val notificationManager: NotificationManager =
-//                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//            notificationManager.createNotificationChannel(channel)
-//        }
-//    }
-//    private fun sendNotification(){
-//        var builder = NotificationCompat.Builder(this, "Test_ch")
-//            .setSmallIcon(R.drawable.ic_launcher_background)
-//            .setContentTitle("Study Matching")
-//            .setContentText("새로운 스터디원과 연결되었습니다. 확인해보세요!")
-//            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//        with(NotificationManagerCompat.from(this)){
-//            if (ActivityCompat.checkSelfPermission(
-//                    this@Matching,
-//                    Manifest.permission.POST_NOTIFICATIONS
-//                ) != PackageManager.PERMISSION_GRANTED
-//            ) {
-//                // TODO: Consider calling
-//                //    ActivityCompat#requestPermissions
-//                // here to request the missing permissions, and then overriding
-//                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                //                                          int[] grantResults)
-//                // to handle the case where the user grants the permission. See the documentation
-//                // for ActivityCompat#requestPermissions for more details.
-//                return
-//            }
-//            notify(123,builder.build())
-//        }
-//    }
-
-
     private fun checkUid(uid1: String, uid2: String, callback: (Boolean) -> Unit) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
