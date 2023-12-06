@@ -71,6 +71,30 @@ class BoardInsideActivity : Activity() {
         getBoardData(key)
         getImageData(key)
 
+        //////////////
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                Log.d(TAG, dataSnapshot.toString())
+                val data = dataSnapshot.getValue(UserDataModel::class.java)
+
+                binding.nameArea.text = data!!.nickname
+
+                val uid = data!!.uid.toString()
+                val profile = binding.wrtImg
+
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+
+        FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
+        //////////////
+
         binding.commentBtn.setOnClickListener {
             if (binding.commentArea.text.toString() == "") {
                 Toast.makeText(this, "댓글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
@@ -333,9 +357,9 @@ class BoardInsideActivity : Activity() {
 
                 alertDialog.findViewById<TextView>(R.id.nameArea).text = "이름 : " + name
                 alertDialog.findViewById<TextView>(R.id.gradeArea).text = "학년 : " + grade
-                if (info != "") alertDialog.findViewById<TextView>(R.id.infoArea).text = info
-                else alertDialog.findViewById<TextView>(R.id.infoArea).text =
+                if (info == "" || info == "null") alertDialog.findViewById<TextView>(R.id.infoArea).text =
                     "아직 사용자가 정보를 입력하지 않았습니다."
+                else alertDialog.findViewById<TextView>(R.id.infoArea).text = info
 
                 val storageRef = Firebase.storage.reference.child(data.uid + ".png")
                 storageRef.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->

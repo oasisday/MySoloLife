@@ -40,6 +40,8 @@ class InsideGBoardAdapter(val items: MutableList<BoardModel>): BaseAdapter() {
         val title = view?.findViewById<TextView>(R.id.gtitleArea)
         val content = view?.findViewById<TextView>(R.id.contentArea)
         val time = view?.findViewById<TextView>(R.id.gtimeArea)
+        val name = view?.findViewById<TextView>(R.id.nameArea)
+
 
         if(items[position].uid.equals(FBAuth.getUid())){
             itemLinearLayoutView?.setBackgroundColor(Color.parseColor("#BCC6CC"))
@@ -47,13 +49,17 @@ class InsideGBoardAdapter(val items: MutableList<BoardModel>): BaseAdapter() {
 
         title!!.text = items[position].title
         time!!.text = items[position].time
+        content!!.text = items[position].content
 
+        if(items[position].content.length>10){
+            content!!.text = items[position].content.take(60)+"..."
+        }
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
 
-                content!!.text = data!!.nickname.toString()
+                name!!.text = data!!.nickname.toString()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

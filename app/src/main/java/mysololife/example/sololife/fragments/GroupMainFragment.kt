@@ -90,7 +90,7 @@ class GroupMainFragment : Fragment() {
                 try {
                     val dataModel = dataSnapshot.getValue(GroupDataModel::class.java)
                     arr = dataModel!!.member
-
+                    
                     if (dataModel!!.leader.equals(myUid)) checked = false
                 } catch (e: Exception) {
                 }

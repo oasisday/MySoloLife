@@ -98,7 +98,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="녹음기"
+                android:text="녹음기\n"
+                android:textSize="15sp"
                 android:textAlignment="center"
                 android:textColor="#6672FF"
                 android:textStyle="bold|italic" />
@@ -126,7 +127,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="강의 시간표"
+                android:text="강의 시간표\n"
+                android:textSize="15sp"
                 android:textAlignment="center"
                 android:textColor="#6672FF"
                 android:textStyle="bold|italic" />
@@ -154,7 +156,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="스터디원 매칭"
+                android:text="스터디원\n 매칭"
+                android:textSize="15sp"
                 android:textAlignment="center"
                 android:textColor="#6672FF"
                 android:textStyle="bold|italic" />

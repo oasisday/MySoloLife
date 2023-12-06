@@ -91,6 +91,18 @@ class GBoardInsideActivity : Activity() {
         val myUid = FBAuth.getUid()
         val writerUid = uid
 
+        binding.wrtImg.setOnClickListener{
+            profileDialog(writerUid)
+        }
+
+        binding.nameArea.setOnClickListener{
+            profileDialog(writerUid)
+        }
+
+        binding.timeArea.setOnClickListener{
+            profileDialog(writerUid)
+        }
+
         if(myUid.equals(writerUid)){
             Log.d(TAG, "내가 쓴 글")
             binding.boardSettingIcon.isVisible = true
@@ -237,8 +249,9 @@ class GBoardInsideActivity : Activity() {
 
                 alertDialog.findViewById<TextView>(R.id.nameArea).text = "이름 : " + name
                 alertDialog.findViewById<TextView>(R.id.gradeArea).text = "학년 : " + grade
-                if(info != "") alertDialog.findViewById<TextView>(R.id.infoArea).text = info
-                else alertDialog.findViewById<TextView>(R.id.infoArea).text = "아직 사용자가 정보를 입력하지 않았습니다."
+                if (info == "" || info == "null") alertDialog.findViewById<TextView>(R.id.infoArea).text =
+                    "아직 사용자가 정보를 입력하지 않았습니다."
+                else alertDialog.findViewById<TextView>(R.id.infoArea).text = info
 
                 val storageRef = Firebase.storage.reference.child(data.uid + ".png")
                 storageRef.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->

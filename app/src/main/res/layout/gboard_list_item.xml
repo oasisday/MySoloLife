@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/gitemView"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="100dp"
     android:orientation="vertical"
-    android:layout_margin="10dp">
+    android:layout_margin="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
             <TextView
                 android:id="@+id/contentArea"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="35dp"
                 android:text="Content"
                 android:textSize="16sp"
                 android:textColor="#696969"
@@ -49,7 +49,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 tools:ignore="MissingConstraints"
-                android:layout_marginRight="15dp">
+                android:layout_marginRight="15dp"
+                android:paddingBottom="5dp">
 
                 <TextView
                     android:id="@+id/nameArea"
