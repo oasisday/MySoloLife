@@ -3,9 +3,9 @@ package mysololife.example.sololife
 import android.Manifest.permission.CAMERA
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -15,6 +15,7 @@ import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -39,7 +40,6 @@ class CameraActivity : AppCompatActivity() {
         binding = ActivityCameraBinding.inflate(layoutInflater).apply {
             setContentView(root)
         }
-
         //카메라 권한 허용
         checkCameraPermission()
 
@@ -62,6 +62,19 @@ class CameraActivity : AppCompatActivity() {
             } else {
                 binding.zoomSeekBar.setVisibility(View.VISIBLE);
             }
+        }
+        binding.gridMode.setOnClickListener {
+            if (binding.gridLayout.visibility == View.VISIBLE) {
+                binding.gridLayout.visibility = View.GONE
+            } else {
+                binding.gridLayout.visibility = View.VISIBLE
+            }
+        }
+        binding.galleryBtn.setOnClickListener{
+            val galleryIntent =
+                Intent(Intent.ACTION_VIEW, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            galleryIntent.type = "image/*"
+            startActivity(galleryIntent)
         }
     }
 
