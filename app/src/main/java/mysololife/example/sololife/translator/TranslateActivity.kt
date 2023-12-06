@@ -194,22 +194,28 @@ class TranslateActivity : AppCompatActivity() {
     }
 
     private fun detectText() {
-        val image = InputImage.fromBitmap(imageBitmap!!, 0)
+        val image = imageBitmap?.let { InputImage.fromBitmap(it, 0) }
         val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
-        recognizer.process(image).addOnSuccessListener { visionText ->
-            val blocks = visionText.textBlocks
-            if(blocks.size==0){
-                Toast.makeText(this, "No Texts Found", Toast.LENGTH_LONG).show()
-            }
-            else
-            {
-                for(block in visionText.textBlocks)
+        if (image != null) {
+            recognizer.process(image).addOnSuccessListener { visionText ->
+                val blocks = visionText.textBlocks
+                if(blocks.size==0){
+                    Toast.makeText(this, "No Texts Found", Toast.LENGTH_LONG).show()
+                }
+                else
                 {
-                    val txt = block.getText()
-                    binding.input.setText(txt)
+                    for(block in visionText.textBlocks)
+                    {
+                        val txt = block.getText()
+                        binding.input.setText(txt)
 
+                    }
                 }
             }
+        }
+        else
+        {
+            Toast.makeText(this, "Photo needs to be taken", Toast.LENGTH_SHORT).show()
         }
     }
 

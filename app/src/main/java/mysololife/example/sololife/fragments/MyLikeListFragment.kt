@@ -101,10 +101,10 @@ class MyLikeListFragment : Fragment() {
             true
         }
 
+
+
         writeBtn.setOnClickListener {
-
             groupId = UUID.randomUUID().toString()
-
             groupModel = GroupDataModel(
                 null, null, null, null
             )
