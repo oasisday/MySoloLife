@@ -68,19 +68,10 @@ class Matching : AppCompatActivity() {
                     //userLikeOtherUser(uid,usersDataList[userCount].uid.toString())
                     //lightOverlay.bringToFront()
 
-                    checkUid(uid, usersDataList[userCount].uid.toString()) { result ->
-                        if (result) {
-                            Toast.makeText(
-                                this@Matching,
-                                "이미 추가된 친구입니다.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else {
-                            Log.d("uidtest", "here")
-                            FirebaseRef.userLikeRef.child(uid).child(usersDataList[userCount].uid.toString()).setValue("true")
-                            userLikeOtherUser(uid, usersDataList[userCount].uid.toString())
-                        }
-                    }
+                    //checkUid(uid, usersDataList[userCount].uid.toString()) { result ->
+                        Log.d("uidtest", "here")
+                        userLikeOtherUser(uid, usersDataList[userCount].uid.toString())
+                    //}
 
                 }
                 if(direction == Direction.Left){
@@ -92,6 +83,7 @@ class Matching : AppCompatActivity() {
                 //다 넘겼으면//
                 if(userCount == usersDataList.count()){
                     getUserDataList(currentUserUid)
+                    Toast.makeText(this@Matching,"모든 사용자가 지나갔습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -132,10 +124,15 @@ class Matching : AppCompatActivity() {
                     }
                     else{
                         usersDataList.add(user!!)
+                        //del(user.uid.toString(),user)
                     }
                 }
 
-                cardStackAdapter.notifyDataSetChanged()
+                //del()
+                if(usersDataList.isNotEmpty())
+                    cardStackAdapter.notifyDataSetChanged()
+                else
+                    Toast.makeText(this@Matching, "모든 사용자가 지나갔습니다.",Toast.LENGTH_SHORT).show()
 
             }
 
@@ -147,6 +144,36 @@ class Matching : AppCompatActivity() {
         FirebaseRef.userInfoRef.addValueEventListener(postListener)
 
 
+
+    }
+
+    private fun del(){
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                for (dataModel in dataSnapshot.children){
+                    val likeUserKey = dataModel.key.toString()
+
+                    //usersDataList에서 찾아서 삭제
+                    for(tmp in usersDataList){
+                        if(tmp.uid == likeUserKey){
+                            usersDataList.remove(tmp)
+                            break
+                        }
+                    }
+
+                }
+
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        FirebaseRef.userLikeRef.child(currentUserUid).addValueEventListener(postListener)
 
     }
 
@@ -199,7 +226,7 @@ class Matching : AppCompatActivity() {
     }
     //나의 Uid//상대의 Uid
     private fun userLikeOtherUser(myUid : String, otherUid : String){
-        FirebaseRef.userLikeRef.child(uid).child(otherUid).setValue("true")
+        FirebaseRef.userLikeRef.child(myUid).child(otherUid).setValue("true")
 
         getOtherUserLikeList(otherUid)
     }
@@ -211,6 +238,11 @@ class Matching : AppCompatActivity() {
                     val likeUserKey = dataModel.key.toString()
                     if(likeUserKey.equals(uid)){
                         Toast.makeText(this@Matching,"matching success!!", Toast.LENGTH_SHORT).show()
+
+                        FirebaseRef.userBothRef.child(uid).child(otherUid).setValue("true")
+                        FirebaseRef.userBothRef.child(otherUid).child(uid).setValue("true")
+                        FirebaseRef.userLikeRef.child(uid).child(otherUid).setValue("false")
+                        FirebaseRef.userLikeRef.child(otherUid).child(uid).setValue("false")
                         //createNotificationChannel()
                         //sendNotification()
                     }

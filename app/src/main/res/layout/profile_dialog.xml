@@ -1,93 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="550dp"
+    android:paddingTop="30dp"
     android:orientation="vertical">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp">
 
         <LinearLayout
-            android:background="@drawable/background_radius_yellow2"
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
+            android:background="@drawable/background_radius_yellow2"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imageArea"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/cmt_profile"
-                android:layout_marginLeft="20dp"
-                android:layout_marginBottom="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:civ_border_color="@color/maincolor_one"
-                app:civ_border_overlay="false"
-                app:civ_border_width="5dp"
-                tools:ignore="MissingConstraints" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageArea"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/cmt_profile"
+                    app:civ_border_color="@color/maincolor_one"
+                    app:civ_border_overlay="false"
+                    app:civ_border_width="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="MissingConstraints" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
-                android:layout_margin="10dp"
-                android:layout_width="255dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/background_radius_yellow2">
+                android:background="@drawable/background_radius_yellow2"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
                     android:layout_margin="10dp"
-                    android:background="@drawable/background_radius_yellow3">
+                    android:background="@drawable/background_radius_yellow3"
+                    android:orientation="vertical">
 
 
                     <TextView
                         android:id="@+id/nameArea"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="이름 : Name"
+                        android:paddingTop="8dp"
                         android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+                        android:text="이름 : Name"
                         android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:layout_marginTop="5dp"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/gradeArea"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="학년 : Grade"
-                        android:layout_marginTop="5dp"
                         android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
                         android:gravity="center"
+                        android:text="학년 : Grade"
+                        android:textAlignment="center"
                         android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:textAlignment="center"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/infoArea"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="설명"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         android:gravity="center"
-                        android:textSize="15sp"
-                        android:textAlignment="center"/>
+                        android:text="설명"
+                        android:textAlignment="center"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
@@ -99,8 +108,14 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
+        tools:ignore="MissingConstraints">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -150,4 +165,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

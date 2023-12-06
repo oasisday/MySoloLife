@@ -1,5 +1,6 @@
 package mysololife.example.sololife.message
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
@@ -58,6 +59,7 @@ class MyLikeListActivity : AppCompatActivity() {
         null,null, null, null
     )
 
+    @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_like_list)
@@ -194,7 +196,7 @@ class MyLikeListActivity : AppCompatActivity() {
                 for (dataModel in dataSnapshot.children){
                     likeUserListUid.add(dataModel.key.toString())
                 }
-
+                del()
                 getUserDataList()
             }
 
@@ -204,6 +206,48 @@ class MyLikeListActivity : AppCompatActivity() {
             }
         }
         FirebaseRef.userLikeRef.child(uid).addValueEventListener(postListener)
+    }
+
+    private fun del(){
+
+        for(tmp in likeUserListUid){
+            checkit(tmp)
+        }
+
+    }
+
+    //uid의 like에 currentuid가 들어있는지
+    private fun checkit(Uid : String) {
+
+        Log.d("yes","드러옴")
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                for (dataModel in dataSnapshot.children){
+                    val likeUserKey = dataModel.key.toString()
+
+                    if(likeUserKey == Uid){
+                        likeUserListUid.remove(likeUserKey)
+                        Log.d("abcabc",likeUserKey)
+                        return;
+                    }
+                    else{
+                        Log.d("No",likeUserKey)
+                    }
+
+                }
+
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        FirebaseRef.userLikeRef.child(Uid).addValueEventListener(postListener)
+
     }
 
     private fun getUserDataList() {

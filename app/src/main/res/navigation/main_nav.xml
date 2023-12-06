@@ -55,6 +55,8 @@
             android:id="@+id/action_mypageFragment_to_settingFragment"
             app:destination="@id/settingFragment" />
     </fragment>
+
+
     <fragment
         android:id="@+id/groupMainFragment"
         android:name="mysololife.example.sololife.fragments.GroupMainFragment"
@@ -62,11 +64,24 @@
         tools:layout="@layout/fragment_studyteam">
 
     </fragment>
+
+
+    <fragment
+        android:id="@+id/myWaitListFragment"
+        android:name="mysololife.example.sololife.fragments.MyLikeWaitFragment"
+        android:label="MyLikeWaitFragment"
+        tools:layout="@layout/activity_my_wait_list"/>
+
     <fragment
         android:id="@+id/myLikeListFragment"
         android:name="mysololife.example.sololife.fragments.MyLikeListFragment"
         android:label="MyLikeListFragment"
-        tools:layout="@layout/activity_my_like_list"/>
+        tools:layout="@layout/activity_my_like_list">
+        <action
+            android:id="@+id/action_myLikeLikstFragment_to_myLikeWaitFragment"
+            app:destination="@id/myWaitListFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/lectureInitFragment"
         android:name="mysololife.example.sololife.fragments.LectureInitFragment"

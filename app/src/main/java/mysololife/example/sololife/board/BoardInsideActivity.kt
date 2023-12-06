@@ -71,30 +71,6 @@ class BoardInsideActivity : Activity() {
         getBoardData(key)
         getImageData(key)
 
-        //////////////
-
-        val postListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                Log.d(TAG, dataSnapshot.toString())
-                val data = dataSnapshot.getValue(UserDataModel::class.java)
-
-                binding.nameArea.text = data!!.nickname
-
-                val uid = data!!.uid.toString()
-                val profile = binding.wrtImg
-
-
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
-            }
-        }
-
-        FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
-        //////////////
-
         binding.commentBtn.setOnClickListener {
             if (binding.commentArea.text.toString() == "") {
                 Toast.makeText(this, "댓글 내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
@@ -279,12 +255,23 @@ class BoardInsideActivity : Activity() {
                     val dataModel = dataSnapshot.getValue(BoardModel::class.java)
                     Log.d(TAG, dataModel!!.title)
 
+                    val myUid = FBAuth.getUid()
+                    val writerUid = dataModel.uid
+
                     binding.titleArea.text = dataModel!!.title
                     binding.textArea.text = dataModel!!.content
                     binding.timeArea.text = dataModel!!.time
 
-                    val myUid = FBAuth.getUid()
-                    val writerUid = dataModel.uid
+                    binding.wrtImg.setOnClickListener{
+                        profileDialog(writerUid)
+                    }
+                    binding.timeArea.setOnClickListener{
+                        profileDialog(writerUid)
+                    }
+                    binding.nameArea.setOnClickListener{
+                        profileDialog(writerUid)
+                    }
+
                     uid = dataModel!!.uid
                     getWriterData(uid)
                     if (myUid.equals(writerUid)) {

@@ -17,7 +17,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.mysololife.R
 import com.google.firebase.database.DataSnapshot
@@ -37,9 +36,9 @@ import mysololife.example.sololife.utils.FirebaseRef
 import mysololife.example.sololife.utils.MyInfo
 import java.util.*
 
-class MyLikeListFragment : Fragment() {
+class MyLikeWaitFragment : Fragment() {
 
-    private val TAG = "MyLikeListFragment"
+    private val TAG = "MyWaitListFragment"
     private val uid = FirebaseAuthUtils.getUid()
 
     private val likeUserList = mutableListOf<UserDataModel>()
@@ -59,7 +58,7 @@ class MyLikeListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.activity_my_like_list, container, false)
+        val view = inflater.inflate(R.layout.activity_my_wait_list, container, false)
 
         // 툴바 설정 코드를 여기에 추가하세요.
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar) // 툴바 ID를 실제로 사용하는 ID로 변경하세요.
@@ -72,82 +71,31 @@ class MyLikeListFragment : Fragment() {
         toolbar.navigationIcon?.setTint(Color.BLACK)
         // Inflate the layout for this fragment
         return view
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val userListView = view.findViewById<ListView>(R.id.userListView)
-        val writeBtn = view.findViewById<LinearLayout>(R.id.writeBtn)
-        val msgBtn = view.findViewById<LinearLayout>(R.id.msgBtn)
-        val waitBtn = view.findViewById<LinearLayout>(R.id.waitBtn)
+//        val userListView = view.findViewById<ListView>(R.id.userListView)
+//        val writeBtn = view.findViewById<LinearLayout>(R.id.writeBtn)
+//        val msgBtn = view.findViewById<LinearLayout>(R.id.msgBtn)
+//
+//        listviewAdapter = ListViewAdapter(requireContext(), likeUserList)
+//        userListView.adapter = listviewAdapter
+//
+//
+//
+//        userListView.setOnItemLongClickListener { parent, view, position, id ->
+//            getterUid = likeUserList[position].uid.toString()
+//            getterToken = likeUserList[position].token.toString()
+//            checkMatching(likeUserList[position].uid.toString())
+//            true
+//        }
 
-        listviewAdapter = ListViewAdapter(requireContext(), likeUserList)
-        userListView.adapter = listviewAdapter
 
-        waitBtn.setOnClickListener{
-            view?.findNavController()?.navigate(R.id.action_myLikeLikstFragment_to_myLikeWaitFragment)
-        }
-
-        msgBtn.setOnClickListener {
-            val intent = Intent(requireContext(), MyMsgActivity::class.java)
-            startActivity(intent)
-        }
-
-        userListView.setOnItemLongClickListener { parent, view, position, id ->
-            getterUid = likeUserList[position].uid.toString()
-            getterToken = likeUserList[position].token.toString()
-            checkMatching(likeUserList[position].uid.toString())
-            true
-        }
-
-        writeBtn.setOnClickListener {
-
-            groupId = UUID.randomUUID().toString()
-
-            groupModel = GroupDataModel(
-                null, null, null, null
-            )
-            groupModel.groupnum = groupId
-            groupModel.leader = uid
-            groupModel.member?.add(uid)
-
-            val selectedItems = listviewAdapter.getSelectedItems()
-            for (item in selectedItems) {
-                groupModel.member?.add(item.uid.toString())
-            }
-
-            val mDialogView = LayoutInflater.from(requireContext()).inflate(R.layout.custom_dialog_board, null)
-            mBuilder = AlertDialog.Builder(requireContext())
-                .setView(mDialogView)
-                .setTitle("과목 정보입력")
-
-            mAlertDialog = mBuilder.show()
-
-            val okbtn = mAlertDialog!!.findViewById<Button>(R.id.btnOk)
-            val cancelbtn = mAlertDialog!!.findViewById<Button>(R.id.btnCancel)
-            val classNameArea = mAlertDialog!!.findViewById<EditText>(R.id.classNameArea)
-            val classInfoArea = mAlertDialog!!.findViewById<EditText>(R.id.classInfoArea)
-
-            okbtn?.setOnClickListener {
-
-                val classText = classNameArea!!.text.toString()
-                val infoText = classInfoArea!!.text.toString()
-
-                groupModel.classname = classText
-                groupModel.classinfo = infoText
-
-                FBboard.boardInfoRef.child(groupId!!).setValue(groupModel)
-
-                Toast.makeText(requireContext(), "스터디 그룹이 생성되었습니다.", Toast.LENGTH_SHORT).show()
-                activity?.onBackPressed()
-            }
-            cancelbtn?.setOnClickListener {
-                mAlertDialog!!.dismiss()
-            }
-        }
-
-        getMyLikeList()
+//        getMyLikeList()
     }
 
     override fun onDestroy() {
@@ -330,8 +278,8 @@ class MyLikeListFragment : Fragment() {
     // Other methods...
 
     companion object {
-        fun newInstance(): MyLikeListFragment {
-            return MyLikeListFragment()
+        fun newInstance(): MyLikeWaitFragment {
+            return MyLikeWaitFragment()
         }
     }
 }
