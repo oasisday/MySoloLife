@@ -114,7 +114,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:layout_margin="5dp"
-                    android:hint="언어 선택"
+                    android:hint="ENGLISH"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
                     <AutoCompleteTextView
@@ -139,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:layout_margin="5dp"
-                    android:hint="언어 선택"
+                    android:hint="KOREAN"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
                     <AutoCompleteTextView
