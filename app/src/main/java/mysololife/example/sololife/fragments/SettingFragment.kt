@@ -1,22 +1,22 @@
-package mysololife.example.sololife.setting
+package mysololife.example.sololife.fragments
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.util.Log
-import android.widget.ImageView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivitySettingBinding
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -31,130 +31,124 @@ import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.utils.FirebaseRef
 import java.io.ByteArrayOutputStream
 
-class SettingActivity : AppCompatActivity() {
+class SettingFragment : Fragment() {
 
-    private val TAG = SettingActivity::class.java.simpleName
-
+    private lateinit var binding: ActivitySettingBinding
     private lateinit var auth : FirebaseAuth
-    private lateinit var binding : ActivitySettingBinding
 
     private var nickname = ""
     private var gender = ""
-    private var uid = ""
     private var info = ""
 
     //이미 쓴 게 있으면//
     private lateinit var writerUid : String
     private lateinit var key:String
 
-    lateinit var profileImage : ImageView
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = ActivitySettingBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-    @SuppressLint("MissingInflatedId")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_setting)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         auth = Firebase.auth
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_setting)
 
         val user = auth.currentUser
         key = user?.uid.toString()
         getBoardData(key)
         getImageData(key)
 
-        profileImage = findViewById(R.id.profileImage)
         val getAction = registerForActivityResult(
             ActivityResultContracts.GetContent(),
             ActivityResultCallback { uri ->
-                profileImage.setImageURI(uri)
+                binding.profileImage.setImageURI(uri)
             }
         )
 
-        profileImage.setOnClickListener{
+        binding.profileImage.setOnClickListener{
             getAction.launch("image/*")
         }
 
         binding.LogoutBtn.setOnClickListener{
             auth.signOut()
-            Toast.makeText(this, "로그아웃 되었습니다.", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "로그아웃 되었습니다.", Toast.LENGTH_LONG).show()
 
-            val intent = Intent(this, LoginActivity::class.java)
-
+            val intent = Intent(requireContext(), LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
-            finish()
 
+            requireActivity().supportFragmentManager.beginTransaction()
+                .remove(this)
+                .commit()
         }
 
 
         binding.SettingBtn.setOnClickListener{
-           try{
-            gender = findViewById<TextInputEditText>(R.id.genderArea).text.toString()
-            nickname = findViewById<TextInputEditText>(R.id.nicknameArea).text.toString()
-            info = findViewById<TextInputEditText>(R.id.infoArea).text.toString()
+            try{
+                gender = binding.genderArea.text.toString()
+                nickname = binding.nicknameArea.text.toString()
+                info = binding.infoArea.text.toString()
 
-            val currentUserId = Firebase.auth.currentUser?.uid ?:""
-            val currentUserDB = Firebase.database.reference.child(Key.DB_USERS).child(currentUserId)
+                val currentUserId = Firebase.auth.currentUser?.uid ?:""
+                val currentUserDB = Firebase.database.reference.child(Key.DB_USERS).child(currentUserId)
 
 
-            val userModel = UserDataModel(
-                uid = currentUserId,
-                nickname = nickname,
-                gender =gender,
-                info = info
-            )
+                val userModel = UserDataModel(
+                    uid = currentUserId,
+                    nickname = nickname,
+                    gender =gender,
+                    info = info
+                )
 
-            val user = mutableMapOf<String,Any>()
-            user["username"] = nickname
-            user["descriotion"] = info
-            currentUserDB.updateChildren(user)
+                val user = mutableMapOf<String,Any>()
+                user["username"] = nickname
+                user["descriotion"] = info
+                currentUserDB.updateChildren(user)
 
-            FirebaseRef.userInfoRef.child(currentUserId).setValue(userModel)
+                FirebaseRef.userInfoRef.child(currentUserId).setValue(userModel)
 
-            uploadImage(currentUserId)
+                uploadImage(currentUserId)
 
-            Toast.makeText(this,"사용자 정보 설정완료, 저장소에 사진이 올라갈 때 약간의 시간이 소요됩니다.",Toast.LENGTH_SHORT).show()
-           finish()
-           }
+                Toast.makeText(requireContext(),"파이어베이스에 사진이 올라갈 때 약간의 시간이 소요됩니다.\n 새로고침시 적용됩니다 :)", Toast.LENGTH_LONG).show()
+                view?.findNavController()?.navigate(R.id.action_settingFragment_to_mypageFragment)
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .remove(this)
+                    .commit()
+            }
 
-           catch (e:Exception){
-               Log.d("whatsproblem",e.toString())
-           }
+            catch (e:Exception){
+            }
         }
 
-
     }
-
     private fun uploadImage(uid : String){
 
         val storage = Firebase.storage
         val storageRef = storage.reference.child("$uid.png")
 
         // Get the data from an ImageView as bytes
-        profileImage.isDrawingCacheEnabled = true
-        profileImage.buildDrawingCache()
-        val bitmap = (profileImage.drawable as BitmapDrawable).bitmap
+        binding.profileImage.isDrawingCacheEnabled = true
+        binding.profileImage.buildDrawingCache()
+        val bitmap = (binding.profileImage.drawable as BitmapDrawable).bitmap
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data = baos.toByteArray()
 
         var uploadTask = storageRef.putBytes(data)
         uploadTask.addOnFailureListener {
-            // Handle unsuccessful uploads
         }.addOnSuccessListener { taskSnapshot ->
-            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-            // ...
+
         }
 
 
     }
 
     private fun getImageData(uid : String){
-
-        // Reference to an image file in Cloud Storage
         val storageReference = Firebase.storage.reference.child("$uid.png")
-
-        // ImageView in your Activity
         val imageViewFromFB = binding.profileImage
 
         storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
@@ -171,7 +165,6 @@ class SettingActivity : AppCompatActivity() {
     }
 
     private fun getBoardData(uid : String){
-
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
@@ -183,10 +176,7 @@ class SettingActivity : AppCompatActivity() {
                 writerUid = dataModel!!.uid.toString()
 
             }
-
             override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
             }
         }
         FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)

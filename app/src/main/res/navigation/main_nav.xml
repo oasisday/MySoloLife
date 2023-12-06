@@ -50,7 +50,11 @@
         android:id="@+id/mypageFragment"
         android:name="mysololife.example.sololife.fragments.MyPageFragment"
         android:label="마이페이지Fragment"
-        tools:layout="@layout/activity_my_page"/>
+        tools:layout="@layout/activity_main_mp">
+        <action
+            android:id="@+id/action_mypageFragment_to_settingFragment"
+            app:destination="@id/settingFragment" />
+    </fragment>
     <fragment
         android:id="@+id/groupMainFragment"
         android:name="mysololife.example.sololife.fragments.GroupMainFragment"
@@ -104,5 +108,14 @@
         android:name="mysololife.example.sololife.chatlist.ChatListFragment"
         android:label="ChatListFragment"
         tools:layout="@layout/fragment_chatlist"/>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="mysololife.example.sololife.fragments.SettingFragment"
+        android:label="SettingFragment"
+        tools:layout="@layout/activity_setting">
+        <action
+            android:id="@+id/action_settingFragment_to_mypageFragment"
+            app:destination="@id/mypageFragment" />
+    </fragment>
 
 </navigation>

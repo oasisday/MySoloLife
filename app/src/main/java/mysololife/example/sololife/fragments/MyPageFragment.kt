@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.navigation.findNavController
 
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -29,7 +29,6 @@ import com.google.firebase.storage.ktx.storage
 import mysololife.example.sololife.Matching
 import mysololife.example.sololife.auth.LoginActivity
 import mysololife.example.sololife.auth.UserDataModel
-import mysololife.example.sololife.setting.SettingActivity
 import mysololife.example.sololife.utils.FirebaseAuthUtils
 import mysololife.example.sololife.utils.FirebaseRef
 
@@ -55,8 +54,7 @@ class MyPageFragment : Fragment() {
         auth = Firebase.auth
 
         binding.profileeditBtn.setOnClickListener {
-            val intent = Intent(activity, SettingActivity::class.java)
-            startActivity(intent)
+            view?.findNavController()?.navigate(R.id.action_mypageFragment_to_settingFragment)
         }
 
         binding.likelistBtn.setOnClickListener {
