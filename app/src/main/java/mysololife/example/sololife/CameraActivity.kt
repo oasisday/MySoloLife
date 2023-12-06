@@ -39,7 +39,6 @@ class CameraActivity : AppCompatActivity() {
         binding = ActivityCameraBinding.inflate(layoutInflater).apply {
             setContentView(root)
         }
-
         //카메라 권한 허용
         checkCameraPermission()
 
@@ -61,6 +60,13 @@ class CameraActivity : AppCompatActivity() {
                 binding.zoomSeekBar.setVisibility(View.GONE);
             } else {
                 binding.zoomSeekBar.setVisibility(View.VISIBLE);
+            }
+        }
+        binding.gridMode.setOnClickListener {
+            if (binding.gridLayout.visibility == View.VISIBLE) {
+                binding.gridLayout.visibility = View.GONE
+            } else {
+                binding.gridLayout.visibility = View.VISIBLE
             }
         }
     }
