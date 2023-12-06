@@ -94,12 +94,11 @@
             android:layout_width="70dp"
             android:layout_height="wrap_content"
 
-            android:layout_marginEnd="100dp"
             android:layout_weight="1"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="@+id/writeBtn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/writeBtn"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/writeBtn">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -119,7 +118,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/maincolor_seven" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -135,12 +133,11 @@
             android:id="@+id/waitBtn"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
-
+            android:layout_marginEnd="50dp"
             android:layout_weight="1"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="@+id/msgBtn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/msgBtn"
             app:layout_constraintTop_toTopOf="@+id/msgBtn">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -153,7 +150,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="16dp"
-                    android:src="@drawable/round_send_24"
+                    android:src="@drawable/round_playlist_add_check_circle_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
