@@ -12,7 +12,6 @@
     android:layout_height="match_parent"
     >
 
-
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
@@ -300,7 +299,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="무음카메라\n(제작중)"
+                    android:text="무음카메라"
                     android:textAlignment="center"
                     android:textColor="#2e3d6d"
                     android:textSize="14sp"

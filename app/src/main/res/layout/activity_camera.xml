@@ -1,46 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@android:color/black">
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+  >
 
-    <io.fotoapparat.view.CameraView
-        android:id="@+id/camera_view"
+    <androidx.camera.view.PreviewView
+        android:id="@+id/viewFinder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/fab_camera"/>
+        android:layout_height="0dp"
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_camera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:fabSize="normal"
-        android:src="@drawable/round_camera_24"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="32dp"
-        android:layout_centerHorizontal="true"
-        app:backgroundTint="@android:color/white"/>
+        app:layout_constraintBottom_toTopOf="@+id/camerasetView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_flash"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:fabSize="normal"
-        android:src="@drawable/baseline_access_time_24"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="32dp"
-        app:backgroundTint="@android:color/white"/>
+    </androidx.camera.view.PreviewView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_switch_camera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:fabSize="normal"
-        android:src="@drawable/round_cameraswitch_24"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="32dp"
-        android:layout_alignParentRight="true"
-        app:backgroundTint="@android:color/white"/>
-</RelativeLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/camerasetView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@color/maincolor_seven"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/captureBtn"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/ic_circle"
+        app:layout_constraintBottom_toBottomOf="@+id/camerasetView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+ />
+
+
+    <ImageView
+        android:id="@+id/zoomBtn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/round_camera"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/flipMode"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="36dp"
+        android:background="@drawable/round_cameraswitch"
+        app:layout_constraintBottom_toBottomOf="@+id/captureBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/captureBtn" />
+
+    <ImageView
+        android:id="@+id/outBtn"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="36dp"
+        android:background="@drawable/round_arrow_back_24"
+        app:layout_constraintBottom_toBottomOf="@+id/captureBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/captureBtn" />
+
+    <SeekBar
+        android:id="@+id/zoomSeekBar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="15dp"
+        android:max="100"
+        android:min="0"
+        android:progress="0"
+        android:thumb="@drawable/ic_circle"
+        android:progressTint="@color/gray"
+        app:layout_constraintBottom_toBottomOf="@+id/zoomBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/zoomBtn"
+        app:layout_constraintTop_toTopOf="@+id/zoomBtn" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

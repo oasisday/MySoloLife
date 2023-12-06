@@ -148,8 +148,11 @@ dependencies {
     kapt("androidx.room:room-compiler:$room_version")
 
     //camera
-    implementation("io.fotoapparat:fotoapparat:2.7.0")
-    implementation("com.jraska:falcon:2.2.0")
+    implementation("androidx.camera:camera-core:1.2.3")
+    implementation ("androidx.camera:camera-camera2:1.2.3")
+    implementation ("androidx.camera:camera-lifecycle:1.2.3")
+    implementation ("androidx.camera:camera-view:1.2.3")
+    implementation ("androidx.camera:camera-extensions:1.2.3")
 
     //kakao 로그인
     implementation ("com.kakao.sdk:v2-user:2.16.0")

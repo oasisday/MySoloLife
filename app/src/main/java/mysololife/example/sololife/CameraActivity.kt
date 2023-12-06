@@ -1,160 +1,220 @@
 package mysololife.example.sololife
 
 import android.Manifest.permission.CAMERA
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
-import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-
-import android.content.Intent
+import android.content.ContentValues
+import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.provider.MediaStore
+import android.util.Log
+import android.view.View
+import android.widget.SeekBar
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivityCameraBinding
-import io.fotoapparat.Fotoapparat
-import io.fotoapparat.configuration.CameraConfiguration
-import io.fotoapparat.log.logcat
-import io.fotoapparat.log.loggers
-import io.fotoapparat.parameter.ScaleType
-import io.fotoapparat.selector.*
-import io.fotoapparat.view.CameraView
-import java.io.File
-
+import java.text.SimpleDateFormat
 
 
 class CameraActivity : AppCompatActivity() {
 
-    var fotoapparat: Fotoapparat? = null
-    val filename = "test.png"
-    val sd = Environment.getExternalStorageDirectory()
-    val dest = File(sd, filename)
-    var fotoapparatState : FotoapparatState? = null
-    var cameraStatus : CameraState? = null
-    var flashState: FlashState? = null
+    private var lensFacing = CameraSelector.DEFAULT_BACK_CAMERA
+    private var lensMode: Int = 1
+    private var imageCapture: ImageCapture? = null
+    private lateinit var vibrator: Vibrator
 
-    val permissions = arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-    private lateinit var binding : ActivityCameraBinding
+    private lateinit var binding: ActivityCameraBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCameraBinding.inflate(layoutInflater).apply {
             setContentView(root)
         }
 
-        createFotoapparat()
+        //카메라 권한 허용
+        checkCameraPermission()
 
-        cameraStatus = CameraState.BACK
-        flashState = FlashState.OFF
-        fotoapparatState = FotoapparatState.OFF
-
-        binding.fabCamera.setOnClickListener {
+        vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        binding.captureBtn.setOnClickListener {
             takePhoto()
         }
 
-        binding.fabSwitchCamera.setOnClickListener {
-            switchCamera()
+        binding.outBtn.setOnClickListener {
+            finish()
         }
 
-        binding.fabFlash.setOnClickListener {
-            changeFlashState()
+        binding.flipMode.setOnClickListener {
+            flipCamera()
+            binding.zoomSeekBar.progress = 0
         }
-    }
-
-    private fun createFotoapparat(){
-        val cameraView = findViewById<CameraView>(R.id.camera_view)
-
-        fotoapparat = Fotoapparat(
-            context = this,
-            view = cameraView,
-            scaleType = ScaleType.CenterCrop,
-            lensPosition = back(),
-            logger = loggers(
-                logcat()
-            ),
-            cameraErrorCallback = { error ->
-                println("Recorder errors: $error")
+        binding.zoomBtn.setOnClickListener {
+            if (binding.zoomSeekBar.getVisibility() == View.VISIBLE) {
+                binding.zoomSeekBar.setVisibility(View.GONE);
+            } else {
+                binding.zoomSeekBar.setVisibility(View.VISIBLE);
             }
-        )
-    }
-
-    private fun changeFlashState() {
-        fotoapparat?.updateConfiguration(
-            CameraConfiguration(
-                flashMode = if(flashState == FlashState.TORCH) off() else torch()
-            )
-        )
-
-        if(flashState == FlashState.TORCH) flashState = FlashState.OFF
-        else flashState = FlashState.TORCH
-    }
-
-    private fun switchCamera() {
-        fotoapparat?.switchTo(
-            lensPosition =  if (cameraStatus == CameraState.BACK) front() else back(),
-            cameraConfiguration = CameraConfiguration()
-        )
-
-        if(cameraStatus == CameraState.BACK) cameraStatus = CameraState.FRONT
-        else cameraStatus = CameraState.BACK
-    }
-
-    private fun takePhoto() {
-        if (hasNoPermissions()) {
-            requestPermission()
-        }else{
-            fotoapparat
-                ?.takePicture()
-                ?.saveToFile(dest)
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        if (hasNoPermissions()) {
-            requestPermission()
-        }else{
-            fotoapparat?.start()
-            fotoapparatState = FotoapparatState.ON
-        }
-    }
-
-    private fun hasNoPermissions(): Boolean{
-        return ContextCompat.checkSelfPermission(this,
-            READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this,
-            WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this,
-            CAMERA) != PackageManager.PERMISSION_GRANTED
-    }
-
-    fun requestPermission(){
-        ActivityCompat.requestPermissions(this, permissions,0)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        fotoapparat?.stop()
-        FotoapparatState.OFF
     }
 
     override fun onResume() {
         super.onResume()
-        if(!hasNoPermissions() && fotoapparatState == FotoapparatState.OFF){
-            val intent = Intent(baseContext, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+        binding.zoomSeekBar.progress = 0
+    }
+
+    private fun startCamera() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+        cameraProviderFuture.addListener({
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+            // Preview
+            val preview = Preview.Builder()
+                .build()
+                .also {
+                    it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
+                }
+            imageCapture = ImageCapture.Builder()
+                .build()
+            try {
+                cameraProvider.unbindAll()
+                cameraProvider.bindToLifecycle(
+                    this, lensFacing, preview, imageCapture
+                )
+                val cameraControl = cameraProvider.bindToLifecycle(this,lensFacing,preview,imageCapture)
+                binding.zoomSeekBar.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
+                    override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                        cameraControl.cameraControl.setLinearZoom(p1/100.toFloat())
+                    }
+
+                    override fun onStartTrackingTouch(p0: SeekBar?) {
+                    }
+
+                    override fun onStopTrackingTouch(p0: SeekBar?) {
+                    }
+                })
+            } catch (exc: Exception) {
+                Log.e("photo", "Use case binding failed", exc)
+            }
+        }, ContextCompat.getMainExecutor(this))
+    }
+
+    private fun flipCamera() {
+        if (lensFacing == CameraSelector.DEFAULT_FRONT_CAMERA) {
+            lensFacing = CameraSelector.DEFAULT_BACK_CAMERA
+            lensMode = 1
+        } else if (lensFacing == CameraSelector.DEFAULT_BACK_CAMERA) {
+            lensFacing = CameraSelector.DEFAULT_FRONT_CAMERA
+            lensMode = 0
+        }
+        startCamera()
+    }
+    private fun takePhoto() {
+        //진동 효과 주기
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(
+                VibrationEffect.createOneShot(
+                    30,
+                    VibrationEffect.DEFAULT_AMPLITUDE
+                )
+            )
+        }
+
+        // Get a stable reference of the modifiable image capture use case
+        val imageCapture = imageCapture ?: return
+        // Create time stamped name and MediaStore entry.
+        val name = SimpleDateFormat("yyyy_MM_dd").format(System.currentTimeMillis())
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+                put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image")
+            }
+        }
+        // Create output options object which contains file + metadata
+        val outputOptions = ImageCapture.OutputFileOptions
+            .Builder(contentResolver,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                contentValues)
+            .build()
+        // Set up image capture listener, which is triggered after photo has
+        // been taken
+        imageCapture.takePicture(
+            outputOptions,
+            ContextCompat.getMainExecutor(this),
+            object : ImageCapture.OnImageSavedCallback {
+                override fun onError(exc: ImageCaptureException) {
+                    Log.e("photo", "Photo capture failed: ${exc.message}", exc)
+                }
+
+                override fun onImageSaved(output: ImageCapture.OutputFileResults){
+                    val msg = "사진 저장 완료\n경로: ${output.savedUri}"
+                    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+                    Log.d("photo", msg)
+                }
+            }
+        )
+    }
+    private fun requestCameraPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(CAMERA),
+            REQUEST_PERMISSION
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            REQUEST_PERMISSION -> {
+                val resultCode = grantResults.firstOrNull() ?: PackageManager.PERMISSION_GRANTED
+                if (resultCode == PackageManager.PERMISSION_GRANTED) {
+                    startCamera()
+                }
+            }
+        }
+    }
+    private fun checkCameraPermission() {
+        when {
+            ContextCompat.checkSelfPermission(
+                this,
+                CAMERA,
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                startCamera()
+            }
+
+            shouldShowRequestPermissionRationale(CAMERA) -> {
+                showCameraPermissionInfoDialog()
+            }
+
+            else -> {
+                requestCameraPermission()
+            }
         }
     }
 
-}
+    private fun showCameraPermissionInfoDialog() {
+        AlertDialog.Builder(this).apply {
+            setTitle("카메라 권한을 허용하세요")
+            setMessage("앱의 무음 카메라 기능을 위해서 권한을 허용해야 합니다.")
+            setNegativeButton("거절", null)
+            setPositiveButton("동의") { _, _ ->
+                requestCameraPermission()
+            }
+        }.show()
+    }
 
-enum class CameraState{
-    FRONT, BACK
-}
-
-enum class FlashState{
-    TORCH, OFF
-}
-
-enum class FotoapparatState{
-    ON, OFF
+    companion object {
+        const val REQUEST_PERMISSION = 100
+    }
 }
