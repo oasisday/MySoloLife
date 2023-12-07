@@ -51,6 +51,7 @@ import mysololife.example.sololife.auth.UserInfoModel
 import mysololife.example.sololife.group.GroupDataModel
 import mysololife.example.sololife.group.GroupMainActivity
 import mysololife.example.sololife.group.GroupboardLVAdapter
+import mysololife.example.sololife.map.MapActivity
 import mysololife.example.sololife.message.MyLikeListActivity
 import mysololife.example.sololife.recorder.RecorderMainActivity
 import mysololife.example.sololife.timetable.TimeTableActivity
@@ -96,6 +97,10 @@ class HomeFragment : Fragment(),OnItemClickListener{
             //addDialog()
             //친구목록 프래그먼트로 가기
             view?.findNavController()?.navigate(R.id.action_homeFragment_to_userFragment)
+        }
+        binding.tempMapBtn.setOnClickListener {
+            val intent = Intent(context,MapActivity::class.java)
+            startActivity(intent)
         }
         return binding.root
     }

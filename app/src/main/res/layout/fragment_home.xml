@@ -166,7 +166,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/tempMapBtn"
         style="@style/viewParent.headerText"
         android:layout_marginBottom="10dp"
         android:text="스터디팀 목록"
@@ -183,9 +183,9 @@
         android:textColor="@color/maincolor_three"
         android:textSize="12sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textView4"
+        app:layout_constraintBottom_toBottomOf="@+id/tempMapBtn"
         app:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
-        app:layout_constraintTop_toTopOf="@+id/textView4" />
+        app:layout_constraintTop_toTopOf="@+id/tempMapBtn" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"

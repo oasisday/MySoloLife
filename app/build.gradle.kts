@@ -4,7 +4,6 @@ plugins {
     id("com.google.gms.google-services")
     id("kotlin-parcelize")
     id("kotlin-kapt")
-
 }
 
 android {
@@ -156,6 +155,10 @@ dependencies {
 
     //kakao 로그인
     implementation ("com.kakao.sdk:v2-user:2.16.0")
+
+    //구글 맵 api
+    implementation ("com.google.android.gms:play-services-maps:18.1.0")
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
 
     // translator
     implementation("com.google.mlkit:translate:17.0.2")

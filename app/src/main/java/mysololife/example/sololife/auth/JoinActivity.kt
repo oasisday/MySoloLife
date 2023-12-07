@@ -47,7 +47,7 @@ class JoinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         auth = Firebase.auth
-
+        Log.d("choitest",auth.toString())
         //로딩화면
 
         binding = ActivitySignupFinalBinding.inflate(layoutInflater).apply {
@@ -183,7 +183,7 @@ class JoinActivity : AppCompatActivity() {
                         Toast.makeText(this, "네트워크 연결상태가 좋지 않습니다.", Toast.LENGTH_SHORT)
                             .show()
                     } else {
-                        Toast.makeText(this, "?회원가입 오류.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "회원가입 오류.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

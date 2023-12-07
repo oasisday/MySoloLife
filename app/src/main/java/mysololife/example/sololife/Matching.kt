@@ -13,9 +13,6 @@ import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.mysololife.R
@@ -86,12 +83,18 @@ class Matching : AppCompatActivity() {
 
                 //다 넘겼으면//
                 if(userCount == usersDataList.count()){
+                    cardStackAdapter = CardStackAdapter(baseContext, usersDataList)
+                    cardStackView.layoutManager = manager
+                    cardStackView.adapter = cardStackAdapter
+                    cardStackView.adapter?.notifyDataSetChanged()
                     getUserDataList(currentUserUid)
                     Toast.makeText(this@Matching,"모든 사용자가 지나갔습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onCardRewound() {
+                cardStackView.adapter?.notifyDataSetChanged()
+                Log.d("testing","rewound")
             }
 
             override fun onCardCanceled() {
@@ -139,7 +142,7 @@ class Matching : AppCompatActivity() {
     private fun getUserDataList(currentUserUid : String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-
+                Log.d("matchingTest","getUserDataList 좋아요 누름 "+ dataSnapshot.toString())
                 for (dataModel in dataSnapshot.children){
 
                     val user = dataModel.getValue(UserDataModel::class.java)
@@ -231,8 +234,8 @@ class Matching : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 val data = dataSnapshot.value.toString()
-
                 delList.add(data)
+                Log.d("matchingTest","getMylikeList 좋아요 누름 "+ data)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -247,7 +250,7 @@ class Matching : AppCompatActivity() {
     private fun getMyUserData(){
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-
+                Log.d("matchingTest","getMyUserData좋아요 누름 "+ dataSnapshot.toString())
                 Log.d(TAG, dataSnapshot.toString())
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
 
@@ -257,7 +260,6 @@ class Matching : AppCompatActivity() {
                 currentUserUid = data?.uid.toString()
 
                 MyInfo.myNickname = data?.nickname.toString()
-
 
                 getUserDataList(currentUserUid)
                 //del()
