@@ -98,7 +98,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     // [파이어베이스 관련 dependency]
-    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
+    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
     implementation("com.google.firebase:firebase-analytics-ktx")
 
     //auth
