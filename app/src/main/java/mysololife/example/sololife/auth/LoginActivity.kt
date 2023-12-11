@@ -279,6 +279,7 @@ class LoginActivity : AppCompatActivity() {
                     return@OnCompleteListener
                 }
 
+
                 val token = task.result
                 val userModel = UserDataModel(
                     uid = uid,
