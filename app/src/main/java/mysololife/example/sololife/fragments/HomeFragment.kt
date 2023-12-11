@@ -186,41 +186,46 @@ class HomeFragment : Fragment(),OnItemClickListener{
                         val storageRef = Firebase.storage.reference.child(data.uid + ".png")
                         storageRef.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                if (getActivity() != null) {
-                                    try {
-                                    Glide.with(this@HomeFragment)
-                                        .load(task.result)
-                                        .apply(requestOptions)
-                                        .listener(object : RequestListener<Drawable> {
-                                            override fun onLoadFailed(
-                                                e: GlideException?,
-                                                model: Any?,
-                                                target: Target<Drawable>,
-                                                isFirstResource: Boolean
-                                            ): Boolean {
-                                                binding.loadingProgressBar.visibility = View.GONE // 로딩 실패 시 ProgressBar 숨김
-                                                return false
-                                            }
+                                    if (getActivity() != null) {
+                                        try {
+                                            Glide.with(this@HomeFragment)
+                                                .load(task.result)
+                                                .apply(requestOptions)
+                                                .listener(object : RequestListener<Drawable> {
+                                                    override fun onLoadFailed(
+                                                        e: GlideException?,
+                                                        model: Any?,
+                                                        target: Target<Drawable>,
+                                                        isFirstResource: Boolean
+                                                    ): Boolean {
+                                                        binding.loadingProgressBar.visibility =
+                                                            View.GONE // 로딩 실패 시 ProgressBar 숨김
+                                                        return false
+                                                    }
 
-                                            override fun onResourceReady(
-                                                resource: Drawable,
-                                                model: Any,
-                                                target: Target<Drawable>?,
-                                                dataSource: DataSource,
-                                                isFirstResource: Boolean
-                                            ): Boolean {
-                                                // target이 null이 아닌 경우에만 로딩 완료 시 ProgressBar를 숨김
-                                                if (target != null) {
-                                                    binding.loadingProgressBar.visibility = View.GONE
-                                                }
-                                                return false
-                                            }
-                                        })
-                                        .into(myImage)
-                                }catch (e:Exception) {
-                                        binding.loadingProgressBar.visibility = View.GONE
+                                                    override fun onResourceReady(
+                                                        resource: Drawable,
+                                                        model: Any,
+                                                        target: Target<Drawable>?,
+                                                        dataSource: DataSource,
+                                                        isFirstResource: Boolean
+                                                    ): Boolean {
+                                                        // target이 null이 아닌 경우에만 로딩 완료 시 ProgressBar를 숨김
+                                                        if (target != null) {
+                                                            binding.loadingProgressBar.visibility =
+                                                                View.GONE
+                                                        }
+                                                        return false
+                                                    }
+                                                })
+                                                .into(myImage)
+                                        } catch (e: Exception) {
+                                            binding.loadingProgressBar.visibility = View.GONE
+                                        }
                                     }
-                                }
+                            }
+                            else{
+                                binding.loadingProgressBar.visibility = View.GONE
                             }
                         })
                     } else {
@@ -269,14 +274,9 @@ class HomeFragment : Fragment(),OnItemClickListener{
         val getTxt = alertDialog.findViewById<EditText>(R.id.getEmail)
 
         alertDialog.findViewById<Button>(R.id.plusBtn)?.setOnClickListener{
-
-
             val email = getTxt.text.toString()
-
             val currentUser = Firebase.auth.currentUser?.uid
-
             Log.d("aaa",email)
-
             val postListener = object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
 

@@ -228,6 +228,7 @@ class LoginActivity : AppCompatActivity() {
                 showErrorToast(error.toString())
                 error.printStackTrace()
                 Log.d("testing", error.toString())
+                hideProgressDialog()
 
             } else if (user != null) {
                 // 사용자 정보 요청 성공

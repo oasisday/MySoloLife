@@ -106,43 +106,47 @@ class MyPageFragment : Fragment() {
                 val storageRef = Firebase.storage.reference.child(data.uid + ".png")
                 storageRef.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        if(getActivity() !=null) {
-                            try {
-                                Glide.with(this@MyPageFragment)
-                                    .load(task.result)
-                                    .listener(object : RequestListener<Drawable> {
-                                        override fun onLoadFailed(
-                                            e: GlideException?,
-                                            model: Any?,
-                                            target: Target<Drawable>,
-                                            isFirstResource: Boolean
-                                        ): Boolean {
-                                            binding.loadingProgressBar.visibility = View.GONE // 로딩 실패 시 ProgressBar 숨김
-                                            return false
-                                        }
-
-                                        override fun onResourceReady(
-                                            resource: Drawable,
-                                            model: Any,
-                                            target: Target<Drawable>?,
-                                            dataSource: DataSource,
-                                            isFirstResource: Boolean
-                                        ): Boolean {
-                                            // target이 null이 아닌 경우에만 로딩 완료 시 ProgressBar를 숨김
-                                            if (target != null) {
-                                                binding.loadingProgressBar.visibility = View.GONE
+                            if (getActivity() != null) {
+                                try {
+                                    Glide.with(this@MyPageFragment)
+                                        .load(task.result)
+                                        .listener(object : RequestListener<Drawable> {
+                                            override fun onLoadFailed(
+                                                e: GlideException?,
+                                                model: Any?,
+                                                target: Target<Drawable>,
+                                                isFirstResource: Boolean
+                                            ): Boolean {
+                                                binding.loadingProgressBar.visibility =
+                                                    View.GONE // 로딩 실패 시 ProgressBar 숨김
+                                                return false
                                             }
-                                            return false
-                                        }
-                                    })
-                                    .into(myImage)
-                            }
-                            catch (e:Exception){
-                                binding.loadingProgressBar.visibility = View.GONE
+
+                                            override fun onResourceReady(
+                                                resource: Drawable,
+                                                model: Any,
+                                                target: Target<Drawable>?,
+                                                dataSource: DataSource,
+                                                isFirstResource: Boolean
+                                            ): Boolean {
+                                                // target이 null이 아닌 경우에만 로딩 완료 시 ProgressBar를 숨김
+                                                if (target != null) {
+                                                    binding.loadingProgressBar.visibility =
+                                                        View.GONE
+                                                }
+                                                return false
+                                            }
+                                        })
+                                        .into(myImage)
+                                } catch (e: Exception) {
+                                    binding.loadingProgressBar.visibility = View.GONE
+                                }
+
                             }
 
-                        }
-
+                    }
+                    else{
+                        binding.loadingProgressBar.visibility = View.GONE
                     }
                 })
                 }
