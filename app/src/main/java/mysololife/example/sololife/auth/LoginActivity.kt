@@ -284,8 +284,7 @@ class LoginActivity : AppCompatActivity() {
                     uid = uid,
                     nickname = user.kakaoAccount?.profile?.nickname.toString(),
                     "성별 선택",
-                    "자기 소개를 입력하세요 :)",
-                    token
+                    token = token
                 )
                 FirebaseRef.userInfoRef.child(uid).setValue(userModel)
 
