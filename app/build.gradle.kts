@@ -173,6 +173,7 @@ dependencies {
     implementation ("com.google.android.gms:play-services-mlkit-text-recognition-devanagari:16.0.0")
     implementation ("com.google.android.gms:play-services-mlkit-text-recognition-japanese:16.0.0")
     implementation ("com.google.android.gms:play-services-mlkit-text-recognition-korean:16.0.0")
+    implementation ("com.google.android.gms:play-services-mlkit-language-id:17.0.0")
 
     //alarm manager
     implementation("com.github.ColdTea-Projects:SmplrAlarm:2.1.1")

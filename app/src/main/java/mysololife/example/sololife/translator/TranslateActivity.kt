@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.mlkit.common.model.DownloadConditions
+import com.google.mlkit.nl.languageid.LanguageIdentification
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
@@ -31,12 +32,16 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
+import com.google.mlkit.vision.text.chinese.ChineseTextRecognizerOptions
+import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions
+import com.google.mlkit.vision.text.korean.KoreanTextRecognizerOptions
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 
 
 class TranslateActivity : AppCompatActivity() {
     lateinit var binding: ActivityTranslateBinding
-    private var items= arrayOf("ENGLISH","KOREAN","JAPANESE","CHINESE","SPANISH","GERMAN", "FRENCH")
+    private var items1= arrayOf("DETECT","ENGLISH","KOREAN","JAPANESE","CHINESE","SPANISH","GERMAN", "FRENCH")
+    private var items2= arrayOf("ENGLISH","KOREAN","JAPANESE","CHINESE","SPANISH","GERMAN", "FRENCH")
     private var conditions = DownloadConditions.Builder()
         .requireWifi()
         .build()
@@ -59,9 +64,14 @@ class TranslateActivity : AppCompatActivity() {
             }
         }
 
+    val languageIdentifier = LanguageIdentification.getClient()
+
     var intentActivityResultLauncher:ActivityResultLauncher<Intent>?=null
     lateinit var inputImage: InputImage
     lateinit var textRecognizer: TextRecognizer
+    lateinit var ktextRecognizer: TextRecognizer
+    lateinit var jtextRecognizer: TextRecognizer
+    lateinit var ctextRecognizer: TextRecognizer
     private val STORAGE_PERMISSION_CODE=113
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +81,10 @@ class TranslateActivity : AppCompatActivity() {
         binding= DataBindingUtil.setContentView(this,R.layout.activity_translate)
 
         textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+        ktextRecognizer = TextRecognition.getClient(KoreanTextRecognizerOptions.Builder().build())
+        jtextRecognizer = TextRecognition.getClient(JapaneseTextRecognizerOptions.Builder().build())
+        ctextRecognizer = TextRecognition.getClient(ChineseTextRecognizerOptions.Builder().build())
+
         intentActivityResultLauncher=registerForActivityResult(
             ActivityResultContracts.StartActivityForResult(),
             ActivityResultCallback {
@@ -88,13 +102,16 @@ class TranslateActivity : AppCompatActivity() {
             intentActivityResultLauncher?.launch((chooseIntent))
         }
 
-        val itemsAdapter:ArrayAdapter<String> =ArrayAdapter(
+        val itemsAdapter1:ArrayAdapter<String> =ArrayAdapter(
             this,
-            android.R.layout.simple_dropdown_item_1line, items)
+            android.R.layout.simple_dropdown_item_1line, items1)
+        val itemsAdapter2:ArrayAdapter<String> =ArrayAdapter(
+            this,
+            android.R.layout.simple_dropdown_item_1line, items2)
 
-        binding.languageFrom.setAdapter(itemsAdapter)
+        binding.languageFrom.setAdapter(itemsAdapter1)
 
-        binding.languageTo.setAdapter(itemsAdapter)
+        binding.languageTo.setAdapter(itemsAdapter2)
 
         binding.translate.setOnClickListener {
 
@@ -150,8 +167,32 @@ class TranslateActivity : AppCompatActivity() {
             val result: Task<Text> = textRecognizer.process(inputImage)
                 .addOnSuccessListener{
                     binding.input.setText(it.text)
+                    Toast.makeText(this, "English Recognized", Toast.LENGTH_SHORT).show()
                 }.addOnFailureListener{
-                    binding.input.setText("Error" + it.message)
+                    //binding.input.setText("Error" + it.message)
+                    val result: Task<Text> = ktextRecognizer.process(inputImage)
+                        .addOnSuccessListener{
+                            Toast.makeText(this, "Korean Recognized", Toast.LENGTH_SHORT).show()
+                            binding.input.setText(it.text)
+                        }.addOnFailureListener{
+                            //binding.input.setText("Error" + it.message)
+                            val result: Task<Text> = jtextRecognizer.process(inputImage)
+                                .addOnSuccessListener{
+                                    binding.input.setText(it.text)
+                                    Toast.makeText(this, "Japanese Recognized", Toast.LENGTH_SHORT).show()
+                                }.addOnFailureListener{
+                                    binding.input.setText("Error" + it.message)
+                                    val result: Task<Text> = ctextRecognizer.process(inputImage)
+                                        .addOnSuccessListener{
+                                            binding.input.setText(it.text)
+                                            Toast.makeText(this, "Chinese Recognized", Toast.LENGTH_SHORT).show()
+
+                                        }.addOnFailureListener{
+                                            binding.input.setText("Error" + it.message)
+
+                                        }
+                                }
+                        }
                 }
         }catch (e:Exception){
 
@@ -243,8 +284,30 @@ class TranslateActivity : AppCompatActivity() {
     }
 
     private fun selectFrom(): String {
+        var txt = binding.languageTo.text.toString()
+        var lng: String = identifyLang(binding.input.text.toString())
 
-        return when(binding.languageFrom.text.toString()){
+        if(txt=="DETECT")
+        {
+            var from ="en"
+            languageIdentifier.identifyLanguage(lng)
+                .addOnSuccessListener { languageCode ->
+                    if (languageCode == "und") {
+                        from="en"
+                    } else {
+                        from=languageCode
+                    }
+
+                }
+                .addOnFailureListener {
+                    // Model couldn’t be loaded or other internal error.
+                    // ...
+                    from="en"
+                }
+            return from
+        }
+
+        return when(txt){
 
             ""-> TranslateLanguage.ENGLISH
 
@@ -294,6 +357,24 @@ class TranslateActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun identifyLang(text:String): String {
+        languageIdentifier.identifyLanguage(text)
+            .addOnSuccessListener { languageCode ->
+                if (languageCode == "und") {
+
+                } else {
+                    //Log.i(TAG, "Language: $languageCode")
+
+                }
+                return@addOnSuccessListener
+            }
+            .addOnFailureListener {
+                // Model couldn’t be loaded or other internal error.
+                // ...
+            }
+        return "und"
     }
 
 }
