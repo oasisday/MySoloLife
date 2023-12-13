@@ -60,6 +60,7 @@ class TimeTableActivity : AppCompatActivity(), OnItemClickListener {
             val infoEntities = AppDatabase.getInstance(this)?.infoDao()?.getAllLecture() ?: emptyList()
 
             runOnUiThread {
+                lectureList.clear()
                 lectureList.addAll(infoEntities)
                 //recyclerview 등록
                 binding.cardviewrecyclerView.layoutManager =
