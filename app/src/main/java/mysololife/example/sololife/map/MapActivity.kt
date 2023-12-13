@@ -1,6 +1,7 @@
 package mysololife.example.sololife.map
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
@@ -41,9 +42,19 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.getValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import java.lang.Exception
+import mysololife.example.sololife.auth.Key
+import mysololife.example.sololife.chatdetail.ChatItem
+import mysololife.example.sololife.chatlist.ChatActivity
+import mysololife.example.sololife.chatlist.ChatRoomItem
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.UUID
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     private lateinit var binding: ActivityMapBinding
@@ -103,18 +114,67 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
         setupEmojiAnimationView()
         setupCurrentLocationView()
         setupFirebaseDatabase()
-        binding.currentLocationSaveButton.setOnClickListener {
-            Toast.makeText(this, "현재 위치를 저장했습니다.", Toast.LENGTH_SHORT)
+
+        binding.outBtn.setOnClickListener {
+            finish()
+        }
+
+        binding.makeNotificationButton.setOnClickListener {
+            Toast.makeText(this, "상대방에게 위치 공유 접속 알림을 요청했습니다 :)", Toast.LENGTH_SHORT)
+        }
+        binding.sendMessageButton.setOnClickListener {
+            if(trackingPersonId.isNullOrEmpty()){
+                Toast.makeText(this,"상대방 아이콘을 선택한 후 버튼을 클릭하세요",Toast.LENGTH_SHORT).show()
+            }
+            else {
+                val myUserId = Firebase.auth.currentUser?.uid ?: ""
+                if (myUserId == trackingPersonId) {
+                    Toast.makeText(
+                        this,
+                        "자신의 아이콘이 아닌 상대방의 아이콘을 선택한 후 버튼을 클릭해주세요",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    var otherusername = ""
+                    getUserNameByUID(trackingPersonId) { username ->
+                        if (!username.isNullOrEmpty()) {
+                            val chatRoomDB =
+                                Firebase.database.reference.child(Key.DB_CHAT_ROOMS).child(myUserId)
+                                    .child(trackingPersonId)
+
+                            chatRoomDB.get().addOnSuccessListener {
+                                var chatRoomId = ""
+                                if (it.value != null) {
+                                    //데이터가 존재
+                                    val chatRoom = it.getValue(ChatRoomItem::class.java)
+                                    chatRoomId = chatRoom?.chatRoomId ?: ""
+                                } else {
+                                    chatRoomId = UUID.randomUUID().toString()
+                                    val newChatRoom = ChatRoomItem(
+                                        chatRoomId = chatRoomId,
+                                        otherUserName = otherusername,
+                                        otherUserId = trackingPersonId,
+                                    )
+                                    chatRoomDB.setValue(newChatRoom)
+                                }
+
+                                val intent = Intent(this, ChatActivity::class.java)
+                                intent.putExtra(ChatActivity.EXTRA_CHAT_ROOM_ID, chatRoomId)
+                                intent.putExtra(ChatActivity.EXTRA_OTHER_USER_ID, trackingPersonId)
+                                startActivity(intent)
+                                finish()
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
-
-
         googleMap.setMaxZoomPreference(20.0f)
         googleMap.setMinZoomPreference(10.0f)
-
         googleMap.setOnMarkerClickListener(this)
         googleMap.setOnMapClickListener {
             trackingPersonId = ""
@@ -157,40 +217,114 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
     }
 
     private fun setupEmojiAnimationView() {
-        val lastEmoji = mutableMapOf<String, Any>()
-        val uid = Firebase.auth.currentUser?.uid.orEmpty()
-        binding.emojiLottieAnimationView.setOnClickListener {
-            if (trackingPersonId != "") {
-                lastEmoji["type"] = "emoji"
-                lastEmoji["lastModifier"] = System.currentTimeMillis()
-                Firebase.database.reference.child("Emoji").child(trackingPersonId)
-                    .updateChildren(lastEmoji)
+        try {
+            binding.emojiLottieAnimationView.setOnClickListener {
+                if (trackingPersonId != "") {
+                    val EmojiChange = mutableMapOf<String, Any>()
+                    EmojiChange["type"] = "emoji"
+                    EmojiChange["lastModifier"] = convertMillisToDateString(System.currentTimeMillis(), "MM월 dd일 HH시 mm분 ss.SSS초")
+                    Firebase.database.reference.child("Emoji").child(trackingPersonId).child(trackingPersonId)
+                        .updateChildren(EmojiChange)
+                }
+                DummyAnimation(binding.dummyLottieAnimationView)
+                binding.emojiLottieAnimationView.playAnimation()
             }
-            DummyAnimation(binding.dummyLottieAnimationView)
-            binding.emojiLottieAnimationView.playAnimation()
-        }
-        binding.heartLottieAnimationView.setOnClickListener {
-            if (trackingPersonId != "") {
-                lastEmoji["type"] = "heart"
-                lastEmoji["lastModifier"] = System.currentTimeMillis()
-                Firebase.database.reference.child("Emoji").child(trackingPersonId)
-                    .updateChildren(lastEmoji)
+            binding.heartLottieAnimationView.setOnClickListener {
+                if (trackingPersonId != "") {
+                    val EmojiChange = mutableMapOf<String, Any>()
+                    EmojiChange["type"] = "heart"
+                    EmojiChange["lastModifier"] = convertMillisToDateString(System.currentTimeMillis(), "MM월 dd일 HH시 mm분 ss.SSS초")
+                    Firebase.database.reference.child("Emoji").child(trackingPersonId).child(trackingPersonId)
+                        .updateChildren(EmojiChange)
+                }
+                binding.heartLottieAnimationView.playAnimation()
+                DummyAnimation(binding.dummyheartLottieAnimationView)
             }
-            binding.heartLottieAnimationView.playAnimation()
-            DummyAnimation(binding.dummyheartLottieAnimationView)
-        }
-        binding.togetherLottieAnimationView.setOnClickListener {
-            if (trackingPersonId != "") {
-                lastEmoji["type"] = "together"
-                lastEmoji["lastModifier"] = System.currentTimeMillis()
-                Firebase.database.reference.child("Emoji").child(trackingPersonId)
-                    .updateChildren(lastEmoji)
+            binding.togetherLottieAnimationView.setOnClickListener {
+                if (trackingPersonId != "") {
+                    val EmojiChange = mutableMapOf<String, Any>()
+                    EmojiChange["type"] = "together"
+                    EmojiChange["lastModifier"] = convertMillisToDateString(System.currentTimeMillis(), "MM월 dd일 HH시 mm분 ss.SSS초")
+                    Firebase.database.reference.child("Emoji").child(trackingPersonId).child(trackingPersonId)
+                        .updateChildren(EmojiChange)
+                }
+                binding.togetherLottieAnimationView.playAnimation()
+                DummyAnimation(binding.dummytogetherLottieAnimationView)
             }
-            binding.togetherLottieAnimationView.playAnimation()
-            DummyAnimation(binding.dummytogetherLottieAnimationView)
+            binding.chickenLottieAnimationView.setOnClickListener {
+                if (trackingPersonId != "") {
+                    val EmojiChange = mutableMapOf<String, Any>()
+                    EmojiChange["type"] = "chicken"
+                    EmojiChange["lastModifier"] = convertMillisToDateString(System.currentTimeMillis(), "MM월 dd일 HH시 mm분 ss.SSS초")
+                    Firebase.database.reference.child("Emoji").child(trackingPersonId).child(trackingPersonId)
+                        .updateChildren(EmojiChange)
+                }
+                binding.togetherLottieAnimationView.playAnimation()
+                DummyAnimation(binding.dummychickenLottieAnimationView)
+            }
+            binding.fiveLottieAnimationView.setOnClickListener {
+                if (trackingPersonId != "") {
+                    val EmojiChange = mutableMapOf<String, Any>()
+                    EmojiChange["type"] = "five"
+                    EmojiChange["lastModifier"] = convertMillisToDateString(System.currentTimeMillis(), "MM월 dd일 HH시 mm분 ss.SSS초")
+                    Firebase.database.reference.child("Emoji").child(trackingPersonId).child(trackingPersonId)
+                        .updateChildren(EmojiChange)
+                }
+                binding.togetherLottieAnimationView.playAnimation()
+                DummyAnimation(binding.dummyfiveLottieAnimationView)
+            }
+            binding.sixLottieAnimationView.setOnClickListener {
+                if (trackingPersonId != "") {
+                    val EmojiChange = mutableMapOf<String, Any>()
+                    EmojiChange["type"] = "six"
+                    EmojiChange["lastModifier"] = convertMillisToDateString(System.currentTimeMillis(), "MM월 dd일 HH시 mm분 ss.SSS초")
+                    Firebase.database.reference.child("Emoji").child(trackingPersonId).child(trackingPersonId)
+                        .updateChildren(EmojiChange)
+                }
+                binding.togetherLottieAnimationView.playAnimation()
+                DummyAnimation(binding.dummysixLottieAnimationView)
+            }
+            binding.sevenLottieAnimationView.setOnClickListener {
+                if (trackingPersonId != "") {
+                    val EmojiChange = mutableMapOf<String, Any>()
+                    EmojiChange["type"] = "seven"
+                    EmojiChange["lastModifier"] = convertMillisToDateString(System.currentTimeMillis(), "MM월 dd일 HH시 mm분 ss.SSS초")
+                    Firebase.database.reference.child("Emoji").child(trackingPersonId).child(trackingPersonId)
+                        .updateChildren(EmojiChange)
+                }
+                binding.togetherLottieAnimationView.playAnimation()
+                DummyAnimation(binding.dummysevenLottieAnimationView)
+            }
+
+            binding.eightLottieAnimationView.setOnClickListener {
+                if (trackingPersonId != "") {
+                    val EmojiChange = mutableMapOf<String, Any>()
+                    EmojiChange["type"] = "eight"
+                    EmojiChange["lastModifier"] = convertMillisToDateString(System.currentTimeMillis(), "MM월 dd일 HH시 mm분 ss.SSS초")
+                    Firebase.database.reference.child("Emoji").child(trackingPersonId).child(trackingPersonId)
+                        .updateChildren(EmojiChange)
+                }
+                binding.togetherLottieAnimationView.playAnimation()
+                DummyAnimation(binding.dummyeightLottieAnimationView)
+            }
+
+            binding.nineLottieAnimationView.setOnClickListener {
+                if (trackingPersonId != "") {
+                    val EmojiChange = mutableMapOf<String, Any>()
+                    EmojiChange["type"] = "nine"
+                    EmojiChange["lastModifier"] = convertMillisToDateString(System.currentTimeMillis(), "MM월 dd일 HH시 mm분 ss.SSS초")
+                    Firebase.database.reference.child("Emoji").child(trackingPersonId).child(trackingPersonId)
+                        .updateChildren(EmojiChange)
+                }
+                binding.togetherLottieAnimationView.playAnimation()
+                DummyAnimation(binding.dummynineLottieAnimationView)
+            }
+
+            binding.emojiLottieAnimationView.speed = 3f
+            binding.centerLottieAnimationView.speed = 3f
+        }catch (e:Exception){
+            Log.d("testemoji",e.toString())
         }
-        binding.emojiLottieAnimationView.speed = 3f
-        binding.centerLottieAnimationView.speed = 3f
     }
 
     private fun DummyAnimation(dummy: LottieAnimationView) {
@@ -292,9 +426,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                     var type =""
                     try {
-                        val emoji = snapshot.getValue(Emoji::class.java)?.type ?: return
-                        type = emoji
-                        Log.d("testemoji", type)
+                        val emoji = snapshot.getValue(Emoji::class.java)
+                        type = emoji?.type ?: return
                     } catch (e: Exception) {
                         Log.e("testing", e.toString())
                     }
@@ -302,6 +435,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
                         "emoji" -> R.raw.emoji_star
                         "together" -> R.raw.walk_together
                         "heart" -> R.raw.heart
+                        "chicken" -> R.raw.chicken
+                        "five" -> R.raw.five_animation
+                        "six" -> R.raw.six_animation
+                        "seven" -> R.raw.seven_animation
+                        "eight" -> R.raw.eight_animation
+                        "nine" -> R.raw.nine_animation
                         else -> R.raw.emoji_star
                     }
                     if (currentAnimationResId != animationResId) {
@@ -362,10 +501,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
                     dataSource: DataSource,
                     isFirstResource: Boolean
                 ): Boolean {
+                    val resizedBitmap = Bitmap.createScaledBitmap(resource, 120, 120, false)
                     resource?.let {
                         runOnUiThread {
                             marker.setIcon(
-                                BitmapDescriptorFactory.fromBitmap(resource)
+                                BitmapDescriptorFactory.fromBitmap(resizedBitmap)
                             )
                         }
                     }
@@ -375,12 +515,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
         return marker
     }
 
-
-
     override fun onMarkerClick(marker: Marker): Boolean {
         trackingPersonId = marker.tag as? String ?: ""
 
-        val bottomSheetBitmap = BottomSheetBehavior.from(binding.emojiBottomSheetLayout)
+        val bottomSheetBitmap = BottomSheetBehavior.from(binding.horizontalView)
         bottomSheetBitmap.state = BottomSheetBehavior.STATE_EXPANDED
         return false
     }
@@ -393,5 +531,27 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
                 requestLocationPermission()
             }
         }.show()
+    }
+
+    private fun convertMillisToDateString(millis: Long, pattern: String): String {
+        val formatter = SimpleDateFormat(pattern, Locale.getDefault())
+        val date = Date(millis)
+        return formatter.format(date)
+    }
+
+    private fun getUserNameByUID(uid: String, callback: (String?) -> Unit) {
+        val usersRef = FirebaseDatabase.getInstance().getReference("Users")
+        usersRef.child(uid).get().addOnSuccessListener { snapshot ->
+            if (snapshot.exists()) {
+                val username = snapshot.child("username").getValue(String::class.java)
+                Log.d("maptest", "$username check")
+                callback(username)
+            } else {
+                callback(null)
+            }
+        }.addOnFailureListener { exception ->
+            Log.e("maptest", "Failed to read data from database: $exception")
+            callback(null)
+        }
     }
 }

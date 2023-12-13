@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mysololife.R
 import com.example.mysololife.databinding.FragmentChatlistBinding
-import com.example.mysololife.databinding.FragmentUserlistBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -18,10 +16,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import mysololife.example.sololife.auth.Key
 
-
-
 class ChatListFragment : Fragment() {
-
     private lateinit var binding: FragmentChatlistBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +28,6 @@ class ChatListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val chatListAdapter = ChatListAdapter{  chatRoomItem ->
-
             val intent = Intent(context, ChatActivity::class.java)
             intent.putExtra(ChatActivity.EXTRA_CHAT_ROOM_ID,chatRoomItem.chatRoomId)
             intent.putExtra(ChatActivity.EXTRA_OTHER_USER_ID,chatRoomItem.otherUserId)
@@ -54,7 +48,6 @@ class ChatListFragment : Fragment() {
                 }
                 chatListAdapter.submitList(chatRoomList)
             }
-
             override fun onCancelled(error: DatabaseError) {}
         })
     }

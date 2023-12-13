@@ -297,6 +297,15 @@ class LoginActivity : AppCompatActivity() {
                 kakaouser["fcmToken"] = token
                 //채팅방 기능
                 Firebase.database.reference.child(Key.DB_USERS).child(uid).updateChildren(kakaouser)
+
+                //위치 공유 관련 파이어베이스
+                val personMap = mutableMapOf<String, Any>()
+                personMap["uid"] = uid
+                personMap["name"] = user.kakaoAccount?.profile?.nickname.orEmpty()
+                personMap["profilePhoto"] = user.kakaoAccount?.profile?.thumbnailImageUrl.orEmpty()
+
+                Firebase.database.reference.child("Person").child(uid).updateChildren(personMap)
+
                 uploadImage(uid, user.kakaoAccount?.profile?.thumbnailImageUrl.orEmpty())
                 Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
                 hideProgressDialog()

@@ -21,6 +21,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken
 import de.coldtea.smplr.smplralarm.alarmNotification
+import de.coldtea.smplr.smplralarm.apis.SmplrAlarmAPI
 import de.coldtea.smplr.smplralarm.apis.SmplrAlarmListRequestAPI
 import de.coldtea.smplr.smplralarm.channel
 import de.coldtea.smplr.smplralarm.smplrAlarmChangeOrRequestListener
@@ -54,16 +55,12 @@ class AlarmsetActivity : AppCompatActivity() {
             setContentView(root)
         }
 
-        val onClickShortcutIntent = Intent(
-            applicationContext,
-            RecorderMainActivity::class.java
-        )
-        onClickShortcutIntent.putExtra("lecturename",lecture)
+
         val fullScreenIntent = Intent(
             applicationContext,
             RecorderMainActivity::class.java
         )
-        fullScreenIntent.putExtra("lecturename",lecture)
+        fullScreenIntent.putExtra(SmplrAlarmAPI.SMPLR_ALARM_REQUEST_ID,lecture)
 
 
         val isTiramisuOrHigher = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
@@ -78,13 +75,11 @@ class AlarmsetActivity : AppCompatActivity() {
             else true
         val launcher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             hasNotificationPermission = it
-
         }
 
         if (!hasNotificationPermission) {
             launcher.launch(notificationPermission)
         }
-
 
         smplrAlarmListRequestAPI.requestAlarmList()
 
@@ -171,8 +166,6 @@ class AlarmsetActivity : AppCompatActivity() {
                         clickDays.add("SATURDAY")
                     }
                 }
-
-                contentIntent { onClickShortcutIntent }
                 receiverIntent { fullScreenIntent }
                 notification {
                     alarmNotification {

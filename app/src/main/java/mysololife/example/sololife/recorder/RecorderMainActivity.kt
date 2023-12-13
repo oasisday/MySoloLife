@@ -77,7 +77,7 @@ class RecorderMainActivity : AppCompatActivity(), OnRecordingStateChangeListener
         val sharedPrefs = getSharedPreferences(RECORD_NAME, Context.MODE_PRIVATE)
         val alarmID = intent.getIntExtra(SmplrAlarmAPI.SMPLR_ALARM_REQUEST_ID, -1)
         val lecture = intent.getStringExtra("lecturename")
-        Log.d(TAG,lecture.toString())
+        Log.d(TAG,lecture.toString() + "과목 이름 확인 아이디 : " + alarmID.toString())
 
         if(alarmID != -1) {
             if (sharedPrefs.contains(alarmID.toString())) {

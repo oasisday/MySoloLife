@@ -15,7 +15,6 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivityJoinBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -158,6 +157,10 @@ class JoinActivity : AppCompatActivity() {
                                 email
                             )
 
+                            FirebaseRef.userInfoRef.child(uid).setValue(userModel)
+                            FirebaseRef.userDataRef.child(uid).setValue(userInfo)
+
+                            //채탱방 관련 파이어베이스
                             val user = mutableMapOf<String, Any>()
                             user["userId"] = uid
                             user["username"] = name
@@ -166,8 +169,16 @@ class JoinActivity : AppCompatActivity() {
                             Firebase.database.reference.child(DB_USERS).child(uid)
                                 .updateChildren(user)
 
-                            FirebaseRef.userInfoRef.child(uid).setValue(userModel)
-                            FirebaseRef.userDataRef.child(uid).setValue(userInfo)
+
+
+
+                            //위치 공유 관련 파이어베이스
+                            val personMap = mutableMapOf<String, Any>()
+                            personMap["uid"] = uid
+                            personMap["name"] = name
+
+                            Firebase.database.reference.child("Person").child(uid).updateChildren(personMap)
+
                             if (imgcheck) uploadImage(uid)
                             Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
                             val intent = Intent(this, MainActivity::class.java)
@@ -208,8 +219,17 @@ class JoinActivity : AppCompatActivity() {
         uploadTask.addOnFailureListener {
             // Handle unsuccessful uploads
         }.addOnSuccessListener { taskSnapshot ->
-            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-            // ...
+            storageRef.downloadUrl.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val imageUrl = task.result.toString()
+                    val personMap = mutableMapOf<String, Any>()
+                    personMap["profilePhoto"] = imageUrl
+                    Firebase.database.reference.child("Person").child(uid).updateChildren(personMap)
+
+                } else {
+                    // Handle failure to get download URL
+                }
+            }
         }
     }
 }

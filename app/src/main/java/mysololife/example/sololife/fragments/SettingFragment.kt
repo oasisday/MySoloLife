@@ -44,6 +44,8 @@ class SettingFragment : Fragment() {
     private lateinit var writerUid : String
     private lateinit var key:String
 
+    private lateinit var username : String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -108,6 +110,7 @@ class SettingFragment : Fragment() {
                 user["username"] = nickname
                 user["descriotion"] = info
                 currentUserDB.updateChildren(user)
+                username = nickname
 
                 FirebaseRef.userInfoRef.child(currentUserId).setValue(userModel)
 
@@ -139,11 +142,26 @@ class SettingFragment : Fragment() {
         val data = baos.toByteArray()
 
         var uploadTask = storageRef.putBytes(data)
-        uploadTask.addOnFailureListener {
-        }.addOnSuccessListener { taskSnapshot ->
+        uploadTask.addOnSuccessListener { taskSnapshot ->
+            // Image uploaded successfully, now get the download URL
+            storageRef.downloadUrl.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val imageUrl = task.result.toString()
 
+                    //위치 공유 파이어베이스 추가
+                    val personMap = mutableMapOf<String, Any>()
+                    personMap["uid"] = uid
+                    personMap["name"] = username
+                    personMap["profilePhoto"] = imageUrl
+
+                    Firebase.database.reference.child("Person").child(uid).updateChildren(personMap)
+                } else {
+                    // Handle failure to get download URL
+                }
+            }
+        }.addOnFailureListener {
+            // Handle unsuccessful uploads
         }
-
 
     }
 
