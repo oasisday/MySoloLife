@@ -48,9 +48,10 @@ class LectureInitActivity : AppCompatActivity() {
         binding.colorPickerView.attachBrightnessSlider(binding.brightnessSlide)
         binding.saveBtn.setOnClickListener {
             if (blankCheck()) {
-                if (timeCheck())
+                if (timeCheck()) {
                     add()
                     finish()
+                }
             }
         }
     }
