@@ -16,8 +16,6 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
 class MyFirebaseMessagingService: FirebaseMessagingService() {
-
-
     @SuppressLint("NewApi")
     override fun onMessageReceived(message: RemoteMessage) {
         Log.d("testAPI",message.toString())
@@ -44,7 +42,6 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
                 POST_NOTIFICATIONS
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-
             return
         }
         NotificationManagerCompat.from(applicationContext).notify(0, notificationBuilder.build())

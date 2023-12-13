@@ -21,6 +21,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:background="@drawable/round_arrow_back_24"
+        android:backgroundTint="@color/maincolor_seven"
+
         />
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/centerLottieAnimationView"

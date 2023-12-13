@@ -37,13 +37,9 @@ class Matching : AppCompatActivity() {
 
     lateinit var cardStackAdapter: CardStackAdapter
     lateinit var manager: CardStackLayoutManager
-
     private val usersDataList = mutableListOf<UserDataModel>()
-
     private val delList = mutableListOf<String>()
-
     private val TAG = "Matching"
-
     private var userCount =0
 
     private lateinit var currentUserGender : String

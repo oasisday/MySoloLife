@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_homeFragment_to_chatListFragment"
             app:destination="@id/chatListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_timeTableFragment"
+            app:destination="@id/timeTableFragment" />
     </fragment>
     <fragment
         android:id="@+id/mypageFragment"
@@ -132,5 +135,11 @@
             android:id="@+id/action_settingFragment_to_mypageFragment"
             app:destination="@id/mypageFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/timeTableFragment"
+        android:name="mysololife.example.sololife.fragments.TimeTableFragment"
+        android:label="TimeTableFragment"
+        tools:layout="@layout/fragment_timetable"
+        />
 
 </navigation>

@@ -131,7 +131,6 @@ class HomeFragment : Fragment(),OnItemClickListener{
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
                 Log.w("homefragment", "loadPost:onCancelled", databaseError.toException())
             }
         }
@@ -370,11 +369,7 @@ class HomeFragment : Fragment(),OnItemClickListener{
                 ) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
+
                     return
                 }
                 this?.notify(123,builder.build())
