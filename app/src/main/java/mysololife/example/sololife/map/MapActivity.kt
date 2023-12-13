@@ -51,6 +51,15 @@ import mysololife.example.sololife.auth.Key
 import mysololife.example.sololife.chatdetail.ChatItem
 import mysololife.example.sololife.chatlist.ChatActivity
 import mysololife.example.sololife.chatlist.ChatRoomItem
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
+import org.json.JSONObject
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -62,7 +71,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var trackingPersonId: String = ""
     private val markerMap = hashMapOf<String, Marker>()
-
+    private var myname =""
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
@@ -120,8 +129,61 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
         }
 
         binding.makeNotificationButton.setOnClickListener {
-            Toast.makeText(this, "상대방에게 위치 공유 접속 알림을 요청했습니다 :)", Toast.LENGTH_SHORT)
+            if(trackingPersonId.isNullOrEmpty()){
+                Toast.makeText(this,"상대방 아이콘을 선택한 후 버튼을 클릭하세요",Toast.LENGTH_SHORT).show()
+            }
+            else {
+                val myUserId = Firebase.auth.currentUser?.uid ?: ""
+                if (myUserId == trackingPersonId) {
+                    Toast.makeText(
+                        this,
+                        "다른 사람의 아이콘을 선택해 주세요",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    getUserTokenByUID(trackingPersonId) { token ->
+                        if (token != null) {
+
+                            Toast.makeText(this@MapActivity, "상대방에게 위치 공유을 요청하는 알림을 보냈습니다.", Toast.LENGTH_SHORT).show()
+
+                            // 여기에서 원하는 동작 수행
+                            val client = OkHttpClient()
+                            val root = JSONObject()
+                            val notification = JSONObject()
+                            val message =
+                                "님이 위치공유 요청을 하였습니다.\n클릭을 통해 접속한 해당 액티비티에서만 위치 공유가 진행되고, 해당 액티비티를 벗어나면 어플에서 위치를 추적하지 않습니다."
+                            notification.put("title", "위치 공유 요청")
+                            notification.put("body", "\"$myname\"" + message)
+                            root.put("to", token)
+                            root.put("priority", "high")
+                            root.put("notification", notification)
+                            Log.d("testApi", root.toString())
+                            val requestBody =
+                                root.toString()
+                                    .toRequestBody("application/json; charset=utf-8".toMediaType())
+                            val request =
+                                Request.Builder().post(requestBody)
+                                    .url("https://fcm.googleapis.com/fcm/send")
+                                    .header(
+                                        "Authorization",
+                                        "key=${getString(R.string.fcm_server_key)}"
+                                    )
+                                    .build()
+                            Log.d("testApi", request.toString())
+                            client.newCall(request).enqueue(object : Callback {
+                                override fun onFailure(call: Call, e: IOException) {
+                                    e.stackTraceToString()
+                                }
+
+                                override fun onResponse(call: Call, response: Response) {
+                                }
+                            })
+                        }
+                    }
+                }
+            }
         }
+
         binding.sendMessageButton.setOnClickListener {
             if(trackingPersonId.isNullOrEmpty()){
                 Toast.makeText(this,"상대방 아이콘을 선택한 후 버튼을 클릭하세요",Toast.LENGTH_SHORT).show()
@@ -477,6 +539,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
                 .title(person.name.orEmpty())
         ) ?: return null
 
+        //이름 추가
+        if(uid == Firebase.auth.currentUser?.uid ?: ""){
+            myname = person.name.orEmpty()
+        }
         //tag 설정
         marker.tag = uid
 
@@ -546,6 +612,21 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
                 val username = snapshot.child("username").getValue(String::class.java)
                 Log.d("maptest", "$username check")
                 callback(username)
+            } else {
+                callback(null)
+            }
+        }.addOnFailureListener { exception ->
+            Log.e("maptest", "Failed to read data from database: $exception")
+            callback(null)
+        }
+    }
+
+    private fun getUserTokenByUID(uid: String, callback: (String?) -> Unit) {
+        val usersRef = FirebaseDatabase.getInstance().getReference("Users")
+        usersRef.child(uid).get().addOnSuccessListener { snapshot ->
+            if (snapshot.exists()) {
+                val token = snapshot.child("fcmToken").getValue(String::class.java)
+                callback(token)
             } else {
                 callback(null)
             }

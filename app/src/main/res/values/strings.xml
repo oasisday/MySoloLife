@@ -3,5 +3,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="default_notification_channel_id">default_notification_channel_id</string>
-    <string name="fcm_server_key">AAAAbgTpiUk:APA91bFyA0z1UU9b4eugK27_psD6YqG17KcG1qPqOe8k4xg8ggPvhUEmUqclrSejaORRlb2Fj5SCPMAjXE5PHmdPLCfeo1k8DIKqvya4W7kP-0OWcug-ATqbmTEBUsy0MsBzga_gebLU</string>
+    <string name="fcm_server_key">AAAAPZwqR3E:APA91bESrrisedCEATpOWF92hVhQw-fuKMIoOg_DkUZu7l98z2NNa5COY2gKNBbFMQYDVNdbb1SU5IsfAw1BpCuFms5FtummulB8jPyVDAIMbJuLNSh6Z3Nx6t6-GEwz5b4WL7GYzUnm</string>
 </resources>
