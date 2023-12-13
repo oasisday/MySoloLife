@@ -36,6 +36,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             .setSmallIcon(R.drawable.round_chat_24)
             .setContentTitle(getString(R.string.app_name))
             .setContentText(body)
+            .setSound(null)
 
         if (ActivityCompat.checkSelfPermission(
                 this,

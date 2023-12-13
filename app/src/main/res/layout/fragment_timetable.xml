@@ -30,6 +30,7 @@
                     android:layout_width="400dp"
                     android:layout_height="26dp"
                     android:layout_marginStart="10dp"
+                    android:gravity="bottom"
                     android:text="2023년 2학기"
                     android:textColor="@color/maincolor_seven"
                     app:layout_constraintBottom_toTopOf="@+id/tableName"
@@ -49,6 +50,30 @@
                     app:layout_constraintBottom_toBottomOf="parent"
 
                     app:layout_constraintStart_toStartOf="@+id/textView2" />
+
+                <ImageView
+                    android:id="@+id/plusBtn"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/baseline_add_box_24"
+                    app:layout_constraintBottom_toBottomOf="@+id/tableName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tableName"
+                    app:tint="@color/maincolor_seven" />
+
+                <ImageView
+                    android:id="@+id/outBtn"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/baseline_home_24"
+                    app:layout_constraintBottom_toBottomOf="@+id/tableName"
+
+                    app:layout_constraintEnd_toStartOf="@+id/plusBtn"
+                    app:layout_constraintTop_toTopOf="@+id/tableName"
+                    app:tint="@color/maincolor_seven" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
 

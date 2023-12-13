@@ -65,9 +65,9 @@
         android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="80dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginEnd="30dp"
         android:background="@drawable/white_background_final"
         android:elevation="10dp"
         android:orientation="horizontal"
@@ -79,7 +79,7 @@
         <LinearLayout
             android:id="@+id/btnVoiceRecorder"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="110dp"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/top_banner_background_final"
@@ -109,7 +109,7 @@
         <LinearLayout
             android:id="@+id/btnTimeTable"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="110dp"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/top_banner_background_final"
@@ -138,7 +138,7 @@
         <LinearLayout
             android:id="@+id/matchingBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="110dp"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/top_banner_background_final"
@@ -157,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="스터디원\n 매칭"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:textAlignment="center"
                 android:textColor="#6672FF"
                 android:textStyle="bold|italic" />

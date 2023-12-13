@@ -31,11 +31,7 @@ class TimeTableActivity : AppCompatActivity(), OnItemClickListener {
 
         binding.table.setOnScheduleClickListener(object : OnScheduleClickListener {
             override fun scheduleClicked(entity: ScheduleEntity) {
-//                Intent(this@TimeTableActivity, LectureMainActivity::class.java).apply {
-//                    putExtra("lecturename",entity.scheduleName)
-//                    startActivity(this)
-//                }
-                Snackbar.make(binding.root, entity.scheduleName+"과목을 클릭하였습니다. UI 목적으로 제작한 것으로 대시보드를 통해 개인 강의실로 접근하세요!", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "\""+entity.scheduleName+"\"과목을 클릭하였습니다. 해당 뷰는 UI 디자인 목적으로 제작한 것으로 대시보드를 통해 개인 강의실로 접근하세요:)", Snackbar.LENGTH_SHORT).show()
             }
         })
 
@@ -50,6 +46,15 @@ class TimeTableActivity : AppCompatActivity(), OnItemClickListener {
             }
         })
 
+        binding.outBtn.setOnClickListener {
+            finish()
+        }
+
+        binding.plusBtn.setOnClickListener {
+            Intent(this,LectureInitActivity::class.java).apply{
+                startActivity(this)
+            }
+        }
 
         Thread {
             val infoEntities = AppDatabase.getInstance(this)?.infoDao()?.getAllLecture() ?: emptyList()
@@ -77,8 +82,20 @@ class TimeTableActivity : AppCompatActivity(), OnItemClickListener {
             val scheduleEntities = infoEntities.map { it.toScheduleEntity() }
             scheduleList.addAll(scheduleEntities)
         }.start()
-        binding.table.updateSchedules(scheduleList)
+
+        lectureList.clear()
         binding.cardviewrecyclerView.adapter?.notifyDataSetChanged()
+        Thread.sleep(200)
+        Thread {
+            val infoEntities =
+                AppDatabase.getInstance(this)?.infoDao()?.getAllLecture() ?: emptyList()
+            lectureList.addAll(infoEntities)
+            runOnUiThread {
+                binding.cardviewrecyclerView.adapter?.notifyDataSetChanged()
+            }
+        }.start()
+
+        binding.table.updateSchedules(scheduleList)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -97,12 +114,9 @@ class TimeTableActivity : AppCompatActivity(), OnItemClickListener {
             }
         }.start()
 
-        Thread{
-            runOnUiThread {
-                lectureList.clear()
-                binding.cardviewrecyclerView.adapter?.notifyDataSetChanged()
-            }
-        }.start()
+        lectureList.clear()
+        binding.cardviewrecyclerView.adapter?.notifyDataSetChanged()
+
         Thread.sleep(300)
         Thread {
             val infoEntities =
@@ -115,7 +129,7 @@ class TimeTableActivity : AppCompatActivity(), OnItemClickListener {
     }
 
     override fun onItemClickListener(position: Int) {
-        Snackbar.make(binding.root, lectureList[position].scheduleName+"과목을 클릭하였습니다. UI 목적으로 제작한 것으로 대시보드를 통해 개인 강의실로 접근하세요!", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(binding.root, "\""+lectureList[position].scheduleName+"\"과목을 클릭하였습니다. 해당 뷰는 UI 디자인 목적으로 제작한 것으로 대시보드를 통해 개인 강의실로 접근하세요:)", Snackbar.LENGTH_SHORT).show()
     }
 
 }
