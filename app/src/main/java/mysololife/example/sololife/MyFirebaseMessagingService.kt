@@ -32,7 +32,6 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(mChannel)
 
-
         val body = message.notification?.body ?: ""
         val notificationBuilder = NotificationCompat.Builder(applicationContext, getString(R.string.default_notification_channel_id))
             .setSmallIcon(R.drawable.round_chat_24)
@@ -45,10 +44,11 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             val shouldVibrate = vibrateValue?.toBoolean() ?: false
             if (shouldVibrate) {
                 val vibrationHelper = VibrationHelper(applicationContext)
-
 // 원하는 시간(밀리초) 동안 진동 실행
                 vibrationHelper.vibrateOnce(500) // 1000 밀리초(1초) 동안 진동
             }
+            notificationBuilder.setSmallIcon(R.drawable.clickbtn)
+            notificationBuilder.setContentTitle("\"경고: 찔림 감지, 빨리 확인하세요\"")
         }
         if (ActivityCompat.checkSelfPermission(
                 this,
