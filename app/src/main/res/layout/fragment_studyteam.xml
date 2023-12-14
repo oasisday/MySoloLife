@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/cloudbackground1">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout6"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:padding="30dp">
+        android:padding="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/studyNameTextView"
@@ -42,7 +45,7 @@
             android:id="@+id/studyInfoTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
             android:fontFamily="sans-serif-black"
             android:text="과목 설명"
             android:textColor="#0F2191"
@@ -52,198 +55,181 @@
             app:layout_constraintTop_toBottomOf="@+id/studyNameTextView" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <ImageView
+        android:id="@+id/groupboardBtn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:id="@+id/groupboardBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="200dp"
-                android:layout_height="250dp"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/prontend" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="40dp"
-                android:text="그룹 게시판"
-                android:textColor="#d703082b"
-                android:textSize="24dp"
-                android:textStyle="bold" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/chatBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="200dp"
-                android:layout_height="250dp"
-                android:src="@drawable/chatting" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="단체 채팅"
-                android:textSize="25dp"
-                android:textColor="#d703082b"
-                android:textStyle="bold"
-                android:layout_marginLeft="35dp"
-                android:layout_marginTop="40dp"/>
-
-        </RelativeLayout>
-
-    </LinearLayout>
+        android:background="@drawable/prontend"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/chatBtn"
+        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.00"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="그룹 게시판"
+        android:textColor="#d703082b"
+        android:textSize="24sp"
+        android:layout_margin="30dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/groupboardBtn"
+        app:layout_constraintTop_toTopOf="@+id/groupboardBtn" />
+
+
+    <ImageView
+        android:id="@+id/chatBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/chatting"
+        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintBottom_toBottomOf="@+id/groupboardBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/groupboardBtn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="단체 채팅"
+        android:textColor="#d703082b"
+        android:textSize="24sp"
+        android:layout_margin="30dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/chatBtn"
+        app:layout_constraintTop_toTopOf="@+id/chatBtn" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:background="@drawable/cloud1"
+        android:id="@+id/faceRecyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:elevation="4dp"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/groupboardBtn" />
+
+    <TextView
+        android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="스터디룸 추가 기능"
+        android:layout_margin="4dp"
         android:textAlignment="center"
         android:textColor="#96CCE3"
         android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/faceRecyclerview" />
+
+
+    <ScrollView
+        android:id="@+id/scrollview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4">
 
-        <ScrollView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="280dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
+            android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/round_settings_24"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/reserveBtn"
+                app:layout_constraintEnd_toEndOf="@+id/reserveBtn" />
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/round_delete_24"
+                app:layout_constraintBottom_toBottomOf="@+id/groupOutBtn"
+                app:layout_constraintEnd_toEndOf="@+id/groupOutBtn"
+                app:tint="@color/white" />
+
+            <ImageView
+                android:id="@+id/imageView21"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/round_gps_fixed_24"
+                app:layout_constraintBottom_toBottomOf="@+id/deleteStudyRoomBtn"
+                app:layout_constraintEnd_toEndOf="@+id/deleteStudyRoomBtn"
+                app:tint="#0D5285" />
+
+            <TextView
+                android:id="@+id/groupOutBtn"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="100dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/background_round_all"
+                android:backgroundTint="#0092F4"
+                android:padding="24dp"
+                android:text="그룹 탈퇴"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/deleteStudyRoomBtn"
+                app:layout_constraintStart_toStartOf="@+id/deleteStudyRoomBtn"
+                app:layout_constraintTop_toBottomOf="@+id/deleteStudyRoomBtn" />
+
+            <TextView
+                android:id="@+id/reserveBtn"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_margin="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/background_round_all"
+                android:backgroundTint="#EEBFDEE8"
+                android:elevation="10dp"
+                android:padding="24dp"
+                android:text=""
+                android:textColor="#767C9A"
+                android:textSize="24sp"
+
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/deleteStudyRoomBtn"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_margin="16dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/background_round_all"
+                android:backgroundTint="#91CCE8"
+                android:elevation="10dp"
+                android:padding="24dp"
+                android:text=""
+                android:textColor="#0D5285"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/reserveBtn"
+                app:layout_constraintEnd_toStartOf="@+id/reserveBtn"
+                app:layout_constraintStart_toStartOf="@+id/reserveBtn"
+                app:layout_constraintTop_toBottomOf="@+id/reserveBtn" />
 
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/round_file_copy_24"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@+id/btnRecordrepository"
-                    app:layout_constraintEnd_toEndOf="@+id/btnRecordrepository"
-                    app:tint="@color/maincolor_seven" />
-
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/round_settings_24"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@+id/reserveBtn"
-                    app:layout_constraintEnd_toEndOf="@+id/reserveBtn" />
-
-                <ImageView
-                    android:id="@+id/imageView1"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/round_delete_24"
-                    app:layout_constraintBottom_toBottomOf="@+id/groupOutBtn"
-                    app:layout_constraintEnd_toEndOf="@+id/groupOutBtn"
-                    app:tint="@color/white" />
-
-                <ImageView
-                    android:id="@+id/imageView21"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/round_gps_fixed_24"
-                    app:layout_constraintBottom_toBottomOf="@+id/deleteStudyRoomBtn"
-                    app:layout_constraintEnd_toEndOf="@+id/deleteStudyRoomBtn"
-                    app:tint="#0D5285" />
-
-                <TextView
-                    android:id="@+id/groupOutBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_margin="16dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/background_round_all"
-                    android:backgroundTint="#0092F4"
-                    android:padding="24dp"
-                    android:text="그룹 탈퇴"
-                    android:textColor="@color/white"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintTop_toBottomOf="@+id/deleteStudyRoomBtn"
-                    tools:layout_editor_absoluteX="44dp" />
-
-                <TextView
-                    android:id="@+id/reserveBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_margin="16dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/background_round_all"
-                    android:backgroundTint="#EEC1D9E1"
-                    android:elevation="10dp"
-                    android:padding="24dp"
-                    android:text=""
-                    android:textColor="#767C9A"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintTop_toBottomOf="@+id/btnRecordrepository"
-                    tools:layout_editor_absoluteX="16dp" />
-
-                <TextView
-                    android:id="@+id/deleteStudyRoomBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_margin="16dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/background_round_all"
-                    android:backgroundTint="#91CCE8"
-                    android:padding="24dp"
-                    android:text=""
-                    android:elevation="10dp"
-                    android:textColor="#0D5285"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintTop_toBottomOf="@+id/reserveBtn"
-                    tools:layout_editor_absoluteX="16dp" />
-
-                <TextView
-                    android:id="@+id/btnRecordrepository"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_margin="16dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/background_round_all"
-                    android:backgroundTint="#EEEBF5FF"
-                    android:elevation="10dp"
-                    android:padding="24dp"
-                    android:text=""
-
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

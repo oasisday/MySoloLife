@@ -7,7 +7,6 @@ class FBboard {
     companion object {
         val database = Firebase.database
         val boardInfoRef = database.getReference("boardInfo")
-
         val insideboardRef = database.getReference("insideBoard")
     }
 

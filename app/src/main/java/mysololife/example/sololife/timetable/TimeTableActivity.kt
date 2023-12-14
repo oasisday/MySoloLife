@@ -21,7 +21,7 @@ import mysololife.example.sololife.dashboard.LectureMainActivity
 
 class TimeTableActivity : AppCompatActivity(), OnItemClickListener {
     lateinit var binding: FragmentTimetableBinding
-    private val day = arrayOf("월", "화", "수", "목", "금", "토")
+    private val day = arrayOf("월", "화", "수", "목", "금","토")
     val scheduleList: ArrayList<ScheduleEntity> = ArrayList()
     private var lectureList = mutableListOf<InfoEntity>()
     override fun onCreate(savedInstanceState: Bundle?) {

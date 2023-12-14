@@ -15,7 +15,7 @@ class FirebaseRef {
         val userBothRef = database.getReference("userBoth")
 
         val userDataRef = database.getReference("userData")
-
+        val personRef = database.getReference("Person")
     }
 
 }
