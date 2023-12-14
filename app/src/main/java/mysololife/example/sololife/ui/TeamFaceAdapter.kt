@@ -21,16 +21,23 @@ import mysololife.example.sololife.map.Person
 import mysololife.example.sololife.utils.FirebaseRef
 
 
-class TeamFaceAdapter(private val context : Context, val items: List<Person>,val teamleaderUid:String) : RecyclerView.Adapter<TeamFaceAdapter.ViewHolder>() {
+class TeamFaceAdapter(private val context : Context, val items: List<Person>,val teamleaderUid:String,private val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<TeamFaceAdapter.ViewHolder>() {
     // 뷰홀더 클래스 정의
+    interface  OnItemClickListener{
+        fun onItemClick(position: Int)
+    }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
         val name: TextView = itemView.findViewById(R.id.myName)
         val imageView: ImageView = itemView.findViewById(R.id.myImage)
         val cloud: ImageView = itemView.findViewById(R.id.imageCloud)
         val crown: ImageView = itemView.findViewById(R.id.leadercrown)
-        override fun onClick(p0: View?) {
-            //TODO("Not yet implemented")
+        init {
+            itemView.setOnClickListener(this)
         }
+        override fun onClick(p0: View?) {
+            itemClickListener.onItemClick(adapterPosition)
+        }
+
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
@@ -65,6 +72,10 @@ class TeamFaceAdapter(private val context : Context, val items: List<Person>,val
         val backgroundColor = ContextCompat.getColor(context, colorResId)
         holder.cloud.backgroundTintList = ColorStateList.valueOf(backgroundColor)
 
+        holder.cloud.setOnClickListener {
+            // 클릭 이벤트를 인터페이스를 통해 외부로 전달
+            itemClickListener.onItemClick(position)
+        }
         val uid = item.uid
 
         val postListener = object : ValueEventListener {
