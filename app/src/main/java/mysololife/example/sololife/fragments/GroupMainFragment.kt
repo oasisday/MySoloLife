@@ -264,7 +264,9 @@ class GroupMainFragment : Fragment(),TeamFaceAdapter.OnItemClickListener {
         val mBuilder = AlertDialog.Builder(requireContext())
             .setView(mDialogView)
             .setTitle("사용자 정보")
-
+            .setNegativeButton("종료") { dialog, _ ->
+            dialog.dismiss() // 다이얼로그 닫기
+        }
         val alertDialog = mBuilder.show()
         //지금 유저
         val currentUser = personList[p0]
