@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout6"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:padding="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,12 +103,13 @@
         app:layout_constraintTop_toTopOf="@+id/chatBtn" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:background="@drawable/cloud1"
         android:id="@+id/faceRecyclerview"
         android:layout_width="match_parent"
         android:layout_height="130dp"
         android:elevation="4dp"
-        android:padding="16dp"
+        android:padding="6dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/groupboardBtn" />
