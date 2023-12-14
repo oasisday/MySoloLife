@@ -14,13 +14,14 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.mysololife.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import okhttp3.internal.notify
+import org.json.JSONObject
 
 class MyFirebaseMessagingService: FirebaseMessagingService() {
     @SuppressLint("NewApi")
     override fun onMessageReceived(message: RemoteMessage) {
-        Log.d("testAPI",message.toString())
+        Log.d("testAPI","!"+message.toString())
         super.onMessageReceived(message)
-
         val name = "채팅 알림"
         val descriptionText = "채팅 알림입니다."
         val importance = NotificationManager.IMPORTANCE_DEFAULT
@@ -31,6 +32,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(mChannel)
 
+
         val body = message.notification?.body ?: ""
         val notificationBuilder = NotificationCompat.Builder(applicationContext, getString(R.string.default_notification_channel_id))
             .setSmallIcon(R.drawable.round_chat_24)
@@ -38,6 +40,16 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             .setContentText(body)
             .setSound(null)
 
+        if (message.data.containsKey("vibrate")) {
+            val vibrateValue = message.data["vibrate"]
+            val shouldVibrate = vibrateValue?.toBoolean() ?: false
+            if (shouldVibrate) {
+                val vibrationHelper = VibrationHelper(applicationContext)
+
+// 원하는 시간(밀리초) 동안 진동 실행
+                vibrationHelper.vibrateOnce(500) // 1000 밀리초(1초) 동안 진동
+            }
+        }
         if (ActivityCompat.checkSelfPermission(
                 this,
                 POST_NOTIFICATIONS
