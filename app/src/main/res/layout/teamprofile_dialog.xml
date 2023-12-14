@@ -54,49 +54,35 @@
                     app:layout_constraintEnd_toEndOf="@+id/imageArea"
                     app:layout_constraintTop_toTopOf="@+id/imageArea" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="상대방 찌르기"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="-5dp"
+                    app:layout_constraintHorizontal_bias="0.75"
+                    app:layout_constraintEnd_toEndOf="@+id/sibiBtn"
+                    app:layout_constraintStart_toStartOf="@+id/sibiBtn"
+                    app:layout_constraintTop_toBottomOf="@+id/sibiBtn" />
+
+                <TextView
+                    android:id="@+id/nameArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:paddingTop="8dp"
+                    android:text="이름"
+                    android:layout_marginBottom="20dp"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageArea" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-                    android:layout_margin="10dp"
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        android:id="@+id/nameArea"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
-
-                        android:layout_marginTop="5dp"
-                        android:text="이름"
-                        android:textAlignment="center"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-
-
-                    <TextView
-                        android:id="@+id/infoArea"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:gravity="center"
-                        android:text="설명"
-                        android:textAlignment="center"
-                        android:textSize="15sp" />
-                </LinearLayout>
-            </LinearLayout>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

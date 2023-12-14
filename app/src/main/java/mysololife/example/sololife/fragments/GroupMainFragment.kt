@@ -266,6 +266,7 @@ class GroupMainFragment : Fragment(),TeamFaceAdapter.OnItemClickListener {
             .setNegativeButton("종료") { dialog, _ ->
             dialog.dismiss() // 다이얼로그 닫기
         }
+
         val alertDialog = mBuilder.show()
         //지금 유저
         val currentUser = personList[p0]
@@ -277,6 +278,7 @@ class GroupMainFragment : Fragment(),TeamFaceAdapter.OnItemClickListener {
                 .load(currentUser.profilePhoto)
                 .into(myImage)
         }
+
 
         //시비 걸기
         alertDialog.findViewById<ImageView>(R.id.sibiBtn).setOnClickListener {
@@ -322,7 +324,6 @@ class GroupMainFragment : Fragment(),TeamFaceAdapter.OnItemClickListener {
                 }
             }
         }
-
         //메시지 창으로 넘어가기
         alertDialog.findViewById<Button>(R.id.msgBtn).setOnClickListener {
             val username = currentUser.name?: ""
