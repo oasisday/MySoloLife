@@ -16,6 +16,7 @@ import com.example.mysololife.R
 import com.example.mysololife.databinding.FragmentStudyteamBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -37,7 +38,7 @@ class GroupMainFragment : Fragment() {
     private lateinit var teamfaceAdapter: TeamFaceAdapter
     private lateinit var key: String
     private lateinit var gname: String
-
+    var teamleader : String =""
     val myUid = FBAuth.getUid()
 
 
@@ -47,10 +48,9 @@ class GroupMainFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentStudyteamBinding.inflate(inflater, container, false)
-
         key = arguments?.getString("amount").toString()
         getBoardData(key)
-
+        getLeaderData(key)
         binding.groupboardBtn.setOnClickListener {
             val intent = Intent(requireContext(), GroupQnAActivity::class.java)
             intent.putExtra("gname", gname)
@@ -64,8 +64,27 @@ class GroupMainFragment : Fragment() {
             showDialog(myUid)
         }
         getTeamFaceData(key)
-
+    
         return binding.root
+    }
+
+    private fun getLeaderData(key: String) {
+        val reference = FBboard.boardInfoRef.child(key)
+        reference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    teamleader = dataSnapshot.child("leader").getValue(String::class.java).toString()
+                    Log.d("teamleader",teamleader)
+                } else {
+                    println("Data does not exist")
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // 데이터 읽기 실패 시
+                println("Error getting data: $databaseError")
+            }
+        })
     }
 
     private fun getBoardData(key: String) {
@@ -166,7 +185,7 @@ class GroupMainFragment : Fragment() {
                                 if (personList.size.toLong() == dataSnapshot.childrenCount) {
                                     // 모든 데이터를 가져왔을 때 수행할 작업
                                     // 예: RecyclerView에 데이터 설정
-                                    teamfaceAdapter = TeamFaceAdapter(requireContext(),personList)
+                                    teamfaceAdapter = TeamFaceAdapter(requireContext(),personList,teamleader)
                                     binding.faceRecyclerview.apply {
                                         adapter = teamfaceAdapter
                                         layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)

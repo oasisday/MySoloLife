@@ -1,12 +1,17 @@
 package mysololife.example.sololife.ui
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.DimenRes
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.bumptech.glide.Glide
 import com.example.mysololife.R
 import com.google.firebase.database.DataSnapshot
@@ -15,11 +20,14 @@ import com.google.firebase.database.ValueEventListener
 import mysololife.example.sololife.map.Person
 import mysololife.example.sololife.utils.FirebaseRef
 
-class TeamFaceAdapter(private val context : Context, val items: List<Person>) : RecyclerView.Adapter<TeamFaceAdapter.ViewHolder>() {
+
+class TeamFaceAdapter(private val context : Context, val items: List<Person>,val teamleaderUid:String) : RecyclerView.Adapter<TeamFaceAdapter.ViewHolder>() {
     // 뷰홀더 클래스 정의
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
         val name: TextView = itemView.findViewById(R.id.myName)
         val imageView: ImageView = itemView.findViewById(R.id.myImage)
+        val cloud: ImageView = itemView.findViewById(R.id.imageCloud)
+        val crown: ImageView = itemView.findViewById(R.id.leadercrown)
         override fun onClick(p0: View?) {
             //TODO("Not yet implemented")
         }
@@ -27,6 +35,7 @@ class TeamFaceAdapter(private val context : Context, val items: List<Person>) : 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_teamface, parent, false)
+
         return ViewHolder(view)
     }
     override fun getItemCount(): Int {
@@ -34,7 +43,27 @@ class TeamFaceAdapter(private val context : Context, val items: List<Person>) : 
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
+        if (item.uid == teamleaderUid) {
+            // item.uid가 teamleaderUid와 같다면
+            holder.crown.visibility = View.VISIBLE
+        } else {
+            // item.uid가 teamleaderUid와 다르다면
+            holder.crown.visibility = View.GONE
+        }
         holder.name.text = item.name
+        val colorResId = when (position % 6) {
+            0 -> R.color.cloudcolor_zero
+            1 -> R.color.cloudcolor_one
+            3 -> R.color.cloudcolor_two
+            4 -> R.color.cloudcolor_three
+            5 -> R.color.cloudcolor_four
+            2 -> R.color.cloudcolor_five
+            else -> R.color.maincolor_one
+        }
+
+        // 배경색 변경
+        val backgroundColor = ContextCompat.getColor(context, colorResId)
+        holder.cloud.backgroundTintList = ColorStateList.valueOf(backgroundColor)
 
         val uid = item.uid
 
