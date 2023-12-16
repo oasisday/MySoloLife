@@ -84,20 +84,18 @@ class HomeFragment : Fragment(),OnItemClickListener{
             view?.findNavController()?.navigate(R.id.action_homeFragment_to_myLikeListFragment)
         }
         binding.profileImage.setOnClickListener {
-            //view?.findNavController()?.navigate(R.id.action_homeFragment_to_mypageFragment)
-            //채팅 리스트로 가기
-            view?.findNavController()?.navigate(R.id.action_homeFragment_to_chatListFragment)
+            view?.findNavController()?.navigate(R.id.action_homeFragment_to_mypageFragment)
         }
         binding.matchingBtn.setOnClickListener{
             val intent = Intent(context, Matching::class.java)
             startActivity(intent)
         }
-        binding.addfriendBtn.setOnClickListener {
+        binding.chatlistBtn.setOnClickListener {
             //addDialog()
             //친구목록 프래그먼트로 가기
-            view?.findNavController()?.navigate(R.id.action_homeFragment_to_userFragment)
+            view?.findNavController()?.navigate(R.id.action_homeFragment_to_chatListFragment)
         }
-        binding.tempMapBtn.setOnClickListener {
+        binding.locationshare.setOnClickListener {
             val intent = Intent(context,MapActivity::class.java)
             startActivity(intent)
         }

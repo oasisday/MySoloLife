@@ -98,7 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="녹음기\n"
+                android:text="자유 게시판"
                 android:textSize="15sp"
                 android:textAlignment="center"
                 android:textColor="#6672FF"
@@ -216,7 +216,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
+        android:id="@+id/dogu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
@@ -255,7 +255,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/round_dashboard_24"
+                        app:srcCompat="@drawable/baseline_mic_24"
                         app:tint="@color/maincolor_seven" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -264,7 +264,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="자유게시판"
+                    android:text="녹음기"
                     android:textAlignment="center"
                     android:textColor="#2e3d6d"
                     android:textSize="14sp"
@@ -355,7 +355,7 @@
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/addfriendBtn"
+                    android:id="@+id/chatlistBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bottom_background_final">
@@ -370,7 +370,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/round_add_icon"
+                        app:srcCompat="@drawable/round_chat_24"
                         app:tint="@color/maincolor_seven" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -379,7 +379,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="이메일로\n친구초대"
+                    android:text="채팅 목록"
                     android:textAlignment="center"
                     android:textColor="#2e3d6d"
                     android:textSize="14sp"
@@ -396,6 +396,74 @@
         </LinearLayout>
     </LinearLayout>
     <!--remove the below layout with recycler view, use card poplar courses as model for design-->
+
+    <ImageView
+        android:id="@+id/locationshare"
+        android:layout_width="170dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/cloudcolor_two"
+        android:background="@drawable/round_cloud_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/chatBtn"
+        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.00"
+        app:layout_constraintTop_toBottomOf="@+id/dogu" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="-전체 사용자 기능-"
+        android:textColor="@color/maincolor_seven"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/locationshare"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="위치 공유"
+        android:textColor="#1E236C"
+        android:textSize="22sp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="30dp"
+        android:textStyle="bold"
+        android:drawableStart="@drawable/baseline_add_location_24"
+        app:layout_constraintStart_toStartOf="@+id/locationshare"
+        app:layout_constraintTop_toTopOf="@+id/locationshare" />
+
+
+    <ImageView
+        android:id="@+id/chatBtn"
+        android:layout_width="170dp"
+        android:layout_height="90dp"
+        android:backgroundTint="@color/cloudcolor_one"
+        android:background="@drawable/round_cloud_24"
+        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintBottom_toBottomOf="@+id/locationshare"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/locationshare" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" 채팅방"
+        android:textColor="#1E236C"
+        android:textSize="24sp"
+        android:drawableStart="@drawable/round_mark_unread_chat_alt_24"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="32dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/chatBtn"
+        app:layout_constraintTop_toTopOf="@+id/chatBtn" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>
