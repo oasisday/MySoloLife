@@ -59,7 +59,7 @@ class DashboardAdapter(val infos: MutableList<InfoEntity>, var listener: OnItemC
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.lectureTitle.text = infos[position].scheduleName
-        holder.lectureProfessor.text = infos[position].roomInfo + "강의실"
+        holder.lectureProfessor.text = "강의실 : infos[position].roomInfo"
         val colorCode = infos[position].backgroundColor
         val colorInt = Color.parseColor(colorCode)
         holder.lectureColor.setBackgroundColor(colorInt)
