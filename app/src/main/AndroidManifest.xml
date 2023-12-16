@@ -19,6 +19,9 @@
             android:name="mysololife.example.sololife.map.MapActivity"
             android:exported="false" />
         <activity
+            android:name="mysololife.example.sololife.map.MapActivity2"
+            android:exported="false" />
+        <activity
             android:name="mysololife.example.sololife.alarm.AlarmsetActivity"
             android:exported="true"
             android:launchMode="singleTop"></activity>
@@ -95,9 +98,7 @@
         <activity
             android:name="mysololife.example.sololife.timetable.TimeTableActivity"
             android:exported="false" />
-        <activity
-            android:name="mysololife.example.sololife.dashboard.LectureMainActivity"
-            android:exported="false" />
+
         <activity
             android:name="mysololife.example.sololife.group.board.GBoardEditActivity"
             android:exported="false" />
@@ -107,9 +108,7 @@
         <activity
             android:name="mysololife.example.sololife.group.board.GBoardWriteActivity"
             android:exported="false" />
-        <activity
-            android:name="mysololife.example.sololife.dashboard.MainDashboardActivity"
-            android:exported="false" />
+
         <activity
             android:name="mysololife.example.sololife.recorder.GalleryActivity"
             android:exported="false" />

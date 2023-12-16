@@ -151,28 +151,12 @@
                 android:layout_margin="10dp"
                 android:src="@drawable/round_settings_24"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/reserveBtn"
-                app:layout_constraintEnd_toEndOf="@+id/reserveBtn" />
+                app:layout_constraintBottom_toBottomOf="@+id/locationShareBtn"
+                app:layout_constraintEnd_toEndOf="@+id/locationShareBtn" />
 
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_margin="10dp"
-                android:src="@drawable/round_delete_24"
-                app:layout_constraintBottom_toBottomOf="@+id/groupOutBtn"
-                app:layout_constraintEnd_toEndOf="@+id/groupOutBtn"
-                app:tint="@color/white" />
 
-            <ImageView
-                android:id="@+id/imageView21"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_margin="10dp"
-                android:src="@drawable/round_gps_fixed_24"
-                app:layout_constraintBottom_toBottomOf="@+id/deleteStudyRoomBtn"
-                app:layout_constraintEnd_toEndOf="@+id/deleteStudyRoomBtn"
-                app:tint="#0D5285" />
+
+
 
             <TextView
                 android:id="@+id/groupOutBtn"
@@ -190,18 +174,19 @@
                 app:layout_constraintStart_toStartOf="@+id/deleteStudyRoomBtn"
                 app:layout_constraintTop_toBottomOf="@+id/deleteStudyRoomBtn" />
 
+
+
             <TextView
-                android:id="@+id/reserveBtn"
+                android:id="@+id/locationShareBtn"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_margin="16dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/background_round_all"
                 android:backgroundTint="#EEBFDEE8"
-                android:elevation="10dp"
                 android:padding="24dp"
-                android:text=""
-                android:textColor="#767C9A"
+                android:text="스터디원 위치 공유"
+                android:textColor="#323B68"
                 android:textSize="24sp"
 
                 android:textStyle="bold"
@@ -209,6 +194,26 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/imageView21"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/round_gps_fixed_24"
+                app:layout_constraintBottom_toBottomOf="@+id/locationShareBtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tint="#323B68" />
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/round_delete_24"
+                app:layout_constraintBottom_toBottomOf="@+id/groupOutBtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tint="@color/white" />
             <TextView
                 android:id="@+id/deleteStudyRoomBtn"
                 android:layout_width="match_parent"
@@ -223,14 +228,21 @@
                 android:textColor="#0D5285"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/reserveBtn"
-                app:layout_constraintEnd_toStartOf="@+id/reserveBtn"
-                app:layout_constraintStart_toStartOf="@+id/reserveBtn"
-                app:layout_constraintTop_toBottomOf="@+id/reserveBtn" />
-
-
+                app:layout_constraintEnd_toEndOf="@+id/locationShareBtn"
+                app:layout_constraintEnd_toStartOf="@+id/locationShareBtn"
+                app:layout_constraintStart_toStartOf="@+id/locationShareBtn"
+                app:layout_constraintTop_toBottomOf="@+id/locationShareBtn" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
+    <ImageView
+        android:id="@+id/outbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/white"
+        android:background="@drawable/baseline_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

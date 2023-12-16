@@ -446,7 +446,7 @@ class Matching : AppCompatActivity(),TeamFaceAdapter.OnItemClickListener  {
         //시비 걸기
         alertDialog.findViewById<ImageView>(R.id.sibiBtn).setOnClickListener {
             makeVibrate()
-            Toast.makeText(this,"찌르기 기능은 스터디 팀 내에서만 사용하실 수 있습니다 :)\n팀을 만들어 해당 기능을 사용해보세요!",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"찌르기 기능은 스터디 팀 내에서만 사용하실 수 있습니다 :)",Toast.LENGTH_SHORT).show()
         }
         //메시지 창으로 넘어가기
         alertDialog.findViewById<Button>(R.id.msgBtn).setOnClickListener {

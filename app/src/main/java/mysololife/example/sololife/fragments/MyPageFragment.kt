@@ -52,7 +52,7 @@ class MyPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         auth = Firebase.auth
-
+        view?.findNavController()?.popBackStack(R.id.mypageFragment, false)
         binding.profileeditBtn.setOnClickListener {
             view?.findNavController()?.navigate(R.id.action_mypageFragment_to_settingFragment)
         }

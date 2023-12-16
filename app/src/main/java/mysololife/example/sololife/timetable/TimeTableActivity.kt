@@ -2,21 +2,15 @@ package mysololife.example.sololife.timetable
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mysololife.R
 import com.example.mysololife.databinding.FragmentTimetableBinding
 import com.google.android.material.snackbar.Snackbar
 import com.islandparadise14.mintable.model.ScheduleEntity
 import com.islandparadise14.mintable.tableinterface.OnScheduleClickListener
 import com.islandparadise14.mintable.tableinterface.OnScheduleLongClickListener
-import mysololife.example.sololife.dashboard.LectureMainActivity
 
 
 class TimeTableActivity : AppCompatActivity(), OnItemClickListener {

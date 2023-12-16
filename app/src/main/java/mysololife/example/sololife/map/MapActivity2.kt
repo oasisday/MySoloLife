@@ -12,7 +12,10 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.location.LocationManagerCompat.getCurrentLocation
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -47,10 +50,15 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import mysololife.example.sololife.auth.Key
 import mysololife.example.sololife.chatdetail.ChatItem
 import mysololife.example.sololife.chatlist.ChatActivity
+import mysololife.example.sololife.chatlist.ChatActivity2
 import mysololife.example.sololife.chatlist.ChatRoomItem
+import mysololife.example.sololife.ui.TeamFaceAdapter
+import mysololife.example.sololife.utils.FBboard
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaType
@@ -65,11 +73,12 @@ import java.util.Date
 import java.util.Locale
 import java.util.UUID
 
-class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+class MapActivity2 : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     private lateinit var binding: ActivityMapBinding
     private lateinit var googleMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var trackingPersonId: String = ""
+    val personList = mutableListOf<String>()
     private val markerMap = hashMapOf<String, Marker>()
     private var myname =""
     private val locationPermissionRequest = registerForActivityResult(
@@ -114,6 +123,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
         binding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val key = intent.getStringExtra(ChatActivity2.EXTRA_CHAT_ROOM_ID) ?: return
+        getTeamData(key)
+
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.mapFragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -122,7 +134,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
         requestLocationPermission()
         setupEmojiAnimationView()
         setupCurrentLocationView()
-        setupFirebaseDatabase()
+
 
         binding.outBtn.setOnClickListener {
             finish()
@@ -144,7 +156,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
                     getUserTokenByUID(trackingPersonId) { token ->
                         if (token != null) {
 
-                            Toast.makeText(this@MapActivity, "상대방에게 위치 공유를 요청하는 알림을 보냈습니다.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@MapActivity2, "상대방에게 위치 공유를 요청하는 알림을 보냈습니다.", Toast.LENGTH_SHORT).show()
 
                             // 여기에서 원하는 동작 수행
                             val client = OkHttpClient()
@@ -446,30 +458,39 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                     val person = snapshot.getValue(Person::class.java) ?: return
                     val uid = person.uid ?: return
-                    if (markerMap[uid] == null) {
-                        markerMap[uid] = makeNewMarker(person, uid) ?: return
+                    if(uid in personList) {
+                        Log.d("pleasehelpme",uid)
+                        if (markerMap[uid] == null) {
+                            markerMap[uid] = makeNewMarker(person, uid) ?: return
+                        }
                     }
                 }
 
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                     val person = snapshot.getValue(Person::class.java) ?: return
                     val uid = person.uid ?: return
-
-                    if (markerMap[uid] == null) {
-                        markerMap[uid] = makeNewMarker(person, uid) ?: return
-                    } else {
-                        markerMap[uid]?.position =
-                            LatLng(person.latitude ?: 0.0, person.longitude ?: 0.0)
-                    }
-                    if (uid == trackingPersonId) {
-                        googleMap.animateCamera(
-                            CameraUpdateFactory.newCameraPosition(
-                                CameraPosition.Builder()
-                                    .target(LatLng(person.latitude ?: 0.0, person.longitude ?: 0.0))
-                                    .zoom(16.0f)
-                                    .build()
+                    if (uid in personList) {
+                        if (markerMap[uid] == null) {
+                            markerMap[uid] = makeNewMarker(person, uid) ?: return
+                        } else {
+                            markerMap[uid]?.position =
+                                LatLng(person.latitude ?: 0.0, person.longitude ?: 0.0)
+                        }
+                        if (uid == trackingPersonId) {
+                            googleMap.animateCamera(
+                                CameraUpdateFactory.newCameraPosition(
+                                    CameraPosition.Builder()
+                                        .target(
+                                            LatLng(
+                                                person.latitude ?: 0.0,
+                                                person.longitude ?: 0.0
+                                            )
+                                        )
+                                        .zoom(16.0f)
+                                        .build()
+                                )
                             )
-                        )
+                        }
                     }
                 }
 
@@ -633,6 +654,46 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
         }.addOnFailureListener { exception ->
             Log.e("maptest", "Failed to read data from database: $exception")
             callback(null)
+        }
+    }
+    private fun getTeamData(key: String) {
+        val memberRef = FBboard.boardInfoRef.child(key).child("member")
+        memberRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                lifecycleScope.launch {
+                    // 각 userID에 대한 Person 데이터 가져오기
+                    for (userID in dataSnapshot.children) {
+                        Log.d("boardTest", userID.toString())
+                        userID.getValue(String::class.java)?.let {
+                            // getPersonInfo 함수 호출
+                            val person = getPersonInfo(it)
+                            // 가져온 Person을 리스트에 추가
+                            person?.let {
+                                personList.add(it.uid!!)
+                                if (personList.size.toLong() == dataSnapshot.childrenCount) {
+                                    setupFirebaseDatabase()
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
+    suspend fun getPersonInfo(uid: String): Person? {
+        return try {
+            val dataSnapshot = Firebase.database.getReference("Person").child(uid).get()
+                .await() // userInfoRef는 Person 데이터가 있는 위치로 변경해야 합니다.
+            val person = dataSnapshot.getValue(Person::class.java)
+            person
+        } catch (e: Exception) {
+            null
         }
     }
 }

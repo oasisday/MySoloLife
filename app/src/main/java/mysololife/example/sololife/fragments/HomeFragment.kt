@@ -147,7 +147,6 @@ class HomeFragment : Fragment(),OnItemClickListener{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.btnVoiceRecorder.setOnClickListener {
             Intent(getActivity(),RecorderMainActivity::class.java).apply{
                 startActivity(this)

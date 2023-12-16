@@ -58,7 +58,7 @@ class LectureInitFragment : Fragment() {
             if (blankCheck()) {
                 if (timeCheck()) {
                     add()
-                    view?.findNavController()?.navigate(R.id.action_lectureInitFragment_to_maindashboardFragment)
+                    requireActivity().onBackPressed()
                 }
             }
         }

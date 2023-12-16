@@ -47,6 +47,7 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view?.findNavController()?.popBackStack(R.id.maindashboardFragment, false)
         binding.plusBtn.setOnClickListener {
             view?.findNavController()
                 ?.navigate(com.example.mysololife.R.id.action_maindashboardFragment_to_lectureInitFragment)

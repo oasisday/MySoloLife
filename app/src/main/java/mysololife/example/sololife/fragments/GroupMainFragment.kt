@@ -18,6 +18,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.mysololife.R
@@ -41,6 +42,7 @@ import mysololife.example.sololife.chatlist.ChatActivity2
 import mysololife.example.sololife.chatlist.ChatRoomItem
 import mysololife.example.sololife.group.GroupDataModel
 import mysololife.example.sololife.group.GroupQnAActivity
+import mysololife.example.sololife.map.MapActivity2
 import mysololife.example.sololife.map.Person
 import mysololife.example.sololife.ui.StudyTeamAdapter
 import mysololife.example.sololife.ui.TeamFaceAdapter
@@ -94,6 +96,16 @@ class GroupMainFragment : Fragment(),TeamFaceAdapter.OnItemClickListener {
         binding.groupOutBtn.setOnClickListener {
             showDialog(myUid)
         }
+        binding.outbtn.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
+        binding.locationShareBtn.setOnClickListener {
+            val intent = Intent(context, MapActivity2::class.java)
+            intent.putExtra(ChatActivity2.EXTRA_CHAT_ROOM_ID,key)
+            startActivity(intent)
+        }
+
         getTeamFaceData(key)
         vibrator = requireContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 

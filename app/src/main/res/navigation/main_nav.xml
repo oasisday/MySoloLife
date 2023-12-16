@@ -66,6 +66,9 @@
         android:label="GroupMainFragment"
         tools:layout="@layout/fragment_studyteam">
 
+        <action
+            android:id="@+id/action_groupMainFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 
 

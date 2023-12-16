@@ -66,7 +66,7 @@ class LectureMainFragment : Fragment() {
                 startActivity(this)
             }
         }
-        binding.reserveBtn.setOnClickListener {
+        binding.locationShareBtn.setOnClickListener {
             val bundle = bundleOf("alarmlecturename" to lectureName)
             view?.findNavController()?.navigate(R.id.action_lectureMainFragment_to_alarmsetFragment,bundle)
         }

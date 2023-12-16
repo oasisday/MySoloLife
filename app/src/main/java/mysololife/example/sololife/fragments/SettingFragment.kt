@@ -116,11 +116,8 @@ class SettingFragment : Fragment() {
 
                 uploadImage(currentUserId)
 
-                Toast.makeText(requireContext(),"파이어베이스에 사진이 올라갈 때 약간의 시간이 소요됩니다.\n 새로고침시 적용됩니다 :)", Toast.LENGTH_LONG).show()
-                view?.findNavController()?.navigate(R.id.action_settingFragment_to_mypageFragment)
-                requireActivity().supportFragmentManager.beginTransaction()
-                    .remove(this)
-                    .commit()
+                Toast.makeText(requireContext(),"사진이 저장소에 올라갈 때는 약간의 시간이 소요됩니다. 새로고침시 적용됩니다 :)", Toast.LENGTH_LONG).show()
+                requireActivity().onBackPressed()
             }
 
             catch (e:Exception){
