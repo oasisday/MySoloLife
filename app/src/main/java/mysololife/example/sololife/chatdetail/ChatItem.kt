@@ -8,5 +8,6 @@ data class ChatItem(
     var chatId: String? = null,
     val userId: String? = null,
     val message: String? = null,
-    val timestamp: Long = 0
+    val timestamp: Long = 0,
+    val userName: String? = null
 )

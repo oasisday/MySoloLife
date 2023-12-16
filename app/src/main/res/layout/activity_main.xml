@@ -29,8 +29,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:itemIconTint="@color/maincolor_one"
-        app:itemTextColor="@color/maincolor_one"
+        app:itemIconTint="@color/cloudcolor_one"
+        app:itemTextColor="@color/cloudcolor_one"
         app:itemActiveIndicatorStyle="@color/bottom_navigation_colors"
         app:menu="@menu/menu_main" />
 

@@ -71,7 +71,7 @@ class MyPageFragment : Fragment() {
             startActivity(intent)
         }
         binding.msgBtn.setOnClickListener {
-            Toast.makeText(requireContext(),"msg버튼을 클릭하였습니다.",Toast.LENGTH_SHORT).show()
+            view?.findNavController()?.navigate(R.id.action_mypageFragment_to_chatListFragment)
         }
         binding.swiperefreshlayout.setOnRefreshListener{
             getMyData()

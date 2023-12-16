@@ -53,7 +53,7 @@ class ChatActivity : AppCompatActivity() {
 
         chatRoomId = intent.getStringExtra(ChatActivity2.EXTRA_CHAT_ROOM_ID) ?: return
         otherUserId = intent.getStringExtra(ChatActivity2.EXTRA_OTHER_USER_ID) ?: return
-        supportActionBar?.title = otherUserId
+
         myUserId = Firebase.auth.currentUser?.uid ?: ""
         chatAdapter = ChatAdapter()
         linearLayoutManager = LinearLayoutManager(applicationContext)
@@ -62,7 +62,7 @@ class ChatActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 val myUserItem = it.getValue(UserItem::class.java)
                 myUserName = myUserItem?.username ?: ""
-
+                supportActionBar?.title = myUserName
                 getOtherUserData()
             }
 

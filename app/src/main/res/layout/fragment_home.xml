@@ -192,11 +192,11 @@
         android:layout_width="match_parent"
         android:layout_height="220dp"
         android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
         android:layout_marginTop="70dp"
+        android:layout_marginEnd="30dp"
         android:background="@drawable/banner_background_final"
-        android:paddingStart="10dp"
         android:elevation="4dp"
+        android:paddingStart="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -417,14 +417,13 @@
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginBottom="10dp"
         android:text="팀 신기능 체험판"
         android:textColor="@color/maincolor_seven"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/locationshare"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/tempMapBtn" />
 
     <TextView
         android:layout_width="wrap_content"

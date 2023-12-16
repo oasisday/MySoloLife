@@ -54,6 +54,9 @@
         <action
             android:id="@+id/action_mypageFragment_to_settingFragment"
             app:destination="@id/settingFragment" />
+        <action
+            android:id="@+id/action_mypageFragment_to_chatListFragment"
+            app:destination="@id/chatListFragment" />
     </fragment>
 
 
