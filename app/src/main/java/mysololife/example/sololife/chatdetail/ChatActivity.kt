@@ -105,6 +105,8 @@ class ChatActivity : AppCompatActivity() {
                 "${Key.DB_CHAT_ROOMS}/$otherUserId/$myUserId/chatRoomId" to chatRoomId,
                 "${Key.DB_CHAT_ROOMS}/$otherUserId/$myUserId/otherUserId" to myUserId,
                 "${Key.DB_CHAT_ROOMS}/$otherUserId/$myUserId/otherUserName" to myUserName,
+                "${Key.DB_CHAT_ROOMS}/$myUserId/$otherUserId/time" to System.currentTimeMillis(),
+                "${Key.DB_CHAT_ROOMS}/$myUserId/$otherUserId/time" to System.currentTimeMillis(),
             )
             Firebase.database.reference.updateChildren(updates)
 
