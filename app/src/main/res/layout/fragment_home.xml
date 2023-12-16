@@ -77,7 +77,7 @@
         app:layout_constraintTop_toBottomOf="@+id/profileImage">
 
         <LinearLayout
-            android:id="@+id/btnVoiceRecorder"
+            android:id="@+id/btneveryoneboard"
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:layout_margin="10dp"
@@ -241,7 +241,7 @@
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/btneveryoneboard"
+                    android:id="@+id/btnVoiceRecorder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bottom_background_final">
@@ -414,17 +414,30 @@
 
 
     <TextView
+        android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginBottom="10dp"
-        android:text="-전체 사용자 기능-"
+        android:text="팀 신기능 체험판"
         android:textColor="@color/maincolor_seven"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/locationshare"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="for 전체 사용자"
+        android:textColor="@color/maincolor_seven"
+        android:textSize="10sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toTopOf="@+id/locationshare"
+
+        app:layout_constraintStart_toEndOf="@+id/textView14" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

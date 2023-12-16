@@ -48,6 +48,8 @@ import mysololife.example.sololife.Matching
 import mysololife.example.sololife.auth.LoginActivity
 import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.auth.UserInfoModel
+import mysololife.example.sololife.chatlist.ChatActivity
+import mysololife.example.sololife.chatlist.ChatActivity2
 import mysololife.example.sololife.group.GroupDataModel
 import mysololife.example.sololife.group.GroupMainActivity
 import mysololife.example.sololife.group.GroupboardLVAdapter
@@ -97,6 +99,13 @@ class HomeFragment : Fragment(),OnItemClickListener{
         }
         binding.locationshare.setOnClickListener {
             val intent = Intent(context,MapActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.chatBtn.setOnClickListener {
+            val intent = Intent(context, ChatActivity2::class.java)
+            intent.putExtra(ChatActivity2.EXTRA_CHAT_ROOM_ID,"allchatting_room")
+            intent.putExtra(ChatActivity2.EXTRA_OTHER_USER_ID,"전체 채팅방")
             startActivity(intent)
         }
         return binding.root

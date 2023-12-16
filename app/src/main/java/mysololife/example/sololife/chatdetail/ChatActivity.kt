@@ -44,9 +44,16 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityChatdetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        binding.toolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
 
-        chatRoomId = intent.getStringExtra(EXTRA_CHAT_ROOM_ID) ?: return
-        otherUserId = intent.getStringExtra(EXTRA_OTHER_USER_ID) ?: return
+        chatRoomId = intent.getStringExtra(ChatActivity2.EXTRA_CHAT_ROOM_ID) ?: return
+        otherUserId = intent.getStringExtra(ChatActivity2.EXTRA_OTHER_USER_ID) ?: return
+        supportActionBar?.title = otherUserId
         myUserId = Firebase.auth.currentUser?.uid ?: ""
         chatAdapter = ChatAdapter()
         linearLayoutManager = LinearLayoutManager(applicationContext)

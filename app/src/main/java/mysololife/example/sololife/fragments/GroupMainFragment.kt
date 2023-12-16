@@ -37,6 +37,7 @@ import mysololife.example.sololife.MainActivity
 import mysololife.example.sololife.auth.Key
 import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.chatlist.ChatActivity
+import mysololife.example.sololife.chatlist.ChatActivity2
 import mysololife.example.sololife.chatlist.ChatRoomItem
 import mysololife.example.sololife.group.GroupDataModel
 import mysololife.example.sololife.group.GroupQnAActivity
@@ -85,7 +86,10 @@ class GroupMainFragment : Fragment(),TeamFaceAdapter.OnItemClickListener {
             startActivity(intent)
         }
         binding.chatBtn.setOnClickListener {
-            Toast.makeText(requireContext(), "chat버튼을 클릭하였습니다.", Toast.LENGTH_SHORT).show()
+            val intent = Intent(context, ChatActivity2::class.java)
+            intent.putExtra(ChatActivity.EXTRA_CHAT_ROOM_ID,key)
+            intent.putExtra(ChatActivity.EXTRA_OTHER_USER_ID,gname)
+            startActivity(intent)
         }
         binding.groupOutBtn.setOnClickListener {
             showDialog(myUid)

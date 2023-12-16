@@ -71,6 +71,9 @@
             android:name="mysololife.example.sololife.chatlist.ChatActivity"
             android:exported="false" />
         <activity
+            android:name="mysololife.example.sololife.chatlist.ChatActivity2"
+            android:exported="false" />
+        <activity
             android:name="mysololife.example.sololife.board.BoardWriteActivity"
             android:exported="false" />
         <activity
