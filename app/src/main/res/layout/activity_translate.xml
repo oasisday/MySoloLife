@@ -30,12 +30,13 @@
             android:gravity="center"
             android:padding="10dp">
 
-            <ImageView
+            <View
                 android:id="@+id/screen"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:padding="10dp"
-                app:srcCompat="@drawable/howto"/>
+                android:layout_margin="24dp"
+                android:background="#B0D9EEF8"/>
+                >
 
             <LinearLayout
                 android:padding="10dp"
