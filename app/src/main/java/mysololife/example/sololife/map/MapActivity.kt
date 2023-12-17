@@ -1,20 +1,17 @@
 package mysololife.example.sololife.map
 
 import android.Manifest
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.location.LocationManagerCompat.getCurrentLocation
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -45,12 +42,9 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.getValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import mysololife.example.sololife.auth.Key
-import mysololife.example.sololife.chatdetail.ChatItem
 import mysololife.example.sololife.chatlist.ChatActivity
 import mysololife.example.sololife.chatlist.ChatRoomItem
 import okhttp3.Call
@@ -66,6 +60,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.UUID
+
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     private lateinit var binding: ActivityMapBinding
@@ -145,41 +140,39 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
                 } else {
                     getUserTokenByUID(trackingPersonId) { token ->
                         if (token != null) {
-
-                            Toast.makeText(this@MapActivity, "상대방에게 위치 공유를 요청하는 알림을 보냈습니다.", Toast.LENGTH_SHORT).show()
-
-                            // 여기에서 원하는 동작 수행
-                            val client = OkHttpClient()
-                            val root = JSONObject()
-                            val notification = JSONObject()
-                            val message =
-                                "님이 위치공유 요청을 하였습니다.\n클릭을 통해 접속한 해당 액티비티에서만 위치 공유가 진행되고, 해당 액티비티를 벗어나면 어플에서 위치를 추적하지 않습니다."
-                            notification.put("title", "위치 공유 요청")
-                            notification.put("body", "\"$myname\"" + message)
-                            root.put("to", token)
-                            root.put("priority", "high")
-                            root.put("notification", notification)
-                            Log.d("testApi", root.toString())
-                            val requestBody =
-                                root.toString()
-                                    .toRequestBody("application/json; charset=utf-8".toMediaType())
-                            val request =
-                                Request.Builder().post(requestBody)
-                                    .url("https://fcm.googleapis.com/fcm/send")
-                                    .header(
-                                        "Authorization",
-                                        "key=${getString(R.string.fcm_server_key)}"
-                                    )
-                                    .build()
-                            Log.d("testApi", request.toString())
-                            client.newCall(request).enqueue(object : Callback {
-                                override fun onFailure(call: Call, e: IOException) {
-                                    e.stackTraceToString()
-                                }
-
-                                override fun onResponse(call: Call, response: Response) {
-                                }
-                            })
+                            Toast.makeText(this@MapActivity, "상대방에게 위치 공유를 요청하는 기능은 스터디 팀 내에서 사용하실 수 있습니다:)", Toast.LENGTH_SHORT).show()
+//                            // 여기에서 원하는 동작 수행
+//                            val client = OkHttpClient()
+//                            val root = JSONObject()
+//                            val notification = JSONObject()
+//                            val message =
+//                                "님이 위치공유 요청을 하였습니다.\n클릭을 통해 접속한 해당 액티비티에서만 위치 공유가 진행되고, 해당 액티비티를 벗어나면 어플에서 위치를 추적하지 않습니다."
+//                            notification.put("title", "위치 공유 요청")
+//                            notification.put("body", "\"$myname\"" + message)
+//                            root.put("to", token)
+//                            root.put("priority", "high")
+//                            root.put("notification", notification)
+//                            Log.d("testApi", root.toString())
+//                            val requestBody =
+//                                root.toString()
+//                                    .toRequestBody("application/json; charset=utf-8".toMediaType())
+//                            val request =
+//                                Request.Builder().post(requestBody)
+//                                    .url("https://fcm.googleapis.com/fcm/send")
+//                                    .header(
+//                                        "Authorization",
+//                                        "key=${getString(R.string.fcm_server_key)}"
+//                                    )
+//                                    .build()
+//                            Log.d("testApi", request.toString())
+//                            client.newCall(request).enqueue(object : Callback {
+//                                override fun onFailure(call: Call, e: IOException) {
+//                                    e.stackTraceToString()
+//                                }
+//
+//                                override fun onResponse(call: Call, response: Response) {
+//                                }
+//                            })
                         }
                     }
                 }

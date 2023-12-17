@@ -81,7 +81,9 @@ class MyLikeWaitFragment : Fragment() {
         val userListView = view.findViewById<ListView>(R.id.userListView)
 
         listviewAdapter = ListViewAdapter(requireContext(), likeUserList)
+        listviewAdapter.ischeck = true
         userListView.adapter = listviewAdapter
+
         getMyLikeList()
     }
 

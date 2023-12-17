@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MySoloLife"
-        tools:replace="android:appComponentFactory, android:theme">
+        tools:replace="android:appComponentFactory, android:theme,android:icon">
         <activity
             android:name="mysololife.example.sololife.map.MapActivity"
             android:exported="false" />

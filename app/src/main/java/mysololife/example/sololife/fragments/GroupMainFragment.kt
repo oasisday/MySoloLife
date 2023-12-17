@@ -9,6 +9,7 @@ import android.os.VibrationEffect
 import android.os.VibrationEffect.createWaveform
 import android.os.Vibrator
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,11 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.thecode.aestheticdialogs.AestheticDialog
+import com.thecode.aestheticdialogs.DialogAnimation
+import com.thecode.aestheticdialogs.DialogStyle
+import com.thecode.aestheticdialogs.DialogType
+import com.thecode.aestheticdialogs.OnDialogClickListener
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import mysololife.example.sololife.MainActivity
@@ -42,6 +48,7 @@ import mysololife.example.sololife.chatlist.ChatActivity2
 import mysololife.example.sololife.chatlist.ChatRoomItem
 import mysololife.example.sololife.group.GroupDataModel
 import mysololife.example.sololife.group.GroupQnAActivity
+import mysololife.example.sololife.map.MapActivity
 import mysololife.example.sololife.map.MapActivity2
 import mysololife.example.sololife.map.Person
 import mysololife.example.sololife.ui.StudyTeamAdapter
@@ -101,9 +108,22 @@ class GroupMainFragment : Fragment(),TeamFaceAdapter.OnItemClickListener {
         }
 
         binding.locationShareBtn.setOnClickListener {
-            val intent = Intent(context, MapActivity2::class.java)
-            intent.putExtra(ChatActivity2.EXTRA_CHAT_ROOM_ID,key)
-            startActivity(intent)
+            AestheticDialog.Builder(requireActivity(), DialogStyle.FLAT, DialogType.INFO)
+                .setTitle("위치 공유 기능 설명")
+                .setMessage("버튼 클릭시 수동으로 기능이 활성화되며, 활성화된 팀원들 간에만 위치가 공유됩니다. 다른 화면으로 이동시 자동으로 비활성화됩니다.")
+                .setCancelable(true)
+                .setDarkMode(false)
+                .setGravity(Gravity.CENTER)
+                .setAnimation(DialogAnimation.SHRINK)
+                .setOnClickListener(object : OnDialogClickListener {
+                    override fun onClick(dialog: AestheticDialog.Builder) {
+                        dialog.dismiss()
+                        val intent = Intent(context, MapActivity2::class.java)
+                        intent.putExtra(ChatActivity2.EXTRA_CHAT_ROOM_ID,key)
+                        startActivity(intent)
+                    }
+                })
+                .show()
         }
 
         getTeamFaceData(key)
@@ -196,8 +216,6 @@ class GroupMainFragment : Fragment(),TeamFaceAdapter.OnItemClickListener {
             Toast.makeText(requireContext(), "\"$gname\" 그룹에서 탈퇴되었습니다.", Toast.LENGTH_LONG).show()
             logoutGroup(uid)
             alertDialog.dismiss()
-            //requireActivity().finish()
-
             val intent = Intent(requireContext(), MainActivity::class.java)
             startActivity(intent)
         }

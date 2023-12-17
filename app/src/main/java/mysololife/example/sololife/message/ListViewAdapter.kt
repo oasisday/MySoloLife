@@ -21,7 +21,7 @@ import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.utils.FirebaseRef
 
 class ListViewAdapter(val context : Context, val items : MutableList<UserDataModel>): BaseAdapter() {
-    private var isGlideLoadingPaused = false
+    var ischeck = false
     override fun getCount(): Int {
         return items.size
     }
@@ -41,10 +41,12 @@ class ListViewAdapter(val context : Context, val items : MutableList<UserDataMod
             convertView = LayoutInflater.from(parent?.context).inflate(R.layout.list_view_item,parent, false)
 
         }
-
         val nickname = convertView!!.findViewById<TextView>(R.id.listViewItemNickname)
         nickname.text = items[position].nickname
         val checkBox: CheckBox = convertView!!.findViewById<CheckBox>(R.id.likeCheckbox)
+        if(ischeck){
+            checkBox.visibility = View.GONE
+        }
         checkBox.isChecked = items[position].ischecked
         checkBox.setOnCheckedChangeListener { _,isChecked ->
             items[position].ischecked= isChecked

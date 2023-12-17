@@ -179,5 +179,5 @@ dependencies {
     implementation("com.github.ColdTea-Projects:SmplrAlarm:2.1.1")
 
     //푸시 알람
-    implementation("cn.pedant.sweetalert:library:1.3")
+    implementation ("com.github.gabriel-TheCode:AestheticDialogs:1.3.8")
 }

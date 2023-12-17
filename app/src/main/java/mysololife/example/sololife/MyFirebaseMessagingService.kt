@@ -4,6 +4,8 @@ import android.Manifest.permission.POST_NOTIFICATIONS
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
@@ -14,6 +16,8 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.mysololife.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import mysololife.example.sololife.chatlist.ChatActivity2
+import mysololife.example.sololife.map.MapActivity2
 import okhttp3.internal.notify
 import org.json.JSONObject
 
@@ -38,6 +42,24 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             .setContentTitle(getString(R.string.app_name))
             .setContentText(body)
             .setSound(null)
+
+        if (message.data.containsKey("location")) {
+            val vibrateValue = message.data["location"]
+            Log.d("hihihi",vibrateValue.toString())
+            val shouldVibrate = vibrateValue?.toString()?:""
+            if (!shouldVibrate.isNullOrEmpty()) {
+                val intent = Intent(applicationContext, MapActivity2::class.java)
+                intent.putExtra(ChatActivity2.EXTRA_CHAT_ROOM_ID, shouldVibrate)
+                val pendingIntent: PendingIntent = PendingIntent.getActivity(
+                    applicationContext,
+                    0,
+                    intent,
+                    PendingIntent.FLAG_IMMUTABLE
+                )
+                notificationBuilder.setContentIntent(pendingIntent)
+            }
+            notificationBuilder.setSmallIcon(R.drawable.round_gps_fixed_24)
+        }
 
         if (message.data.containsKey("vibrate")) {
             val vibrateValue = message.data["vibrate"]

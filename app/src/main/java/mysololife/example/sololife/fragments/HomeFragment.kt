@@ -11,19 +11,20 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
+import android.view.Gravity
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.bundleOf
-import androidx.navigation.NavDirections
-import androidx.navigation.Navigation
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -42,19 +43,19 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-
+import com.thecode.aestheticdialogs.AestheticDialog
+import com.thecode.aestheticdialogs.DialogAnimation
+import com.thecode.aestheticdialogs.DialogStyle
+import com.thecode.aestheticdialogs.DialogType
+import com.thecode.aestheticdialogs.OnDialogClickListener
 import mysololife.example.sololife.CameraActivity
 import mysololife.example.sololife.Matching
 import mysololife.example.sololife.auth.LoginActivity
 import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.auth.UserInfoModel
-import mysololife.example.sololife.chatlist.ChatActivity
 import mysololife.example.sololife.chatlist.ChatActivity2
 import mysololife.example.sololife.group.GroupDataModel
-import mysololife.example.sololife.group.GroupMainActivity
-import mysololife.example.sololife.group.GroupboardLVAdapter
 import mysololife.example.sololife.map.MapActivity
-import mysololife.example.sololife.message.MyLikeListActivity
 import mysololife.example.sololife.recorder.RecorderMainActivity
 import mysololife.example.sololife.timetable.TimeTableActivity
 import mysololife.example.sololife.translator.TranslateActivity
@@ -64,6 +65,7 @@ import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBboard
 import mysololife.example.sololife.utils.FirebaseAuthUtils
 import mysololife.example.sololife.utils.FirebaseRef
+
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -98,8 +100,21 @@ class HomeFragment : Fragment(),OnItemClickListener{
             view?.findNavController()?.navigate(R.id.action_homeFragment_to_chatListFragment)
         }
         binding.locationshare.setOnClickListener {
-            val intent = Intent(context,MapActivity::class.java)
-            startActivity(intent)
+            AestheticDialog.Builder(requireActivity(), DialogStyle.FLAT, DialogType.WARNING)
+                .setTitle("위치 공유 기능 설명")
+                .setMessage("버튼 클릭시 수동으로 기능이 활성화되며, 활성화된 사용자들 간에만 위치가 공유됩니다. 다른 화면으로 이동시 자동으로 비활성화됩니다.")
+                .setCancelable(true)
+                .setDarkMode(false)
+                .setGravity(Gravity.CENTER)
+                .setAnimation(DialogAnimation.SHRINK)
+                .setOnClickListener(object : OnDialogClickListener {
+                    override fun onClick(dialog: AestheticDialog.Builder) {
+                        dialog.dismiss()
+                        val intent = Intent(context,MapActivity::class.java)
+                        startActivity(intent)
+                    }
+                })
+                .show()
         }
 
         binding.chatBtn.setOnClickListener {
@@ -147,6 +162,17 @@ class HomeFragment : Fragment(),OnItemClickListener{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // 뒤로가기 버튼을 눌렀을 때 수행할 동작
+                showExitConfirmation()
+            }
+        }
+
+        // OnBackPressedCallback을 등록
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+
         binding.btnVoiceRecorder.setOnClickListener {
             Intent(getActivity(),RecorderMainActivity::class.java).apply{
                 startActivity(this)
@@ -174,6 +200,23 @@ class HomeFragment : Fragment(),OnItemClickListener{
             }
         }
         getMyData()
+    }
+
+    private fun showExitConfirmation() {
+        AestheticDialog.Builder(requireActivity(), DialogStyle.FLAT, DialogType.INFO)
+            .setTitle("앱 종료 확인")
+            .setMessage("앱을 종료하려면 아래의 확인 버튼을 클릭하세요. 그렇지 않으면 화면의 다른 부분을 눌러주세요.")
+            .setCancelable(true)
+            .setDarkMode(false)
+            .setGravity(Gravity.CENTER)
+            .setAnimation(DialogAnimation.FADE)
+            .setOnClickListener(object : OnDialogClickListener {
+                override fun onClick(dialog: AestheticDialog.Builder) {
+                    dialog.dismiss()
+                    requireActivity().finish()
+                }
+            })
+            .show()
     }
 
     private fun getMyData() {
