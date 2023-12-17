@@ -214,9 +214,6 @@ class MyLikeListFragment : Fragment() {
         FirebaseRef.userInfoRef.addValueEventListener(postListener)
     }
 
-//    private fun testPush(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
-//        RetrofitInstance.api.postNotification(notification)
-//    }
 
     private fun checkMatching(otherUid: String) {
 

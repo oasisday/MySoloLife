@@ -177,4 +177,7 @@ dependencies {
 
     //alarm manager
     implementation("com.github.ColdTea-Projects:SmplrAlarm:2.1.1")
+
+    //푸시 알람
+    implementation("cn.pedant.sweetalert:library:1.3")
 }

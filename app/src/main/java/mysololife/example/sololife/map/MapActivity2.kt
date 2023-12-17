@@ -263,6 +263,7 @@ class MapActivity2 : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     override fun onPause() {
         super.onPause()
         fusedLocationClient.removeLocationUpdates(locationCallback)
+        Glide.with(this).pauseAllRequests()
     }
 
     private fun getCurrentLocation() {
@@ -601,7 +602,6 @@ class MapActivity2 : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             }).submit()
         return marker
     }
-
     override fun onMarkerClick(marker: Marker): Boolean {
         trackingPersonId = marker.tag as? String ?: ""
 

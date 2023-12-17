@@ -272,7 +272,15 @@ class GroupMainFragment : Fragment(),TeamFaceAdapter.OnItemClickListener {
         Log.d("lastpang", personList[position].name.toString())
         profileDialog(position)
     }
+    override fun onPause() {
+        super.onPause()
+        Glide.with(this).pauseRequests()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        Glide.with(this).resumeRequests()
+    }
     private fun profileDialog(p0: Int) {
         val mDialogView =
             LayoutInflater.from(requireContext()).inflate(R.layout.teamprofile_dialog, null)

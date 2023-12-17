@@ -234,7 +234,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
             }
         }
     }
-
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
         googleMap.setMaxZoomPreference(20.0f)
@@ -253,6 +252,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
     override fun onPause() {
         super.onPause()
         fusedLocationClient.removeLocationUpdates(locationCallback)
+        Glide.with(this).pauseRequests()
     }
 
     private fun getCurrentLocation() {
@@ -586,7 +586,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
         }
         return marker
     }
-
     override fun onMarkerClick(marker: Marker): Boolean {
         trackingPersonId = marker.tag as? String ?: ""
 

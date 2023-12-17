@@ -511,4 +511,13 @@ class Matching : AppCompatActivity(),TeamFaceAdapter.OnItemClickListener  {
             alertDialog.dismiss()
         }
     }
+    override fun onPause() {
+        super.onPause()
+        Glide.with(this).pauseRequests()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Glide.with(this).resumeRequests()
+    }
 }
