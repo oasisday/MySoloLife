@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -40,8 +41,9 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 
 class TranslateActivity : AppCompatActivity() {
     lateinit var binding: ActivityTranslateBinding
-    private var items1= arrayOf("DETECT","ENGLISH","KOREAN","JAPANESE","CHINESE","SPANISH","GERMAN", "FRENCH")
-    private var items2= arrayOf("ENGLISH","KOREAN","JAPANESE","CHINESE","SPANISH","GERMAN", "FRENCH")
+    //todo 나머지 언어 오류남
+    private var items1= arrayOf("탐지모드","영어","한국어")
+    private var items2= arrayOf("영어","한국어")
     private var conditions = DownloadConditions.Builder()
         .requireWifi()
         .build()
@@ -120,6 +122,8 @@ class TranslateActivity : AppCompatActivity() {
                 .setTargetLanguage(selectTo())
                 .build()
 
+            Log.d("sibar",selectFrom())
+            Log.d("sibar",selectTo())
             val translator = Translation.getClient(options)
 
             binding.progressBar.visibility = View.VISIBLE
@@ -132,7 +136,7 @@ class TranslateActivity : AppCompatActivity() {
                         .addOnSuccessListener { translatedText ->
 
                             binding.output.text=translatedText
-
+                            binding.input.text.clear()
                         }
                         .addOnFailureListener { exception ->
 
@@ -167,19 +171,19 @@ class TranslateActivity : AppCompatActivity() {
             val result: Task<Text> = textRecognizer.process(inputImage)
                 .addOnSuccessListener{
                     binding.input.setText(it.text)
-                    Toast.makeText(this, "English Recognized", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "영어가 감지되었습니다.", Toast.LENGTH_SHORT).show()
                 }.addOnFailureListener{
                     //binding.input.setText("Error" + it.message)
                     val result: Task<Text> = ktextRecognizer.process(inputImage)
                         .addOnSuccessListener{
-                            Toast.makeText(this, "Korean Recognized", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "한국어가 감지되었습니다", Toast.LENGTH_SHORT).show()
                             binding.input.setText(it.text)
                         }.addOnFailureListener{
                             //binding.input.setText("Error" + it.message)
                             val result: Task<Text> = jtextRecognizer.process(inputImage)
                                 .addOnSuccessListener{
                                     binding.input.setText(it.text)
-                                    Toast.makeText(this, "Japanese Recognized", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this, "일본어가 감지되었습니다.", Toast.LENGTH_SHORT).show()
                                 }.addOnFailureListener{
                                     binding.input.setText("Error" + it.message)
                                     val result: Task<Text> = ctextRecognizer.process(inputImage)
@@ -221,7 +225,6 @@ class TranslateActivity : AppCompatActivity() {
 
         if(requestCode==STORAGE_PERMISSION_CODE){
             if(grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this@TranslateActivity, "Storage Permission Granted", Toast.LENGTH_SHORT).show()
             }else{
                 //Toast.makeText(this@TranslateActivity, "Storage Permission Denied", Toast.LENGTH_SHORT).show()
             }
@@ -241,7 +244,7 @@ class TranslateActivity : AppCompatActivity() {
             recognizer.process(image).addOnSuccessListener { visionText ->
                 val blocks = visionText.textBlocks
                 if(blocks.size==0){
-                    Toast.makeText(this, "No Texts Found", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "텍스트가 발견되지 않았습니다.", Toast.LENGTH_LONG).show()
                 }
                 else
                 {
@@ -256,7 +259,7 @@ class TranslateActivity : AppCompatActivity() {
         }
         else
         {
-            Toast.makeText(this, "Photo needs to be taken", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "해당 기능을 위해서 사진을 먼저 찍어야 합니다.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -284,10 +287,10 @@ class TranslateActivity : AppCompatActivity() {
     }
 
     private fun selectFrom(): String {
-        var txt = binding.languageTo.text.toString()
+        var txt = binding.languageFrom.text.toString()
         var lng: String = identifyLang(binding.input.text.toString())
-
-        if(txt=="DETECT")
+        Log.d("sibar",txt)
+        if(txt=="탐지모드")
         {
             var from ="en"
             languageIdentifier.identifyLanguage(lng)
@@ -311,19 +314,19 @@ class TranslateActivity : AppCompatActivity() {
 
             ""-> TranslateLanguage.ENGLISH
 
-            "ENGLISH"->TranslateLanguage.ENGLISH
+            "영어"->TranslateLanguage.ENGLISH
 
-            "KOREAN"->TranslateLanguage.KOREAN
+            "한국어"->TranslateLanguage.KOREAN
 
-            "JAPANESE"->TranslateLanguage.JAPANESE
+            "일본어"->TranslateLanguage.JAPANESE
 
-            "CHINESE"->TranslateLanguage.CHINESE
+            "중국어"->TranslateLanguage.CHINESE
 
-            "SPANISH"->TranslateLanguage.SPANISH
+            "스페인어"->TranslateLanguage.SPANISH
 
-            "GERMAN"->TranslateLanguage.GERMAN
+            "독일어"->TranslateLanguage.GERMAN
 
-            "FRENCH"->TranslateLanguage.FRENCH
+            "불어"->TranslateLanguage.FRENCH
 
             else->TranslateLanguage.ENGLISH
 
@@ -338,19 +341,19 @@ class TranslateActivity : AppCompatActivity() {
 
             ""-> TranslateLanguage.KOREAN
 
-            "ENGLISH"->TranslateLanguage.ENGLISH
+            "영어"->TranslateLanguage.ENGLISH
 
-            "KOREAN"->TranslateLanguage.KOREAN
+            "한국어"->TranslateLanguage.KOREAN
 
-            "JAPANESE"->TranslateLanguage.JAPANESE
+            "일본어"->TranslateLanguage.JAPANESE
 
-            "CHINESE"->TranslateLanguage.CHINESE
+            "중국어"->TranslateLanguage.CHINESE
 
-            "SPANISH"->TranslateLanguage.SPANISH
+            "스페인어"->TranslateLanguage.SPANISH
 
-            "GERMAN"->TranslateLanguage.GERMAN
+            "독일어"->TranslateLanguage.GERMAN
 
-            "FRENCH"->TranslateLanguage.FRENCH
+            "불어"->TranslateLanguage.FRENCH
 
             else->TranslateLanguage.KOREAN
 

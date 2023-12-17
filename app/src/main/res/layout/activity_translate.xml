@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/tcloud">
+        android:background="@drawable/maincloud2">
 
     <ScrollView
             app:layout_constraintStart_toStartOf="parent"
@@ -34,6 +34,7 @@
                 android:id="@+id/screen"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
+                android:padding="10dp"
                 app:srcCompat="@drawable/howto"/>
 
             <LinearLayout
@@ -45,14 +46,16 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="1.1"
                     android:orientation="vertical">
 
                     <Button
+
                         android:id="@+id/galBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gallery"
+                        android:text="갤러리"
+                        android:drawableEnd="@drawable/round_photo_library_24"
                         android:backgroundTint="@color/maincolor_seven"
                         android:textStyle="bold"
                         android:textColor="@color/white"/>
@@ -61,14 +64,16 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="1.2"
                     android:orientation="vertical">
 
                     <Button
+
                         android:id="@+id/snapBtn"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Capture"
+                        android:text="사진 촬영"
+                        android:drawableEnd="@drawable/round_photo_library_24"
                         android:backgroundTint="@color/maincolor_seven"
                         android:textStyle="bold"
                         android:layout_gravity="center"
@@ -78,17 +83,18 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.8"
                     android:orientation="vertical">
 
                     <Button
+                        android:layout_marginStart="10dp"
                         android:id="@+id/passBtn"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:backgroundTint="@color/maincolor_seven"
                         android:textStyle="bold"
-                        android:text=" Write "
+                        android:text="쓰기 "
                         android:textColor="@color/white"/>
                 </LinearLayout>
             </LinearLayout>
@@ -114,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:layout_margin="5dp"
-                    android:hint="ENGLISH"
+                    android:hint="From"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
                     <AutoCompleteTextView
@@ -139,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:layout_margin="5dp"
-                    android:hint="KOREAN"
+                    android:hint="To"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
                     <AutoCompleteTextView
@@ -169,26 +175,27 @@
                     android:progress="40"
                     android:max="100" />
 
-            <Button
-                android:layout_marginTop="5dp"
-                android:id="@+id/translate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TRANSLATE"
-                android:backgroundTint="@color/maincolor_seven"
-                android:textStyle="bold"
-                android:textColor="@color/white">
+                <Button
+                    android:id="@+id/translate"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="40dp"
+                    android:backgroundTint="@color/maincolor_seven"
+                    android:text="해석"
+                    android:textColor="@color/white"
+                    android:textStyle="bold">
 
-            </Button>
+                </Button>
 
             </LinearLayout>
             <ScrollView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="300dp">
             <TextView
                 android:id="@+id/output"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="match_parent"
 >
             </TextView>
             </ScrollView>
