@@ -10,6 +10,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.appcompat.resources.Compatibility.Api18Impl.setAutoCancel
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -57,6 +58,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
                     PendingIntent.FLAG_IMMUTABLE
                 )
                 notificationBuilder.setContentIntent(pendingIntent)
+                notificationBuilder.setAutoCancel(true)
             }
             notificationBuilder.setSmallIcon(R.drawable.round_gps_fixed_24)
         }
@@ -68,6 +70,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
                 val vibrationHelper = VibrationHelper(applicationContext)
 // 원하는 시간(밀리초) 동안 진동 실행
                 vibrationHelper.vibrateOnce(500) // 1000 밀리초(1초) 동안 진동
+                notificationBuilder.setAutoCancel(true)
             }
             notificationBuilder.setSmallIcon(R.drawable.clickbtn)
             notificationBuilder.setContentTitle("\"경고: 찔림 감지, 빨리 확인하세요\"")

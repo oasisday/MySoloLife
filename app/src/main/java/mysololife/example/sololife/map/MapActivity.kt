@@ -140,7 +140,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
                 } else {
                     getUserTokenByUID(trackingPersonId) { token ->
                         if (token != null) {
-                            Toast.makeText(this@MapActivity, "상대방에게 위치 공유를 요청하는 기능은 스터디 팀 내에서 사용하실 수 있습니다:)", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@MapActivity, "위치 공유를 요청하는 기능은 스터디 팀 내에서 사용하실 수 있습니다:)", Toast.LENGTH_SHORT).show()
 //                            // 여기에서 원하는 동작 수행
 //                            val client = OkHttpClient()
 //                            val root = JSONObject()
