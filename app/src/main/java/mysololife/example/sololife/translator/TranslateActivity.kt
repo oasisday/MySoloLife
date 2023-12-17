@@ -97,6 +97,9 @@ class TranslateActivity : AppCompatActivity() {
             }
         )
 
+        binding.outbtn.setOnClickListener {
+            finish()
+        }
         binding.galBtn.setOnClickListener{
             val chooseIntent = Intent()
             chooseIntent.type="image/*"
