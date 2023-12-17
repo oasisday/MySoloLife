@@ -11,6 +11,8 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -80,6 +82,7 @@ class TranslateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_translate)
 
+
         binding= DataBindingUtil.setContentView(this,R.layout.activity_translate)
 
         textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
@@ -97,9 +100,6 @@ class TranslateActivity : AppCompatActivity() {
             }
         )
 
-        binding.outbtn.setOnClickListener {
-            finish()
-        }
         binding.galBtn.setOnClickListener{
             val chooseIntent = Intent()
             chooseIntent.type="image/*"
@@ -262,7 +262,7 @@ class TranslateActivity : AppCompatActivity() {
         }
         else
         {
-            Toast.makeText(this, "해당 기능을 위해서 사진을 먼저 찍어야 합니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "해당 기능을 위해서 먼저 사진 촬영을 해야 합니다.", Toast.LENGTH_SHORT).show()
         }
     }
 
