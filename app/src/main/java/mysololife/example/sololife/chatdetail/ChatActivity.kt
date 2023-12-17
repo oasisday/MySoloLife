@@ -61,7 +61,6 @@ class ChatActivity : AppCompatActivity() {
         Firebase.database.reference.child(Key.DB_USERS).child(myUserId).get()
             .addOnSuccessListener {
                 val myUserItem = it.getValue(UserItem::class.java)
-                myUserName = myUserItem?.username ?: ""
                 supportActionBar?.title = myUserName
                 getOtherUserData()
             }
@@ -155,7 +154,7 @@ class ChatActivity : AppCompatActivity() {
                 otherUserFcmToken = otherUserItem?.fcmToken.orEmpty()
                 Log.d("testApi",otherUserFcmToken +"여기 들어와있나?")
                 chatAdapter.otherUserItem = otherUserItem
-
+                supportActionBar?.title = otherUserItem?.username ?: ""
                 isInit = true
                 getChatData()
             }

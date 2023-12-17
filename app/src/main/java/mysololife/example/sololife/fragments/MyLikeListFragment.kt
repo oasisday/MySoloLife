@@ -26,6 +26,7 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import mysololife.example.sololife.Matching
 import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.group.GroupDataModel
 import mysololife.example.sololife.message.ListViewAdapter
@@ -90,7 +91,7 @@ class MyLikeListFragment : Fragment() {
         }
 
         msgBtn.setOnClickListener {
-            val intent = Intent(requireContext(), MyMsgActivity::class.java)
+            val intent = Intent(context, Matching::class.java)
             startActivity(intent)
         }
 

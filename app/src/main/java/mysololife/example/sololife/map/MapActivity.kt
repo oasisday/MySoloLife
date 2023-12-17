@@ -1,6 +1,8 @@
 package mysololife.example.sololife.map
 
 import android.Manifest
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -546,38 +548,42 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
         //tag 설정
         marker.tag = uid
 
-        Glide.with(this).asBitmap()
-            .load(person.profilePhoto)
-            .transform(RoundedCorners(60))
-            .override(150)
-            .listener(object : RequestListener<Bitmap> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Bitmap>,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    return false
-                }
 
-                override fun onResourceReady(
-                    resource: Bitmap,
-                    model: Any,
-                    target: Target<Bitmap>?,
-                    dataSource: DataSource,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    val resizedBitmap = Bitmap.createScaledBitmap(resource, 120, 120, false)
-                    resource?.let {
-                        runOnUiThread {
-                            marker.setIcon(
-                                BitmapDescriptorFactory.fromBitmap(resizedBitmap)
-                            )
-                        }
+
+        if(!isFinishing()) {
+            Glide.with(this).asBitmap()
+                .load(person.profilePhoto)
+                .transform(RoundedCorners(60))
+                .override(150)
+                .listener(object : RequestListener<Bitmap> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Bitmap>,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        return false
                     }
-                    return true
-                }
-            }).submit()
+
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        model: Any,
+                        target: Target<Bitmap>?,
+                        dataSource: DataSource,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        val resizedBitmap = Bitmap.createScaledBitmap(resource, 120, 120, false)
+                        resource?.let {
+                            runOnUiThread {
+                                marker.setIcon(
+                                    BitmapDescriptorFactory.fromBitmap(resizedBitmap)
+                                )
+                            }
+                        }
+                        return true
+                    }
+                }).submit()
+        }
         return marker
     }
 
