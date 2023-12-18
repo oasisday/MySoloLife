@@ -56,6 +56,7 @@ class LoginActivity : AppCompatActivity() {
         if (error != null) {
             showErrorToast(error.toString())
             error.printStackTrace()
+            hideProgressDialog()
         } else if (token != null) {
             getKakaoAccountInfo()
         }
@@ -227,7 +228,6 @@ class LoginActivity : AppCompatActivity() {
             if (error != null) {
                 showErrorToast(error.toString())
                 error.printStackTrace()
-                Log.d("testing", error.toString())
                 hideProgressDialog()
 
             } else if (user != null) {

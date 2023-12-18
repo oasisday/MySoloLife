@@ -125,8 +125,6 @@ class TranslateActivity : AppCompatActivity() {
                 .setTargetLanguage(selectTo())
                 .build()
 
-            Log.d("sibar",selectFrom())
-            Log.d("sibar",selectTo())
             val translator = Translation.getClient(options)
 
             binding.progressBar.visibility = View.VISIBLE

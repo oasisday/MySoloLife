@@ -155,9 +155,6 @@
                 app:layout_constraintEnd_toEndOf="@+id/locationShareBtn" />
 
 
-
-
-
             <TextView
                 android:id="@+id/groupOutBtn"
                 android:layout_width="match_parent"
@@ -170,9 +167,9 @@
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/deleteStudyRoomBtn"
-                app:layout_constraintStart_toStartOf="@+id/deleteStudyRoomBtn"
-                app:layout_constraintTop_toBottomOf="@+id/deleteStudyRoomBtn" />
+                app:layout_constraintEnd_toEndOf="@+id/locationShareBtn"
+                app:layout_constraintStart_toStartOf="@+id/locationShareBtn"
+                app:layout_constraintTop_toBottomOf="@+id/locationShareBtn" />
 
 
 
@@ -214,24 +211,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/groupOutBtn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:tint="@color/white" />
-            <TextView
-                android:id="@+id/deleteStudyRoomBtn"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_margin="16dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/background_round_all"
-                android:backgroundTint="#91CCE8"
-                android:elevation="10dp"
-                android:padding="24dp"
-                android:text=""
-                android:textColor="#0D5285"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/locationShareBtn"
-                app:layout_constraintEnd_toStartOf="@+id/locationShareBtn"
-                app:layout_constraintStart_toStartOf="@+id/locationShareBtn"
-                app:layout_constraintTop_toBottomOf="@+id/locationShareBtn" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

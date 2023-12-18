@@ -74,6 +74,15 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             }
             notificationBuilder.setSmallIcon(R.drawable.clickbtn)
             notificationBuilder.setContentTitle("\"경고: 찔림 감지, 빨리 확인하세요\"")
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            val pendingIntent: PendingIntent = PendingIntent.getActivity(
+                applicationContext,
+                0,
+                intent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
+            notificationBuilder.setContentIntent(pendingIntent)
+            notificationBuilder.setAutoCancel(true)
         }
         if (ActivityCompat.checkSelfPermission(
                 this,
