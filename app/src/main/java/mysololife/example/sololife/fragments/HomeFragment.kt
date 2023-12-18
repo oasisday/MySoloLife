@@ -20,9 +20,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -83,6 +86,7 @@ class HomeFragment : Fragment(),OnItemClickListener{
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+
         getFBBoardData()
         binding.makestudyBtn.setOnClickListener {
             view?.findNavController()?.navigate(R.id.action_homeFragment_to_myLikeListFragment)
@@ -110,6 +114,7 @@ class HomeFragment : Fragment(),OnItemClickListener{
                 .setOnClickListener(object : OnDialogClickListener {
                     override fun onClick(dialog: AestheticDialog.Builder) {
                         dialog.dismiss()
+
                         val intent = Intent(context,MapActivity::class.java)
                         startActivity(intent)
                     }
@@ -125,7 +130,13 @@ class HomeFragment : Fragment(),OnItemClickListener{
         }
         return binding.root
     }
-
+    private fun requestLocationPermission() {
+        requestPermissionLauncher
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+    }
     private fun getFBBoardData(){
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -162,7 +173,7 @@ class HomeFragment : Fragment(),OnItemClickListener{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        askNotificationPermission()
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // 뒤로가기 버튼을 눌렀을 때 수행할 동작
@@ -422,6 +433,42 @@ class HomeFragment : Fragment(),OnItemClickListener{
                 }
                 this?.notify(123,builder.build())
             }
+        }
+    }
+
+    private fun askNotificationPermission() {
+        // This is only necessary for API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                // FCM SDK (and your app) can post notifications.
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                showPermissionRationalDialog()
+            } else {
+                // Directly ask for the permission
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun showPermissionRationalDialog() {
+        androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            .setMessage("알림 권한이 없으면 알림을 받을 수 없습니다.")
+            .setPositiveButton("권한 허용하기") { _, _ ->
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }.setNegativeButton("취소") { dialogInterface, _ -> dialogInterface.cancel() }
+            .show()
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // FCM SDK (and your app) can post notifications.
+        } else {
+            // 알림권한 없음
         }
     }
 }

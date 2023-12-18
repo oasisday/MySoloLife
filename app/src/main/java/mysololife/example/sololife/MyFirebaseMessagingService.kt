@@ -15,6 +15,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.mysololife.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import mysololife.example.sololife.chatlist.ChatActivity
@@ -115,6 +117,25 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     }
 
     override fun onNewToken(token: String) {
+
         super.onNewToken(token)
+        Log.d("FCM Token", "Refreshed token: $token")
+
+        // 서버로 토큰을 전송하는 작업을 수행 62297780
+        sendTokenToServer(token)
+    }
+    private fun sendTokenToServer(token: String) {
+        val user = FirebaseAuth.getInstance().currentUser
+        val userRef = FirebaseDatabase.getInstance().getReference("Users/"+user!!.uid)
+        userRef.child("fcmToken").setValue(token)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // 업데이트 성공
+                    Log.d("Firebase", "FCM 토큰 업데이트 성공")
+                } else {
+                    // 업데이트 실패
+                    Log.e("Firebase", "FCM 토큰 업데이트 실패", task.exception)
+                }
+            }
     }
 }

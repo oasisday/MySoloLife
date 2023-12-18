@@ -32,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import com.thecode.aestheticdialogs.AestheticDialog
 import com.thecode.aestheticdialogs.DialogAnimation
@@ -321,12 +322,25 @@ class GroupMainFragment : Fragment(),TeamFaceAdapter.OnItemClickListener {
                 .into(myImage)
         }
 
+        Log.d("why helpme",currentUser.uid!!)
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("testt", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
 
+            // Get new FCM registration token
+            val token = task.result
+
+            // Log and toast
+            Log.d("testt", token)
+        })
         //시비 걸기
         alertDialog.findViewById<ImageView>(R.id.sibiBtn).setOnClickListener {
             makeVibrate()
             getUserTokenByUID(currentUser.uid!!) { token ->
                 if (token != null) {
+                    Log.d("why helpme",token)
                     Toast.makeText(requireContext(),"\""+currentUser.name+"\"님을 찔렀습니다!",Toast.LENGTH_SHORT).show()
                     // 여기에서 원하는 동작 수행
                     val client = OkHttpClient()
