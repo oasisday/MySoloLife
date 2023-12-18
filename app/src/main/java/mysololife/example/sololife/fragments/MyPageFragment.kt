@@ -58,8 +58,7 @@ class MyPageFragment : Fragment() {
         }
 
         binding.likelistBtn.setOnClickListener {
-            val intent = Intent(context, Matching::class.java)
-            startActivity(intent)
+            view?.findNavController()?.navigate(R.id.action_mypageFragment_to_myLikeListFragment)
         }
 
         binding.logoutBtn.setOnClickListener {

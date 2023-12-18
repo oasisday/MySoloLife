@@ -163,7 +163,7 @@ class MapActivity2 : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                             val root = JSONObject()
                             val data = JSONObject()
                             val message =
-                                "님이 위치공유 요청을 하였습니다.\n클릭을 통해 접속한 해당 액티비티에서만 위치 공유가 진행되고, 해당 액티비티를 벗어나면 어플에서 위치를 추적하지 않습니다."
+                                "님이 위치공유 요청을 하였습니다.\n클릭을 통해 접속한 해당 액티비티에서만 위치 공유가 진행됩니다."
                             data.put("title", "위치 공유 요청")
                             data.put("body", "\"$myname\"" + message)
                             data.put("location",key)

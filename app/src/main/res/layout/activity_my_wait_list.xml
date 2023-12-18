@@ -15,7 +15,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="친구 대기 목록" />
+            app:title="친구 요청 대기 목록" />
 
         <View
             android:id="@+id/view2"
