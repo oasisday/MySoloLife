@@ -118,12 +118,17 @@ class ChatActivity : AppCompatActivity() {
 
             val client = OkHttpClient()
             val root = JSONObject()
+            val data = JSONObject()
+
             val notification = JSONObject()
             notification.put("title", getString(R.string.app_name))
             notification.put("body", myUserName+": "+message)
+            data.put("chatroomId",chatRoomId)
+            data.put("myUserId",myUserId)
             root.put("to", otherUserFcmToken)
             root.put("priority", "high")
             root.put("notification", notification)
+            root.put("data",data)
             Log.d("testApi",root.toString())
             val requestBody =
                 root.toString().toRequestBody("application/json; charset=utf-8".toMediaType())

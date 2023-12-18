@@ -17,6 +17,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.mysololife.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import mysololife.example.sololife.chatlist.ChatActivity
 import mysololife.example.sololife.chatlist.ChatActivity2
 import mysololife.example.sololife.map.MapActivity2
 import okhttp3.internal.notify
@@ -61,6 +62,24 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
                 notificationBuilder.setAutoCancel(true)
             }
             notificationBuilder.setSmallIcon(R.drawable.round_gps_fixed_24)
+        }
+
+
+        if(message.data.containsKey("chatroomId")&&message.data.containsKey("otherUserId")){
+            val chatroomid = message.data["chatroomId"]
+            val otheruser = message.data["otherUserId"]
+            val intent = Intent(applicationContext, ChatActivity::class.java)
+            intent.putExtra(ChatActivity.EXTRA_CHAT_ROOM_ID,chatroomid)
+            intent.putExtra(ChatActivity.EXTRA_OTHER_USER_ID,otheruser)
+            val pendingIntent: PendingIntent = PendingIntent.getActivity(
+                applicationContext,
+                0,
+                intent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
+            notificationBuilder.setContentIntent(pendingIntent)
+            notificationBuilder.setAutoCancel(true)
+
         }
 
         if (message.data.containsKey("vibrate")) {
