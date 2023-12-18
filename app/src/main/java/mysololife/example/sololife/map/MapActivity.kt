@@ -244,8 +244,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
 
     override fun onPause() {
         super.onPause()
-        fusedLocationClient.removeLocationUpdates(locationCallback)
         Glide.with(this).pauseRequests()
+        fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
     private fun getCurrentLocation() {

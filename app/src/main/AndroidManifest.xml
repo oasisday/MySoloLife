@@ -17,10 +17,10 @@
         tools:replace="android:appComponentFactory, android:theme,android:icon">
         <activity
             android:name="mysololife.example.sololife.map.MapActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name="mysololife.example.sololife.map.MapActivity2"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name="mysololife.example.sololife.alarm.AlarmsetActivity"
             android:exported="true"
@@ -69,10 +69,10 @@
             android:exported="false" />
         <activity
             android:name="mysololife.example.sololife.chatlist.ChatActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name="mysololife.example.sololife.chatlist.ChatActivity2"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name="mysololife.example.sololife.board.BoardWriteActivity"
             android:exported="false" />
