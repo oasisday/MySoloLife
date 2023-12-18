@@ -13,12 +13,9 @@ import com.example.mysololife.databinding.FragmentShowBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import mysololife.example.sololife.Matching
 import mysololife.example.sololife.group.GroupDataModel
 import mysololife.example.sololife.group.GroupMainActivity
 import mysololife.example.sololife.group.GroupboardLVAdapter
-import mysololife.example.sololife.message.MyLikeListActivity
-import mysololife.example.sololife.message.MyMsgActivity
 import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBboard
 
@@ -57,8 +54,8 @@ class GroupFragment : Fragment() {
 
         /////////////////////////////////////////////
         binding.CardBtn.setOnClickListener{
-            val intent = Intent(activity, MyLikeListActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(activity, MyLikeListActivity::class.java)
+//            startActivity(intent)
         }
 
         getFBBoardData()

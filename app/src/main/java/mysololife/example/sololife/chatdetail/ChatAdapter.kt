@@ -3,6 +3,7 @@ package mysololife.example.sololife.chatdetail
 import com.example.mysololife.databinding.ItemChatBinding
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -21,6 +22,7 @@ import java.util.Locale
 class ChatAdapter : ListAdapter<ChatItem, ChatAdapter.ViewHolder>(differ) {
     var otherUserItem: UserItem? = null
     val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+    var previousItem: ChatItem? = null
     inner class ViewHolder(private val binding: ItemChatBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -33,7 +35,6 @@ class ChatAdapter : ListAdapter<ChatItem, ChatAdapter.ViewHolder>(differ) {
                 binding.messageTextView.text = item.message
                 chatinfoParams.gravity = Gravity.START
                 binding.chatinfo.layoutParams = chatinfoParams
-                binding.chatTime.text = simpleDateFormat.format(Date(item.timestamp))
                 binding.messageTextView.gravity = Gravity.START
                 chatTimeParams.gravity = Gravity.START
                 binding.chatTime.layoutParams = chatTimeParams
@@ -41,12 +42,22 @@ class ChatAdapter : ListAdapter<ChatItem, ChatAdapter.ViewHolder>(differ) {
             } else {
                 binding.usernameTextView.isVisible = false
                 binding.messageTextView.text = item.message
-                binding.chatTime.text = simpleDateFormat.format(Date(item.timestamp))
                 chatinfoParams.gravity = Gravity.END
                 binding.chatinfo.layoutParams = chatinfoParams
                 chatTimeParams.gravity = Gravity.END
                 binding.chatTime.layoutParams = chatTimeParams
             }
+
+            // 이전 아이템과 현재 아이템의 timestamp를 비교하여 같을 경우에만 시간을 표시
+            if (previousItem != null && simpleDateFormat.format(Date(item.timestamp)) == simpleDateFormat.format(Date(previousItem!!.timestamp))) {
+                binding.chatTime.visibility = View.GONE
+            } else {
+                binding.chatTime.visibility = View.VISIBLE
+                binding.chatTime.text = simpleDateFormat.format(Date(item.timestamp))
+            }
+
+            // bind 메서드가 호출될 때마다 previousItem 업데이트
+            previousItem = item
         }
     }
 

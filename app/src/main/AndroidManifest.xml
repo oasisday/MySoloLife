@@ -62,9 +62,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="mysololife.example.sololife.message.MyLikeListActivity"
-            android:exported="false" />
-        <activity
             android:name="mysololife.example.sololife.Matching"
             android:exported="false" />
         <activity

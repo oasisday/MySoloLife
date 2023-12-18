@@ -38,10 +38,11 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(mChannel)
 
-        val body = message.notification?.body ?: ""
+        val body = message.data["body"]
+        val title = message.data["title"]
         val notificationBuilder = NotificationCompat.Builder(applicationContext, getString(R.string.default_notification_channel_id))
             .setSmallIcon(R.drawable.round_chat_24)
-            .setContentTitle(getString(R.string.app_name))
+            .setContentTitle(title)
             .setContentText(body)
             .setSound(null)
 
@@ -63,11 +64,10 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             }
             notificationBuilder.setSmallIcon(R.drawable.round_gps_fixed_24)
         }
-
-
-        if(message.data.containsKey("chatroomId")&&message.data.containsKey("otherUserId")){
+        if(message.data.containsKey("chatroomId")&&message.data.containsKey("myUserId")){
             val chatroomid = message.data["chatroomId"]
-            val otheruser = message.data["otherUserId"]
+            val otheruser = message.data["myUserId"]
+            Log.d("testing",chatroomid+otheruser)
             val intent = Intent(applicationContext, ChatActivity::class.java)
             intent.putExtra(ChatActivity.EXTRA_CHAT_ROOM_ID,chatroomid)
             intent.putExtra(ChatActivity.EXTRA_OTHER_USER_ID,otheruser)
@@ -89,7 +89,6 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
                 val vibrationHelper = VibrationHelper(applicationContext)
 // 원하는 시간(밀리초) 동안 진동 실행
                 vibrationHelper.vibrateOnce(500) // 1000 밀리초(1초) 동안 진동
-                notificationBuilder.setAutoCancel(true)
             }
             notificationBuilder.setSmallIcon(R.drawable.clickbtn)
             notificationBuilder.setContentTitle("\"경고: 찔림 감지, 빨리 확인하세요\"")
@@ -100,6 +99,8 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
                 intent,
                 PendingIntent.FLAG_IMMUTABLE
             )
+            val vibrationPattern = longArrayOf(0, 500)
+            notificationBuilder.setVibrate(vibrationPattern)
             notificationBuilder.setContentIntent(pendingIntent)
             notificationBuilder.setAutoCancel(true)
         }

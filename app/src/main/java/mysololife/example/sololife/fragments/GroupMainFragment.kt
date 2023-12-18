@@ -332,15 +332,13 @@ class GroupMainFragment : Fragment(),TeamFaceAdapter.OnItemClickListener {
                     val client = OkHttpClient()
                     val root = JSONObject()
                     val data = JSONObject()
-                    val notification = JSONObject()
                     val message =
                         " 스터디 그룹에서 누군가 당신을 찔렀습니다!!!"
-                    notification.put("title", "스터디원 찌르기")
-                    notification.put("body", "\"$gname\"" + message)
+                    data.put("title", "스터디원 찌르기")
+                    data.put("body", "\"$gname\"" + message)
                     data.put("vibrate",true)
                     root.put("to", token)
                     root.put("priority", "high")
-                    root.put("notification", notification)
                     root.put("data",data)
                     Log.d("testApi", root.toString())
                     val requestBody =

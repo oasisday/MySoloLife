@@ -61,7 +61,7 @@ class ChatActivity : AppCompatActivity() {
         Firebase.database.reference.child(Key.DB_USERS).child(myUserId).get()
             .addOnSuccessListener {
                 val myUserItem = it.getValue(UserItem::class.java)
-                supportActionBar?.title = myUserName
+                myUserName = myUserItem?.username ?: ""
                 getOtherUserData()
             }
 
@@ -104,7 +104,7 @@ class ChatActivity : AppCompatActivity() {
                 newChatItem.chatId = key
                 setValue(newChatItem)
             }
-
+            Log.d("whynot",myUserName)
             val updates: MutableMap<String, Any> = hashMapOf(
                 "${Key.DB_CHAT_ROOMS}/$myUserId/$otherUserId/lastMessage" to message,
                 "${Key.DB_CHAT_ROOMS}/$otherUserId/$myUserId/lastMessage" to message,
@@ -112,22 +112,19 @@ class ChatActivity : AppCompatActivity() {
                 "${Key.DB_CHAT_ROOMS}/$otherUserId/$myUserId/otherUserId" to myUserId,
                 "${Key.DB_CHAT_ROOMS}/$otherUserId/$myUserId/otherUserName" to myUserName,
                 "${Key.DB_CHAT_ROOMS}/$myUserId/$otherUserId/time" to System.currentTimeMillis(),
-                "${Key.DB_CHAT_ROOMS}/$myUserId/$otherUserId/time" to System.currentTimeMillis(),
+                "${Key.DB_CHAT_ROOMS}/$otherUserId/$myUserId/time" to System.currentTimeMillis(),
             )
             Firebase.database.reference.updateChildren(updates)
 
             val client = OkHttpClient()
             val root = JSONObject()
             val data = JSONObject()
-
-            val notification = JSONObject()
-            notification.put("title", getString(R.string.app_name))
-            notification.put("body", myUserName+": "+message)
+            data.put("title", "[Study Manager] 새로운 메시지가 있습니다.")
+            data.put("body", myUserName+": "+message)
             data.put("chatroomId",chatRoomId)
             data.put("myUserId",myUserId)
             root.put("to", otherUserFcmToken)
             root.put("priority", "high")
-            root.put("notification", notification)
             root.put("data",data)
             Log.d("testApi",root.toString())
             val requestBody =

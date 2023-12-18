@@ -20,7 +20,7 @@ import com.google.firebase.storage.ktx.storage
 import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.utils.FirebaseRef
 
-class ListViewAdapter(val context : Context, val items : MutableList<UserDataModel>): BaseAdapter() {
+class ListViewAdapter(val context : Context, val items : MutableList<UserDataModel>, val onClick: (UserDataModel) -> Unit): BaseAdapter() {
     var ischeck = false
     override fun getCount(): Int {
         return items.size
@@ -85,12 +85,16 @@ class ListViewAdapter(val context : Context, val items : MutableList<UserDataMod
                 })
             }
 
+
             override fun onCancelled(databaseError: DatabaseError) {
                 // Getting Post failed, log a message
             }
         }
         if (uid != null) {
             FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
+        }
+        convertView.setOnClickListener {
+            onClick.invoke(items[position])
         }
         return convertView!!
     }

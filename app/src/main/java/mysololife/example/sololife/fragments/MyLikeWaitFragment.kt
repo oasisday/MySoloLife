@@ -19,13 +19,19 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.mysololife.R
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import mysololife.example.sololife.auth.Key
 import mysololife.example.sololife.auth.UserDataModel
+import mysololife.example.sololife.chatlist.ChatActivity
+import mysololife.example.sololife.chatlist.ChatRoomItem
 import mysololife.example.sololife.group.GroupDataModel
 import mysololife.example.sololife.message.ListViewAdapter
 import mysololife.example.sololife.message.MsgModel
@@ -80,7 +86,32 @@ class MyLikeWaitFragment : Fragment() {
 
         val userListView = view.findViewById<ListView>(R.id.userListView)
 
-        listviewAdapter = ListViewAdapter(requireContext(), likeUserList)
+        listviewAdapter = ListViewAdapter(requireContext(), likeUserList){ otherUser ->
+            val myUserId = Firebase.auth.currentUser?.uid ?: ""
+            val chatRoomDB = Firebase.database.reference.child(Key.DB_CHAT_ROOMS).child(myUserId)
+                .child(otherUser.uid?: "")
+
+            chatRoomDB.get().addOnSuccessListener {
+                var chatRoomId = ""
+                if (it.value != null) {
+                    //데이터가 존재
+                    val chatRoom = it.getValue(ChatRoomItem::class.java)
+                    chatRoomId = chatRoom?.chatRoomId ?: ""
+                } else {
+                    chatRoomId = UUID.randomUUID().toString()
+                    val newChatRoom = ChatRoomItem(
+                        chatRoomId = chatRoomId,
+                        otherUserName = otherUser.nickname,
+                        otherUserId = otherUser.uid,
+                    )
+                    chatRoomDB.setValue(newChatRoom)
+                }
+                val intent = Intent(context, ChatActivity::class.java)
+                intent.putExtra(ChatActivity.EXTRA_OTHER_USER_ID, otherUser.uid)
+                intent.putExtra(ChatActivity.EXTRA_CHAT_ROOM_ID, chatRoomId)
+                startActivity(intent)
+            }
+        }
         listviewAdapter.ischeck = true
         userListView.adapter = listviewAdapter
 
