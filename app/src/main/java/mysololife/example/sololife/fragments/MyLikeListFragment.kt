@@ -52,7 +52,6 @@ import mysololife.example.sololife.utils.MyInfo
 import java.util.*
 
 class MyLikeListFragment : Fragment() {
-
     private val TAG = "MyLikeListFragment"
     private val uid = FirebaseAuthUtils.getUid()
 
@@ -148,6 +147,7 @@ class MyLikeListFragment : Fragment() {
             for (item in selectedItems) {
                 groupModel.member?.add(item.uid.toString())
             }
+            Log.d(LOGCHECK,selectedItems.toString())
 
             val mDialogView = LayoutInflater.from(requireContext()).inflate(R.layout.custom_dialog_board, null)
             mBuilder = AlertDialog.Builder(requireContext())

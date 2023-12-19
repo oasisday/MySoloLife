@@ -162,7 +162,6 @@ dependencies {
 
     // translator
     implementation("com.google.mlkit:translate:17.0.2")
-    implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-functions:20.4.0")
     implementation("com.google.code.gson:gson:2.9.0")

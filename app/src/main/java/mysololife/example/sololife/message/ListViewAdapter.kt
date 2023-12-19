@@ -54,6 +54,7 @@ class ListViewAdapter(
             checkBox.isChecked = item.ischecked
             checkBox.setOnCheckedChangeListener { _, isChecked ->
                 item.ischecked = isChecked
+                Log.d(LOGCHECK,item.ischecked.toString() + item.nickname)
             }
 
             val uid = item.uid

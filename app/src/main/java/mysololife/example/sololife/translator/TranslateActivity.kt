@@ -44,10 +44,9 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 class TranslateActivity : AppCompatActivity() {
     lateinit var binding: ActivityTranslateBinding
     //todo 나머지 언어 오류남
-    private var items1= arrayOf("탐지모드","영어","한국어")
-    private var items2= arrayOf("영어","한국어")
+    private var items1= arrayOf("영어","한국어","일본어","중국어","스페인어")
+    private var items2= arrayOf("영어","한국어","일본어","중국어","스페인어")
     private var conditions = DownloadConditions.Builder()
-        .requireWifi()
         .build()
 
     private var imageBitmap: Bitmap? = null
@@ -84,8 +83,6 @@ class TranslateActivity : AppCompatActivity() {
 
 
         binding= DataBindingUtil.setContentView(this,R.layout.activity_translate)
-
-        textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
         ktextRecognizer = TextRecognition.getClient(KoreanTextRecognizerOptions.Builder().build())
         jtextRecognizer = TextRecognition.getClient(JapaneseTextRecognizerOptions.Builder().build())
         ctextRecognizer = TextRecognition.getClient(ChineseTextRecognizerOptions.Builder().build())
@@ -119,42 +116,51 @@ class TranslateActivity : AppCompatActivity() {
         binding.languageTo.setAdapter(itemsAdapter2)
 
         binding.translate.setOnClickListener {
+            if (binding.input.text.isNullOrEmpty()) {
+                Toast.makeText(this, "번역할 문장을 입력하세요", Toast.LENGTH_SHORT).show()
+            } else {
+                val options = TranslatorOptions.Builder()
+                    .setSourceLanguage(selectFrom())
+                    .setTargetLanguage(selectTo())
+                    .build()
 
-            val options = TranslatorOptions.Builder()
-                .setSourceLanguage(selectFrom())
-                .setTargetLanguage(selectTo())
-                .build()
+                val translator = Translation.getClient(options)
+                try {
+                    binding.progressBar.visibility = View.VISIBLE
+                    translator.downloadModelIfNeeded(conditions)
+                        .addOnSuccessListener {
+                            binding.progressBar.visibility = View.INVISIBLE
 
-            val translator = Translation.getClient(options)
+                            translator.translate(binding.input.text.toString())
+                                .addOnSuccessListener { translatedText ->
+                                    val translatedText = translatedText.replace(" ", "").toLowerCase()
+                                    val userInputText = binding.input.text.toString().replace(" ", "").toLowerCase()
 
-            binding.progressBar.visibility = View.VISIBLE
-            translator.downloadModelIfNeeded(conditions)
-                .addOnSuccessListener {
+                                    if (translatedText == userInputText) {
+                                        Toast.makeText(this, "언어 선택이 올바르지 않습니다.", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        binding.output.text = translatedText
+                                        binding.input.text.clear()
+                                    }
+                                }
+                                .addOnFailureListener { exception ->
 
-                    binding.progressBar.visibility = View.INVISIBLE
+                                    Toast.makeText(this, exception.message, Toast.LENGTH_SHORT)
+                                        .show()
 
-                    translator.translate(binding.input.text.toString())
-                        .addOnSuccessListener { translatedText ->
+                                }
 
-                            binding.output.text=translatedText
-                            binding.input.text.clear()
                         }
                         .addOnFailureListener { exception ->
-
                             Toast.makeText(this, exception.message, Toast.LENGTH_SHORT).show()
 
                         }
-
-                }
-                .addOnFailureListener { exception ->
-
-                    Toast.makeText(this, exception.message, Toast.LENGTH_SHORT).show()
-
+                } catch (e: Exception) {
+                    Log.d("testing", e.toString())
                 }
 
-
+            }
         }
-
 
         binding.snapBtn.setOnClickListener(View.OnClickListener {
             dispatchTakePictureIntent()
@@ -190,7 +196,7 @@ class TranslateActivity : AppCompatActivity() {
                                     val result: Task<Text> = ctextRecognizer.process(inputImage)
                                         .addOnSuccessListener{
                                             binding.input.setText(it.text)
-                                            Toast.makeText(this, "Chinese Recognized", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(this, "중국어가 감지되었습니다.", Toast.LENGTH_SHORT).show()
 
                                         }.addOnFailureListener{
                                             binding.input.setText("Error" + it.message)
@@ -290,18 +296,17 @@ class TranslateActivity : AppCompatActivity() {
     private fun selectFrom(): String {
         var txt = binding.languageFrom.text.toString()
         var lng: String = identifyLang(binding.input.text.toString())
-        Log.d("sibar",txt)
+        Log.d("testing",lng+"3")
         if(txt=="탐지모드")
         {
             var from ="en"
-            languageIdentifier.identifyLanguage(lng)
+            languageIdentifier.identifyLanguage(txt)
                 .addOnSuccessListener { languageCode ->
                     if (languageCode == "und") {
                         from="en"
                     } else {
                         from=languageCode
                     }
-
                 }
                 .addOnFailureListener {
                     // Model couldn’t be loaded or other internal error.
@@ -366,11 +371,12 @@ class TranslateActivity : AppCompatActivity() {
     private fun identifyLang(text:String): String {
         languageIdentifier.identifyLanguage(text)
             .addOnSuccessListener { languageCode ->
+                Log.d("testing","식별 언어 : "+languageCode)
                 if (languageCode == "und") {
-
+                    Log.d("testing",languageCode+"1")
                 } else {
                     //Log.i(TAG, "Language: $languageCode")
-
+                    Log.d("testing",languageCode+"2")
                 }
                 return@addOnSuccessListener
             }

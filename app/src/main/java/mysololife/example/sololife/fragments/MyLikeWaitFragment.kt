@@ -80,8 +80,6 @@ class MyLikeWaitFragment : Fragment() {
         toolbar.navigationIcon?.setTint(Color.BLACK)
         // Inflate the layout for this fragment
         return view
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -128,9 +126,6 @@ class MyLikeWaitFragment : Fragment() {
         super.onResume()
         likeUserList.clear()
     }
-
-
-
     override fun onDestroy() {
         if (mAlertDialog != null && mAlertDialog!!.isShowing) {
             mAlertDialog!!.dismiss()
