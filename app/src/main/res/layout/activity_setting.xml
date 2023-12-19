@@ -21,10 +21,61 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
+    <LinearLayout
+        android:id="@+id/linearLayout8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileImage">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="10dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/infoArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="본인을 소개해주세요:)" />
+        </ScrollView>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nicknameArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="150dp"
+            android:hint="닉네임" />
+    </LinearLayout>
+
+    <ToggleButton
+        android:id="@+id/genderArea"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="-40dp"
+        android:background="@drawable/edittext_background_final"
+        android:checked="true"
+        android:drawableStart="@drawable/gender2"
+        android:drawablePadding="16dp"
+        android:paddingStart="10dp"
+        android:textOff="F"
+        android:textOn="M"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout8"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileImage"
-        android:layout_width="220dp"
-        android:layout_height="220dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:clickable="true"
@@ -36,59 +87,6 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
-
-    <LinearLayout
-        android:id="@+id/linearLayout8"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileImage">
-
-
-
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nicknameArea"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:hint="닉네임" />
-        <ToggleButton
-            android:id="@+id/genderArea"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/edittext_background_final"
-            android:drawableStart="@drawable/gender2"
-            android:drawablePadding="16dp"
-            android:textOn="M"
-            android:textOff="F"
-            android:checked="true"
-            android:paddingStart="10dp"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="150dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/infoArea"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:hint="본인을 소개해주세요:)" />
-
-        </ScrollView>
-    </LinearLayout>
 
     <Button
         android:id="@+id/SettingBtn"
