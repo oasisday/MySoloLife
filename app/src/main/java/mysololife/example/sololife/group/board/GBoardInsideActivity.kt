@@ -31,12 +31,16 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import mysololife.example.sololife.auth.Key
 import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.auth.UserInfoModel
 import mysololife.example.sololife.board.BoardInsideActivity
 import mysololife.example.sololife.board.BoardModel
+import mysololife.example.sololife.chatlist.ChatActivity
+import mysololife.example.sololife.chatlist.ChatRoomItem
 import mysololife.example.sololife.comment.CommentLVAdapter
 import mysololife.example.sololife.comment.CommentModel
 import mysololife.example.sololife.utils.FBAuth
@@ -85,7 +89,7 @@ class GBoardInsideActivity : Activity() {
         binding.titleArea.text = title
         binding.textArea.text = content
         binding.timeArea.text = time
-        binding.boardArea.text = gname + " 자유게시판"
+        binding.boardArea.text = gname + " 스터디룸 자유게시판"
         getWriterData(uid)
 
         val myUid = FBAuth.getUid()
@@ -273,16 +277,64 @@ class GBoardInsideActivity : Activity() {
         }
         FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
 
-        alertDialog.findViewById<Button>(R.id.addBtn).setOnClickListener{
+        alertDialog.findViewById<Button>(R.id.msgBtn).setOnClickListener {
+            val myUserId = Firebase.auth.currentUser?.uid ?: ""
+            val otherUser = uid
+            val chatRoomDB = Firebase.database.reference.child(Key.DB_CHAT_ROOMS).child(myUserId).child(otherUser?: "")
+            chatRoomDB.get().addOnSuccessListener {
+
+                var chatRoomId =""
+                if(it.value != null){
+                    //데이터가 존재
+                    val chatRoom = it.getValue(ChatRoomItem::class.java)
+                    chatRoomId = chatRoom?.chatRoomId ?:""
+                }
+                else{
+                    chatRoomId = UUID.randomUUID().toString()
+                    val newChatRoom = ChatRoomItem(
+                        chatRoomId = chatRoomId,
+                        otherUserName = name,
+                        otherUserId = otherUser,
+                    )
+                    chatRoomDB.setValue(newChatRoom)
+                }
+                val intent = Intent(this, ChatActivity::class.java)
+                intent.putExtra(ChatActivity.EXTRA_OTHER_USER_ID,otherUser)
+                intent.putExtra(ChatActivity.EXTRA_CHAT_ROOM_ID,chatRoomId)
+                startActivity(intent)
+            }
+        }
+
+        alertDialog.findViewById<Button>(R.id.addBtn).setOnClickListener {
             val postListener = object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     Log.d(TAG, dataSnapshot.toString())
                     val data = dataSnapshot.getValue(UserDataModel::class.java)
 
+                    val dataname = data!!.nickname
                     guid = data!!.uid.toString()
 
-                    userLikeOtherUser(currentUser,guid)
+                    checkUid(currentUser, guid) { result ->
+                        if (result) {
+                            Toast.makeText(
+                                this@GBoardInsideActivity,
+                                "이미 추가된 친구입니다.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
 
+                            if(currentUser == guid) Toast.makeText(this@GBoardInsideActivity,"본인입니다.",Toast.LENGTH_SHORT).show()
+                            else{
+                                FirebaseRef.userBothRef.child(currentUser).child(guid).setValue("true")
+                                userLikeOtherUser(currentUser, guid)
+                                Toast.makeText(
+                                    this@GBoardInsideActivity,
+                                    dataname + "님을 친구로 바로 추가하였습니다.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
@@ -295,7 +347,30 @@ class GBoardInsideActivity : Activity() {
         }
 
     }
+    private fun checkUid(uid1: String, uid2: String, callback: (Boolean) -> Unit) {
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var check = false
 
+                for (dataModel in dataSnapshot.children) {
+                    val data = dataModel.key.toString()
+                    if (data == uid2) {
+                        check = true
+                        break
+                    }
+                }
+                // 데이터를 확인한 후에 콜백 호출
+                callback(check)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+
+        FirebaseRef.userLikeRef.child(uid1).addListenerForSingleValueEvent(postListener)
+    }
     private fun getImageData(key : String){
 
         // Reference to an image file in Cloud Storage

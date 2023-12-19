@@ -344,7 +344,7 @@ class Matching : AppCompatActivity(),TeamFaceAdapter.OnItemClickListener  {
     private fun userLikeOtherUser(myUid : String, otherUid : String){
         FirebaseRef.userLikeRef.child(myUid).child(otherUid).setValue("true")
 
-        getOtherUserLikeList(otherUid)
+        //getOtherUserLikeList(otherUid)
     }
     private fun getOtherUserLikeList(otherUid: String){
         val postListener = object : ValueEventListener {

@@ -82,7 +82,6 @@ class UserFragment : Fragment() {
                     snapshot.children.forEach{
                         val user = it.getValue(UserItem::class.java)
                         user ?: return
-
                         if(user.userId != currentUserId){
                             Log.d("authTest",user.userId.toString() +" "+currentUserId)
                             userItemList.add(user)
@@ -90,11 +89,9 @@ class UserFragment : Fragment() {
                     }
                     userListAdapter.submitList(userItemList)
                 }
-
                 override fun onCancelled(error: DatabaseError) {
                 }
             }
         )
-
     }
 }

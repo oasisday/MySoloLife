@@ -432,7 +432,7 @@ class GroupMainFragment : Fragment(),TeamFaceAdapter.OnItemClickListener {
                         userLikeOtherUser(myUID, guid)
                         Toast.makeText(
                             requireContext(),
-                            currentUser.name+ "님에게 친구 요청을 보냈습니다. 상대방이 요청을 받으면 친구 추가가 완료됩니다:)",
+                            currentUser.name+ "님과 친구가 되었습니다.",
                             Toast.LENGTH_SHORT
                         ).show()
                     }

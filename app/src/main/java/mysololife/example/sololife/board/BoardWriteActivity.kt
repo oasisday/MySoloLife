@@ -45,11 +45,8 @@ class BoardWriteActivity : Activity() {
                 Toast.makeText(this,"제목을 확인해주세요.", Toast.LENGTH_SHORT).show()
                 checked = false
             }
+            else checked = true
 
-            else if(content == ""){
-                Toast.makeText(this,"게시물 내용을 확인해주세요.", Toast.LENGTH_SHORT).show()
-                checked = false
-            }
 
             //파이어베이스 스토리지 이미지 저장을 하고 싶음
             //게시글 클릭-> 정보를 받아 와야함
@@ -64,6 +61,7 @@ class BoardWriteActivity : Activity() {
                 Toast.makeText(this, "게시글 입력 완료", Toast.LENGTH_LONG).show()
 
                 if (isImageUpload == true) {
+                    Toast.makeText(this, "이미지가 업로드 되는데 약간의 시간이 소요됩니다.", Toast.LENGTH_SHORT).show()
                     imageUpload(key)
                 }
 

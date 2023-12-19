@@ -30,10 +30,14 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import mysololife.example.sololife.auth.Key
 import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.auth.UserInfoModel
+import mysololife.example.sololife.chatlist.ChatActivity
+import mysololife.example.sololife.chatlist.ChatRoomItem
 import mysololife.example.sololife.comment.CommentLVAdapter
 import mysololife.example.sololife.comment.CommentModel
 import mysololife.example.sololife.utils.FBAuth
@@ -107,7 +111,7 @@ class BoardInsideActivity : Activity() {
 
                 val storageReference = Firebase.storage.reference.child(uid + ".png")
                 storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
-                    if(task.isSuccessful) {
+                    if (task.isSuccessful) {
 
                         if (profile != null) {
                             Glide.with(this@BoardInsideActivity)
@@ -263,13 +267,13 @@ class BoardInsideActivity : Activity() {
                     binding.textArea.text = dataModel!!.content
                     binding.timeArea.text = dataModel!!.time
 
-                    binding.wrtImg.setOnClickListener{
+                    binding.wrtImg.setOnClickListener {
                         profileDialog(writerUid)
                     }
-                    binding.timeArea.setOnClickListener{
+                    binding.timeArea.setOnClickListener {
                         profileDialog(writerUid)
                     }
-                    binding.nameArea.setOnClickListener{
+                    binding.nameArea.setOnClickListener {
                         profileDialog(writerUid)
                     }
 
@@ -337,7 +341,6 @@ class BoardInsideActivity : Activity() {
                 Log.d("abc", data.toString())
 
                 name = data!!.nickname.toString()
-                grade = data!!.gender.toString()
                 info = data!!.info.toString()
                 Log.d("abc", name)
 
@@ -368,6 +371,34 @@ class BoardInsideActivity : Activity() {
         }
         FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
 
+        alertDialog.findViewById<Button>(R.id.msgBtn).setOnClickListener {
+            val myUserId = Firebase.auth.currentUser?.uid ?: ""
+            val otherUser = uid
+            val chatRoomDB = Firebase.database.reference.child(Key.DB_CHAT_ROOMS).child(myUserId).child(otherUser ?: "")
+            chatRoomDB.get().addOnSuccessListener {
+
+                var chatRoomId =""
+                if(it.value != null){
+                    //데이터가 존재
+                    val chatRoom = it.getValue(ChatRoomItem::class.java)
+                    chatRoomId = chatRoom?.chatRoomId ?:""
+                }
+                else{
+                    chatRoomId = UUID.randomUUID().toString()
+                    val newChatRoom = ChatRoomItem(
+                        chatRoomId = chatRoomId,
+                        otherUserName = name,
+                        otherUserId = otherUser,
+                    )
+                    chatRoomDB.setValue(newChatRoom)
+                }
+                val intent = Intent(this, ChatActivity::class.java)
+                intent.putExtra(ChatActivity.EXTRA_OTHER_USER_ID,otherUser)
+                intent.putExtra(ChatActivity.EXTRA_CHAT_ROOM_ID,chatRoomId)
+                startActivity(intent)
+            }
+        }
+
         alertDialog.findViewById<Button>(R.id.addBtn).setOnClickListener {
             val postListener = object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -386,13 +417,17 @@ class BoardInsideActivity : Activity() {
                             ).show()
                         } else {
 
-                            if(currentUser == guid) Toast.makeText(this@BoardInsideActivity,"본인입니다.",Toast.LENGTH_SHORT).show()
-                            else{
+                            if (currentUser == guid) Toast.makeText(
+                                this@BoardInsideActivity,
+                                "본인입니다.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            else {
                                 userBothRef.child(currentUser).child(guid).setValue("true")
                                 userLikeOtherUser(currentUser, guid)
                                 Toast.makeText(
                                     this@BoardInsideActivity,
-                                    dataname + "님을 친구로 추가하였습니다.",
+                                    dataname + "님을 친구로 바로 추가하였습니다.",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -406,15 +441,13 @@ class BoardInsideActivity : Activity() {
                 }
             }
             FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
-
         }
 
     }
 
     private fun userLikeOtherUser(myUid: String, otherUid: String) {
         FirebaseRef.userLikeRef.child(uid).child(otherUid).setValue("true")
-
-        getOtherUserLikeList(otherUid)
+        //getOtherUserLikeList(otherUid)
     }
 
     private fun getOtherUserLikeList(otherUid: String) {
