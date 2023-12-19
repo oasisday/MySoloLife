@@ -14,7 +14,7 @@
         android:layout_marginBottom="20dp"
         >
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnEdit"
+            android:id="@+id/btnEdit11"
             android:layout_width="120dp"
             android:layout_height="60dp"
             android:text="수정"
@@ -24,7 +24,7 @@
             android:textColor="@color/grayDark"
             />
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnDelete"
+            android:id="@+id/btnDelete11"
             android:layout_width="120dp"
             android:layout_height="60dp"
             android:text="삭제"
