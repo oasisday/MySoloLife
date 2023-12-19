@@ -117,7 +117,7 @@ class TranslateActivity : AppCompatActivity() {
 
         binding.translate.setOnClickListener {
             if (binding.input.text.isNullOrEmpty()) {
-                Toast.makeText(this, "번역할 문장을 입력하세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "해석할 문장을 입력하세요", Toast.LENGTH_SHORT).show()
             } else {
                 val options = TranslatorOptions.Builder()
                     .setSourceLanguage(selectFrom())

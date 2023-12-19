@@ -544,7 +544,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
 
 
         if(!isFinishing()) {
-            Glide.with(this).asBitmap()
+            Glide.with(getApplicationContext()).asBitmap()
                 .load(person.profilePhoto)
                 .transform(RoundedCorners(60))
                 .override(150)

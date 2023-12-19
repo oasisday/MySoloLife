@@ -21,38 +21,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <LinearLayout
-        android:id="@+id/linearLayout8"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/LogoutBtn"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical"
+        android:layout_marginEnd="36dp"
+        android:backgroundTint="@color/maincolor_seven"
+        android:text="로그아웃"
+
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/SettingBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileImage">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginTop="10dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/infoArea"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:hint="본인을 소개해주세요:)" />
-        </ScrollView>
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nicknameArea"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="150dp"
-            android:hint="닉네임" />
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="@+id/SettingBtn" />
 
     <ToggleButton
         android:id="@+id/genderArea"
@@ -103,18 +84,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout8" />
 
-    <Button
-        android:id="@+id/LogoutBtn"
-        android:layout_width="150dp"
+    <LinearLayout
+        android:id="@+id/linearLayout8"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:backgroundTint="@color/maincolor_seven"
-        android:text="Logout"
-
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/SettingBtn"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/SettingBtn" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileImage">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nicknameArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="150dp"
+            android:hint="닉네임" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="10dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/infoArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="본인을 소개해주세요:)" />
+        </ScrollView>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

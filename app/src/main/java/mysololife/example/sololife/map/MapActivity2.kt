@@ -569,7 +569,7 @@ class MapActivity2 : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         //tag 설정
         marker.tag = uid
 
-        Glide.with(this).asBitmap()
+        Glide.with(getApplicationContext()).asBitmap()
             .load(person.profilePhoto)
             .transform(RoundedCorners(60))
             .override(150)
