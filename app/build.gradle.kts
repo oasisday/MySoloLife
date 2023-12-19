@@ -179,4 +179,7 @@ dependencies {
 
     //푸시 알람
     implementation ("com.github.gabriel-TheCode:AestheticDialogs:1.3.8")
+
+    // 튜토리얼
+    implementation ("com.getkeepsafe.taptargetview:taptargetview:1.13.3")
 }

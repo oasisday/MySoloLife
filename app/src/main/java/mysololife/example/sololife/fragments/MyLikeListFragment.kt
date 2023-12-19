@@ -144,41 +144,52 @@ class MyLikeListFragment : Fragment() {
             groupModel.member?.add(uid)
 
             val selectedItems = listviewAdapter.getSelectedItems()
+            var flag : Boolean = false
             for (item in selectedItems) {
                 groupModel.member?.add(item.uid.toString())
+                flag = true
             }
-            Log.d(LOGCHECK,selectedItems.toString())
-
-            val mDialogView = LayoutInflater.from(requireContext()).inflate(R.layout.custom_dialog_board, null)
-            mBuilder = AlertDialog.Builder(requireContext())
-                .setView(mDialogView)
-                .setTitle("과목 정보입력")
-
-            mAlertDialog = mBuilder.show()
-
-            val okbtn = mAlertDialog!!.findViewById<Button>(R.id.btnOk)
-            val cancelbtn = mAlertDialog!!.findViewById<Button>(R.id.btnCancel)
-            val classNameArea = mAlertDialog!!.findViewById<EditText>(R.id.classNameArea)
-            val classInfoArea = mAlertDialog!!.findViewById<EditText>(R.id.classInfoArea)
-
-            okbtn?.setOnClickListener {
-
-                val classText = classNameArea!!.text.toString()
-                val infoText = classInfoArea!!.text.toString()
-
-                groupModel.classname = classText
-                groupModel.classinfo = infoText
-
-                FBboard.boardInfoRef.child(groupId!!).setValue(groupModel)
-
-                Toast.makeText(requireContext(), "스터디 그룹이 생성되었습니다.", Toast.LENGTH_SHORT).show()
-                activity?.onBackPressed()
+            if(flag==false){
+                Toast.makeText(requireContext(), "스터디 팀원을 선택하세요", Toast.LENGTH_SHORT).show()
             }
-            cancelbtn?.setOnClickListener {
-                mAlertDialog!!.dismiss()
+            else {
+               //다이얼로그 만들기
+                val mDialogView = LayoutInflater.from(requireContext())
+                    .inflate(R.layout.custom_dialog_board, null)
+                mBuilder = AlertDialog.Builder(requireContext())
+                    .setView(mDialogView)
+                    .setTitle("과목 정보입력")
+
+                mAlertDialog = mBuilder.show()
+
+                val okbtn = mAlertDialog!!.findViewById<Button>(R.id.btnOk)
+                val cancelbtn = mAlertDialog!!.findViewById<Button>(R.id.btnCancel)
+                val classNameArea = mAlertDialog!!.findViewById<EditText>(R.id.classNameArea)
+                val classInfoArea = mAlertDialog!!.findViewById<EditText>(R.id.classInfoArea)
+
+                okbtn?.setOnClickListener {
+
+                    val classText = classNameArea!!.text.toString()
+                    val infoText = classInfoArea!!.text.toString()
+                    if (classText.isNullOrEmpty() || infoText.isNullOrEmpty()) {
+                        Toast.makeText(requireContext(), "과목 정보를 모두 입력하세요", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+
+                        groupModel.classname = classText
+                        groupModel.classinfo = infoText
+                        FBboard.boardInfoRef.child(groupId!!).setValue(groupModel)
+
+                        Toast.makeText(requireContext(), "스터디 그룹이 생성되었습니다.", Toast.LENGTH_SHORT)
+                            .show()
+                        activity?.onBackPressed()
+                    }
+                }
+                cancelbtn?.setOnClickListener {
+                    mAlertDialog!!.dismiss()
+                }
             }
         }
-
         getMyLikeList()
     }
 

@@ -1,90 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<layout xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="mysololife.example.sololife.board.BoardWriteActivity"
-        android:orientation="vertical">
+        android:layout_height="45dp"
+        android:background="@color/maincolor_seven"
+        android:gravity="center"
+        android:text="게시물 작성"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingTop="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/writeBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title">
 
-        <TextView
-            android:background="@color/maincolor_seven"
-            android:text="게시물 작성"
-            android:id="@+id/title"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:gravity="center"/>
-
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="60dp">
-            <LinearLayout
+            android:orientation="vertical">
+
+
+            <EditText
+                android:id="@+id/titleArea"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="60dp"
+                android:background="@android:color/transparent"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:hint="제목을 입력해주세요." />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:background="@color/maincolor_seven"/>
+            <EditText
+                android:id="@+id/contentArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@android:color/transparent"
+                android:hint="내용을 입력해주세요" />
 
+            <ImageView
+                android:id="@+id/imageArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/plusbtn"
+                app:tint="#7695BA" />
+            />
 
+        </LinearLayout>
 
+    </ScrollView>
 
-                <EditText
-                    android:id="@+id/titleArea"
-                    android:layout_margin="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:hint="제목을 입력해주세요."
-                    android:background="@android:color/transparent"/>
+    <android.widget.Button
+        android:id="@+id/writeBtn"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/background_radius_yellow4"
+        android:text="입력"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-                <LinearLayout
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/maincolor_three"/>
-
-                <EditText
-                    android:id="@+id/contentArea"
-                    android:hint="내용을 입력해주세요"
-                    android:layout_margin="20dp"
-                    android:background="@android:color/transparent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <ImageView
-                    android:id="@+id/imageArea"
-                    android:src="@drawable/plusbtn"
-                    android:layout_marginTop="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-
-            </LinearLayout>
-
-        </ScrollView>
-
-        <android.widget.Button
-            android:id="@+id/writeBtn"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="30dp"
-            android:background="@drawable/background_radius_yellow4"
-            android:text="입력"
-            android:textColor="@color/white"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
-
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

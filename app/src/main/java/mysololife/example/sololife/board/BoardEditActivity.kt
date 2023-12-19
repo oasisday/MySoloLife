@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import mysololife.example.sololife.Constants.Companion.LOGCHECK
 import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBRef
 import java.io.ByteArrayOutputStream
@@ -41,7 +42,9 @@ class BoardEditActivity : Activity() {
 
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_board_write)
+        binding = ActivityBoardWriteBinding.inflate(layoutInflater).apply {
+            setContentView(root)
+        }
 
         binding.title.setText("게시물 수정")
 
@@ -113,7 +116,7 @@ class BoardEditActivity : Activity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 val dataModel = dataSnapshot.getValue(BoardModel::class.java)
-
+                Log.d(LOGCHECK,dataModel.toString())
                 binding.titleArea.setText(dataModel?.title)
                 binding.contentArea.setText((dataModel?.content))
                 writerUid = dataModel!!.uid

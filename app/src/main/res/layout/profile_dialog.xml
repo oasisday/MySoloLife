@@ -71,18 +71,7 @@
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/gradeArea"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:gravity="center"
-                        android:text="학년 : Grade"
-                        android:textAlignment="center"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+
 
                     <TextView
                         android:id="@+id/infoArea"
@@ -93,7 +82,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         android:gravity="center"
-                        android:text="설명"
+                        android:text="자기 소개"
                         android:textAlignment="center"
                         android:textSize="15sp" />
 

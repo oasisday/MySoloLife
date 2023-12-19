@@ -30,8 +30,9 @@ class BoardWriteActivity : Activity() {
         super.onCreate(savedInstanceState)
 
         var checked = true
-
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_board_write)
+        binding = ActivityBoardWriteBinding.inflate(layoutInflater).apply {
+            setContentView(root)
+        }
 
         binding.writeBtn.setOnClickListener{
 

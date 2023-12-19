@@ -248,7 +248,6 @@ class GBoardInsideActivity : Activity() {
                 val myImage = alertDialog.findViewById<ImageView>(R.id.imageArea)
 
                 alertDialog.findViewById<TextView>(R.id.nameArea).text = "이름 : " + name
-                alertDialog.findViewById<TextView>(R.id.gradeArea).text = "학년 : " + grade
                 if (info == "" || info == "null") alertDialog.findViewById<TextView>(R.id.infoArea).text =
                     "아직 사용자가 정보를 입력하지 않았습니다."
                 else alertDialog.findViewById<TextView>(R.id.infoArea).text = info

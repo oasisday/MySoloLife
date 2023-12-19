@@ -45,8 +45,9 @@ class GBoardWriteActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_board_write)
+        binding = ActivityBoardWriteBinding.inflate(layoutInflater).apply{
+            setContentView(root)
+        }
         key = intent.getStringExtra("key").toString()
 
         getGroupData(key)
