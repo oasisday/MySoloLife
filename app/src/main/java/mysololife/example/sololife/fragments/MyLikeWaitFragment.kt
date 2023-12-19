@@ -17,6 +17,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mysololife.R
 import com.google.firebase.auth.ktx.auth
@@ -28,6 +30,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import mysololife.example.sololife.Constants.Companion.LOGCHECK
 import mysololife.example.sololife.auth.Key
 import mysololife.example.sololife.auth.UserDataModel
 import mysololife.example.sololife.chatlist.ChatActivity
@@ -84,9 +87,10 @@ class MyLikeWaitFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val userListView = view.findViewById<ListView>(R.id.userListView)
-
-        listviewAdapter = ListViewAdapter(requireContext(), likeUserList){ otherUser ->
+        val userListView = view.findViewById<RecyclerView>(R.id.userListView)
+        Log.d(LOGCHECK,likeUserList.toString()+"test")
+        listviewAdapter = ListViewAdapter(requireContext(),likeUserList)
+        { otherUser ->
             val myUserId = Firebase.auth.currentUser?.uid ?: ""
             val chatRoomDB = Firebase.database.reference.child(Key.DB_CHAT_ROOMS).child(myUserId)
                 .child(otherUser.uid?: "")
@@ -113,8 +117,10 @@ class MyLikeWaitFragment : Fragment() {
             }
         }
         listviewAdapter.ischeck = true
-        userListView.adapter = listviewAdapter
-
+        userListView.apply{
+            adapter = listviewAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
         getMyLikeList()
     }
 
@@ -141,14 +147,10 @@ class MyLikeWaitFragment : Fragment() {
     private fun getMyLikeList() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                likeUserList.clear()
                 for (dataModel in dataSnapshot.children) {
                     if(dataModel!!.value == "true")
                         likeUserListUid.add(dataModel.key.toString())
-                    //Log.d("ccc",dataModel.toString())
                 }
-                listviewAdapter.notifyDataSetChanged()
                 getUserDataList()
             }
 
@@ -158,8 +160,6 @@ class MyLikeWaitFragment : Fragment() {
             }
         }
         FirebaseRef.userLikeRef.child(uid).addValueEventListener(postListener)
-
-        listviewAdapter.notifyDataSetChanged()
     }
 
     private fun getUserDataList() {
@@ -174,9 +174,10 @@ class MyLikeWaitFragment : Fragment() {
                         //내가 좋아요한 사람들의 정보 뽑음
                         likeUserList.add(user!!)
                     }
-                }
-                listviewAdapter.notifyDataSetChanged()
 
+                }
+                Log.d(LOGCHECK,likeUserList.toString()+"test3")
+                listviewAdapter.notifyDataSetChanged()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

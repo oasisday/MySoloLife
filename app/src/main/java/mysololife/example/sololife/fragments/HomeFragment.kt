@@ -1,6 +1,7 @@
 package mysololife.example.sololife.fragments
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -12,8 +13,8 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
-import android.view.KeyEvent
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -22,6 +23,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -52,6 +54,7 @@ import com.thecode.aestheticdialogs.DialogStyle
 import com.thecode.aestheticdialogs.DialogType
 import com.thecode.aestheticdialogs.OnDialogClickListener
 import mysololife.example.sololife.CameraActivity
+import mysololife.example.sololife.Constants.Companion.LOGCHECK
 import mysololife.example.sololife.Matching
 import mysololife.example.sololife.auth.LoginActivity
 import mysololife.example.sololife.auth.UserDataModel
@@ -154,6 +157,7 @@ class HomeFragment : Fragment(),OnItemClickListener{
                 }
                 boardKeyList.reverse()
                 boardDataList.reverse()
+                Log.d(LOGCHECK,boardDataList.toString())
                 studyteamAdapter = StudyTeamAdapter(boardDataList,this@HomeFragment)
                 binding.studyteamrecyclerView.apply {
                     adapter = studyteamAdapter
@@ -171,6 +175,7 @@ class HomeFragment : Fragment(),OnItemClickListener{
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         askNotificationPermission()
@@ -178,11 +183,9 @@ class HomeFragment : Fragment(),OnItemClickListener{
             override fun handleOnBackPressed() {
                 // 뒤로가기 버튼을 눌렀을 때 수행할 동작
                 showExitConfirmation()
+
             }
         }
-
-        // OnBackPressedCallback을 등록
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
         binding.btnVoiceRecorder.setOnClickListener {
             Intent(getActivity(),RecorderMainActivity::class.java).apply{
@@ -211,6 +214,8 @@ class HomeFragment : Fragment(),OnItemClickListener{
             }
         }
         getMyData()
+
+
     }
 
     private fun showExitConfirmation() {

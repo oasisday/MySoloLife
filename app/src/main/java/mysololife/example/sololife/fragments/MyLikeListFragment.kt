@@ -16,10 +16,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.animation.core.animateDpAsState
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mysololife.R
+import com.example.mysololife.databinding.ActivityMyLikeListBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -29,6 +33,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import mysololife.example.sololife.Constants.Companion.LOGCHECK
 import mysololife.example.sololife.Matching
 import mysololife.example.sololife.auth.Key
 import mysololife.example.sololife.auth.UserDataModel
@@ -38,6 +43,7 @@ import mysololife.example.sololife.group.GroupDataModel
 import mysololife.example.sololife.message.ListViewAdapter
 import mysololife.example.sololife.message.MsgModel
 import mysololife.example.sololife.message.MyMsgActivity
+import mysololife.example.sololife.ui.TeamFaceAdapter
 import mysololife.example.sololife.userlist.UserAdapter
 import mysololife.example.sololife.utils.FBboard
 import mysololife.example.sololife.utils.FirebaseAuthUtils
@@ -52,11 +58,9 @@ class MyLikeListFragment : Fragment() {
 
     private val likeUserList = mutableListOf<UserDataModel>()
     private val likeUserListUid = mutableListOf<String>()
-
     lateinit var listviewAdapter: ListViewAdapter
     var getterUid: String? = null
     var getterToken: String? = null
-
     var groupId: String? = null
 
     lateinit var mBuilder: AlertDialog.Builder
@@ -68,7 +72,6 @@ class MyLikeListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.activity_my_like_list, container, false)
-
         // 툴바 설정 코드를 여기에 추가하세요.
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar) // 툴바 ID를 실제로 사용하는 ID로 변경하세요.
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
@@ -84,15 +87,13 @@ class MyLikeListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val userListView = view.findViewById<ListView>(R.id.userListView)
         val writeBtn = view.findViewById<LinearLayout>(R.id.writeBtn)
         val msgBtn = view.findViewById<LinearLayout>(R.id.msgBtn)
         val waitBtn = view.findViewById<LinearLayout>(R.id.waitBtn)
-
-        listviewAdapter = ListViewAdapter(requireContext(), likeUserList) { otherUser ->
-
-
+        val userListView = view.findViewById<RecyclerView>(R.id.userListView)
+        //리사이클러뷰 초기화
+        listviewAdapter = ListViewAdapter(requireContext(),likeUserList)
+        { otherUser ->
             //채팅 연결해 주기
             val myUserId = Firebase.auth.currentUser?.uid ?: ""
             val chatRoomDB = Firebase.database.reference.child(Key.DB_CHAT_ROOMS).child(myUserId)
@@ -119,7 +120,10 @@ class MyLikeListFragment : Fragment() {
                 startActivity(intent)
             }
         }
-        userListView.adapter = listviewAdapter
+        userListView.apply{
+            adapter = listviewAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
 
         waitBtn.setOnClickListener{
             view?.findNavController()?.navigate(R.id.action_myLikeLikstFragment_to_myLikeWaitFragment)
@@ -129,14 +133,6 @@ class MyLikeListFragment : Fragment() {
             val intent = Intent(context, Matching::class.java)
             startActivity(intent)
         }
-
-        userListView.setOnItemLongClickListener { parent, view, position, id ->
-            getterUid = likeUserList[position].uid.toString()
-            getterToken = likeUserList[position].token.toString()
-            checkMatching(likeUserList[position].uid.toString())
-            true
-        }
-
 
 
         writeBtn.setOnClickListener {
@@ -220,25 +216,21 @@ class MyLikeListFragment : Fragment() {
             }
         }
         FirebaseRef.userBothRef.child(uid).addValueEventListener(postListener)
-
-        listviewAdapter.notifyDataSetChanged()
     }
 
     private fun getUserDataList() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-
+                likeUserList.clear()
                 for (dataModel in dataSnapshot.children) {
-                    Log.d("whatsproblem",dataModel.toString())
                     val user = dataModel.getValue(UserDataModel::class.java)
-                    Log.d("whatsproblem",user!!.nickname.toString() + user!!.toString())
                     if (likeUserListUid.contains(user?.uid)) {
                         //내가 좋아요한 사람들의 정보 뽑음
                         likeUserList.add(user!!)
                     }
                 }
+                Log.d(LOGCHECK,likeUserList.toString())
                 listviewAdapter.notifyDataSetChanged()
-
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -353,22 +345,10 @@ class MyLikeListFragment : Fragment() {
 
             FirebaseRef.userMsgRef.child(getterUid!!).push().setValue(msgModel)
 
-//            val notiModel = NotiModel(MyInfo.myNickname, msgText)
-//            val pushModel = PushNotification(notiModel, getterToken!!)
-
-//            testPush(pushModel)
             mAlertDialog.dismiss()
         }
         cancelbtn!!.setOnClickListener {
             mAlertDialog.dismiss()
-        }
-    }
-
-    // Other methods...
-
-    companion object {
-        fun newInstance(): MyLikeListFragment {
-            return MyLikeListFragment()
         }
     }
 }
