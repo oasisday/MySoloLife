@@ -114,13 +114,13 @@ class BoardEditActivity : Activity() {
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-
                 val dataModel = dataSnapshot.getValue(BoardModel::class.java)
-                Log.d(LOGCHECK,dataModel.toString())
-                binding.titleArea.setText(dataModel?.title)
-                binding.contentArea.setText((dataModel?.content))
-                writerUid = dataModel!!.uid
-
+                if (dataModel != null) {
+                    Log.d(LOGCHECK, dataModel.toString())
+                    binding.titleArea.setText(dataModel.title)
+                    binding.contentArea.setText(dataModel.content)
+                    writerUid = dataModel.uid
+                }
             }
 
 

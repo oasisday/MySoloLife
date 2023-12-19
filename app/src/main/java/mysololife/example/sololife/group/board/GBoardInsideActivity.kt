@@ -188,7 +188,7 @@ class GBoardInsideActivity : Activity() {
             .setTitle("게시글 수정/삭제")
 
         val alertDialog = mBuilder.show()
-        alertDialog.findViewById<Button>(R.id.btnEdit)?.setOnClickListener{
+        alertDialog.findViewById<Button>(R.id.btnEdit11)?.setOnClickListener{
 
             val intent = Intent(this, GBoardEditActivity::class.java)
             intent.putExtra("key", key)
@@ -207,7 +207,7 @@ class GBoardInsideActivity : Activity() {
             startActivity(intent)
             finish()
         }
-        alertDialog.findViewById<Button>(R.id.btnDelete)?.setOnClickListener{
+        alertDialog.findViewById<Button>(R.id.btnDelete11)?.setOnClickListener{
             FBboard.insideboardRef.child(key).child(bkey).removeValue()
             Log.d("dDD",key);
             Log.d("FFF",bkey);
@@ -346,20 +346,6 @@ class GBoardInsideActivity : Activity() {
                     } else {
                     }
                 })
-
-//                myUid.text = data!!.uid
-//                myNickname.text = data!!.nickname
-//                myGender.text = data!!.gender
-//
-//                val storageRef = Firebase.storage.reference.child(data.uid + ".png")
-//                storageRef.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
-//                    if (task.isSuccessful) {
-//                        if(getActivity() !=null){
-//                            Glide.with(this@MyPageFragment)
-//                                .load(task.result)
-//                                .into(myImage)}
-//                    }
-//                })
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

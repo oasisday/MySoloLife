@@ -45,9 +45,6 @@
             android:name="mysololife.example.sololife.message.MyMsgActivity"
             android:exported="false" />
         <activity
-            android:name="mysololife.example.sololife.group.GroupMainActivity"
-            android:exported="false" />
-        <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
             <intent-filter>

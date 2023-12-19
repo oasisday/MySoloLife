@@ -1,6 +1,5 @@
 package mysololife.example.sololife.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,7 +13,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import mysololife.example.sololife.group.GroupDataModel
-import mysololife.example.sololife.group.GroupMainActivity
 import mysololife.example.sololife.group.GroupboardLVAdapter
 import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBboard
@@ -46,10 +44,10 @@ class GroupFragment : Fragment() {
 
         //클릭시 게시판 이동//
         binding.gotoBoardListView.setOnItemClickListener { parent, view, position, id->
-            val intent = Intent(context, GroupMainActivity::class.java)
-            intent.putExtra("key", boardKeyList[position])
-            intent.putExtra("g_name", boardKeyList[position])
-            startActivity(intent)
+//            val intent = Intent(context, GroupMainActivity::class.java)
+//            intent.putExtra("key", boardKeyList[position])
+//            intent.putExtra("g_name", boardKeyList[position])
+//            startActivity(intent)
         }
 
         /////////////////////////////////////////////
