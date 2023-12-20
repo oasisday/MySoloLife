@@ -35,7 +35,7 @@ class LectureMainFragment : Fragment() {
 
     val complementaryColors = listOf(
         "#ECF0F1", "#BDC3C7", "#D2D7D3", "#EAEDED", "#F4F6F6",
-        "#OOOOAA", "#0000CC", "#000099", "#3964E5", "#FF8C00",
+        "#0000AA", "#0000CC", "#000099", "#3964E5", "#FF8C00",
         "#4040FF", "#3333CC", "#262699", "#0000AA", "#FFD700",
         "#8080FF", "#6666CC", "#4D4C99", "#7CFC00", "#FF4500",
         "#BFBFFF", "#9999CC", "#737399", "#3EC5F1", "#00Bfff",

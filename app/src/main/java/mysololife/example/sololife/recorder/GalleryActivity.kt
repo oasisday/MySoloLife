@@ -39,7 +39,7 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
     private lateinit var runnable: Runnable
     private lateinit var handler : Handler
     private var delay = 10L
-    private var jumpValue = 1000
+    private var jumpValue = 5000
     private var playbackSpeed = 1.0f
     private  lateinit var records : ArrayList<AudioRecord>
     private lateinit var mAdapter: Adapter
@@ -281,13 +281,25 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
 
 
         binding.btnforward.setOnClickListener {
-            mediaPlayer.seekTo(mediaPlayer.currentPosition+jumpValue)
-            binding.seekbar.progress += jumpValue
+            try {
+                mediaPlayer.seekTo(mediaPlayer.currentPosition + jumpValue)
+                binding.seekbar.progress += jumpValue
+            }catch (e:Exception){
+                mediaPlayer.seekTo(0)
+                binding.seekbar.progress = 0
+            }
+
         }
         binding.btnBackward.setOnClickListener {
-            mediaPlayer.seekTo(mediaPlayer.currentPosition-jumpValue)
-            binding.seekbar.progress -= jumpValue
+            try {
+                mediaPlayer.seekTo(mediaPlayer.currentPosition - jumpValue)
+                binding.seekbar.progress -= jumpValue
+            }catch (e:Exception){
+                mediaPlayer.seekTo(0)
+                binding.seekbar.progress = 0
+            }
         }
+
         binding.chip.setOnClickListener{
             if(playbackSpeed != 2f)
                 playbackSpeed += 0.25f
