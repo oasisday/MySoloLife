@@ -106,7 +106,7 @@ class PopupManager(private val fragment : Fragment, private val binding: Fragmen
             TapTarget.forView(
                 binding.makestudyBtn,
                 "친구 목록에서 팀원을 골라보세요 :)",
-                "스터디원 매칭에서 수락한 친구는 대기 목록에 들어가게 되고, 서로 매칭을 수락한 친구는 친구 목록에 추가됩니다.\n(단, 빠른 테스트를 위해 팝업창으로 친구 추가를 할 시 즉시 친구 추가를 할 수 있도록 코드를 수정하였습니다.)\n\n친구 목록을 클릭하여 개인 채팅을 진행 할 수 있습니다.\n친구들과 함께 스터디를 만들고, 스터디 기능을 사용해 보세요!")
+                "스터디원 매칭에서 수락한 친구는 대기 목록에 들어가게 되고, 서로 매칭을 수락한 친구는 친구 목록에 추가됩니다.\n\n(단, 빠른 테스트를 위해 팝업창으로 친구 추가를 할 시 즉시 친구 추가를 할 수 있도록 코드를 수정하였습니다.)\n\n친구 목록을 클릭하여 개인 채팅을 진행 할 수 있습니다.\n친구들과 함께 스터디를 만들고, 스터디 기능을 사용해 보세요!")
                 .tintTarget(false)
                 .titleTextSize(35)
                 .descriptionTextSize(16)
