@@ -37,7 +37,6 @@ class BoardListLVAdapter(private val boardList : MutableList<BoardModel>) : Base
 
         view = LayoutInflater.from(parent?.context).inflate(R.layout.gboard_list_item,parent,false)
 
-
         val itemLinearLayoutView = view?.findViewById<LinearLayout>(R.id.itemView)
         val title = view?.findViewById<TextView>(R.id.gtitleArea)
         val time = view?.findViewById<TextView>(R.id.gtimeArea)
@@ -48,8 +47,12 @@ class BoardListLVAdapter(private val boardList : MutableList<BoardModel>) : Base
         if(boardList[position].uid.equals(FBAuth.getUid())){
             itemLinearLayoutView?.setBackgroundColor(Color.parseColor("#BCC6CC"))
         }
-
-        title!!.text = boardList[position].title
+        if (position < 4) {
+            title!!.text = "★ "+boardList[position].title + " ★"
+        }
+        else {
+            title!!.text = boardList[position].title
+        }
         time!!.text = boardList[position].time
         content!!.text = boardList[position].content
 

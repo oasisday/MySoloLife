@@ -58,6 +58,8 @@ import com.thecode.aestheticdialogs.OnDialogClickListener
 import mysololife.example.sololife.CameraActivity
 import mysololife.example.sololife.Constants
 import mysololife.example.sololife.Constants.Companion.LOGCHECK
+import mysololife.example.sololife.Constants.Companion.TUTORIAL
+import mysololife.example.sololife.Constants.Companion.TUTORIAL_DONE
 import mysololife.example.sololife.Matching
 import mysololife.example.sololife.auth.LoginActivity
 import mysololife.example.sololife.auth.UserDataModel
@@ -95,6 +97,14 @@ class HomeFragment : Fragment(),OnItemClickListener{
 
 
         getFBBoardData()
+        binding.tutorialBtn.setOnClickListener {
+            Toast.makeText(requireContext(),"튜토리얼을 시작합니다.", Toast.LENGTH_SHORT).show()
+            with(requireActivity().getSharedPreferences(TUTORIAL, Context.MODE_PRIVATE).edit()) {
+                putBoolean(TUTORIAL_DONE, false)
+                apply()
+            }
+            PopupManager(this, binding).showViewTypePrompt()
+        }
         binding.makestudyBtn.setOnClickListener {
             view?.findNavController()?.navigate(R.id.action_homeFragment_to_myLikeListFragment)
         }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/gitemView"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="80dp"
     android:orientation="vertical"
     android:layout_margin="5dp">
 
@@ -24,7 +24,7 @@
                 android:id="@+id/gtitleArea"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 tools:ignore="MissingConstraints" />
 
             <View
@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:text="Content"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="#696969"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
@@ -59,7 +59,7 @@
                     android:paddingLeft="20dp"
                     android:text="name"
                     android:textColor="#999999"
-                    android:textSize="10sp"
+                    android:textSize="9sp"
                     app:layout_constraintEnd_toStartOf="@+id/gtimeArea"
                     tools:ignore="MissingConstraints" />
 
@@ -71,7 +71,7 @@
                     android:paddingLeft="10dp"
                     android:text="Time"
                     android:textColor="#999999"
-                    android:textSize="10sp"
+                    android:textSize="9sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:ignore="MissingConstraints" />
 

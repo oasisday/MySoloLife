@@ -55,20 +55,20 @@ class GBoardInsideActivity : Activity() {
 
     private val TAG = BoardInsideActivity::class.java.simpleName
 
-    private lateinit var binding : ActivityBoardInsideBinding
+    private lateinit var binding: ActivityBoardInsideBinding
 
-    private lateinit var key:String
+    private lateinit var key: String
 
     private val commentDataList = mutableListOf<CommentModel>()
 
-    private lateinit var commentAdapter : CommentLVAdapter
+    private lateinit var commentAdapter: CommentLVAdapter
 
-    private lateinit var title:String
-    private lateinit var content:String
-    private lateinit var time:String
-    private lateinit var uid:String
-    private lateinit var bkey:String
-    private lateinit var gname:String
+    private lateinit var title: String
+    private lateinit var content: String
+    private lateinit var time: String
+    private lateinit var uid: String
+    private lateinit var bkey: String
+    private lateinit var gname: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -95,24 +95,24 @@ class GBoardInsideActivity : Activity() {
         val myUid = FBAuth.getUid()
         val writerUid = uid
 
-        binding.wrtImg.setOnClickListener{
+        binding.wrtImg.setOnClickListener {
             profileDialog(writerUid)
         }
 
-        binding.nameArea.setOnClickListener{
+        binding.nameArea.setOnClickListener {
             profileDialog(writerUid)
         }
 
-        binding.timeArea.setOnClickListener{
+        binding.timeArea.setOnClickListener {
             profileDialog(writerUid)
         }
 
-        if(myUid.equals(writerUid)){
+        if (myUid.equals(writerUid)) {
             Log.d(TAG, "내가 쓴 글")
             binding.boardSettingIcon.isVisible = true
         }
 
-        binding.boardSettingIcon.setOnClickListener{
+        binding.boardSettingIcon.setOnClickListener {
             showDialog()
         }
 
@@ -120,21 +120,22 @@ class GBoardInsideActivity : Activity() {
         //getBoardData(key)
         getImageData(bkey)
 
-        binding.commentBtn.setOnClickListener{
+        binding.commentBtn.setOnClickListener {
             insertComment(bkey)
         }
 
         commentAdapter = CommentLVAdapter(commentDataList)
         binding.commentLV.adapter = commentAdapter
 
-        binding.commentLV.setOnItemClickListener{ parent, view, position, id ->
+        binding.commentLV.setOnItemClickListener { parent, view, position, id ->
             profileDialog(commentDataList[position].uid)
         }
 
         getCommentData(bkey)
 
     }
-    private fun getCommentData(key : String){
+
+    private fun getCommentData(key: String) {
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -146,7 +147,7 @@ class GBoardInsideActivity : Activity() {
                     val item = dataModel.getValue(CommentModel::class.java)
                     commentDataList.add(item!!)
                 }
-                Log.d("dddd",commentDataList.toString())
+                Log.d("dddd", commentDataList.toString())
                 //adapter 동기화//
                 commentAdapter.notifyDataSetChanged()
 
@@ -161,7 +162,7 @@ class GBoardInsideActivity : Activity() {
 
     }
 
-    private fun insertComment(key:String){
+    private fun insertComment(key: String) {
         //comment
         //  - BoardKey
         //      - CommentKey
@@ -184,7 +185,8 @@ class GBoardInsideActivity : Activity() {
         Toast.makeText(this, "댓글 입력 완료", Toast.LENGTH_SHORT).show()
         binding.commentArea.setText("")
     }
-    private fun showDialog(){
+
+    private fun showDialog() {
 
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
         val mBuilder = AlertDialog.Builder(this)
@@ -192,15 +194,15 @@ class GBoardInsideActivity : Activity() {
             .setTitle("게시글 수정/삭제")
 
         val alertDialog = mBuilder.show()
-        alertDialog.findViewById<Button>(R.id.btnEdit11)?.setOnClickListener{
+        alertDialog.findViewById<Button>(R.id.btnEdit11)?.setOnClickListener {
 
             val intent = Intent(this, GBoardEditActivity::class.java)
             intent.putExtra("key", key)
-            intent.putExtra("uid",uid)
-            intent.putExtra("title",title)
-            intent.putExtra("content",content)
-            intent.putExtra("bkey",bkey)
-            intent.putExtra("time",time)
+            intent.putExtra("uid", uid)
+            intent.putExtra("title", title)
+            intent.putExtra("content", content)
+            intent.putExtra("bkey", bkey)
+            intent.putExtra("time", time)
             /*
 
         title = intent.getStringExtra("title").toString()
@@ -211,17 +213,17 @@ class GBoardInsideActivity : Activity() {
             startActivity(intent)
             finish()
         }
-        alertDialog.findViewById<Button>(R.id.btnDelete11)?.setOnClickListener{
+        alertDialog.findViewById<Button>(R.id.btnDelete11)?.setOnClickListener {
             FBboard.insideboardRef.child(key).child(bkey).removeValue()
-            Log.d("dDD",key);
-            Log.d("FFF",bkey);
-            Toast.makeText(this,"삭제완료", Toast.LENGTH_LONG).show()
+            Log.d("dDD", key);
+            Log.d("FFF", bkey);
+            Toast.makeText(this, "삭제완료", Toast.LENGTH_LONG).show()
             finish()
         }
         //mBuilder.show()
     }
 
-    private fun profileDialog(uid: String){
+    private fun profileDialog(uid: String) {
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.profile_dialog, null)
         val mBuilder = AlertDialog.Builder(this)
             .setView(mDialogView)
@@ -232,9 +234,9 @@ class GBoardInsideActivity : Activity() {
         //지금 유저
         val currentUser = Firebase.auth.currentUser?.uid.toString()
 
-        var name=""
-        var grade =""
-        var info =""
+        var name = ""
+        var grade = ""
+        var info = ""
         var guid = ""
 
         val postListener = object : ValueEventListener {
@@ -259,7 +261,7 @@ class GBoardInsideActivity : Activity() {
                 val storageRef = Firebase.storage.reference.child(data.uid + ".png")
                 storageRef.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
 
-                    if(task.isSuccessful) {
+                    if (task.isSuccessful) {
                         Glide.with(baseContext)
                             .load(task.result)
                             .into(myImage)
@@ -280,16 +282,16 @@ class GBoardInsideActivity : Activity() {
         alertDialog.findViewById<Button>(R.id.msgBtn).setOnClickListener {
             val myUserId = Firebase.auth.currentUser?.uid ?: ""
             val otherUser = uid
-            val chatRoomDB = Firebase.database.reference.child(Key.DB_CHAT_ROOMS).child(myUserId).child(otherUser?: "")
+            val chatRoomDB = Firebase.database.reference.child(Key.DB_CHAT_ROOMS).child(myUserId)
+                .child(otherUser ?: "")
             chatRoomDB.get().addOnSuccessListener {
 
-                var chatRoomId =""
-                if(it.value != null){
+                var chatRoomId = ""
+                if (it.value != null) {
                     //데이터가 존재
                     val chatRoom = it.getValue(ChatRoomItem::class.java)
-                    chatRoomId = chatRoom?.chatRoomId ?:""
-                }
-                else{
+                    chatRoomId = chatRoom?.chatRoomId ?: ""
+                } else {
                     chatRoomId = UUID.randomUUID().toString()
                     val newChatRoom = ChatRoomItem(
                         chatRoomId = chatRoomId,
@@ -299,8 +301,8 @@ class GBoardInsideActivity : Activity() {
                     chatRoomDB.setValue(newChatRoom)
                 }
                 val intent = Intent(this, ChatActivity::class.java)
-                intent.putExtra(ChatActivity.EXTRA_OTHER_USER_ID,otherUser)
-                intent.putExtra(ChatActivity.EXTRA_CHAT_ROOM_ID,chatRoomId)
+                intent.putExtra(ChatActivity.EXTRA_OTHER_USER_ID, otherUser)
+                intent.putExtra(ChatActivity.EXTRA_CHAT_ROOM_ID, chatRoomId)
                 startActivity(intent)
             }
         }
@@ -323,10 +325,20 @@ class GBoardInsideActivity : Activity() {
                             ).show()
                         } else {
 
-                            if(currentUser == guid) Toast.makeText(this@GBoardInsideActivity,"본인입니다.",Toast.LENGTH_SHORT).show()
-                            else{
-                                FirebaseRef.userBothRef.child(currentUser).child(guid).setValue("true")
-                                userLikeOtherUser(currentUser, guid)
+                            if (currentUser == guid) Toast.makeText(
+                                this@GBoardInsideActivity,
+                                "본인입니다.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            else {
+                                FirebaseRef.userBothRef.child(currentUser).child(guid)
+                                    .setValue("true")
+                                FirebaseRef.userBothRef.child(guid).child(currentUser)
+                                    .setValue("true")
+                                FirebaseRef.userLikeRef.child(currentUser).child(guid)
+                                    .setValue("false")
+                                FirebaseRef.userLikeRef.child(guid).child(currentUser)
+                                    .setValue("false")
                                 Toast.makeText(
                                     this@GBoardInsideActivity,
                                     dataname + "님을 친구로 바로 추가하였습니다.",
@@ -343,10 +355,9 @@ class GBoardInsideActivity : Activity() {
                 }
             }
             FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
-
         }
-
     }
+
     private fun checkUid(uid1: String, uid2: String, callback: (Boolean) -> Unit) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -369,9 +380,10 @@ class GBoardInsideActivity : Activity() {
             }
         }
 
-        FirebaseRef.userLikeRef.child(uid1).addListenerForSingleValueEvent(postListener)
+        FirebaseRef.userBothRef.child(uid1).addListenerForSingleValueEvent(postListener)
     }
-    private fun getImageData(key : String){
+
+    private fun getImageData(key: String) {
 
         // Reference to an image file in Cloud Storage
         val storageReference = Firebase.storage.reference.child(key + ".png")
@@ -380,7 +392,7 @@ class GBoardInsideActivity : Activity() {
         val imageViewFromFB = binding.getImageArea
 
         storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
-            if(task.isSuccessful) {
+            if (task.isSuccessful) {
 
                 Glide.with(this)
                     .load(task.result)
@@ -395,7 +407,7 @@ class GBoardInsideActivity : Activity() {
 
     }
 
-    private fun getWriterData(uid:String) {
+    private fun getWriterData(uid: String) {
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -409,13 +421,13 @@ class GBoardInsideActivity : Activity() {
 
                 val storageReference = Firebase.storage.reference.child(uid + ".png")
                 storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
-                    if(task.isSuccessful) {
+                    if (task.isSuccessful) {
 
-                            if (profile != null) {
-                                Glide.with(this@GBoardInsideActivity)
-                                    .load(task.result)
-                                    .into(profile)
-                            }
+                        if (profile != null) {
+                            Glide.with(this@GBoardInsideActivity)
+                                .load(task.result)
+                                .into(profile)
+                        }
 
 
                     } else {
@@ -430,113 +442,6 @@ class GBoardInsideActivity : Activity() {
         }
 
         FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
-    }
-
-    private fun getBoardData(key : String){
-
-
-
-//        val postListener = object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//
-//                try {
-//                    val dataModel = dataSnapshot.getValue(BoardModel::class.java)
-//                    Log.d(TAG, dataModel!!.title)
-//
-//                    binding.titleArea.text = dataModel!!.title
-//                    binding.textArea.text = dataModel!!.content
-//                    binding.timeArea.text = dataModel!!.time
-//
-//                    val myUid = FBAuth.getUid()
-//                    val writerUid = dataModel.uid
-//
-//                    if(myUid.equals(writerUid)){
-//                        Log.d(TAG, "내가 쓴 글")
-//                        binding.boardSettingIcon.isVisible = true
-//                    }
-//                }
-//                catch (e:Exception){
-//                    Log.d(TAG, "삭제완료")
-//                }
-//
-//            }
-//
-//            override fun onCancelled(databaseError: DatabaseError) {
-//                // Getting Post failed, log a message
-//                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
-//            }
-//        }
-//        FBRef.boardRef.child(key).addValueEventListener(postListener)
-    }
-
-    private fun userLikeOtherUser(myUid : String, otherUid : String){
-        FirebaseRef.userLikeRef.child(uid).child(otherUid).setValue("true")
-
-        getOtherUserLikeList(otherUid)
-    }
-    private fun getOtherUserLikeList(otherUid: String){
-        val postListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                for (dataModel in dataSnapshot.children){
-                    val likeUserKey = dataModel.key.toString()
-                    if(likeUserKey.equals(uid)){
-                        Toast.makeText(this@GBoardInsideActivity,"matching success!!", Toast.LENGTH_SHORT).show()
-                        createNotificationChannel()
-                        sendNotification()
-                    }
-
-                }
-
-
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
-            }
-        }
-        FirebaseRef.userLikeRef.child(otherUid).addValueEventListener(postListener)
-    }
-    private fun createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "name"
-            val descriptionText = "description"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel("Test_ch", name, importance).apply {
-                description = descriptionText
-            }
-            // Register the channel with the system
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
-    private fun sendNotification(){
-        var builder = NotificationCompat.Builder(this, "Test_ch")
-            .setSmallIcon(R.drawable.ic_launcher_background)
-            .setContentTitle("Study Matching")
-            .setContentText("새로운 스터디원과 연결되었습니다. 확인해보세요!")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        with(NotificationManagerCompat.from(this)){
-            if (ActivityCompat.checkSelfPermission(
-                    this@GBoardInsideActivity,
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return
-            }
-            notify(123,builder.build())
-        }
     }
 
 }

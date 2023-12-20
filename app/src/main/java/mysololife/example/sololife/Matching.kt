@@ -143,8 +143,10 @@ class Matching : AppCompatActivity(),TeamFaceAdapter.OnItemClickListener  {
                     //}
 
                 }
-                if(direction == Direction.Left){
+                if(direction == Direction.Left) {
                     //rightOverlay.bringToFront()
+                    FirebaseRef.userLikeRef.child(uid)
+                        .child(usersDataList[userCount].uid.toString()).removeValue()
                 }
 
                 userCount = userCount + 1
@@ -280,9 +282,7 @@ class Matching : AppCompatActivity(),TeamFaceAdapter.OnItemClickListener  {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 val data = dataSnapshot.value.toString()
-
                 Log.d("abc",data)
-
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -321,14 +321,10 @@ class Matching : AppCompatActivity(),TeamFaceAdapter.OnItemClickListener  {
                 Log.d("matchingTest","getMyUserData좋아요 누름 "+ dataSnapshot.toString())
                 Log.d(TAG, dataSnapshot.toString())
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
-
                 Log.d(TAG, data?.gender.toString())
-
                 currentUserGender = data?.gender.toString()
                 currentUserUid = data?.uid.toString()
-
                 MyInfo.myNickname = data?.nickname.toString()
-
                 getUserDataList(currentUserUid)
                 //del()
             }
@@ -343,31 +339,22 @@ class Matching : AppCompatActivity(),TeamFaceAdapter.OnItemClickListener  {
     //나의 Uid//상대의 Uid
     private fun userLikeOtherUser(myUid : String, otherUid : String){
         FirebaseRef.userLikeRef.child(myUid).child(otherUid).setValue("true")
-
-        //getOtherUserLikeList(otherUid)
+        getOtherUserLikeList(otherUid)
     }
     private fun getOtherUserLikeList(otherUid: String){
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-
                 for (dataModel in dataSnapshot.children){
                     val likeUserKey = dataModel.key.toString()
                     if(likeUserKey.equals(uid)){
-                        Toast.makeText(this@Matching,"matching success!!", Toast.LENGTH_SHORT).show()
-
+                        Toast.makeText(this@Matching,"매칭이 성공하였습니다!", Toast.LENGTH_SHORT).show()
                         FirebaseRef.userBothRef.child(uid).child(otherUid).setValue("true")
                         FirebaseRef.userBothRef.child(otherUid).child(uid).setValue("true")
                         FirebaseRef.userLikeRef.child(uid).child(otherUid).setValue("false")
                         FirebaseRef.userLikeRef.child(otherUid).child(uid).setValue("false")
-                        //createNotificationChannel()
-                        //sendNotification()
                     }
-
                 }
-
-
             }
-
             override fun onCancelled(databaseError: DatabaseError) {
                 // Getting Post failed, log a message
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
@@ -397,7 +384,7 @@ class Matching : AppCompatActivity(),TeamFaceAdapter.OnItemClickListener  {
             }
         }
 
-        FirebaseRef.userLikeRef.child(uid1).addListenerForSingleValueEvent(postListener)
+        FirebaseRef.userBothRef.child(uid1).addListenerForSingleValueEvent(postListener)
     }
 
     private fun makeVibrate() {
@@ -498,7 +485,7 @@ class Matching : AppCompatActivity(),TeamFaceAdapter.OnItemClickListener  {
                 } else {
                     if(myUID == guid) Toast.makeText(this,"본인입니다.",Toast.LENGTH_SHORT).show()
                     else{
-                        FirebaseRef.userBothRef.child(myUID).child(guid).setValue("true")
+                        //FirebaseRef.userLikeRef.child(myUID).child(guid).setValue("true")
                         userLikeOtherUser(myUID, guid)
                         Toast.makeText(
                             this,

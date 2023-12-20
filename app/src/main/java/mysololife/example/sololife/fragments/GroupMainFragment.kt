@@ -428,7 +428,6 @@ class GroupMainFragment : Fragment(),TeamFaceAdapter.OnItemClickListener {
                 } else {
                     if(myUID == guid) Toast.makeText(requireContext(),"본인입니다.",Toast.LENGTH_SHORT).show()
                     else{
-                        FirebaseRef.userBothRef.child(myUID).child(guid).setValue("true")
                         userLikeOtherUser(myUID, guid)
                         Toast.makeText(
                             requireContext(),
@@ -460,9 +459,29 @@ class GroupMainFragment : Fragment(),TeamFaceAdapter.OnItemClickListener {
 
     private fun userLikeOtherUser(myUid: String, otherUid: String) {
         FirebaseRef.userLikeRef.child(myUid).child(otherUid).setValue("true")
-        //todo 여기 firebase 함수 getOtherUserLikeList(otherUid) 추후에 고려하기
+        getOtherUserLikeList(myUid,otherUid)
     }
-
+    private fun getOtherUserLikeList(uid:String, otherUid: String){
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (dataModel in dataSnapshot.children){
+                    val likeUserKey = dataModel.key.toString()
+                    if(likeUserKey.equals(uid)){
+                        Toast.makeText(requireContext(),"매칭이 성공하였습니다!", Toast.LENGTH_SHORT).show()
+                        FirebaseRef.userBothRef.child(uid).child(otherUid).setValue("true")
+                        FirebaseRef.userBothRef.child(otherUid).child(uid).setValue("true")
+                        FirebaseRef.userLikeRef.child(uid).child(otherUid).setValue("false")
+                        FirebaseRef.userLikeRef.child(otherUid).child(uid).setValue("false")
+                    }
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        FirebaseRef.userLikeRef.child(otherUid).addValueEventListener(postListener)
+    }
     private fun checkUid(uid1: String, uid2: String, callback: (Boolean) -> Unit) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -484,9 +503,9 @@ class GroupMainFragment : Fragment(),TeamFaceAdapter.OnItemClickListener {
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
             }
         }
-
-        FirebaseRef.userLikeRef.child(uid1).addListenerForSingleValueEvent(postListener)
+        FirebaseRef.userBothRef.child(uid1).addListenerForSingleValueEvent(postListener)
     }
+
     private fun getUserTokenByUID(uid: String, callback: (String?) -> Unit) {
         val usersRef = FirebaseDatabase.getInstance().getReference("Users")
         usersRef.child(uid).get().addOnSuccessListener { snapshot ->

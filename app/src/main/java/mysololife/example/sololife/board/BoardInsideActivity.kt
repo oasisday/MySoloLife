@@ -424,7 +424,11 @@ class BoardInsideActivity : Activity() {
                             ).show()
                             else {
                                 userBothRef.child(currentUser).child(guid).setValue("true")
-                                userLikeOtherUser(currentUser, guid)
+                                userBothRef.child(guid).child(currentUser).setValue("true")
+                                userLikeRef.child(currentUser).child(guid).setValue("false")
+                                userLikeRef.child(guid).child(currentUser).setValue("false")
+
+                                //userLikeOtherUser(currentUser, guid)
                                 Toast.makeText(
                                     this@BoardInsideActivity,
                                     dataname + "님을 친구로 바로 추가하였습니다.",
@@ -446,7 +450,7 @@ class BoardInsideActivity : Activity() {
     }
 
     private fun userLikeOtherUser(myUid: String, otherUid: String) {
-        FirebaseRef.userLikeRef.child(uid).child(otherUid).setValue("true")
+        userLikeRef.child(uid).child(otherUid).setValue("true")
         //getOtherUserLikeList(otherUid)
     }
 
@@ -464,14 +468,11 @@ class BoardInsideActivity : Activity() {
                             Toast.LENGTH_SHORT
                         ).show()
 
-                        FirebaseRef.userBothRef.child(uid).child(otherUid).setValue("true")
-                        FirebaseRef.userBothRef.child(otherUid).child(uid).setValue("true")
-                        FirebaseRef.userLikeRef.child(uid).child(otherUid).setValue("false")
-                        FirebaseRef.userLikeRef.child(otherUid).child(uid).setValue("false")
+                        userBothRef.child(uid).child(otherUid).setValue("true")
+                        userBothRef.child(otherUid).child(uid).setValue("true")
+                        userLikeRef.child(uid).child(otherUid).setValue("false")
+                        userLikeRef.child(otherUid).child(uid).setValue("false")
 
-
-                        createNotificationChannel()
-                        sendNotification()
                     }
 
                 }
@@ -487,47 +488,9 @@ class BoardInsideActivity : Activity() {
         FirebaseRef.userLikeRef.child(otherUid).addValueEventListener(postListener)
     }
 
-    private fun createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "name"
-            val descriptionText = "description"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel("Test_ch", name, importance).apply {
-                description = descriptionText
-            }
-            // Register the channel with the system
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
 
-    private fun sendNotification() {
-        var builder = NotificationCompat.Builder(this, "Test_ch")
-            .setSmallIcon(R.drawable.ic_launcher_background)
-            .setContentTitle("Study Matching")
-            .setContentText("새로운 스터디원과 연결되었습니다. 확인해보세요!")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        with(NotificationManagerCompat.from(this)) {
-            if (ActivityCompat.checkSelfPermission(
-                    this@BoardInsideActivity,
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return
-            }
-            notify(123, builder.build())
-        }
-    }
+
+
 
     //Uid1에 uid2가 있으면 true
     private fun checkUid(uid1: String, uid2: String, callback: (Boolean) -> Unit) {
@@ -552,6 +515,6 @@ class BoardInsideActivity : Activity() {
             }
         }
 
-        userLikeRef.child(uid1).addListenerForSingleValueEvent(postListener)
+        userBothRef.child(uid1).addListenerForSingleValueEvent(postListener)
     }
 }

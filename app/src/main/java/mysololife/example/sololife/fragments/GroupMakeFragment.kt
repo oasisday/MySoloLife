@@ -67,17 +67,30 @@ class GroupMakeFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 boardDataList.clear()
+                boardKeyList.clear()
+                val normalPostList = mutableListOf<BoardModel>()
+                val normalPostKeyList = mutableListOf<String>()
 
+                var count = 0  // 공지사항 카운터
                 for (dataModel in dataSnapshot.children) {
                     Log.d(TAG, dataModel.toString())
                     val item = dataModel.getValue(BoardModel::class.java)
-                    boardDataList.add(item!!)
-                    boardKeyList.add(dataModel.key.toString())
-
+                    if (count < 4) {
+                        boardDataList.add(0, item!!)
+                        boardKeyList.add(0, dataModel.key.toString())
+                    } else {
+                        normalPostList.add(item!!)  // 일반 게시물은 별도의 리스트에 추가
+                        normalPostKeyList.add(dataModel.key.toString())  // key도 추가
+                    }
+                    count++
                 }
 
-                boardKeyList.reverse()
-                boardDataList.reverse()
+                normalPostList.reverse()
+                normalPostKeyList.reverse()
+
+                boardDataList.addAll(normalPostList)
+                boardKeyList.addAll(normalPostKeyList)
+
                 boardRVAdapter.notifyDataSetChanged()
 
                 Log.d(TAG, boardDataList.toString())
