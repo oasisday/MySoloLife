@@ -245,7 +245,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginEnd="50dp"
+
             android:orientation="vertical">
             <ImageButton
                 android:id="@+id/btnEdit"
@@ -261,25 +261,7 @@
                 android:text="이름 변경"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageButton
-                android:id="@+id/btnOut"
-                android:clickable="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/round_open_in_new_24"/>
 
-            <TextView
-                android:id="@+id/tvOut"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/grayDarkDisabled"
-                android:text="다른 앱으로 열기"/>
-        </LinearLayout>
 
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

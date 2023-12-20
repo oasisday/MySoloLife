@@ -134,7 +134,7 @@ class PopupManager(private val fragment : Fragment, private val binding: Fragmen
             TapTarget.forView(
                 binding.btnVoiceRecorder,
                 "녹음기 신기능 추가",
-                "녹음한 강의 목록을 \'롱클릭\' 할 시 강의 이름 변경과 삭제 기능을 추가했습니다.")
+                "녹음한 강의 목록을 ★롱클릭★ 할 시 강의 이름 변경과 삭제 기능을 추가했습니다.")
                 .tintTarget(false)
                 .titleTextSize(35)
                 .descriptionTextSize(16)

@@ -75,7 +75,7 @@ class GroupMakeFragment : Fragment() {
                 for (dataModel in dataSnapshot.children) {
                     Log.d(TAG, dataModel.toString())
                     val item = dataModel.getValue(BoardModel::class.java)
-                    if (count < 4) {
+                    if (count < 5) {
                         boardDataList.add(0, item!!)
                         boardKeyList.add(0, dataModel.key.toString())
                     } else {

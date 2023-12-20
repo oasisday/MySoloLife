@@ -1,5 +1,6 @@
 package mysololife.example.sololife.fragments
 
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
@@ -36,7 +37,7 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var binding: ActivityMainDashboardBinding
     private var lectureList = mutableListOf<InfoEntity>()
-
+    private lateinit var mContext:Context
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,6 +46,10 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
         return binding.root
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view?.findNavController()?.popBackStack(R.id.maindashboardFragment, false)
@@ -56,7 +61,7 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
 
     private fun initializeRecyclerView() {
         recyclerView = binding.recyclerView
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        recyclerView.layoutManager = GridLayoutManager(mContext, 2)
         recyclerView.adapter = DashboardAdapter(lectureList, this)
         recyclerView.adapter?.notifyDataSetChanged()
 
@@ -84,7 +89,7 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
         lectureList.clear()
         Thread {
             val infoEntities =
-                AppDatabase.getInstance(requireContext())?.infoDao()?.getAllLecture() ?: emptyList()
+                AppDatabase.getInstance(mContext)?.infoDao()?.getAllLecture() ?: emptyList()
             lectureList.addAll(infoEntities)
             activity?.runOnUiThread {
                 initializeRecyclerView()
@@ -102,7 +107,7 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
         val scheduleList: ArrayList<ScheduleEntity> = ArrayList()
         Thread {
             val infoEntities =
-                AppDatabase.getInstance(requireContext())?.infoDao()?.getAll() ?: emptyList()
+                AppDatabase.getInstance(mContext)?.infoDao()?.getAll() ?: emptyList()
             val scheduleEntities = infoEntities.map { it.toScheduleEntity() }
             scheduleList.addAll(scheduleEntities.asReversed())
 
@@ -119,7 +124,7 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
 
 
     private fun showPopupMenu(view: View, name: String) {
-        val popupMenu = PopupMenu(requireContext(), view)
+        val popupMenu = PopupMenu(mContext, view)
         popupMenu.menuInflater.inflate(com.example.mysololife.R.menu.secondary_menu, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener { item ->
             when (item.itemId) {
@@ -127,13 +132,13 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
 
                         val randomHexCode = generateRandomHexCode()
                         Thread {
-                                AppDatabase.getInstance(requireContext())?.infoDao()?.updateColor(name,randomHexCode)
+                                AppDatabase.getInstance(mContext)?.infoDao()?.updateColor(name,randomHexCode)
                         }.start()
                     Thread.sleep(500)
                     lectureList.clear()
                     Thread {
                         val infoEntities =
-                            AppDatabase.getInstance(requireContext())?.infoDao()?.getAllLecture() ?: emptyList()
+                            AppDatabase.getInstance(mContext)?.infoDao()?.getAllLecture() ?: emptyList()
                         lectureList.addAll(infoEntities)
 
                         activity?.runOnUiThread {
@@ -158,7 +163,7 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
                     Thread.sleep(500)
                     Thread {
                         val infoEntities =
-                            AppDatabase.getInstance(requireContext())?.infoDao()?.getAllLecture() ?: emptyList()
+                            AppDatabase.getInstance(mContext)?.infoDao()?.getAllLecture() ?: emptyList()
                         lectureList.addAll(infoEntities)
 
                         activity?.runOnUiThread {
@@ -176,9 +181,9 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
 
     private fun delete(lecturename: String) {
         Thread {
-            AppDatabase.getInstance(requireContext())?.infoDao()?.deleteByScheduleName(lecturename)
+            AppDatabase.getInstance(mContext)?.infoDao()?.deleteByScheduleName(lecturename)
             requireActivity().runOnUiThread {
-                Toast.makeText(requireContext(), "과목 삭제가 완료됐습니다", Toast.LENGTH_SHORT).show()
+                Toast.makeText(mContext, "과목 삭제가 완료됐습니다", Toast.LENGTH_SHORT).show()
             }
         }.start()
     }
@@ -191,7 +196,11 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
             val index = random.nextInt(chars.length)
             hex.append(chars[index])
         }
-        return "#" + hex.toString()
+
+// Ensure that there are no 'O' characters in the generated hex string
+        val sanitizedHex = hex.toString().replace("O", "0")
+
+        return "#" + sanitizedHex
     }
 }
 

@@ -47,7 +47,7 @@ class BoardListLVAdapter(private val boardList : MutableList<BoardModel>) : Base
         if(boardList[position].uid.equals(FBAuth.getUid())){
             itemLinearLayoutView?.setBackgroundColor(Color.parseColor("#BCC6CC"))
         }
-        if (position < 4) {
+        if (position>=1 && position <= 4) {
             title!!.text = "★ "+boardList[position].title + " ★"
         }
         else {

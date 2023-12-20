@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/maincloud3">
+    android:background="@drawable/cloudbackground1">
 
     <TextView
         android:id="@+id/mainlectureName"
@@ -111,12 +111,12 @@
                 android:layout_height="100dp"
                 android:layout_margin="16dp"
                 android:background="@drawable/background_round_all"
-                android:backgroundTint="#C96E79FF"
+                android:backgroundTint="#C96EA3FF"
                 android:padding="16dp"
                 android:textSize="23sp"
                 android:textStyle="bold"
                 android:text=" 과목 색상\n 구름색으로 랜덤 변환"
-                android:textColor="@color/maincolor_one"
+                android:textColor="#F2F9FB"
                 app:layout_constraintEnd_toEndOf="@+id/btnRecordrepository"
                 app:layout_constraintStart_toStartOf="@+id/btnRecordrepository"
                 app:layout_constraintTop_toBottomOf="@+id/locationShareBtn" />

@@ -1,6 +1,7 @@
 package mysololife.example.sololife.fragments
 
 import android.app.TimePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -28,7 +29,7 @@ class LectureInitFragment : Fragment() {
     private var lectureDay2: Int = 0
     private val cal = Calendar.getInstance()
     private lateinit var infoEntities: List<InfoEntity>
-
+    private lateinit var mContext:Context
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,6 +38,10 @@ class LectureInitFragment : Fragment() {
         return binding.root
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -49,7 +54,7 @@ class LectureInitFragment : Fragment() {
         )
         Thread {
             infoEntities =
-                AppDatabase.getInstance(requireContext())?.infoDao()?.getAll() ?: emptyList()
+                AppDatabase.getInstance(mContext)?.infoDao()?.getAll() ?: emptyList()
         }.start()
 
         binding.colorPickerView.attachAlphaSlider(binding.alphaSlideBar)
@@ -66,12 +71,12 @@ class LectureInitFragment : Fragment() {
 
     private fun SpinnerInit() {
         binding.timeTypeSpinner.adapter = ArrayAdapter.createFromResource(
-            requireContext(),
+            mContext,
             R.array.weekday,
             android.R.layout.simple_list_item_1
         )
         binding.timeTypeSpinner2.adapter = ArrayAdapter.createFromResource(
-            requireContext(),
+            mContext,
             R.array.weekday,
             android.R.layout.simple_list_item_1
         )
@@ -168,12 +173,12 @@ class LectureInitFragment : Fragment() {
             textColor
         )
         Thread {
-            if (lectureDay >= 0) AppDatabase.getInstance(requireContext())?.infoDao()?.insert(info1)
-            if (lectureDay2 >= 0) AppDatabase.getInstance(requireContext())?.infoDao()
+            if (lectureDay >= 0) AppDatabase.getInstance(mContext)?.infoDao()?.insert(info1)
+            if (lectureDay2 >= 0) AppDatabase.getInstance(mContext)?.infoDao()
                 ?.insert(info2)
 
             requireActivity().runOnUiThread {
-                Toast.makeText(requireContext(), "저장을 완료했습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(mContext, "저장을 완료했습니다.", Toast.LENGTH_SHORT).show()
             }
         }.start()
     }
@@ -191,7 +196,7 @@ class LectureInitFragment : Fragment() {
             }
 
         TimePickerDialog(
-            requireContext(),
+            mContext,
             timeSetListener,
             cal.get(Calendar.HOUR_OF_DAY),
             cal.get(Calendar.MINUTE),
@@ -213,7 +218,7 @@ class LectureInitFragment : Fragment() {
         val eTime1 = endT1[0].toInt() * 60 + endT1[1].toInt()
 
         if (sTime1 >= eTime1) {
-            Toast.makeText(requireContext(), "시간1 설정 오류", Toast.LENGTH_SHORT).show()
+            Toast.makeText(mContext, "시간1 설정 오류", Toast.LENGTH_SHORT).show()
             return false
         }
 
@@ -221,7 +226,7 @@ class LectureInitFragment : Fragment() {
             val sTime2 = startT2[0].toInt() * 60 + startT2[1].toInt()
             val eTime2 = endT2[0].toInt() * 60 + endT2[1].toInt()
             if (sTime2 >= eTime2) {
-                Toast.makeText(requireContext(), "시간2 설정 오류", Toast.LENGTH_SHORT).show()
+                Toast.makeText(mContext, "시간2 설정 오류", Toast.LENGTH_SHORT).show()
                 return false
             }
         }
@@ -236,10 +241,10 @@ class LectureInitFragment : Fragment() {
                 val eTime = endT[0].toInt() * 60 + endT[1].toInt()
 
                 if (sTime in sTime1 until eTime1) {
-                    Toast.makeText(requireContext(), "시간 중복", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(mContext, "시간 중복", Toast.LENGTH_SHORT).show()
                     return false
                 } else if (eTime in sTime1 + 1..eTime1) {
-                    Toast.makeText(requireContext(), "시간 중복", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(mContext, "시간 중복", Toast.LENGTH_SHORT).show()
                     return false
                 }
 
@@ -252,7 +257,7 @@ class LectureInitFragment : Fragment() {
                     val eTime = endT[0].toInt() * 60 + endT[1].toInt()
 
                     if (sTime in sTime2 until eTime2) {
-                        Toast.makeText(requireContext(), "시간 중복", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(mContext, "시간 중복", Toast.LENGTH_SHORT).show()
                         return false
                     } else if (eTime in sTime2 + 1..eTime2)
                         return false
@@ -265,23 +270,23 @@ class LectureInitFragment : Fragment() {
 
     fun blankCheck(): Boolean {
         if (binding.lectureEditText.text.toString() == "") {
-            Toast.makeText(requireContext(), "수업명을 입력해주세요", Toast.LENGTH_SHORT).show()
+            Toast.makeText(mContext, "수업명을 입력해주세요", Toast.LENGTH_SHORT).show()
             return false
         }
         if (binding.professorEditText.text.toString() == "") {
-            Toast.makeText(requireContext(), "교수명을 입력해주세요", Toast.LENGTH_SHORT).show()
+            Toast.makeText(mContext, "교수명을 입력해주세요", Toast.LENGTH_SHORT).show()
             return false
         }
         if (binding.locationEditText.text.toString() == "") {
-            Toast.makeText(requireContext(), "장소를 입력해주세요", Toast.LENGTH_SHORT).show()
+            Toast.makeText(mContext, "장소를 입력해주세요", Toast.LENGTH_SHORT).show()
             return false
         }
         if (binding.colorcode.text.toString() == "#FFFFFFFF") {
-            Toast.makeText(requireContext(), "색상을 설정해주세요", Toast.LENGTH_SHORT).show()
+            Toast.makeText(mContext, "색상을 설정해주세요", Toast.LENGTH_SHORT).show()
             return false
         }
         if (lectureDay1 - 1 < 0) {
-            Toast.makeText(requireContext(), "시간을 입력해주세요", Toast.LENGTH_SHORT).show()
+            Toast.makeText(mContext, "시간을 입력해주세요", Toast.LENGTH_SHORT).show()
             return false
         }
         return true
