@@ -77,7 +77,7 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
         bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         db = Room.databaseBuilder(
-            this,AppDatabase::class.java, "audioRecords").build()
+            this,AppDatabase::class.java, "audiorecordee").build()
 
 
         mAdapter = Adapter(records,this)

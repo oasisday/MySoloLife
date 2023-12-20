@@ -6,9 +6,11 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
+import android.app.ProgressDialog.show
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,15 +18,22 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.Animation
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivityLectureInitBinding
 import com.example.mysololife.databinding.ActivityLectureMainBinding
+import com.thecode.aestheticdialogs.AestheticDialog
+import com.thecode.aestheticdialogs.DialogAnimation
+import com.thecode.aestheticdialogs.DialogStyle
+import com.thecode.aestheticdialogs.DialogType
+import com.thecode.aestheticdialogs.OnDialogClickListener
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import mysololife.example.sololife.alarm.AlarmsetActivity
+import mysololife.example.sololife.map.MapActivity
 import mysololife.example.sololife.recorder.GalleryActivity
 import mysololife.example.sololife.recorder.RecorderMainActivity
 import mysololife.example.sololife.timetable.AppDatabase
@@ -71,11 +80,25 @@ class LectureMainFragment : Fragment() {
             view?.findNavController()?.navigate(R.id.action_lectureMainFragment_to_alarmsetFragment,bundle)
         }
         binding.deleteStudyRoomBtn.setOnClickListener {
-            GlobalScope.launch {
-                delete(lectureName)
-            }
-            Toast.makeText(requireContext(),"${lectureName}을 삭제하였습니다.",Toast.LENGTH_SHORT).show()
-            view?.findNavController()?.navigate(R.id.action_lectureMainFragment_to_homeFragment)
+            AestheticDialog.Builder(requireActivity(), DialogStyle.FLAT, DialogType.WARNING)
+                .setTitle("해당 과목을 삭제하시겠습니까?")
+                .setMessage("만약 삭제하시려면 해당 과목의 모든 녹음 예약 알림을 먼저 직접 삭제한 후 확인 버튼을 누르시고, 과목 삭제를 진행해주세요!")
+                .setCancelable(true)
+                .setDarkMode(false)
+                .setGravity(Gravity.CENTER)
+                .setAnimation(DialogAnimation.SHRINK)
+                .setOnClickListener(object : OnDialogClickListener {
+                    override fun onClick(dialog: AestheticDialog.Builder) {
+                        dialog.dismiss()
+
+                        GlobalScope.launch {
+                            delete(lectureName)
+                        }
+                        Toast.makeText(requireContext(),"${lectureName}을 삭제하였습니다.",Toast.LENGTH_SHORT).show()
+                        view?.findNavController()?.navigate(R.id.action_lectureMainFragment_to_homeFragment)
+                    }
+                })
+                .show()
         }
         binding.colorChangeBtn.setOnClickListener {
             binding.colorChangeBtn.setOnClickListener {

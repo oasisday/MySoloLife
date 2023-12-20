@@ -55,6 +55,7 @@ class RecorderMainActivity : AppCompatActivity(), OnRecordingStateChangeListener
     private lateinit var db: AppDatabase
     private val handler = Handler(Looper.getMainLooper())
 
+    private var savechecker : Boolean =false
     private val updateUITask: Runnable = object : Runnable {
         override fun run() {
             // UI 업데이트 작업 수행
@@ -119,10 +120,11 @@ class RecorderMainActivity : AppCompatActivity(), OnRecordingStateChangeListener
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
         db = Room.databaseBuilder(
-            this, AppDatabase::class.java, "audioRecords"
+            this, AppDatabase::class.java, "audiorecordee"
         ).build()
 
         binding.btnRecord.setOnClickListener {
+            savechecker = false
             when (audioRecorder.recordingState) {
                 RecordingState.PAUSE -> resumeRecorder()
                 RecordingState.ON_RECORDING, RecordingState.RESUME -> pauseRecorder()
@@ -144,7 +146,7 @@ class RecorderMainActivity : AppCompatActivity(), OnRecordingStateChangeListener
 
         binding.btnDone.setOnClickListener {
             stopRecorder()
-            Toast.makeText(this, "Record saved", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "강의 녹음을 정지하였습니다.", Toast.LENGTH_SHORT).show()
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             binding.bottomSheetBG.visibility = View.VISIBLE
             filenameInput.setText(audioRecorder.filename)
@@ -164,7 +166,7 @@ class RecorderMainActivity : AppCompatActivity(), OnRecordingStateChangeListener
         binding.btnDelete.setOnClickListener {
             stopRecorder()
             File("${audioRecorder.dirPath}${audioRecorder.filename}.mp3")
-            Toast.makeText(this, "Record deleted", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "녹음이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
         }
         binding.btnDelete.isClickable = false
 
@@ -250,10 +252,14 @@ class RecorderMainActivity : AppCompatActivity(), OnRecordingStateChangeListener
         } catch (e: IOException) {
         }
         if(duration.length==8) duration = "00:"+duration
-        var record = AudioRecord(newFilename, filePath, timestamp, duration.dropLast(3), ampsPath)
+        if(savechecker==false) {
+            var record =
+                AudioRecord(newFilename, filePath, timestamp, duration.dropLast(3), ampsPath)
 
-        GlobalScope.launch {
-            db.audioRecorDao().insert(record)
+            GlobalScope.launch {
+                db.audioRecorDao().insert(record)
+            }
+            savechecker = true
         }
     }
 

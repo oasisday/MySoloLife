@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,11 @@ import com.example.mysololife.databinding.ActivityMainDashboardBinding
 import com.islandparadise14.mintable.model.ScheduleEntity
 import com.skydoves.colorpickerview.ColorPickerDialog
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
+import com.thecode.aestheticdialogs.AestheticDialog
+import com.thecode.aestheticdialogs.DialogAnimation
+import com.thecode.aestheticdialogs.DialogStyle
+import com.thecode.aestheticdialogs.DialogType
+import com.thecode.aestheticdialogs.OnDialogClickListener
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import mysololife.example.sololife.dashboard.DashboardAdapter
@@ -180,12 +186,23 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
     }
 
     private fun delete(lecturename: String) {
-        Thread {
-            AppDatabase.getInstance(mContext)?.infoDao()?.deleteByScheduleName(lecturename)
-            requireActivity().runOnUiThread {
-                Toast.makeText(mContext, "과목 삭제가 완료됐습니다", Toast.LENGTH_SHORT).show()
-            }
-        }.start()
+        requireActivity().runOnUiThread {
+            AestheticDialog.Builder(requireActivity(), DialogStyle.FLAT, DialogType.WARNING)
+                .setTitle("해당 과목을 삭제하시겠습니까?")
+                .setMessage("만약 삭제하시려면 해당 과목의 모든 녹음 예약 알림을 먼저 직접 삭제한 후 확인 버튼을 누르시고, 과목 삭제를 진행해주세요!")
+                .setCancelable(true)
+                .setDarkMode(false)
+                .setGravity(Gravity.CENTER)
+                .setAnimation(DialogAnimation.SHRINK)
+                .setOnClickListener(object : OnDialogClickListener {
+                    override fun onClick(dialog: AestheticDialog.Builder) {
+                        dialog.dismiss()
+                        AppDatabase.getInstance(mContext)?.infoDao()?.deleteByScheduleName(lecturename)
+                        Toast.makeText(mContext, "과목 삭제가 완료됐습니다", Toast.LENGTH_SHORT).show()
+                    }
+                })
+                .show()
+        }
     }
     fun generateRandomHexCode(): String {
         val chars = "0123456789ABCDEF"
