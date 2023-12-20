@@ -126,16 +126,21 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     }
     private fun sendTokenToServer(token: String) {
         val user = FirebaseAuth.getInstance().currentUser
-        val userRef = FirebaseDatabase.getInstance().getReference("Users/"+user!!.uid)
-        userRef.child("fcmToken").setValue(token)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // 업데이트 성공
-                    Log.d("Firebase", "FCM 토큰 업데이트 성공")
-                } else {
-                    // 업데이트 실패
-                    Log.e("Firebase", "FCM 토큰 업데이트 실패", task.exception)
+        try {
+            val userRef = FirebaseDatabase.getInstance().getReference("Users/" + user!!.uid)
+            userRef.child("fcmToken").setValue(token)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // 업데이트 성공
+                        Log.d("Firebase", "FCM 토큰 업데이트 성공")
+                    } else {
+                        // 업데이트 실패
+                        Log.e("Firebase", "FCM 토큰 업데이트 실패", task.exception)
+                    }
                 }
-            }
+        }
+        catch(e:Exception){
+            Log.d("Firebase", e.toString())
+        }
     }
 }

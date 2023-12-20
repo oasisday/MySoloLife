@@ -40,6 +40,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.example.mysololife.R
 import com.example.mysololife.databinding.FragmentHomeBinding
+import com.getkeepsafe.taptargetview.TapTarget
+import com.getkeepsafe.taptargetview.TapTargetView
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -54,6 +56,7 @@ import com.thecode.aestheticdialogs.DialogStyle
 import com.thecode.aestheticdialogs.DialogType
 import com.thecode.aestheticdialogs.OnDialogClickListener
 import mysololife.example.sololife.CameraActivity
+import mysololife.example.sololife.Constants
 import mysololife.example.sololife.Constants.Companion.LOGCHECK
 import mysololife.example.sololife.Matching
 import mysololife.example.sololife.auth.LoginActivity
@@ -66,6 +69,7 @@ import mysololife.example.sololife.recorder.RecorderMainActivity
 import mysololife.example.sololife.timetable.TimeTableActivity
 import mysololife.example.sololife.translator.TranslateActivity
 import mysololife.example.sololife.ui.OnItemClickListener
+import mysololife.example.sololife.ui.PopupManager
 import mysololife.example.sololife.ui.StudyTeamAdapter
 import mysololife.example.sololife.utils.FBAuth
 import mysololife.example.sololife.utils.FBboard
@@ -175,7 +179,6 @@ class HomeFragment : Fragment(),OnItemClickListener{
     }
 
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         askNotificationPermission()
@@ -187,6 +190,7 @@ class HomeFragment : Fragment(),OnItemClickListener{
             }
         }
 
+       PopupManager(this,binding).showViewTypePrompt()
         binding.btnVoiceRecorder.setOnClickListener {
             Intent(getActivity(),RecorderMainActivity::class.java).apply{
                 startActivity(this)
