@@ -83,6 +83,7 @@ class TranslateActivity : AppCompatActivity() {
 
 
         binding= DataBindingUtil.setContentView(this,R.layout.activity_translate)
+        textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
         ktextRecognizer = TextRecognition.getClient(KoreanTextRecognizerOptions.Builder().build())
         jtextRecognizer = TextRecognition.getClient(JapaneseTextRecognizerOptions.Builder().build())
         ctextRecognizer = TextRecognition.getClient(ChineseTextRecognizerOptions.Builder().build())
@@ -197,7 +198,8 @@ class TranslateActivity : AppCompatActivity() {
                     binding.input.setText(it.text)
                     Toast.makeText(this, "영어가 감지되었습니다.", Toast.LENGTH_SHORT).show()
                 }.addOnFailureListener{
-                    //binding.input.setText("Error" + it.message)
+                    binding.input.setText("Error" + it.message)
+
                     val result: Task<Text> = ktextRecognizer.process(inputImage)
                         .addOnSuccessListener{
                             Toast.makeText(this, "한국어가 감지되었습니다", Toast.LENGTH_SHORT).show()
