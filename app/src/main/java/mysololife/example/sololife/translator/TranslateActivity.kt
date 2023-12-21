@@ -104,6 +104,10 @@ class TranslateActivity : AppCompatActivity() {
             intentActivityResultLauncher?.launch((chooseIntent))
         }
 
+        binding.clear.setOnClickListener{
+            binding.input.text.clear()
+        }
+
         val itemsAdapter1:ArrayAdapter<String> =ArrayAdapter(
             this,
             android.R.layout.simple_dropdown_item_1line, items1)
@@ -126,10 +130,10 @@ class TranslateActivity : AppCompatActivity() {
 
                 val translator = Translation.getClient(options)
                 try {
-                    binding.progressBar.visibility = View.VISIBLE
+                    //binding.progressBar.visibility = View.VISIBLE
                     translator.downloadModelIfNeeded(conditions)
                         .addOnSuccessListener {
-                            binding.progressBar.visibility = View.INVISIBLE
+                            //binding.progressBar.visibility = View.INVISIBLE
 
                             translator.translate(binding.input.text.toString())
                                 .addOnSuccessListener { translatedText ->
@@ -140,7 +144,7 @@ class TranslateActivity : AppCompatActivity() {
                                         Toast.makeText(this, "언어 선택이 올바르지 않습니다.", Toast.LENGTH_SHORT).show()
                                     } else {
                                         binding.output.text = translatedText
-                                        binding.input.text.clear()
+                                        //binding.input.text.clear()
                                     }
                                 }
                                 .addOnFailureListener { exception ->
