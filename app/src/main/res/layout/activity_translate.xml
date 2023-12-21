@@ -189,12 +189,23 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"/>
 
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="130dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:max="100"
+                    tools:progress="60"
+                    tools:visibility="invisible"/>
+
                 <Button
                     android:id="@+id/translate"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:layout_marginStart="170dp"
+                    android:layout_marginStart="20dp"
                     android:backgroundTint="@color/maincolor_seven"
                     android:text="해석"
                     android:textColor="@color/white"

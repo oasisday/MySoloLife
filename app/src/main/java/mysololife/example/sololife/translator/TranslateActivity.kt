@@ -130,10 +130,23 @@ class TranslateActivity : AppCompatActivity() {
 
                 val translator = Translation.getClient(options)
                 try {
-                    //binding.progressBar.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.VISIBLE
+
+                    var progress = 0
+                    Thread(Runnable {
+                        while (progress < 100) {
+                            progress += 1
+
+                            /** Update UI */
+                            runOnUiThread {
+                                binding.progressBar.progress = progress }
+                            Thread.sleep(50)
+                        }
+                    }).start()
+
                     translator.downloadModelIfNeeded(conditions)
                         .addOnSuccessListener {
-                            //binding.progressBar.visibility = View.INVISIBLE
+                            binding.progressBar.visibility = View.INVISIBLE
 
                             translator.translate(binding.input.text.toString())
                                 .addOnSuccessListener { translatedText ->
