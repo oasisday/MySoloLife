@@ -131,14 +131,23 @@ class AlarmsetActivity : AppCompatActivity() {
         }
 
         binding.btnOk.setOnClickListener {
+            val toggleBtn = listOf(
+                binding.mondayToggleButton,
+                binding.tuesdayToggleButton,
+                binding.wednesdayToggleButton,
+                binding.thursdayToggleButton,
+                binding.fridayToggleButton,
+                binding.saturdayToggleButton
+            )
+
             clickDays.clear()
             binding.alarmsetConstraintLayout.isVisible = false
             binding.bottomSheetBG.isVisible = false
             val time = binding.timePicker.text
             val h = time.substring(0, 2).toInt()
-            val m = time.substring(3,5).toInt()
+            val m = time.substring(3, 5).toInt()
             smplrAlarmSet(applicationContext) {
-                hour { h}
+                hour { h }
                 min { m }
                 weekdays {
                     if (binding.mondayToggleButton.isChecked) {
@@ -153,11 +162,11 @@ class AlarmsetActivity : AppCompatActivity() {
                         wednesday()
                         clickDays.add("WEDNESDAY")
                     }
-                    if (binding.thursdayToggleButton.isChecked){
+                    if (binding.thursdayToggleButton.isChecked) {
                         thursday()
                         clickDays.add("THURSDAY")
                     }
-                    if (binding.fridayToggleButton.isChecked){
+                    if (binding.fridayToggleButton.isChecked) {
                         friday()
                         clickDays.add("FRIDAY")
                     }
@@ -171,7 +180,7 @@ class AlarmsetActivity : AppCompatActivity() {
                     alarmNotification {
                         firstButtonText { "Snooze" }
                         secondButtonText { "Dismiss" }
-                        smallIcon { R.drawable.round_keyboard_voice_24}
+                        smallIcon { R.drawable.round_keyboard_voice_24 }
                         title { "$lecture 녹음" }
                         message { "$lecture 시작 시간입니다. 알림을 클릭하세요! " }
                         bigText { "알림 클릭시 ${lecture}의 포그라운드 녹음을 시작합니다." }
@@ -186,10 +195,10 @@ class AlarmsetActivity : AppCompatActivity() {
                         description { "간단한 예약 하기" }
                     }
                 }
-
+                Toast.makeText(this@AlarmsetActivity, "녹음 예약을 설정했습니다.", Toast.LENGTH_SHORT)
+                    .show()
+                finish()
             }
-            Toast.makeText(this,"녹음 예약을 설정했습니다.",Toast.LENGTH_SHORT).show()
-            finish()
         }
     }
     private fun dayPicker(){

@@ -28,6 +28,7 @@ import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivityGalleryBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import mysololife.example.sololife.recorder.AudioReceiver.Companion.TAG
@@ -73,12 +74,13 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
         binding.toolbar.setNavigationIconTint(Color.BLACK)
         records = ArrayList()
 
+        val uid = getCurrentFirebaseUserUid()
 
         bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        db = Room.databaseBuilder(
-            this,AppDatabase::class.java, "audiorecordee").build()
 
+        db = Room.databaseBuilder(
+            this,AppDatabase::class.java, "audioreCord").build()
 
         mAdapter = Adapter(records,this)
         binding.recyclerview.apply{
@@ -347,6 +349,11 @@ class GalleryActivity : AppCompatActivity() , OnItemClickListener {
         if(h>0)
             str = "$h:$str"
         return str
+    }
+    private fun getCurrentFirebaseUserUid(): String {
+        val auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+        return currentUser?.uid ?: "default_user_uid"
     }
 
     private fun searchDatabase(query: String){

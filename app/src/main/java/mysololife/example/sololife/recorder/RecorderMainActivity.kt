@@ -26,6 +26,7 @@ import androidx.room.Room
 import com.example.mysololife.R
 import com.example.mysololife.databinding.ActivityRecorderMainBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.firebase.auth.FirebaseAuth
 import de.coldtea.smplr.smplralarm.apis.SmplrAlarmAPI
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -118,9 +119,10 @@ class RecorderMainActivity : AppCompatActivity(), OnRecordingStateChangeListener
 
         filenameInput = findViewById<EditText>(R.id.filenameInput)
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        val uid = getCurrentFirebaseUserUid()
 
         db = Room.databaseBuilder(
-            this, AppDatabase::class.java, "audiorecordee"
+            this, AppDatabase::class.java, "audioreCord"
         ).build()
 
         binding.btnRecord.setOnClickListener {
@@ -377,5 +379,10 @@ class RecorderMainActivity : AppCompatActivity(), OnRecordingStateChangeListener
                 }
             }
         }
+    }
+    private fun getCurrentFirebaseUserUid(): String {
+        val auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+        return currentUser?.uid ?: "default_user_uid"
     }
 }

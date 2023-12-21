@@ -28,6 +28,7 @@ import com.thecode.aestheticdialogs.DialogAnimation
 import com.thecode.aestheticdialogs.DialogStyle
 import com.thecode.aestheticdialogs.DialogType
 import com.thecode.aestheticdialogs.OnDialogClickListener
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import mysololife.example.sololife.dashboard.DashboardAdapter
@@ -166,7 +167,7 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
                             recyclerView.adapter?.notifyDataSetChanged()
                         }
                     }.start()
-                    Thread.sleep(500)
+
                     Thread {
                         val infoEntities =
                             AppDatabase.getInstance(mContext)?.infoDao()?.getAllLecture() ?: emptyList()
@@ -197,8 +198,16 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
                 .setOnClickListener(object : OnDialogClickListener {
                     override fun onClick(dialog: AestheticDialog.Builder) {
                         dialog.dismiss()
-                        AppDatabase.getInstance(mContext)?.infoDao()?.deleteByScheduleName(lecturename)
-                        Toast.makeText(mContext, "과목 삭제가 완료됐습니다", Toast.LENGTH_SHORT).show()
+
+                        // Perform database operation in a background thread
+                        GlobalScope.launch(Dispatchers.IO) {
+                            // Access the database on a background thread
+                            AppDatabase.getInstance(mContext)?.infoDao()?.deleteByScheduleName(lecturename)
+                            // Update UI on the main thread
+                            launch(Dispatchers.Main) {
+                                Toast.makeText(mContext, "과목 삭제가 완료됐습니다", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     }
                 })
                 .show()

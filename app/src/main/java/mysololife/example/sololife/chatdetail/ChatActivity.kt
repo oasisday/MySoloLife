@@ -37,7 +37,7 @@ class ChatActivity : AppCompatActivity() {
     private var myUserId: String = ""
     private var myUserName: String = ""
     private var isInit = false
-
+    private var otherName =""
     private val chatItemList = mutableListOf<ChatItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,6 +111,7 @@ class ChatActivity : AppCompatActivity() {
                 "${Key.DB_CHAT_ROOMS}/$otherUserId/$myUserId/chatRoomId" to chatRoomId,
                 "${Key.DB_CHAT_ROOMS}/$otherUserId/$myUserId/otherUserId" to myUserId,
                 "${Key.DB_CHAT_ROOMS}/$otherUserId/$myUserId/otherUserName" to myUserName,
+                "${Key.DB_CHAT_ROOMS}/$myUserId//$otherUserId/otherUserName" to otherName,
                 "${Key.DB_CHAT_ROOMS}/$myUserId/$otherUserId/time" to System.currentTimeMillis(),
                 "${Key.DB_CHAT_ROOMS}/$otherUserId/$myUserId/time" to System.currentTimeMillis(),
             )
@@ -157,6 +158,7 @@ class ChatActivity : AppCompatActivity() {
                 Log.d("testApi",otherUserFcmToken +"여기 들어와있나?")
                 chatAdapter.otherUserItem = otherUserItem
                 supportActionBar?.title = otherUserItem?.username ?: ""
+                otherName = otherUserItem?.username ?:""
                 isInit = true
                 getChatData()
             }
