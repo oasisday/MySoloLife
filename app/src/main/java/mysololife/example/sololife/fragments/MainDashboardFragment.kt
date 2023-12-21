@@ -157,26 +157,7 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
 
                 R.id.deletebtn -> {
                     val nameToDelete = name // 삭제하고 싶은 아이템의 이름
-                    GlobalScope.launch {
-                        // 비동기적으로 데이터베이스에서 아이템을 삭제
-                        delete(nameToDelete)
-                    }
-                    lectureList.clear()
-                    Thread{
-                        activity?.runOnUiThread {
-                            recyclerView.adapter?.notifyDataSetChanged()
-                        }
-                    }.start()
-
-                    Thread {
-                        val infoEntities =
-                            AppDatabase.getInstance(mContext)?.infoDao()?.getAllLecture() ?: emptyList()
-                        lectureList.addAll(infoEntities)
-
-                        activity?.runOnUiThread {
-                            initializeRecyclerView()
-                        }
-                    }.start()
+                    delete(nameToDelete)
                         // 데이터베이스에서 아이템을 다시 불러오기
                     true
                 }
@@ -198,7 +179,6 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
                 .setOnClickListener(object : OnDialogClickListener {
                     override fun onClick(dialog: AestheticDialog.Builder) {
                         dialog.dismiss()
-
                         // Perform database operation in a background thread
                         GlobalScope.launch(Dispatchers.IO) {
                             // Access the database on a background thread
@@ -208,6 +188,22 @@ class MainDashboardFragment : Fragment(), OnItemClickListener {
                                 Toast.makeText(mContext, "과목 삭제가 완료됐습니다", Toast.LENGTH_SHORT).show()
                             }
                         }
+                        lectureList.clear()
+                        Thread{
+                            activity?.runOnUiThread {
+                                recyclerView.adapter?.notifyDataSetChanged()
+                            }
+                        }.start()
+                        Thread.sleep(500)
+                        Thread {
+                            val infoEntities =
+                                AppDatabase.getInstance(mContext)?.infoDao()?.getAllLecture() ?: emptyList()
+                            lectureList.addAll(infoEntities)
+
+                            activity?.runOnUiThread {
+                                initializeRecyclerView()
+                            }
+                        }.start()
                     }
                 })
                 .show()

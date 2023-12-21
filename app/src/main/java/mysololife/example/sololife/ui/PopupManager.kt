@@ -54,7 +54,7 @@ class PopupManager(private val fragment : Fragment, private val binding: Fragmen
             TapTarget.forView(
                 binding.btneveryoneboard,
                 "자유 게시판",
-                "유저들과 소통할 수 있는 공간으로 질문과 답변 등을 자유롭게 할 수 있습니다.\n\n앱의 다양한 기능에 대한 소식과 업데이트 내용을 확인할 수 있는 ★★[공지]★★  게시글을 사용전 꼭! 제발! 무조건! 확인해주세요\n\n"
+                "유저들과 소통할 수 있는 공간으로 질문과 답변 등을 자유롭게 할 수 있습니다.\n\n앱의 다양한 기능에 대한 소식과 업데이트 내용을 확인할 수 있는 ★★[공지]★★  게시글을 사용전 꼭! 제발! 무조건! 확실하게! 진짜! 확인해주세요\n\n"
             )
                 .tintTarget(false)
                 .titleTextSize(35)
